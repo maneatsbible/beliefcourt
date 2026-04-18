@@ -29,7 +29,7 @@ export function renderHeader(version, { userLogin = null } = {}) {
       <span class="header-right">
         ${userLogin
           ? `<span class="header-user">@${_escape(userLogin)}</span>`
-          : '<span class="header-user header-user--anon">not signed in</span>'
+          : '<button class="btn btn--secondary btn--sm header-signin-btn" data-action="signin">Sign in</button>'
         }
         <span class="header-version">${_escape(version)}</span>
       </span>

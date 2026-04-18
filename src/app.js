@@ -10,7 +10,7 @@
 
 import { CONFIG } from './config.js';
 import { getStoredToken, getCachedUser }  from './api/device-auth.js';
-import { getUrlParams }                   from './utils/url.js';
+import { getUrlParams, setUrlParams }     from './utils/url.js';
 import { renderHeader }                   from './view/components/header.js';
 import { showNotification }               from './view/components/notification.js';
 
@@ -35,6 +35,18 @@ async function bootstrap() {
   });
 
   await appController.init(getUrlParams());
+
+  // Header action delegation (home button + sign-in button).
+  document.getElementById('app-header')?.addEventListener('click', e => {
+    const btn = e.target.closest('button[data-action]');
+    if (!btn) return;
+    if (btn.dataset.action === 'home') {
+      setUrlParams({});
+      appController.navigate({});
+    } else if (btn.dataset.action === 'signin') {
+      appController.showAuthScreen();
+    }
+  });
 
   // Re-render on browser Back / Forward.
   window.addEventListener('popstate', () => {

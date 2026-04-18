@@ -678,7 +678,7 @@ img { max-width: 100%; display: block; }
 .text-sm    { font-size: 12px; }
 
 /* ── Boot error panel ───────────────────────────────────── */
-#bd-error {
+#dsp-error {
   display: none;
   position: fixed;
   bottom: 12px;

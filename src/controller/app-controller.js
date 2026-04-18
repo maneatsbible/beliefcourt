@@ -84,13 +84,9 @@ export class AppController {
   // ---------------------------------------------------------------------------
 
   async _loadContext() {
-    if (!this._token) return;
     try {
-      const disputeCtrl = new DisputeController({
-        config: this._config, token: this._token, currentUser: this._user,
-      });
-
-      // Load disputes and agreements for permission gates.
+      // Load disputes and agreements for display and permission gates.
+      // Public repo — token is optional; pass it when available for higher rate limits.
       const dispUrl = `${gh.issuesUrl(this._config.dataRepo)}?labels=dsp%3Adispute&state=open&per_page=100`;
       const agreeUrl = `${gh.issuesUrl(this._config.dataRepo)}?labels=dsp%3Aagreement&state=open&per_page=100`;
 
@@ -111,11 +107,6 @@ export class AppController {
   // ---------------------------------------------------------------------------
 
   async _renderHomeView(params) {
-    if (!this._user && !this._token) {
-      this._renderAuthScreen();
-      return;
-    }
-
     const ctrl = new HomeController({
       config: this._config, token: this._token, currentUser: this._user,
     });
@@ -139,11 +130,6 @@ export class AppController {
   // ---------------------------------------------------------------------------
 
   async _renderDisputeView(disputeId) {
-    if (!this._user && !this._token) {
-      this._renderAuthScreen();
-      return;
-    }
-
     const ctrl = new DisputeController({
       config: this._config, token: this._token, currentUser: this._user,
     });
@@ -159,13 +145,18 @@ export class AppController {
   // Auth screen — GitHub Device Flow
   // ---------------------------------------------------------------------------
 
+  /** Public entry point so external callers (e.g. app bootstrap) can trigger sign-in. */
+  showAuthScreen() {
+    this._renderAuthScreen();
+  }
+
   _renderAuthScreen() {
     this._main.innerHTML = `
       <div class="auth-screen">
         <div class="auth-screen__logo">⚖️</div>
         <h1 class="auth-screen__title">${this._config.appName ?? 'disputable.io'}</h1>
         <p class="auth-screen__sub">
-          Sign in with GitHub to read and join disputes on disputable.io.
+          Sign in with GitHub to post Assertions, issue Challenges, and join disputes.
         </p>
         <button class="btn btn--primary" id="signin-btn">Sign in with GitHub</button>
       </div>
