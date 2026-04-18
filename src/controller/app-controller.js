@@ -15,6 +15,8 @@ import { HomeView }          from '../view/home-view.js';
 import { DisputeView }       from '../view/dispute-view.js';
 import { renderHeader }      from '../view/components/header.js';
 import { showNotification }  from '../view/components/notification.js';
+import { showErrorPanel }    from '../view/components/error-panel.js';
+import { logger }            from '../utils/logger.js';
 import { setUrlParams }      from '../utils/url.js';
 import {
   startDeviceFlow,
@@ -72,10 +74,15 @@ export class AppController {
   async navigate(params) {
     const { view, id } = params;
 
-    if (view === 'dispute' && id) {
-      await this._renderDisputeView(Number(id));
-    } else {
-      await this._renderHomeView(params);
+    try {
+      if (view === 'dispute' && id) {
+        await this._renderDisputeView(Number(id));
+      } else {
+        await this._renderHomeView(params);
+      }
+    } catch (err) {
+      logger.error('router', 'Render failed', err);
+      showErrorPanel(err, 'view render');
     }
   }
 

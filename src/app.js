@@ -13,6 +13,8 @@ import { getStoredToken, getCachedUser }  from './api/device-auth.js';
 import { getUrlParams, setUrlParams }     from './utils/url.js';
 import { renderHeader }                   from './view/components/header.js';
 import { showNotification }               from './view/components/notification.js';
+import { logger }                         from './utils/logger.js';
+import { showErrorPanel }                 from './view/components/error-panel.js';
 
 // ---------------------------------------------------------------------------
 // Bootstrap
@@ -55,10 +57,6 @@ async function bootstrap() {
 }
 
 bootstrap().catch(err => {
-  console.error('[disputable.io] Fatal bootstrap error:', err);
-  const panel = document.getElementById('dsp-error');
-  if (panel) {
-    panel.textContent = `⚠ ${err.message}`;
-    panel.style.display = 'block';
-  }
+  logger.error('app', 'Bootstrap failed', err);
+  showErrorPanel(err, 'app bootstrap');
 });

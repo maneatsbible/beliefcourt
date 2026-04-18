@@ -9,7 +9,7 @@ export const CONFIG = {
   githubClientId: 'YOUR_GITHUB_CLIENT_ID',
 
   /** owner/repo of the shared data repository, e.g. "myorg/disputable-data" */
-  dataRepo: 'YOUR_ORG/disputable-data',
+  dataRepo: 'YOUR_ORG/dsp-data',
 
   /** GitHub login of the @strawman account */
   strawmanLogin: 'dsp-strawman',
