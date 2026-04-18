@@ -176,6 +176,118 @@
 - [X] T075 Run `npx c8 check-coverage --lines 85 --functions 85 --branches 80` and fix any gaps
 - [X] T076 Final CSS pass: verify `--color-disabled` on all disabled controls, terminal card dimming, resolved card muting, two-lane layout on narrow viewport, stacked shadow depth on all card variants in `styles/main.css`
 - [X] T077 Run quickstart.md validation: fresh clone → setup labels script → local HTTP server → Device Flow sign-in → compose assertion → challenge it → answer it; document any corrections in `specs/001-better-dispute-app/quickstart.md`
+- [ ] T092 [P] Implement structured in-browser logging and an enhanced page-render error panel:
+  - **Logger** (`src/utils/logger.js`): singleton with `log(level, context, message, data)` — levels `debug|info|warn|error`; appends timestamped entries to an in-memory circular buffer (last 200 entries); mirrors to `console` at matching level; exposed on `window.__bdLogger` for DevTools access.
+  - **Error panel** (`src/view/components/error-panel.js`): `showErrorPanel(error, context)` replaces the current `<main>` content on unrecoverable render failures; displays: human-readable summary, full stack trace in a scrollable `<pre>`, structured log dump (all buffered entries as JSON), copy-to-clipboard button for the complete debug bundle (error + stack + logs + `navigator.userAgent` + `window.location.href` + timestamp), and a "Retry" button that calls `window.location.reload()`.
+  - Wire into `src/app.js`: wrap top-level bootstrap in `try/catch`; on catch call `logger.error('app', 'Bootstrap failed', err)` then `showErrorPanel(err, 'app bootstrap')`.
+  - Wire into `src/controller/app-controller.js`: wrap each `render*` call in `try/catch`; on catch call `logger.error('router', 'Render failed', err)` then `showErrorPanel(err, 'view render')`.
+  - **Interactive debugging**: clicking any log entry row in the panel expands it to show the full `data` payload as pretty-printed JSON; a "Filter by level" dropdown (debug/info/warn/error) filters the visible log entries in-panel without clearing them.
+  - CSS in `styles/main.css`: error panel uses `--color-error` background tint, monospace stack trace block, log-level colour chips (`debug`=muted, `info`=blue, `warn`=amber, `error`=red), smooth expand/collapse transition on log entry detail.
+
+---
+
+## Phase 10: Social Sharing — OG Preview via Cloudflare Worker
+
+**Goal**: Shareable `?post=42` and `?view=dispute&id=X` URLs produce rich social previews (title + description) when shared on Twitter/X, iMessage, Slack etc.
+
+**Approach**: A Cloudflare Worker sits in front of GitHub Pages, intercepts requests with BD query params, fetches the GitHub Issue title/body, injects `<meta og:*>` tags into the proxied HTML, and returns it. The SPA and all client code are unchanged.
+
+- [ ] T078 Create `worker/index.js` — Cloudflare Worker that proxies GitHub Pages, injects dynamic `og:title`, `og:description`, `og:url` for `?post=N` and `?view=dispute&id=N` requests by fetching the corresponding GitHub Issue; falls back to generic app tags for unparameterised requests in `worker/index.js`
+- [ ] T079 Create `worker/wrangler.toml` — Wrangler config for the worker (account_id placeholder, route pattern, compatibility_date) in `worker/wrangler.toml`
+- [ ] T080 Store `GITHUB_TOKEN` as a Cloudflare Worker secret via `wrangler secret put GITHUB_TOKEN` so the worker can fetch private Issue data without exposing credentials in source; document in `worker/wrangler.toml` and `specs/001-better-dispute-app/quickstart.md`
+- [ ] T081 Update `specs/001-better-dispute-app/quickstart.md` — add "Social previews" section: install Wrangler, set `GITHUB_TOKEN` secret, deploy worker, point DNS/route at it in `specs/001-better-dispute-app/quickstart.md`
+
+---
+
+## Phase 12: Multi-Repo Environment Strategy (DEV → STG → PRD)
+
+**Goal**: Separate GitHub data repos for development, staging, and production so testing never pollutes live data. Promotion flows through PRs: feature branch → DEV → STG → PRD.
+
+**Approach**: `CONFIG.dataRepo` drives which GitHub repo the app reads/writes Issues to. Three named config profiles are loaded at build/deploy time. A `gh` CLI–based promotion script opens a PR from the current environment's branch to the next.
+
+- [ ] T093 Add `dataRepoStg` and `dataRepoPrd` fields to the `CONFIG` shape in `src/config.sample.js`; document the three-repo model (DEV = `<owner>/bd-data-dev`, STG = `<owner>/bd-data-stg`, PRD = `<owner>/bd-data-prd`) with placeholder values in `src/config.sample.js`
+- [ ] T094 [P] Create `scripts/promote.sh` — interactive bash script that accepts `--from dev|stg` and `--title <PR title>`; uses `gh pr create` to open a PR from the source env branch (`dev`→`stg` or `stg`→`prd`) in the correct data repo; prints the PR URL on success in `scripts/promote.sh`
+- [ ] T095 [P] Create `scripts/setup-env.sh` — bash script that accepts `--env dev|stg|prd`; calls `scripts/setup-labels.sh` against the correct repo (pass repo via `-R <owner>/<repo>`); ensures all three data repos have the full `bd:*` label set in `scripts/setup-env.sh`
+- [ ] T096 Update `src/config.js` (and `src/config.sample.js`) to select the active `dataRepo` based on a `CONFIG.env` field (`"dev"|"stg"|"prd"`): `dev` reads `dataRepoDev`, `stg` reads `dataRepoStg`, `prd` reads `dataRepoPrd`; `github-client.js` references only `CONFIG.dataRepo` (no changes needed there) in `src/config.js` and `src/config.sample.js`
+- [ ] T097 Update `specs/001-better-dispute-app/quickstart.md` — add "Environment setup" section: create the three GitHub data repos, run `scripts/setup-env.sh` for each, configure `src/config.js` with all three repo names, use `scripts/promote.sh` to promote changes, and guidance on deploying each env to a separate GitHub Pages branch (`gh-pages-dev`, `gh-pages-stg`, `gh-pages`) in `specs/001-better-dispute-app/quickstart.md`
+
+---
+
+## Phase 11: Dispute Moments
+
+**Goal**: Any authenticated user can annotate any Post (or contiguous range of Posts) with a one-liner Moment. Moments thread into scrollable one-liner replies. All Moments for a dispute are shown in a collapsible third lane on the right of the Dispute View.
+
+**Storage**: New `bd:moment` Issue type. Fields: `disputeId`, `anchorPostId` (single post) or `anchorStartId`+`anchorEndId` (range), `parentMomentId` (null for root, set for reply), `text` (≤280 chars). Label: `bd:moment`.
+
+- [ ] T082 Add `"moment"` to the BD:META type enum and define its schema (fields above) in `specs/001-better-dispute-app/contracts/github-issues-schema.md`
+- [ ] T083 Add `bd:moment` label to `scripts/setup-labels.sh` in `scripts/setup-labels.sh`
+- [ ] T084 Implement `src/model/moment.js` — `Moment` class with all fields; `fromIssue()` factory in `src/model/moment.js`
+- [ ] T085 [P] Implement `canAddMoment(person, dispute)` and `submitMoment(person, dispute, { anchorPostId, anchorStartId, anchorEndId, parentMomentId, text })` in `src/controller/dispute-controller.js`
+- [ ] T086 [P] Implement `loadMoments(disputeId)` in `src/controller/dispute-controller.js`: fetch all `bd:moment` Issues for the dispute, sort into anchor-keyed tree in `src/controller/dispute-controller.js`
+- [ ] T087 Implement `src/view/components/moment-lane.js` — `renderMomentLane(moments, postTree, controller, currentUser)`: collapsible third lane, Posts annotated with thread-count badge, clicking badge scrolls lane to that anchor's thread in `src/view/components/moment-lane.js`
+- [ ] T088 Implement range-selection in Dispute View: shift-click a second Post card to define an anchor range; highlights the range and opens the Moment composer pre-filled with `anchorStartId`+`anchorEndId` in `src/view/dispute-view.js`
+- [ ] T089 Extend `composer.js` for Moment mode: single-line input, 280-char counter, no image, submit on Enter in `src/view/components/composer.js`
+- [ ] T090 Wire moment lane into `dispute-view.js`: load moments alongside post tree, render third lane, add collapse/expand toggle button to dispute action bar, persist collapsed state in `localStorage` in `src/view/dispute-view.js`
+- [ ] T091 Add CSS for third lane, moment cards, anchor highlight, thread-count badge, range-selection highlight, collapse animation in `styles/main.css`
+- [ ] T092 Add unit tests for `canAddMoment` gate and `Moment.fromIssue` in `tests/unit/`
+
+---
+
+## Phase 13: Widgets — Embeddable Post Attachments
+
+**Goal**: Posts can carry one or more structured Widget attachments (stored as JSON in the Issue body's `BD:META` block) rendered as rich interactive cards below the post text. The first Widget type is the **Bible Widget**.
+
+**Architecture**: Widget data is serialised into the `widgets: []` array in `BD:META`. Each entry has `{ type, payload }`. The renderer is a registry: `src/view/components/widgets/` holds one file per type; `widget-host.js` dispatches to the correct renderer. The composer gains a "+ Widget" action that opens a widget picker.
+
+### Bible Widget
+
+**Data**: `type: "bible"`, `payload: { ref: "John 3:16", verseIds: ["JHN.3.16"] }` — reference string (display) + canonical verse ID array (lookup key).
+
+**Data source**: [api.esv.org](https://api.esv.org) is not used. All text and data is fetched from the free, public [api.bible](https://scripture.api.bible) (American Bible Society) using the **KJV** Bible ID (`de4e12af7f28f599-02`). No attribution label for the translation is shown in the UI. Original-language data uses the **BHSA** (Hebrew, BibleOL) for OT and **SBLGNT** (Greek, API.Bible free tier) for NT.
+
+- [ ] T098 Define `widgets` array in `BD:META` schema: `[{ type: string, payload: object }]`; document `"bible"` payload shape (`ref`, `verseIds`) in `specs/001-better-dispute-app/contracts/github-issues-schema.md`
+- [ ] T099 [P] Create `src/api/bible-client.js` — thin wrapper around api.bible REST API (API key from `CONFIG.biblApiKey`); methods: `getPassage(verseIds)` → `{ html, verses[] }`; `search(query)` → `{ results[] }`; `getBooks()` → book list; `getChapter(bookId, chapter)` → verse list; responses cached via `cache.js` (long TTL, no ETag needed); errors surfaced as typed `ApiError` in `src/api/bible-client.js`
+- [ ] T100 [P] Add `bibleApiKey` field to `CONFIG` shape in `src/config.sample.js` and `src/config.js` in `src/config.sample.js`
+- [ ] T101 Implement `src/view/components/widgets/widget-host.js` — `renderWidget(widgetData)` registry dispatcher; gracefully renders an "Unknown widget" placeholder for unrecognised types in `src/view/components/widgets/widget-host.js`
+- [ ] T102 Implement `src/view/components/widgets/bible-widget.js` — `renderBibleWidget(payload)`: collapsed pill showing reference (e.g. "John 3:16 ▾"); on expand shows the passage text with each verse individually numbered; "View in context" link opens the in-panel Bible reader in `src/view/components/widgets/bible-widget.js`
+- [ ] T103 Implement `src/view/components/bible-reader.js` — slide-over panel (does not navigate away); tabs: **Passage** (formatted HTML from api.bible), **Context** (full chapter with current verses highlighted), **Original** (interlinear Hebrew/Greek fetched from api.bible BHSA/SBLGNT Bible IDs, word-by-word with transliteration and gloss on hover), **Cross-refs** (related passage list from api.bible `/passages/{id}/fums`); loading skeleton while fetching in `src/view/components/bible-reader.js`
+- [ ] T104 [P] Implement `src/view/components/bible-search.js` — search input with debounced api.bible `search()` call; results list shows reference + snippet; clicking a result opens the Bible reader at that passage in `src/view/components/bible-search.js`
+- [ ] T105 [P] Implement `src/view/components/bible-navigator.js` — book → chapter → verse drill-down picker using `getBooks()` + `getChapter()`; shows full chapter text with selectable verse checkboxes; "Attach selected" commits the selection as a widget payload in `src/view/components/bible-navigator.js`
+- [ ] T106 Add "+ Widget" button to `composer.js`: opens a widget-picker modal (initially just "Bible" option); selecting "Bible" opens `bible-navigator.js` in picker mode; confirmed selection appends a widget chip to the draft and serialises into `widgets[]` on submit in `src/view/components/composer.js`
+- [ ] T107 Wire `widget-host.js` into `post-card.js`: after rendering post text, iterate `post.widgets` and append each rendered widget in `src/view/components/post-card.js`
+- [ ] T108 Extend `Post.fromIssue()` and `BD:META` serialisation in `github-client.js` `buildBody()` / `parseBody()` to round-trip the `widgets` array in `src/model/post.js` and `src/api/github-client.js`
+- [ ] T109 Add CSS: bible widget pill, expanded passage block (line-height 1.8, generous padding), verse number superscripts, interlinear word rows (original script top, transliteration middle, gloss bottom in muted colour), highlighted context verses, slide-over panel animation, Bible reader tab bar in `styles/main.css`
+- [ ] T110 Add unit tests for `bible-client.js` fetch/cache paths (fetch mock) and `Post.fromIssue` widget round-trip in `tests/unit/` and `tests/integration/`
+
+---
+
+## Phase 14: Image and Web Citation Widgets (Migrate Images into Widget Model)
+
+**Goal**: Remove the first-class image upload field from the composer and replace it with two new widget types — `"image"` and `"web-citation"` — so all rich attachments flow through the unified widget system. The strawman composer uses Web Citation as its primary attachment method.
+
+**Migration note**: T022–T023 and T070 added image upload directly to `composer.js` and `post-card.js`. These tasks supersede that implementation; the raw image input field is removed and its functionality is reborn as the Image widget.
+
+### Image Widget
+
+**Data**: `type: "image"`, `payload: { url: string, alt: string, caption?: string }` — URL is a GitHub-hosted image URL obtained by uploading to the Issue via the GitHub REST API (`POST /repos/{owner}/{repo}/issues/{issue_number}/comments` with a multipart body, then extracting the uploaded URL from the markdown response).
+
+- [ ] T111 Remove the raw image file input from `composer.js`; remove image-URL prop from `submitAssertion` / `submitAnswer` signatures in `src/view/components/composer.js`, `src/controller/home-controller.js`, `src/controller/dispute-controller.js`
+- [ ] T112 [P] Implement `src/view/components/widgets/image-widget.js` — `renderImageWidget(payload)`: renders `<figure>` with `<img>` (lazy-loaded, max-height capped), optional `<figcaption>`; clicking opens a lightbox overlay in `src/view/components/widgets/image-widget.js`
+- [ ] T113 [P] Add `"image"` to the widget picker in `composer.js`: opens a file chooser (≤10 MB validation re-using T070 logic); on confirm, uploads to GitHub via `github-client.js` `uploadImage(file)` helper and stores the returned URL as the widget payload in `src/view/components/composer.js` and `src/api/github-client.js`
+- [ ] T114 Register `"image"` type in `widget-host.js` in `src/view/components/widgets/widget-host.js`
+
+### Web Citation Widget
+
+**Data**: `type: "web-citation"`, `payload: { url: string, title: string, description: string, siteName: string, fetchedAt: string }` — metadata fetched at compose time via a CORS-safe proxy (use `https://corsproxy.io/?` prefix); extracted from Open Graph / `<title>` / `<meta name="description">` tags.
+
+- [ ] T115 [P] Create `src/api/citation-client.js` — `fetchCitation(url)`: fetches HTML through `corsproxy.io`, parses `og:title`, `og:description`, `og:site_name` (fallback to `<title>` / `<meta name="description">` / hostname), returns the payload object; errors surface as typed `ApiError` in `src/api/citation-client.js`
+- [ ] T116 [P] Implement `src/view/components/widgets/web-citation-widget.js` — `renderWebCitationWidget(payload)`: card with site favicon (`https://www.google.com/s2/favicons?domain=`), site name, bold title (hyperlinked), one-line description, muted domain + fetch date footer; opens URL in new tab in `src/view/components/widgets/web-citation-widget.js`
+- [ ] T117 Add `"web-citation"` to the widget picker in `composer.js`: URL input → live preview card updates as user types (debounced `fetchCitation` call) → "Attach" commits the payload in `src/view/components/composer.js`
+- [ ] T118 Register `"web-citation"` type in `widget-host.js` in `src/view/components/widgets/widget-host.js`
+- [ ] T119 Update `schemas/github-issues-schema.md` — add `"image"` and `"web-citation"` payload shapes to the `widgets[]` enum in `specs/001-better-dispute-app/contracts/github-issues-schema.md`
+- [ ] T120 For the strawman composer context specifically: default the widget picker to open on `"web-citation"` rather than the type selection screen (strawman posts represent a position in the world and citations are their natural attachment); no code-path change needed beyond passing `defaultWidget: "web-citation"` option to `renderComposer()` in `src/view/components/composer.js`
+- [ ] T121 Add CSS: image widget figure/lightbox overlay, web citation card layout (favicon + site-name row, title, description, footer), live-preview skeleton while `fetchCitation` is in-flight in `styles/main.css`
+- [ ] T122 Add unit tests: `citation-client.js` OG parsing (mock fetch responses), `image-widget` and `web-citation-widget` render output, widget round-trip through `Post.fromIssue` in `tests/unit/` and `tests/integration/`
 
 ---
 
