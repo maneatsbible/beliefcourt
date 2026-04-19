@@ -181,43 +181,39 @@ export class DisputeView {
     const wrapper = document.createElement('div');
     wrapper.className = 'dispute-view__lanes';
 
-    const leftLane  = document.createElement('div');
-    leftLane.className = 'dispute-view__lane';
+    // Labels — DEFENDER left (col 1), CHALLENGER right (col 2)
     const leftLabel = document.createElement('div');
     leftLabel.className = 'dispute-view__lane-label';
-    leftLabel.textContent = `@${dispute.challengerLogin}`;
-    leftLane.appendChild(leftLabel);
+    leftLabel.style.cssText = 'grid-column:1;grid-row:1';
+    leftLabel.textContent = `DEFENDER @${dispute.defenderLogin}`;
 
-    const rightLane = document.createElement('div');
-    rightLane.className = 'dispute-view__lane';
     const rightLabel = document.createElement('div');
     rightLabel.className = 'dispute-view__lane-label';
-    rightLabel.textContent = `@${dispute.defenderLogin}`;
-    rightLane.appendChild(rightLabel);
+    rightLabel.style.cssText = 'grid-column:2;grid-row:1';
+    rightLabel.textContent = `CHALLENGER @${dispute.challengerLogin}`;
 
-    // Counter-challenge IDs (parentId is an Answer).
-    const counterIds = new Set(
-      postTree
-        .filter(p => p.type === POST_TYPE_CHALLENGE && _isAnswer(p.meta?.parentId, postTree))
-        .map(p => p.id)
-    );
+    wrapper.appendChild(leftLabel);
+    wrapper.appendChild(rightLabel);
 
-    postTree.forEach(post => {
-      const isRight = counterIds.has(post.id) ||
-        (post.type !== POST_TYPE_CHALLENGE && post.authorId === dispute.defenderId);
-      const lane  = isRight ? rightLane : leftLane;
+    // Assign each post to DEFENDER (col 1) or CHALLENGER (col 2).
+    // Anything authored by the challenger goes right; everything else left.
+    postTree.forEach((post, i) => {
+      const isChallenger = post.authorId === dispute.challengerId;
       const perms = this._permsFor(post, dispute, postTree);
       const card  = renderPostCard(post, perms, this._user);
+
+      // grid-row starts at 2 (row 1 = labels); column by role
+      card.style.cssText = `grid-column:${isChallenger ? 2 : 1};grid-row:${i + 2}`;
+
       card.addEventListener('click', e => {
         const btn = e.target.closest('button[data-action]');
         if (!btn) return;
         this._handleCardAction(btn.dataset.action, post, dispute, postTree);
       });
-      lane.appendChild(card);
+
+      wrapper.appendChild(card);
     });
 
-    wrapper.appendChild(leftLane);
-    wrapper.appendChild(rightLane);
     return wrapper;
   }
 
@@ -267,8 +263,7 @@ export class DisputeView {
       placeholder: 'Enter your challenge…',
       onSubmit:    async ({ text, challengeType }) => {
         try {
-          // Re-use home-controller's submitChallenge pattern via gh directly,
-          // or delegate back up. Here we use a simplified in-place approach.
+          await this._ctrl.submitChallenge(this._user, post, dispute, { challengeType, text });
           showNotification('Challenge submitted!', 'success');
           this._composer?.destroy();
           this._composer = null;
@@ -353,7 +348,9 @@ export class DisputeView {
       : null;
 
     return {
-      canChallenge: { allowed: false },  // No re-challenging within dispute view
+      canChallenge: this._ctrl.canChallenge
+        ? this._ctrl.canChallenge(this._user, post, dispute, postTree)
+        : { allowed: false },
       canAgree:     null,
       canAnswer,
       isYourTurn:   canAnswer?.allowed ?? false,

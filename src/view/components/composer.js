@@ -47,18 +47,23 @@ export function renderComposer(container, opts) {
     <form class="composer__form" novalidate>
       ${_modeExtras(mode, challengeType, canPostAsStrawman)}
 
+      ${mode === 'assertion' || mode === 'offer'
+        ? `<div class="composer__type-toggle" role="group" aria-label="Content type">
+             <button type="button" class="composer__type-tab composer__type-tab--active" data-tab="text">Text</button>
+             <button type="button" class="composer__type-tab" data-tab="image">Image URL</button>
+           </div>`
+        : ''}
+
       <textarea class="composer__textarea" rows="4"
                 placeholder="${_esc(placeholder)}"
                 aria-label="Compose your ${mode}"
-                required></textarea>
+                ></textarea>
 
       ${mode === 'assertion' || mode === 'offer'
-        ? `<label class="composer__image-label">
-             Image URL (optional)
-             <input class="composer__image-input" type="url"
-                    placeholder="https://example.com/image.png"
-                    aria-label="Image URL">
-           </label>`
+        ? `<input class="composer__image-input" type="url"
+                  placeholder="https://example.com/image.png"
+                  aria-label="Image URL"
+                  style="display:none">`
         : ''}
 
       ${mode === 'answer'
@@ -90,9 +95,24 @@ export function renderComposer(container, opts) {
   let savedText      = '';
   let savedImageUrl  = '';
 
-  const form      = el.querySelector('form');
-  const textarea  = el.querySelector('.composer__textarea');
+  const form       = el.querySelector('form');
+  const textarea   = el.querySelector('.composer__textarea');
   const imageInput = el.querySelector('.composer__image-input');
+
+  // Type toggle (text vs image URL) — mutually exclusive
+  if (imageInput) {
+    el.querySelectorAll('.composer__type-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        el.querySelectorAll('.composer__type-tab').forEach(t => t.classList.remove('composer__type-tab--active'));
+        tab.classList.add('composer__type-tab--active');
+        const isImage = tab.dataset.tab === 'image';
+        textarea.style.display   = isImage ? 'none' : '';
+        imageInput.style.display = isImage ? ''     : 'none';
+        if (isImage) { textarea.value = ''; }
+        else          { imageInput.value = ''; }
+      });
+    });
+  }
 
   if (savedText)     textarea.value = savedText;
   if (imageInput && savedImageUrl) imageInput.value = savedImageUrl;
@@ -112,11 +132,13 @@ export function renderComposer(container, opts) {
     const imageUrl = imageInput?.value.trim() ?? '';
 
     if (mode !== 'answer' && !text && !imageUrl) {
-      textarea.setCustomValidity('Please enter some text or an image URL.');
-      textarea.reportValidity();
+      const activeInput = imageUrl !== undefined && el.querySelector('.composer__type-tab--active')?.dataset.tab === 'image'
+        ? imageInput
+        : textarea;
+      activeInput?.focus();
+      showError(el, 'Please enter some text or an image URL.');
       return;
     }
-    textarea.setCustomValidity('');
 
     const data = _collectData(el, mode, { text, imageUrl });
 
@@ -230,4 +252,15 @@ function _esc(str) {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
+}
+
+function showError(el, msg) {
+  let err = el.querySelector('.composer__error');
+  if (!err) {
+    err = document.createElement('p');
+    err.className = 'composer__error';
+    el.querySelector('.composer__actions')?.before(err);
+  }
+  err.textContent = msg;
+  setTimeout(() => err?.remove(), 3000);
 }

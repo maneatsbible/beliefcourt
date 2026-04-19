@@ -73,6 +73,7 @@ export class AppController {
    */
   async navigate(params) {
     const { view, id } = params;
+    window.scrollTo({ top: 0, behavior: 'instant' });
 
     try {
       if (view === 'dispute' && id) {

@@ -36,6 +36,7 @@ export class HomeView {
     this._loading     = false;
     this._composer    = null;   // active composer handle
     this._observer    = null;
+    this._postMap     = new Map(); // postId -> Post
   }
 
   async render() {
@@ -95,6 +96,7 @@ export class HomeView {
         };
 
         const card = renderPostCard(post, perms, this._user);
+        this._postMap.set(post.id, post);
             _applyTerminalClass(card, post, this._disputes);
         _applyDepthClass(card, post, this._disputes);
 
@@ -195,12 +197,64 @@ export class HomeView {
 
     const action = btn.dataset.action;
     const postId = Number(card.dataset.postId);
+    const post   = this._postMap.get(postId);
+
+    if (action === 'agree' && post) {
+      this._submitAgree(post);
+      return;
+    }
+    if (action === 'challenge' && post) {
+      this._openChallengeComposer(post, card);
+      return;
+    }
 
     // Trigger will be handled by the controller/view layer above.
     this._root.dispatchEvent(new CustomEvent('dsp:card-action', {
       bubbles: true,
       detail: { action, postId },
     }));
+  }
+
+  async _submitAgree(post) {
+    if (!this._user) { showNotification('Sign in to agree.', 'warn'); return; }
+    try {
+      await this._ctrl.submitAgreement(this._user, post);
+      this._agreements.push({ personId: this._user.id, assertionId: post.id });
+      showNotification('Agreement recorded!', 'success');
+      // Refresh feed so agree button updates.
+      this._page = 1;
+      this._postMap.clear();
+      this._root.querySelector('#home-feed').innerHTML = '';
+      await this._loadNextPage();
+    } catch (err) {
+      showNotification(`Failed to agree: ${err.message}`, 'error');
+    }
+  }
+
+  _openChallengeComposer(post, cardEl) {
+    if (this._composer) return;
+    const container = this._root.querySelector('.home-toolbar');
+    this._composer = renderComposer(container, {
+      mode:        'challenge',
+      placeholder: 'State your challenge…',
+      onSubmit:    async ({ text, challengeType }) => {
+        try {
+          const { dispute } = await this._ctrl.submitChallenge(this._user, post, { challengeType, text });
+          this._disputes.push(dispute ? { id: dispute.number, challengerId: this._user.id, rootPostId: post.id, status: 'active' } : {});
+          showNotification('Challenge submitted!', 'success');
+          this._composer?.destroy();
+          this._composer = null;
+          this._page = 1;
+          this._postMap.clear();
+          this._root.querySelector('#home-feed').innerHTML = '';
+          await this._loadNextPage();
+        } catch (err) {
+          showNotification(`Failed: ${err.message}`, 'error');
+          throw err;
+        }
+      },
+      onCancel: () => { this._composer?.destroy(); this._composer = null; },
+    });
   }
 
   // ---------------------------------------------------------------------------

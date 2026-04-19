@@ -98,6 +98,57 @@ export class DisputeController {
   }
 
   // ---------------------------------------------------------------------------
+  // US2: Challenge within an existing dispute
+  // ---------------------------------------------------------------------------
+
+  /**
+   * Can the person add a further challenge within an active dispute?
+   * Only the original challenger may add more challenges; cannot challenge own posts.
+   */
+  canChallenge(person, post, dispute, postTree) {
+    if (!person) return { allowed: false, reason: 'Sign in to challenge.' };
+    if (dispute.status !== DISPUTE_STATUS_ACTIVE) {
+      return { allowed: false, reason: 'Dispute is not active.' };
+    }
+    if (person.id !== dispute.challengerId) {
+      return { allowed: false, reason: 'Only the original challenger can add challenges.' };
+    }
+    if (post.authorId === person.id) {
+      return { allowed: false, reason: 'Cannot challenge your own post.' };
+    }
+    const alreadyChallenged = postTree.some(
+      p => p.type === POST_TYPE_CHALLENGE && p.meta?.parentId === post.id
+    );
+    if (alreadyChallenged) {
+      return { allowed: false, reason: 'Post already challenged.' };
+    }
+    return { allowed: true, reason: '' };
+  }
+
+  /**
+   * Submit a challenge within an existing dispute (no new Dispute issue created).
+   */
+  async submitChallenge(person, post, dispute, { challengeType, text }) {
+    const meta = {
+      type:          'challenge',
+      version:       1,
+      appId:         gh.APP_ID,
+      parentId:      post.id,
+      rootId:        post.meta?.rootId ?? post.id,
+      disputeId:     dispute.id,
+      challengeType,
+    };
+    const challenge = await gh.post(gh.issuesUrl(this._dataRepo), {
+      title:  `Challenge to #${post.id} in dispute #${dispute.id}: ${text.slice(0, 60)}`,
+      body:   gh.buildBody(meta, text),
+      labels: ['dsp:challenge'],
+    }, this._token);
+    cache.invalidatePattern(gh.issueUrl(this._dataRepo, dispute.rootPostId));
+    cache.invalidatePattern(gh.issueUrl(this._dataRepo, dispute.id));
+    return challenge;
+  }
+
+  // ---------------------------------------------------------------------------
   // US3: Answer permission + submission
   // ---------------------------------------------------------------------------
 
