@@ -1,7 +1,7 @@
 {
   "name": "disputable.io",
   "version": "1.0.0",
-  "description": "disputable.io - every claim is disputable.",
+  "description": "disputable.io - disputes in, disputes out.",
   "type": "module",
   "private": true,
   "scripts": {

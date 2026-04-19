@@ -1,6 +1,6 @@
 # disputable.io
 
-every claim is disputable.
+disputes in, disputes out.
 
 This repository contains the browser-only disputable.io client: a vanilla JavaScript app that uses GitHub Issues as its append-only data layer.
 
