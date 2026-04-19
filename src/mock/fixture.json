@@ -1,0 +1,559 @@
+{
+  "mockUser": {
+    "login": "alice",
+    "id": 1001
+  },
+  "issues": [
+    {
+      "number": 1,
+      "title": "TypeScript vs JavaScript",
+      "body": "<!-- DSP:META\n{\n  \"appId\": \"disputable.io\",\n  \"type\": \"assertion\",\n  \"rootId\": 1,\n  \"parentId\": null\n}\n-->\n\nTypeScript is strictly better than plain JavaScript for any team with more than 5 engineers.",
+      "state": "open",
+      "labels": [
+        {
+          "name": "dsp:assertion"
+        }
+      ],
+      "user": {
+        "login": "bob",
+        "id": 1002
+      },
+      "created_at": "2026-04-01T10:00:00Z",
+      "updated_at": "2026-04-01T10:00:00Z"
+    },
+    {
+      "number": 101,
+      "title": "dsp:challenge",
+      "body": "<!-- DSP:META\n{\n  \"appId\": \"disputable.io\",\n  \"type\": \"challenge\",\n  \"challengeType\": \"interrogatory\",\n  \"rootId\": 1,\n  \"parentId\": 1,\n  \"disputeId\": 301\n}\n-->\n\nDoes \"strictly better\" hold even when the team has zero TypeScript experience and a deadline in two weeks?",
+      "state": "open",
+      "labels": [
+        {
+          "name": "dsp:challenge"
+        }
+      ],
+      "user": {
+        "login": "alice",
+        "id": 1001
+      },
+      "created_at": "2026-04-01T11:00:00Z",
+      "updated_at": "2026-04-01T11:00:00Z"
+    },
+    {
+      "number": 102,
+      "title": "dsp:challenge",
+      "body": "<!-- DSP:META\n{\n  \"appId\": \"disputable.io\",\n  \"type\": \"challenge\",\n  \"challengeType\": \"interrogatory\",\n  \"rootId\": 1,\n  \"parentId\": 201,\n  \"disputeId\": 301\n}\n-->\n\nCan you cite empirical data showing that TypeScript reduces runtime errors more than strong linting rules + JSDoc would?",
+      "state": "open",
+      "labels": [
+        {
+          "name": "dsp:challenge"
+        }
+      ],
+      "user": {
+        "login": "alice",
+        "id": 1001
+      },
+      "created_at": "2026-04-01T13:00:00Z",
+      "updated_at": "2026-04-01T13:00:00Z"
+    },
+    {
+      "number": 201,
+      "title": "dsp:answer",
+      "body": "<!-- DSP:META\n{\n  \"appId\": \"disputable.io\",\n  \"type\": \"answer\",\n  \"rootId\": 1,\n  \"parentId\": 101,\n  \"disputeId\": 301\n}\n-->\n\nYes — the upfront ramp-up cost is typically recovered within a sprint because of reduced runtime errors.",
+      "state": "open",
+      "labels": [
+        {
+          "name": "dsp:answer"
+        }
+      ],
+      "user": {
+        "login": "bob",
+        "id": 1002
+      },
+      "created_at": "2026-04-01T12:00:00Z",
+      "updated_at": "2026-04-01T12:00:00Z"
+    },
+    {
+      "number": 202,
+      "title": "dsp:answer",
+      "body": "<!-- DSP:META\n{\n  \"appId\": \"disputable.io\",\n  \"type\": \"answer\",\n  \"rootId\": 1,\n  \"parentId\": 102,\n  \"disputeId\": 301\n}\n-->\n\nThe 2022 Stripe engineering blog post and the Microsoft internal study both cite ~15% reduction in production bugs after TypeScript migration.",
+      "state": "open",
+      "labels": [
+        {
+          "name": "dsp:answer"
+        }
+      ],
+      "user": {
+        "login": "bob",
+        "id": 1002
+      },
+      "created_at": "2026-04-01T14:30:00Z",
+      "updated_at": "2026-04-01T14:30:00Z"
+    },
+    {
+      "number": 301,
+      "title": "Dispute #301 — TypeScript vs JS",
+      "body": "<!-- DSP:META\n{\n  \"appId\": \"disputable.io\",\n  \"type\": \"dispute\",\n  \"challengerId\": 1001,\n  \"challengerLogin\": \"alice\",\n  \"defenderId\": 1002,\n  \"defenderLogin\": \"bob\",\n  \"rootPostId\": 1,\n  \"triggerChallengeId\": 101\n}\n-->",
+      "state": "open",
+      "labels": [
+        {
+          "name": "dsp:dispute"
+        }
+      ],
+      "user": {
+        "login": "dsp-strawman",
+        "id": 1
+      },
+      "created_at": "2026-04-01T11:00:00Z",
+      "updated_at": "2026-04-01T11:00:00Z"
+    },
+    {
+      "number": 2,
+      "title": "dsp:assertion",
+      "body": "<!-- DSP:META\n{\n  \"appId\": \"disputable.io\",\n  \"type\": \"assertion\",\n  \"rootId\": 2,\n  \"parentId\": null\n}\n-->\n\nThe Great Wall of China is visible to the naked eye from low Earth orbit.",
+      "state": "open",
+      "labels": [
+        {
+          "name": "dsp:assertion"
+        }
+      ],
+      "user": {
+        "login": "dave",
+        "id": 1004
+      },
+      "created_at": "2026-04-02T09:00:00Z",
+      "updated_at": "2026-04-02T09:00:00Z"
+    },
+    {
+      "number": 103,
+      "title": "dsp:challenge",
+      "body": "<!-- DSP:META\n{\n  \"appId\": \"disputable.io\",\n  \"type\": \"challenge\",\n  \"challengeType\": \"objection\",\n  \"rootId\": 2,\n  \"parentId\": 2,\n  \"disputeId\": 302\n}\n-->\n\nThis claim is factually wrong. Every NASA astronaut who has commented on the subject, including Ed Lu and Chris Hadfield, has explicitly stated the wall is too narrow to be seen without optical aids.",
+      "state": "open",
+      "labels": [
+        {
+          "name": "dsp:challenge"
+        }
+      ],
+      "user": {
+        "login": "carol",
+        "id": 1003
+      },
+      "created_at": "2026-04-02T09:30:00Z",
+      "updated_at": "2026-04-02T09:30:00Z"
+    },
+    {
+      "number": 203,
+      "title": "dsp:answer",
+      "body": "<!-- DSP:META\n{\n  \"appId\": \"disputable.io\",\n  \"type\": \"answer\",\n  \"rootId\": 2,\n  \"parentId\": 103,\n  \"disputeId\": 302\n}\n-->\n\nChina's own astronaut Yang Liwei reported in 2003 that he could not see it either — but the wall's length compensates for its narrowness under certain light and atmospheric conditions.",
+      "state": "open",
+      "labels": [
+        {
+          "name": "dsp:answer"
+        }
+      ],
+      "user": {
+        "login": "dave",
+        "id": 1004
+      },
+      "created_at": "2026-04-02T10:00:00Z",
+      "updated_at": "2026-04-02T10:00:00Z"
+    },
+    {
+      "number": 302,
+      "title": "Dispute #302 — Great Wall visible from space",
+      "body": "<!-- DSP:META\n{\n  \"appId\": \"disputable.io\",\n  \"type\": \"dispute\",\n  \"challengerId\": 1003,\n  \"challengerLogin\": \"carol\",\n  \"defenderId\": 1004,\n  \"defenderLogin\": \"dave\",\n  \"rootPostId\": 2,\n  \"triggerChallengeId\": 103\n}\n-->",
+      "state": "open",
+      "labels": [
+        {
+          "name": "dsp:dispute"
+        }
+      ],
+      "user": {
+        "login": "dsp-strawman",
+        "id": 1
+      },
+      "created_at": "2026-04-02T09:30:00Z",
+      "updated_at": "2026-04-02T09:30:00Z"
+    },
+    {
+      "number": 3,
+      "title": "dsp:assertion",
+      "body": "<!-- DSP:META\n{\n  \"appId\": \"disputable.io\",\n  \"type\": \"assertion\",\n  \"rootId\": 3,\n  \"parentId\": null\n}\n-->\n\nPineapple belongs on pizza. Sweet-savoury combinations are culinarily valid and widely popular.",
+      "state": "open",
+      "labels": [
+        {
+          "name": "dsp:assertion"
+        }
+      ],
+      "user": {
+        "login": "frank",
+        "id": 1006
+      },
+      "created_at": "2026-03-15T18:00:00Z",
+      "updated_at": "2026-03-15T18:00:00Z"
+    },
+    {
+      "number": 104,
+      "title": "dsp:challenge",
+      "body": "<!-- DSP:META\n{\n  \"appId\": \"disputable.io\",\n  \"type\": \"challenge\",\n  \"challengeType\": \"interrogatory\",\n  \"rootId\": 3,\n  \"parentId\": 3,\n  \"disputeId\": 303\n}\n-->\n\nDoes popularity alone make something culinarily valid? Many popular foods are nutritionally questionable.",
+      "state": "open",
+      "labels": [
+        {
+          "name": "dsp:challenge"
+        }
+      ],
+      "user": {
+        "login": "eve",
+        "id": 1005
+      },
+      "created_at": "2026-03-15T18:20:00Z",
+      "updated_at": "2026-03-15T18:20:00Z"
+    },
+    {
+      "number": 4,
+      "title": "dsp:assertion",
+      "body": "<!-- DSP:META\n{\n  \"appId\": \"disputable.io\",\n  \"type\": \"assertion\",\n  \"rootId\": 3,\n  \"parentId\": 3,\n  \"isOffer\": true,\n  \"offeredInDisputeId\": 303,\n  \"proxyAuthor\": \"frank\"\n}\n-->\n\nPineapple belongs on pizza when requested by the diner — popularity signals genuine demand, and culinary validity is ultimately subjective.",
+      "state": "open",
+      "labels": [
+        {
+          "name": "dsp:assertion"
+        }
+      ],
+      "user": {
+        "login": "dsp-strawman",
+        "id": 1
+      },
+      "created_at": "2026-03-15T19:00:00Z",
+      "updated_at": "2026-03-15T19:00:00Z"
+    },
+    {
+      "number": 204,
+      "title": "dsp:answer",
+      "body": "<!-- DSP:META\n{\n  \"appId\": \"disputable.io\",\n  \"type\": \"answer\",\n  \"rootId\": 3,\n  \"parentId\": 104,\n  \"disputeId\": 303,\n  \"acceptedOfferId\": 4\n}\n-->\n\nI accept the revised framing — personal preference is a legitimate basis for culinary choice.",
+      "state": "open",
+      "labels": [
+        {
+          "name": "dsp:answer"
+        }
+      ],
+      "user": {
+        "login": "eve",
+        "id": 1005
+      },
+      "created_at": "2026-03-15T19:30:00Z",
+      "updated_at": "2026-03-15T19:30:00Z"
+    },
+    {
+      "number": 303,
+      "title": "Dispute #303 — Pineapple on pizza (resolved)",
+      "body": "<!-- DSP:META\n{\n  \"appId\": \"disputable.io\",\n  \"type\": \"dispute\",\n  \"challengerId\": 1005,\n  \"challengerLogin\": \"eve\",\n  \"defenderId\": 1006,\n  \"defenderLogin\": \"frank\",\n  \"rootPostId\": 3,\n  \"triggerChallengeId\": 104\n}\n-->",
+      "state": "open",
+      "labels": [
+        {
+          "name": "dsp:dispute"
+        },
+        {
+          "name": "dsp:resolved"
+        }
+      ],
+      "user": {
+        "login": "dsp-strawman",
+        "id": 1
+      },
+      "created_at": "2026-03-15T18:20:00Z",
+      "updated_at": "2026-03-15T18:20:00Z"
+    },
+    {
+      "number": 5,
+      "title": "dsp:assertion",
+      "body": "<!-- DSP:META\n{\n  \"appId\": \"disputable.io\",\n  \"type\": \"assertion\",\n  \"rootId\": 5,\n  \"parentId\": null\n}\n-->\n\nRemote work permanently and measurably reduces individual productivity for knowledge workers.",
+      "state": "open",
+      "labels": [
+        {
+          "name": "dsp:assertion"
+        }
+      ],
+      "user": {
+        "login": "dave",
+        "id": 1004
+      },
+      "created_at": "2026-03-20T08:00:00Z",
+      "updated_at": "2026-03-20T08:00:00Z"
+    },
+    {
+      "number": 105,
+      "title": "dsp:challenge",
+      "body": "<!-- DSP:META\n{\n  \"appId\": \"disputable.io\",\n  \"type\": \"challenge\",\n  \"challengeType\": \"interrogatory\",\n  \"rootId\": 5,\n  \"parentId\": 5,\n  \"disputeId\": 304\n}\n-->\n\nStanford professor Nicholas Bloom's 2023 meta-analysis found no significant productivity difference for remote vs in-office — how do you reconcile that with your claim?",
+      "state": "open",
+      "labels": [
+        {
+          "name": "dsp:challenge"
+        }
+      ],
+      "user": {
+        "login": "alice",
+        "id": 1001
+      },
+      "created_at": "2026-03-20T09:00:00Z",
+      "updated_at": "2026-03-20T09:00:00Z"
+    },
+    {
+      "number": 501,
+      "title": "dsp:crickets-conditions",
+      "body": "<!-- DSP:META\n{\n  \"appId\": \"disputable.io\",\n  \"type\": \"crickets-conditions\",\n  \"disputeId\": 304,\n  \"proposedByPersonId\": 1001,\n  \"agreedByPersonId\": 1004,\n  \"durationMs\": 86400000,\n  \"currentDeadlineIso\": \"2026-03-22T09:00:00Z\"\n}\n-->",
+      "state": "open",
+      "labels": [
+        {
+          "name": "dsp:crickets-conditions"
+        }
+      ],
+      "user": {
+        "login": "dsp-strawman",
+        "id": 1
+      },
+      "created_at": "2026-03-21T09:00:00Z",
+      "updated_at": "2026-03-21T09:00:00Z"
+    },
+    {
+      "number": 601,
+      "title": "dsp:crickets-event",
+      "body": "<!-- DSP:META\n{\n  \"appId\": \"disputable.io\",\n  \"type\": \"crickets-event\",\n  \"disputeId\": 304,\n  \"challengeId\": 105,\n  \"triggeredByPersonId\": 1001,\n  \"detectedAtIso\": \"2026-03-22T09:05:00Z\"\n}\n-->",
+      "state": "open",
+      "labels": [
+        {
+          "name": "dsp:crickets-event"
+        }
+      ],
+      "user": {
+        "login": "dsp-strawman",
+        "id": 1
+      },
+      "created_at": "2026-03-22T09:05:00Z",
+      "updated_at": "2026-03-22T09:05:00Z"
+    },
+    {
+      "number": 304,
+      "title": "Dispute #304 — Remote work productivity (crickets)",
+      "body": "<!-- DSP:META\n{\n  \"appId\": \"disputable.io\",\n  \"type\": \"dispute\",\n  \"challengerId\": 1001,\n  \"challengerLogin\": \"alice\",\n  \"defenderId\": 1004,\n  \"defenderLogin\": \"dave\",\n  \"rootPostId\": 5,\n  \"triggerChallengeId\": 105\n}\n-->",
+      "state": "open",
+      "labels": [
+        {
+          "name": "dsp:dispute"
+        },
+        {
+          "name": "dsp:crickets-event"
+        }
+      ],
+      "user": {
+        "login": "dsp-strawman",
+        "id": 1
+      },
+      "created_at": "2026-03-20T09:00:00Z",
+      "updated_at": "2026-03-20T09:00:00Z"
+    },
+    {
+      "number": 6,
+      "title": "dsp:assertion",
+      "body": "<!-- DSP:META\n{\n  \"appId\": \"disputable.io\",\n  \"type\": \"assertion\",\n  \"rootId\": 6,\n  \"parentId\": null\n}\n-->\n\nVeganism is the only diet that is fully ethically consistent given what we know about animal sentience.",
+      "state": "open",
+      "labels": [
+        {
+          "name": "dsp:assertion"
+        }
+      ],
+      "user": {
+        "login": "bob",
+        "id": 1002
+      },
+      "created_at": "2026-04-05T12:00:00Z",
+      "updated_at": "2026-04-05T12:00:00Z"
+    },
+    {
+      "number": 106,
+      "title": "dsp:challenge",
+      "body": "<!-- DSP:META\n{\n  \"appId\": \"disputable.io\",\n  \"type\": \"challenge\",\n  \"challengeType\": \"objection\",\n  \"rootId\": 6,\n  \"parentId\": 6,\n  \"disputeId\": 305\n}\n-->\n\nThis ignores the environmental destruction caused by monoculture farming of staple vegan crops. Locally-raised, small-scale animal agriculture can have a lower net ecological footprint.",
+      "state": "open",
+      "labels": [
+        {
+          "name": "dsp:challenge"
+        }
+      ],
+      "user": {
+        "login": "carol",
+        "id": 1003
+      },
+      "created_at": "2026-04-05T13:00:00Z",
+      "updated_at": "2026-04-05T13:00:00Z"
+    },
+    {
+      "number": 107,
+      "title": "dsp:challenge",
+      "body": "<!-- DSP:META\n{\n  \"appId\": \"disputable.io\",\n  \"type\": \"challenge\",\n  \"challengeType\": \"interrogatory\",\n  \"rootId\": 6,\n  \"parentId\": 106,\n  \"disputeId\": 305\n}\n-->\n\nCan you cite a peer-reviewed LCA study showing that any animal-product supply chain has a lower carbon equivalent per gram of protein than legumes at the same production scale?",
+      "state": "open",
+      "labels": [
+        {
+          "name": "dsp:challenge"
+        }
+      ],
+      "user": {
+        "login": "bob",
+        "id": 1002
+      },
+      "created_at": "2026-04-05T14:00:00Z",
+      "updated_at": "2026-04-05T14:00:00Z"
+    },
+    {
+      "number": 305,
+      "title": "Dispute #305 — Veganism ethics (counter-challenge)",
+      "body": "<!-- DSP:META\n{\n  \"appId\": \"disputable.io\",\n  \"type\": \"dispute\",\n  \"challengerId\": 1003,\n  \"challengerLogin\": \"carol\",\n  \"defenderId\": 1002,\n  \"defenderLogin\": \"bob\",\n  \"rootPostId\": 6,\n  \"triggerChallengeId\": 106\n}\n-->",
+      "state": "open",
+      "labels": [
+        {
+          "name": "dsp:dispute"
+        }
+      ],
+      "user": {
+        "login": "dsp-strawman",
+        "id": 1
+      },
+      "created_at": "2026-04-05T13:00:00Z",
+      "updated_at": "2026-04-05T13:00:00Z"
+    },
+    {
+      "number": 7,
+      "title": "dsp:assertion",
+      "body": "<!-- DSP:META\n{\n  \"appId\": \"disputable.io\",\n  \"type\": \"assertion\",\n  \"rootId\": 7,\n  \"parentId\": null\n}\n-->\n\nStatic type checks and compilers reliably catch entire classes of bugs that even high-coverage unit test suites routinely miss.",
+      "state": "open",
+      "labels": [
+        {
+          "name": "dsp:assertion"
+        }
+      ],
+      "user": {
+        "login": "frank",
+        "id": 1006
+      },
+      "created_at": "2026-04-10T08:00:00Z",
+      "updated_at": "2026-04-10T08:00:00Z"
+    },
+    {
+      "number": 401,
+      "title": "dsp:agreement",
+      "body": "<!-- DSP:META\n{\n  \"appId\": \"disputable.io\",\n  \"type\": \"agreement\",\n  \"assertionId\": 7,\n  \"personId\": 1001\n}\n-->",
+      "state": "open",
+      "labels": [
+        {
+          "name": "dsp:agreement"
+        }
+      ],
+      "user": {
+        "login": "alice",
+        "id": 1001
+      },
+      "created_at": "2026-04-10T09:00:00Z",
+      "updated_at": "2026-04-10T09:00:00Z"
+    },
+    {
+      "number": 402,
+      "title": "dsp:agreement",
+      "body": "<!-- DSP:META\n{\n  \"appId\": \"disputable.io\",\n  \"type\": \"agreement\",\n  \"assertionId\": 7,\n  \"personId\": 1003\n}\n-->",
+      "state": "open",
+      "labels": [
+        {
+          "name": "dsp:agreement"
+        }
+      ],
+      "user": {
+        "login": "carol",
+        "id": 1003
+      },
+      "created_at": "2026-04-10T09:10:00Z",
+      "updated_at": "2026-04-10T09:10:00Z"
+    },
+    {
+      "number": 8,
+      "title": "dsp:assertion",
+      "body": "<!-- DSP:META\n{\n  \"appId\": \"disputable.io\",\n  \"type\": \"assertion\",\n  \"rootId\": 8,\n  \"parentId\": null\n}\n-->\n\nOpen-plan offices measurably reduce deep-work output for software engineers, regardless of noise-cancelling headphone availability.",
+      "state": "open",
+      "labels": [
+        {
+          "name": "dsp:assertion"
+        }
+      ],
+      "user": {
+        "login": "eve",
+        "id": 1005
+      },
+      "created_at": "2026-04-15T07:00:00Z",
+      "updated_at": "2026-04-15T07:00:00Z"
+    },
+    {
+      "number": 9,
+      "title": "dsp:assertion",
+      "body": "<!-- DSP:META\n{\n  \"appId\": \"disputable.io\",\n  \"type\": \"assertion\",\n  \"rootId\": 9,\n  \"parentId\": null\n}\n-->\n\nThe Fermi Paradox is best explained by the \"Great Filter\" already being behind us — complex multicellular life is the filter.",
+      "state": "open",
+      "labels": [
+        {
+          "name": "dsp:assertion"
+        }
+      ],
+      "user": {
+        "login": "dave",
+        "id": 1004
+      },
+      "created_at": "2026-04-16T11:00:00Z",
+      "updated_at": "2026-04-16T11:00:00Z"
+    },
+    {
+      "number": 10,
+      "title": "dsp:assertion",
+      "body": "<!-- DSP:META\n{\n  \"appId\": \"disputable.io\",\n  \"type\": \"assertion\",\n  \"rootId\": 10,\n  \"parentId\": null\n}\n-->\n\nCode review's primary value is knowledge transfer, not defect detection. Automated tooling already catches most real bugs.",
+      "state": "open",
+      "labels": [
+        {
+          "name": "dsp:assertion"
+        }
+      ],
+      "user": {
+        "login": "carol",
+        "id": 1003
+      },
+      "created_at": "2026-04-17T15:30:00Z",
+      "updated_at": "2026-04-17T15:30:00Z"
+    },
+    {
+      "number": 11,
+      "title": "dsp:assertion",
+      "body": "<!-- DSP:META\n{\n  \"appId\": \"disputable.io\",\n  \"type\": \"assertion\",\n  \"rootId\": 11,\n  \"parentId\": null\n}\n-->\n\nDemocratic elections in their current form systematically disadvantage long-term policy thinking because the incentive horizon is a 4-year election cycle.",
+      "state": "open",
+      "labels": [
+        {
+          "name": "dsp:assertion"
+        }
+      ],
+      "user": {
+        "login": "alice",
+        "id": 1001
+      },
+      "created_at": "2026-04-18T09:00:00Z",
+      "updated_at": "2026-04-18T09:00:00Z"
+    },
+    {
+      "number": 12,
+      "title": "dsp:assertion",
+      "body": "<!-- DSP:META\n{\n  \"appId\": \"disputable.io\",\n  \"type\": \"assertion\",\n  \"rootId\": 12,\n  \"parentId\": null\n}\n-->\n\nThe most effective way to combat misinformation is algorithmic friction at the point of re-share, not content removal.",
+      "state": "open",
+      "labels": [
+        {
+          "name": "dsp:assertion"
+        }
+      ],
+      "user": {
+        "login": "bob",
+        "id": 1002
+      },
+      "created_at": "2026-04-19T08:00:00Z",
+      "updated_at": "2026-04-19T08:00:00Z"
+    }
+  ],
+  "generatedAt": "2026-04-19T01:00:46.732Z"
+}

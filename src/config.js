@@ -25,7 +25,7 @@ export const CONFIG = {
    * Set to true to bypass GitHub OAuth and use in-memory seed data.
    * No real API calls are made; actions (post/patch) persist only to localStorage.
    */
-  mockMode: false,
+  mockMode: true,
 
   /**
    * When mockMode is true, sign in as this GitHub login.
