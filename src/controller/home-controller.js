@@ -65,18 +65,15 @@ export class HomeController {
   }
 
   /**
-   * Can the given person post as @strawman?
-   * Only the authenticated account matching CONFIG.strawmanLogin may do so.
+   * Can the given person use the @strawman option?
+   * Any authenticated user may plant a strawman argument.
    *
    * @param {{ id: number, login: string }|null} person
    * @returns {{ allowed: boolean, reason: string }}
    */
   canPostAsStrawman(person) {
     if (!person) {
-      return { allowed: false, reason: 'Not signed in.' };
-    }
-    if (person.login.toLowerCase() !== this._config.strawmanLogin.toLowerCase()) {
-      return { allowed: false, reason: 'Only the site owner can post as strawman.' };
+      return { allowed: false, reason: 'Sign in to use the strawman option.' };
     }
     return { allowed: true, reason: '' };
   }
@@ -95,13 +92,8 @@ export class HomeController {
    * @returns {Promise<object>}  Created GitHub Issue object
    */
   async submitAssertion(person, text, imageUrl = null, asStrawman = false) {
-    const { allowed } = asStrawman
-      ? this.canPostAsStrawman(person)
-      : this.canCompose(person);
-
-    if (!allowed) {
-      throw new Error('Permission denied.');
-    }
+    const { allowed } = this.canCompose(person);
+    if (!allowed) throw new Error('Permission denied.');
 
     // Build DSP:META
     const meta = {
@@ -135,6 +127,21 @@ export class HomeController {
 
     // Invalidate feed cache so next load picks up the new post.
     cache.invalidatePattern(gh.issuesUrl(this._dataRepo));
+
+    // When posting as @strawman, automatically create a challenge+dispute so the
+    // current user is immediately disputing their own planted strawman argument.
+    if (asStrawman) {
+      const assertionPost = {
+        id:         created.number,
+        authorId:   person.id,
+        authorLogin: person.login,
+        meta:       { ...patchedMeta, rootId: created.number },
+      };
+      await this.submitChallenge(person, assertionPost, {
+        challengeType: 'objection',
+        text:          `I challenge this position: ${text.slice(0, 120)}`,
+      });
+    }
 
     return { ...created, number: created.number };
   }

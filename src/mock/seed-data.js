@@ -175,11 +175,11 @@ const C_CHALL = issue(
 
 const C_OFFER_ASSERT = issue(
   4, ['dsp:assertion'],
-  USERS.strawman, '2026-03-15T19:00:00Z',
+  USERS.frank, '2026-03-15T19:00:00Z',
   meta({
     type: 'assertion', rootId: 3, parentId: 3,
     isOffer: true, offeredInDisputeId: 303,
-    proxyAuthor: 'frank',
+    proxyAuthor: null,
   }) +
   '\n\nPineapple belongs on pizza when requested by the diner — popularity signals genuine demand, and culinary validity is ultimately subjective.',
 );

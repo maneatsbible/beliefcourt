@@ -211,7 +211,7 @@ function _modeExtras(mode, challengeType, canPostAsStrawman) {
     parts.push(`
       <label class="composer__strawman-toggle">
         <input type="checkbox" class="composer__strawman-cb" name="asStrawman">
-        Post as @strawman
+        Plant a strawman (post as @strawman &amp; auto-challenge)
       </label>
     `);
   }

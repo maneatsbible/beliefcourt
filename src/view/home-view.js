@@ -34,6 +34,7 @@ export class HomeView {
     this._agreements  = context.agreements  ?? [];
     this._page        = 1;
     this._loading     = false;
+    this._allLoaded   = false;
     this._composer    = null;   // active composer handle
     this._observer    = null;
     this._postMap     = new Map(); // postId -> Post
@@ -63,7 +64,7 @@ export class HomeView {
     feed.addEventListener('click', e => this._handleFeedClick(e));
 
     await this._loadNextPage();
-    this._initObserver();
+    if (!this._allLoaded) this._initObserver();
 
     // Notification scan — show "You were challenged" if applicable.
     this._notifyPendingChallenges();
@@ -121,6 +122,7 @@ export class HomeView {
       if (posts.length === PER_PAGE) {
         this._page++;
       } else {
+        this._allLoaded = true;
         this._destroyObserver();
       }
     } catch (err) {

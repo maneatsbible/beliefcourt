@@ -6,7 +6,7 @@
  * event delegation on `data-action="home"`.
  */
 
-import { ICON_SCALES } from '../../utils/icons.js';
+import { ICON_SCALES_FIRE } from '../../utils/icons.js';
 
 /**
  * Render (or re-render) the application header.
@@ -23,7 +23,7 @@ export function renderHeader(version, { userLogin = null } = {}) {
     <div class="header-bar">
       <button class="header-home-btn icon-btn" data-action="home"
               aria-label="Go to home / assertions feed">
-        ${ICON_SCALES}
+        ${ICON_SCALES_FIRE}
       </button>
       <span class="header-title">disputable.io</span>
       <span class="header-right">

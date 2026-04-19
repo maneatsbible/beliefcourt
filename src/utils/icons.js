@@ -21,6 +21,29 @@ export const ICON_SCALES = `<svg xmlns="http://www.w3.org/2000/svg" width="18" h
   <line x1="21" y1="9" x2="17" y2="14"/>
 </svg>`;
 
+/** Scales of justice with a flame in each pan — used as the app logomark. */
+export const ICON_SCALES_FIRE = `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+  viewBox="0 0 64 64" fill="none" aria-hidden="true">
+  <!-- centre pole -->
+  <line x1="32" y1="8" x2="32" y2="58" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <!-- base -->
+  <line x1="22" y1="58" x2="42" y2="58" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <!-- crossbeam -->
+  <line x1="8" y1="20" x2="56" y2="20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- left arm -->
+  <line x1="12" y1="20" x2="12" y2="34" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+  <!-- right arm -->
+  <line x1="52" y1="20" x2="52" y2="34" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+  <!-- left pan (arc) -->
+  <path d="M5 34 Q12 44 19 34" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- right pan (arc) -->
+  <path d="M45 34 Q52 44 59 34" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- fire in left pan -->
+  <text x="12" y="42" text-anchor="middle" font-size="11" font-family="sans-serif">🔥</text>
+  <!-- fire in right pan -->
+  <text x="52" y="42" text-anchor="middle" font-size="11" font-family="sans-serif">🔥</text>
+</svg>`;
+
 export const ICON_COPY = `<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13"
   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
