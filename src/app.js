@@ -9,7 +9,8 @@
  */
 
 import { CONFIG } from './config.js';
-import { getStoredToken, getCachedUser }  from './api/device-auth.js';
+import { getStoredToken, getCachedUser, installMockUser } from './api/device-auth.js';
+import { installMockMode, restoreMockStore }              from './api/github-client.js';
 import { getUrlParams, setUrlParams }     from './utils/url.js';
 import { renderHeader }                   from './view/components/header.js';
 import { showNotification }               from './view/components/notification.js';
@@ -21,6 +22,29 @@ import { showErrorPanel }                 from './view/components/error-panel.js
 // ---------------------------------------------------------------------------
 
 async function bootstrap() {
+  // ---- Mock mode setup (dev/testing only) ---------------------------------
+  if (CONFIG.mockMode) {
+    // Restore previously-seeded data from localStorage, or load fresh seed.
+    const restored = restoreMockStore();
+    if (!restored) {
+      const { SEED_ISSUES } = await import('./mock/seed-data.js');
+      installMockMode(SEED_ISSUES);
+    } else {
+      installMockMode([]); // engage mock mode; restoreMockStore already populated the store
+      // Re-install from fresh seed so store is always populated
+      const { SEED_ISSUES } = await import('./mock/seed-data.js');
+      installMockMode(SEED_ISSUES);
+    }
+
+    // Sign in as the configured mock user (or first in the default list).
+    const { MOCK_USERS } = await import('./mock/seed-data.js');
+    const mockUser = CONFIG.mockUser
+      ? MOCK_USERS.find(u => u.login === CONFIG.mockUser) ?? MOCK_USERS[0]
+      : MOCK_USERS[0];
+    installMockUser(mockUser);
+  }
+  // -------------------------------------------------------------------------
+
   // Render chrome immediately — controller/view fill #app-main later.
   const token     = getStoredToken();
   const cached    = getCachedUser();

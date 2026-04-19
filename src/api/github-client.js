@@ -1,12 +1,152 @@
 /**
  * GitHub REST API wrapper with ETag conditional GET caching.
  * All requests that need auth should pass the token.
+ *
+ * Mock mode: call installMockMode(issues) to replace all network I/O with an
+ * in-memory store backed by localStorage.  Useful for development and testing
+ * without a live GitHub account or data repo.
  */
 
 import * as cache from './cache.js';
 
 const BASE_URL = 'https://api.github.com';
 export const APP_ID = 'disputable.io';
+
+// ---------------------------------------------------------------------------
+// Mock mode
+// ---------------------------------------------------------------------------
+
+const MOCK_STORE_KEY = 'dsp:mock:issues';
+
+/** @type {Map<number, object>|null}  null = real mode */
+let _mockIssues = null;
+let _mockNextId = 1000;
+
+/**
+ * Enable mock mode.  All subsequent get/post/patch calls operate on an
+ * in-memory store (seeded from `issues`) that is persisted to localStorage.
+ *
+ * @param {object[]} issues  Array of GitHub-Issue-shaped objects (seed data).
+ *                           Passing an empty array resets to an empty store.
+ *                           Pass `null` to disable mock mode.
+ */
+export function installMockMode(issues) {
+  if (issues === null) {
+    _mockIssues = null;
+    return;
+  }
+  _mockIssues = new Map(issues.map(i => [i.number, _normalise(i)]));
+  const maxId = issues.reduce((m, i) => Math.max(m, i.number), 0);
+  _mockNextId = maxId + 1;
+  _persistMock();
+}
+
+/**
+ * Restore mock store from localStorage (call on page load when mockMode is on).
+ * Returns false when nothing was stored yet.
+ * @returns {boolean}
+ */
+export function restoreMockStore() {
+  try {
+    const raw = localStorage.getItem(MOCK_STORE_KEY);
+    if (!raw) return false;
+    const arr = JSON.parse(raw);
+    _mockIssues = new Map(arr.map(i => [i.number, i]));
+    const maxId = arr.reduce((m, i) => Math.max(m, i.number), 0);
+    _mockNextId = maxId + 1;
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/** True when mock mode is active. */
+export function isMockMode() { return _mockIssues !== null; }
+
+function _persistMock() {
+  try {
+    localStorage.setItem(MOCK_STORE_KEY, JSON.stringify([..._mockIssues.values()]));
+  } catch { /* ignore storage quota */ }
+}
+
+function _normalise(issue) {
+  return {
+    ...issue,
+    labels: (issue.labels ?? []).map(l =>
+      typeof l === 'string' ? { name: l } : l
+    ),
+  };
+}
+
+// Mock implementation of GET — handles the URL shapes used by the app.
+function _mockGet(url) {
+  const issuesBase = /\/repos\/[^/]+\/[^/]+\/issues$/;
+  const issueSingle = /\/repos\/[^/]+\/[^/]+\/issues\/(\d+)$/;
+
+  const singleMatch = issueSingle.exec(url.split('?')[0]);
+  if (singleMatch) {
+    const num = Number(singleMatch[1]);
+    const issue = _mockIssues.get(num);
+    if (!issue) throw new ApiError('Not Found', 404);
+    return issue;
+  }
+
+  if (issuesBase.test(url.split('?')[0])) {
+    const qStr = url.includes('?') ? url.slice(url.indexOf('?') + 1) : '';
+    const params = new URLSearchParams(qStr);
+    const wantLabels = (params.get('labels') ?? '').split(',').map(s => s.trim()).filter(Boolean);
+    const wantState  = params.get('state') ?? 'open';
+
+    let results = [..._mockIssues.values()];
+
+    if (wantLabels.length) {
+      results = results.filter(issue => {
+        const names = issue.labels.map(l => (typeof l === 'string' ? l : l.name));
+        return wantLabels.every(wl => names.includes(wl));
+      });
+    }
+
+    if (wantState !== 'all') {
+      results = results.filter(i => (i.state ?? 'open') === wantState);
+    }
+
+    results.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+    return results;
+  }
+
+  // Unknown mock URL — return empty array rather than crashing.
+  return [];
+}
+
+// Mock implementation of POST (create issue).
+function _mockPost(url, body) {
+  const issue = _normalise({
+    number:     _mockNextId++,
+    title:      body.title ?? '',
+    body:       body.body  ?? '',
+    state:      'open',
+    labels:     (body.labels ?? []).map(l => (typeof l === 'string' ? { name: l } : l)),
+    user:       { login: 'mock-user', id: 9999 },
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  });
+  _mockIssues.set(issue.number, issue);
+  _persistMock();
+  return issue;
+}
+
+// Mock implementation of PATCH (update issue).
+function _mockPatch(url, body) {
+  const match = /\/issues\/(\d+)/.exec(url);
+  if (!match) throw new ApiError('Bad URL', 400);
+  const num   = Number(match[1]);
+  const issue = _mockIssues.get(num);
+  if (!issue) throw new ApiError('Not Found', 404);
+  const updated = _normalise({ ...issue, ...body });
+  _mockIssues.set(num, updated);
+  _persistMock();
+  return updated;
+}
 
 export class ApiError extends Error {
   /**
@@ -32,6 +172,7 @@ export class ApiError extends Error {
  * @returns {Promise<any>}    Parsed JSON body
  */
 export async function get(url, token = null) {
+  if (_mockIssues !== null) return _mockGet(url);
   const cached = cache.get(url);
   const headers = _baseHeaders(token);
   if (cached?.etag) {
@@ -65,6 +206,7 @@ export async function get(url, token = null) {
  * @returns {Promise<any>}
  */
 export async function post(url, body, token = null) {
+  if (_mockIssues !== null) return _mockPost(url, body);
   const res = await fetch(url, {
     method:  'POST',
     headers: { ..._baseHeaders(token), 'Content-Type': 'application/json' },
@@ -86,6 +228,7 @@ export async function post(url, body, token = null) {
  * @returns {Promise<any>}
  */
 export async function patch(url, body, token = null) {
+  if (_mockIssues !== null) return _mockPatch(url, body);
   const res = await fetch(url, {
     method:  'PATCH',
     headers: { ..._baseHeaders(token), 'Content-Type': 'application/json' },

@@ -16,4 +16,21 @@ export const CONFIG = {
 
   /** App version shown in the header */
   appVersion: '0.1.0',
+
+  // ---------------------------------------------------------------------------
+  // Dev / testing — mock mode
+  // ---------------------------------------------------------------------------
+
+  /**
+   * Set to true to bypass GitHub OAuth and use in-memory seed data.
+   * No real API calls are made; actions (post/patch) persist only to localStorage.
+   */
+  mockMode: false,
+
+  /**
+   * When mockMode is true, sign in as this GitHub login.
+   * Must match a login in src/mock/seed-data.js MOCK_USERS.
+   * Defaults to the first mock user ('alice') when omitted.
+   */
+  mockUser: 'alice',
 };

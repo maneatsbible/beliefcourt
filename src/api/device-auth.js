@@ -15,6 +15,35 @@ const SESSION_TOKEN_KEY = 'dsp:auth:token';
 const LOCAL_LOGIN_KEY   = 'dsp:auth:login';
 const LOCAL_USERID_KEY  = 'dsp:auth:userId';
 
+// ---------------------------------------------------------------------------
+// Mock mode helpers
+// ---------------------------------------------------------------------------
+
+/**
+ * Pre-populate auth storage so the app treats the given user as already
+ * signed in — no OAuth flow needed.  Call before bootstrap() when running
+ * in mock/dev mode.
+ *
+ * @param {{ login: string, id: number }} user
+ */
+export function installMockUser(user) {
+  try {
+    sessionStorage.setItem(SESSION_TOKEN_KEY, 'mock-token');
+    localStorage.setItem(LOCAL_LOGIN_KEY,   user.login);
+    localStorage.setItem(LOCAL_USERID_KEY,  String(user.id));
+  } catch {
+    // ignore
+  }
+}
+
+/**
+ * Switch the currently active mock user without reloading.
+ * @param {{ login: string, id: number }} user
+ */
+export function switchMockUser(user) {
+  installMockUser(user);
+}
+
 export class AuthError extends Error {
   constructor(message, code = null) {
     super(message);
