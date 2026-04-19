@@ -1,8 +1,30 @@
-# Data Model: disputable.io
+# Data Model: judgmental.io
 
 **Phase**: 1 — Design  
-**Date**: 2026-04-18  
+**Date**: 2026-04-18 (revised 2026-04-19)  
 **Plan**: [plan.md](plan.md)
+
+> **Revision note**: This document supersedes the original disputable.io data model. Entities have been renamed and extended to reflect the full judgmental.io vision. The implementation target remains the same GitHub Issues backend.
+
+---
+
+## Entity Hierarchy
+
+```
+Claim                          ← root; the statement being disputed
+ └── Case                      ← opened when any Record is challenged
+      └── Duel                 ← 1v1 contest within a Case
+           ├── Challenge        ← turn: contest a Record
+           ├── Answer           ← turn: respond to a Challenge
+           ├── Offer            ← parallel: propose resolution (non-blocking)
+           ├── Response         ← parallel: accept/reject an Offer
+           ├── Disposition      ← terminal state of the Duel
+           ├── Moment           ← annotation on any Record (post-turn)
+           ├── Analysis         ← post-Disposition; references Moments
+           └── Judgment         ← verdict on Duel, grounded in BaseOfTruth
+```
+
+Any Record (Claim, Challenge, Answer, Offer, Response, SimilarityLink) can itself be challenged, opening a nested Case with its own Case View and Duel Chooser.
 
 ---
 
@@ -19,228 +41,436 @@ Represents an authenticated GitHub user.
 | `profilePicUrl` | `string` | GitHub `avatar_url` | Display only |
 | `isStrawman` | `boolean` | Derived | `true` if `name === '@strawman'` |
 
-**Special instance**: `@strawman` — a pre-configured GitHub account. Any authenticated Person can post an Assertion as @strawman by using the @strawman token (stored as a repo secret / env var in the static site build). A Person who posts as @strawman is recorded in the metadata as `proxyAuthor`.
+**Special instance — @strawman**: A placeholder identity used to import external content for immediate disputation. When you quote something from the internet (a tweet, an article, a public statement), you submit it as a Claim attributed to @strawman. A Challenge against that Claim is submitted simultaneously, summoning the original author. If and when the original author arrives and authenticates, they can claim ownership of the @strawman Claim, replacing @strawman with their own Person record. @strawman is not a persona; it is a beacon.
 
-**Constraints**:
-- A Person MUST NOT challenge their own Post.
-- A Person MUST NOT challenge a Post they have agreed with.
-- A Person MUST NOT challenge the same Post more than once.
+**Person constraints**:
+- A Person MUST NOT challenge their own Record.
+- A Person MUST NOT challenge a Claim they have agreed with.
+- A Person MUST NOT challenge the same Record more than once.
 
 ---
 
-### Post (abstract)
+### Record (abstract — implementation only)
 
-The base of all user-created content. Every Post is a GitHub Issue in the shared repo.
+The base of all user-created content. Every Record is a GitHub Issue in the shared repo. Not a domain term — users never see the word "Record." Its subtypes are the real entities.
 
 | Field | Type | Source | Notes |
 |-------|------|--------|-------|
 | `id` | `number` | GitHub issue number | Globally unique within the repo |
-| `type` | `enum` | `DSP:META.type` | `"assertion"`, `"challenge"`, `"answer"` |
+| `type` | `enum` | `JDG:META.type` | `"claim"`, `"challenge"`, `"answer"`, `"offer"`, `"response"` |
 | `authorId` | `number` | GitHub issue `user.id` | Person who created the Issue |
-| `proxyAuthor` | `string \| null` | `DSP:META.proxyAuthor` | Set when posting as @strawman |
-| `parentId` | `number \| null` | `DSP:META.parentId` | Parent Post id; `null` for root Assertions |
-| `rootId` | `number` | `DSP:META.rootId` | Id of the root Assertion in this tree |
-| `text` | `string \| null` | Issue body (after meta comment) | Optional for non-root posts |
-| `imageUrl` | `string \| null` | `DSP:META.imageUrl` | GitHub issue attachment URL |
+| `strawmanClaimId` | `number \| null` | `JDG:META.strawmanClaimId` | Set when @strawman is replaced by the real author; points to original Claim id |
+| `parentId` | `number \| null` | `JDG:META.parentId` | Parent Record id; `null` for root Claims |
+| `caseId` | `number \| null` | `JDG:META.caseId` | The nearest ancestor Claim or challenged Record that is the subject of this Record's Case |
+| `text` | `string \| null` | Issue body (after meta block) | Optional for non-Claim records |
+| `imageUrl` | `string \| null` | `JDG:META.imageUrl` | GitHub issue attachment URL |
+| `sourceUrl` | `string \| null` | `JDG:META.sourceUrl` | Original URL when Claim was imported via @strawman |
 | `createdAt` | `ISO8601` | GitHub `created_at` | |
-| `disputeId` | `number \| null` | `DSP:META.disputeId` | The Dispute this post belongs to, if any |
 
 **Validation rules**:
-- Top-level Assertions (`parentId === null`): MUST have `text` XOR `imageUrl` (not both, not neither).
-- Non-root Posts: MAY have both `text` and `imageUrl`.
-- All Posts: issued body is immutable after creation (append-only).
+- Root Claims (`parentId === null`): MUST have `text` XOR `imageUrl` (not both, not neither).
+- Non-root Records: MAY have both `text` and `imageUrl`.
+- All Records: Issue body is immutable after creation (append-only).
 
 ---
 
-### Assertion (extends Post)
+### Claim (extends Record)
 
-A top-level assertion or a resolution Offer. The root of every Post tree.
+The root statement being disputed. What people agree or disagree with. The subject of every Case.
 
 | Field | Type | Notes |
 |-------|------|-------|
-| `isOffer` | `boolean` | `DSP:META.isOffer` — `true` when submitted as a resolution Offer within a Dispute |
-| `offeredInDisputeId` | `number \| null` | The Dispute this offer belongs to |
+| `isStrawmanPlaceholder` | `boolean` | `true` while attributed to @strawman pending the real author's arrival |
+| `originalAuthorHandle` | `string \| null` | The attributed author's handle (e.g. `@realuser` on another platform) when imported |
 
-**State transitions** (derived from child entities):
+**State** (derived from child Cases and Accords):
 
 ```
-OPEN ──(any challenge)──► DISPUTED
-DISPUTED ──(offer accepted by both)──► RESOLVED
-DISPUTED ──(crickets)──► CRICKETS
+OPEN ────────(first Case opened)──────────► DISPUTED
+DISPUTED ───(all Duels reach Disposition)──► SETTLED | DEFAULTED | STANDING
 ```
+
+- **STANDING**: Claim has been challenged and survived — all Cases closed, no Defaults, no Accords that conceded the Claim.
+- **SETTLED**: An Accord was reached that resolves the Claim.
+- **DEFAULTED**: A Duel ended by Default (deadline passed, no Answer).
+
+A Claim in STANDING state carries epistemic weight — it has been tested and held.
 
 ---
 
-### Challenge (extends Post)
+### Challenge (extends Record)
 
-A challenge to any Post.
+Contests a Record. Opens a new Case on that Record and creates a Duel within it.
 
 | Field | Type | Notes |
 |-------|------|-------|
-| `challengeType` | `enum` | `"interrogatory"` or `"objection"` |
-| `questionText` | `string` | The challenge text; for Interrogatory this must be a Y/N question |
+| `challengeType` | `enum` | `"interrogatory"` (Y/N question) or `"objection"` (free-form) |
+| `subjectRecordId` | `number` | The Record being challenged |
 
 **Constraints**:
-- `authorId` MUST NOT equal the `authorId` of the challenged Post.
-- Only one Challenge per Person per Post (enforced by controller via API query before submission).
+- `authorId` MUST NOT equal the `authorId` of the challenged Record.
+- Only one Challenge per Person per Record.
+- A Challenge can itself be challenged, opening a nested Case.
 
 ---
 
-### Answer (extends Post)
+### Answer (extends Record)
 
-A response to a Challenge.
+Responds to a Challenge within a Duel's turn sequence.
 
 | Field | Type | Notes |
 |-------|------|-------|
-| `yesNo` | `boolean \| null` | `DSP:META.yesNo` — REQUIRED for Interrogatory; `null` for Objection |
-| `counterChallengeId` | `number \| null` | Id of the Challenge Post included in this Answer, if any |
+| `yesNo` | `boolean \| null` | REQUIRED for Interrogatory; `null` for Objection |
+| `challengeId` | `number` | The Challenge being answered |
 
 **Constraints**:
 - `yesNo` MUST be `true` or `false` if the parent Challenge is Interrogatory.
 - `yesNo` MUST be `null` if the parent Challenge is Objection.
-- At most one counter-challenge per Answer.
+- An Answer can itself be challenged, opening a nested Case.
 
 ---
 
-### Dispute
+### Offer (extends Record)
 
-A first-class 1v1 duel between two Persons, triggered by a Challenge.
+Proposes resolution of a Duel. Runs in parallel to the Challenge/Answer turn sequence — does not block or pause turns.
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `duelId` | `number` | The Duel this Offer belongs to |
+| `subjectRecordId` | `number` | The Record whose disposition this Offer proposes |
+| `terms` | `string` | The proposed resolution statement |
+
+**Constraints**:
+- Person MUST be a party in the Duel.
+- An Offer can itself be challenged, opening a nested Case.
+
+---
+
+### Response (extends Record)
+
+Accepts or rejects an Offer.
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `offerId` | `number` | The Offer being responded to |
+| `accepted` | `boolean` | `true` = accepted; `false` = rejected |
+
+**Constraints**:
+- `authorId` MUST be the OTHER party from the Offer's author.
+- An accepted Response produces an Accord (see below).
+- A Response can itself be challenged, opening a nested Case.
+
+---
+
+### Case
+
+A dispute opened against a specific Record. One Case per challenger per Record (multiple people challenging the same Record each open their own Case). Contains one or more Duels.
 
 | Field | Type | Source | Notes |
 |-------|------|--------|-------|
 | `id` | `number` | GitHub issue number | |
-| `challengerId` | `number` | `DSP:META.challengerId` | Person who issued the first Challenge |
-| `defenderId` | `number` | `DSP:META.defenderId` | Person who must answer first |
-| `rootPostId` | `number` | `DSP:META.rootPostId` | The Post that was challenged to start this Dispute |
-| `triggerChallengeId` | `number` | `DSP:META.triggerChallengeId` | The initial Challenge Post |
-| `currentTurnPersonId` | `number` | Derived — last action determines turn | |
-| `status` | `enum` | Derived from child Issues | `"active"`, `"resolved"`, `"crickets"` |
-| `cricketsConditions` | `CricketsConditions \| null` | Derived from child Issues | |
+| `subjectRecordId` | `number` | `JDG:META.subjectRecordId` | The Record this Case is against |
+| `openedByPersonId` | `number` | `JDG:META.openedByPersonId` | Person who challenged the Record |
+| `triggerChallengeId` | `number` | `JDG:META.triggerChallengeId` | The Challenge that opened this Case |
 | `createdAt` | `ISO8601` | GitHub `created_at` | |
-
-**Labels on the Dispute Issue**: `dsp:dispute`, `dsp:active` (or `dsp:resolved` / `dsp:crickets-event`).
-
-**Turn derivation rule**: The Person whose last action in the Dispute was answered is "waiting"; the other person is "to move". On Dispute creation, `currentTurnPersonId = defenderId`.
 
 ---
 
-### CricketsConditions
+### Duel
 
-Negotiated timeout conditions within a Dispute. Stored as a child GitHub Issue.
+A first-class 1v1 contest within a Case between two Persons.
+
+| Field | Type | Source | Notes |
+|-------|------|--------|-------|
+| `id` | `number` | GitHub issue number | |
+| `caseId` | `number` | `JDG:META.caseId` | The Case this Duel belongs to |
+| `challengerId` | `number` | `JDG:META.challengerId` | Person who issued the opening Challenge |
+| `defenderId` | `number` | `JDG:META.defenderId` | Person defending the subject Record |
+| `currentTurnPersonId` | `number` | Derived from turn sequence | On creation: `defenderId` |
+| `disposition` | `enum \| null` | Derived from child Records | `null` while active; see Disposition below |
+| `deadline` | `DeadlineConditions \| null` | Derived from child Issues | |
+| `createdAt` | `ISO8601` | GitHub `created_at` | |
+
+**Turn derivation rule**: The Person whose last action was answered is "waiting." The other person is "to move." Duel turn state is independent of any other Duel, including nested Duels on Records within this Duel.
+
+**Multiple Duels per Case**: If a Claim has multiple agreers (via Accord) and one Person challenges it, the Case is shared but each agre-er who responds opens their own Duel within that Case. The Case View shows a **Duel Chooser** listing all Duels.
+
+---
+
+### Disposition
+
+The terminal state of a Duel. Written as a child GitHub Issue when the Duel concludes. Immutable once written.
 
 | Field | Type | Notes |
 |-------|------|-------|
-| `disputeId` | `number` | Parent Dispute |
+| `duelId` | `number` | |
+| `type` | `enum` | `"accord"`, `"default"`, `"withdrawal"` |
+| `triggeredByPersonId` | `number` | First client to detect and write the Disposition |
+| `detectedAt` | `ISO8601` | Client-detected time |
+| `createdAt` | `ISO8601` | GitHub `created_at` |
+| `isContested` | `boolean` | Derived — `true` if a nested Case exists against this Disposition Record |
+
+**Disposition types**:
+- **ACCORD**: Both parties accepted an Offer. Duel is resolved by agreement.
+- **DEFAULT**: Deadline passed with no Answer. Challenger wins by Default. The party who failed to answer is "in default." The first client to load the Duel View past the deadline writes this record.
+- **WITHDRAWAL**: A party withdrew from the Duel (future feature).
+
+A Disposition Record can itself be challenged, opening a nested Case to contest the ruling.
+
+---
+
+### DeadlineConditions
+
+Negotiated countdown conditions within a Duel. Replaces "CricketsConditions."
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `duelId` | `number` | Parent Duel |
 | `proposedByPersonId` | `number` | Who proposed the conditions |
 | `agreedByPersonId` | `number \| null` | `null` until accepted |
-| `durationMs` | `number` | Agreed countdown per challenge in milliseconds |
-| `active` | `boolean` | `true` once both parties have agreed |
-| `currentDeadlineIso` | `ISO8601 \| null` | When the current challenge's countdown expires |
+| `durationMs` | `number` | Agreed countdown per Challenge turn in milliseconds |
+| `active` | `boolean` | `true` once both parties agree |
+| `currentDeadlineIso` | `ISO8601 \| null` | Absolute deadline for the current unanswered Challenge |
 | `proposalIssueId` | `number` | The GitHub Issue recording the proposal |
 
 **State transitions**:
 ```
 PROPOSED ──(other party accepts or counter-proposes)──► NEGOTIATING
 NEGOTIATING ──(both agree)──► ACTIVE
-ACTIVE ──(deadline passes, no answer)──► CRICKETS_EVENT triggered
+ACTIVE ──(deadline passes, no answer)──► DEFAULT triggered
 ```
 
 ---
 
-### Agreement
+### Accord
 
-Records that a Person has agreed with an Assertion, making them eligible to defend it.
+Records a successfully resolved Duel — both parties accepted an Offer. A first-class record produced by an accepted Response.
 
 | Field | Type | Notes |
 |-------|------|-------|
 | `id` | `number` | GitHub issue number |
-| `assertionId` | `number` | The Assertion agreed with |
-| `personId` | `number` | The person who agreed |
+| `duelId` | `number` | The Duel that reached Accord |
+| `offerId` | `number` | The Offer that was accepted |
+| `responseId` | `number` | The Response that accepted it |
+| `createdAt` | `ISO8601` | |
+
+---
+
+### ClaimAccord
+
+Records that a Person has agreed with a Claim without a Duel — a standing agreement. Makes the Person eligible to defend the Claim if it is challenged.
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `id` | `number` | GitHub issue number |
+| `claimId` | `number` | The Claim agreed with |
+| `personId` | `number` | The Person who agreed |
 | `createdAt` | `ISO8601` | |
 
 **Constraints**:
-- A Person MUST NOT agree with an Assertion they authored.
-- A Person who has agreed with an Assertion MUST NOT challenge that same Assertion.
-- One Agreement per Person per Assertion.
+- A Person MUST NOT agree with a Claim they authored.
+- A Person who holds a ClaimAccord MUST NOT challenge that same Claim.
+- One ClaimAccord per Person per Claim.
 
 ---
 
-### CricketsEvent
+### Moment
 
-Records that a Crickets deadline expired. Stored as a child GitHub Issue.
+A timed annotation on any Record, attached during or after a Duel. Referenced in Analysis.
 
 | Field | Type | Notes |
 |-------|------|-------|
 | `id` | `number` | GitHub issue number |
-| `disputeId` | `number` | |
-| `challengeId` | `number` | The unanswered Challenge |
-| `triggeredByPersonId` | `number` | First client to write this event |
-| `detectedAt` | `ISO8601` | Client-detected time |
-| `createdAt` | `ISO8601` | GitHub `created_at` |
-| `isDisputed` | `boolean` | Derived — `true` if a dispute sub-issue exists |
+| `subjectRecordId` | `number` | The Record this Moment annotates |
+| `duelId` | `number` | The Duel context |
+| `authorId` | `number` | |
+| `text` | `string` | The annotation |
+| `createdAt` | `ISO8601` | |
 
 ---
 
-## State Transitions Summary
+### Analysis
 
-### Dispute Status
+Post-Disposition structured review of a Duel. References Moments. Required before Judgment can be rendered.
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `id` | `number` | GitHub issue number |
+| `duelId` | `number` | The Duel being analysed |
+| `authorId` | `number` | |
+| `momentIds` | `number[]` | `JDG:META.momentIds` — Moments cited |
+| `text` | `string` | The analysis text |
+| `createdAt` | `ISO8601` | |
+
+**Constraints**:
+- Analysis MAY only be submitted after the Duel has a Disposition.
+- Any Person (not just parties) may submit Analysis.
+
+---
+
+### Judgment
+
+A Person's verdict on a Duel, grounded in their Base of Truth. The accumulation of Judgments is the knowledge base.
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `id` | `number` | GitHub issue number |
+| `duelId` | `number` | The Duel being judged |
+| `judgeId` | `number` | The Person rendering judgment |
+| `analysisId` | `number` | The Analysis this Judgment is based on |
+| `verdict` | `enum` | `"challenger"` or `"defender"` — who prevailed |
+| `baseOfTruthClaimId` | `number` | The Person's anchor Claim from their Base of Truth |
+| `reasoning` | `string` | Why this verdict follows from the Base of Truth |
+| `createdAt` | `ISO8601` | |
+
+**Constraints**:
+- Judgment requires a completed Analysis and a Disposition.
+- The judge's `baseOfTruthClaimId` MUST be a Claim the judge holds a ClaimAccord on and that is in STANDING state (unchallenged or challenge survived).
+- A Person MAY NOT judge a Duel they were a party to.
+
+---
+
+### BaseOfTruth
+
+A Person's declared anchor Claim — the foundation from which they judge. A Person's Base of Truth is the set of Claims they hold as true, anchored to one root Claim they have defended or that stands unchallenged.
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `personId` | `number` | |
+| `anchorClaimId` | `number` | The root Claim this person has declared as their foundation |
+| `agreedClaimIds` | `number[]` | All Claims this Person holds ClaimAccords on (derived) |
+| `declaredAt` | `ISO8601` | When the anchor was set |
+
+The strength of a Person's Judgments is informed by the STANDING strength of their anchor Claim. A Claim that has survived more Duels carries more epistemic weight. This weighting is computed at query time from the dataset — not stored as a score.
+
+**Claim strength query** (derived, not stored):
+```
+strength(claim) = count(ClaimAccords) × survived_duels(claim)
+survived_duels(claim) = count(Duels where disposition=STANDING and subjectRecordId=claim.id)
+```
+
+---
+
+### SimilarityLink
+
+A Person's assertion that two Records are conceptually equivalent — e.g. the same argument made twice. Treated as a first-class Record: it can be agreed with, challenged, and have Cases opened against it. Equivalence is determined by community consensus, not by algorithm.
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `id` | `number` | GitHub issue number |
+| `authorId` | `number` | Person asserting the equivalence |
+| `recordAId` | `number` | First Record |
+| `recordBId` | `number` | Second Record |
+| `reasoning` | `string` | Why these Records are equivalent |
+| `createdAt` | `ISO8601` | |
+
+When a SimilarityLink is in STANDING state (challenged and survived, or unchallenged), the system can surface the prior Duel as a **Precedent** for any new Challenge against an equivalent Record — sparing parties from re-litigating settled ground.
+
+---
+
+## Navigation Structure
 
 ```
-                       ┌─────────────┐
-                       │   ACTIVE    │
-                       └──────┬──────┘
-          ┌────────────────────┼────────────────────┐
-          ▼                    ▼                    ▼
-   Both accept offer   Crickets deadline    (ongoing turns)
-          │              expires
-          ▼                    ▼
-     RESOLVED           CRICKETS_PENDING
-                              │
-                    ┌─────────┴──────────┐
-                    ▼                    ▼
-            Answer disputed        Not disputed
-                    │                    │
-                    ▼                    ▼
-          new sub-Dispute          CRICKETS (final)
+Home View
+ └── Claim cards (ranked by strength × activity)
+      └── Case View  (cases against this Claim)
+           └── Duel Chooser  (Duels within this Case)
+                └── Case View  (for any nested challenged Record)
 ```
 
-### Post Type Icons (UI mapping)
+- **Home View**: Lists Claims ranked by derived strength. Shows "Your turn" badge where applicable.
+- **Case View**: Shows all Cases opened against a Record. Displays a Duel Chooser when there are multiple Duels within a Case. Shows lineage breadcrumb for nested Cases.
+- **Duel Chooser**: Lists all Duels within a Case with their disposition status.
+- **Case View (Duel)**: The turn-by-turn view. Two lanes: challenger's Challenges on the left, defender's counter-Challenges on the right, interleaved chronologically. Offers/Responses surfaced without blocking the lane. Moments, Analysis, and Judgments accessible post-Disposition.
 
-| Post Type | Icon char | CSS class |
-|-----------|-----------|-----------|
-| Assertion | `!` (bang) | `.icon-assertion` |
+---
+
+## Disposition State Transitions
+
+```
+                       ┌─────────────────┐
+                       │     ACTIVE      │
+                       └────────┬────────┘
+          ┌──────────────────────┼───────────────────────┐
+          ▼                      ▼                       ▼
+   Both accept Offer    Deadline passes,          (ongoing turns)
+          │              no Answer
+          ▼                      ▼
+       ACCORD               DEFAULT_PENDING
+                                  │
+                       ┌──────────┴───────────┐
+                       ▼                      ▼
+               Disposition contested    Not contested
+                       │                      │
+                       ▼                      ▼
+               nested Case opened         DEFAULT (final)
+```
+
+---
+
+## Record Type Icons (UI mapping)
+
+| Record Type | Icon | CSS class |
+|-------------|------|-----------|
+| Claim | `!` | `.icon-claim` |
 | Challenge | `?` | `.icon-challenge` |
 | Answer | `✓` | `.icon-answer` |
+| Offer | `⇌` | `.icon-offer` |
+| Response | `·` accepted / `✗` rejected | `.icon-response` |
 
 ---
 
 ## GitHub Issues → Entity Mapping
 
 | Entity | GitHub Issues label | Key metadata fields |
-|--------|--------------------|---------------------|
-| Assertion | `dsp:assertion` | `parentId=null`, `rootId=self` |
-| Challenge | `dsp:challenge` | `parentId`, `rootId`, `challengeType`, `disputeId` |
-| Answer | `dsp:answer` | `parentId`, `rootId`, `yesNo`, `counterChallengeId`, `disputeId` |
-| Dispute | `dsp:dispute` | `challengerId`, `defenderId`, `rootPostId`, `triggerChallengeId` |
-| Agreement | `dsp:agreement` | `assertionId`, `personId` |
-| Offer | `dsp:offer`, `dsp:assertion` | `isOffer=true`, `offeredInDisputeId` |
-| CricketsConditions | `dsp:crickets-conditions` | `disputeId`, `durationMs`, `agreedByPersonId` |
-| CricketsEvent | `dsp:crickets-event` | `disputeId`, `challengeId` |
+|--------|---------------------|---------------------|
+| Claim | `jdg:claim` | `parentId=null`, `caseId=self` |
+| Challenge | `jdg:challenge` | `parentId`, `caseId`, `challengeType`, `subjectRecordId` |
+| Answer | `jdg:answer` | `parentId`, `caseId`, `yesNo`, `challengeId` |
+| Offer | `jdg:offer` | `duelId`, `subjectRecordId` |
+| Response | `jdg:response` | `offerId`, `accepted` |
+| Case | `jdg:case` | `subjectRecordId`, `openedByPersonId`, `triggerChallengeId` |
+| Duel | `jdg:duel` | `caseId`, `challengerId`, `defenderId` |
+| Disposition | `jdg:disposition` | `duelId`, `type` |
+| Accord | `jdg:accord` | `duelId`, `offerId`, `responseId` |
+| ClaimAccord | `jdg:claim-accord` | `claimId`, `personId` |
+| DeadlineConditions | `jdg:deadline` | `duelId`, `durationMs`, `agreedByPersonId` |
+| Moment | `jdg:moment` | `subjectRecordId`, `duelId` |
+| Analysis | `jdg:analysis` | `duelId`, `momentIds` |
+| Judgment | `jdg:judgment` | `duelId`, `judgeId`, `analysisId`, `verdict`, `baseOfTruthClaimId` |
+| SimilarityLink | `jdg:similarity` | `recordAId`, `recordBId` |
 
 ---
 
 ## Controller Permission Gates
 
-These are implemented in `DisputeController` and `HomeController`. The View reads these — it never decides them.
+These are implemented in the Controller layer. The View reads these — it never decides them.
 
 | Method | Rule |
 |--------|------|
-| `canChallenge(person, post)` | Person is authenticated AND person ≠ post.authorId AND no existing Challenge by person on this post AND person has not agreed with post (if Assertion) |
-| `canAnswer(person, challenge)` | Person is the current-turn player in the Dispute AND challenge is unanswered |
-| `canCounterChallenge(person, answer)` | Person is answering AND has not yet included a counter-challenge in this Answer |
-| `canAgree(person, assertion)` | Person is authenticated AND person ≠ assertion.authorId AND no existing Agreement by person on this assertion AND person has not challenged this assertion |
-| `canOffer(person, dispute)` | Person is a party in the Dispute AND dispute.status === 'active' |
-| `canAcceptOffer(person, offer)` | Person is the OTHER party from the offer author AND offer is in person's active dispute |
-| `canProposeCrickets(person, dispute)` | Person is a party AND dispute.status === 'active' AND no pending un-agreed conditions |
-| `canDeclareCrickets(dispute)` | CricketsConditions.active === true AND Date.now() > currentDeadlineIso AND no CricketsEvent yet exists for this challenge |
-| `canDisputeCrickets(person, cricketsEvent)` | Person is the party who failed to answer AND cricketsEvent.isDisputed === false |
+| `canChallenge(person, record)` | Person is authenticated AND person ≠ record.authorId AND no existing Challenge by person on this record AND (if Claim) person has no ClaimAccord on it |
+| `canAnswer(person, challenge)` | Person is the current-turn player in the Duel AND challenge is unanswered |
+| `canOffer(person, duel)` | Person is a party in the Duel AND duel has no Disposition |
+| `canRespond(person, offer)` | Person is the OTHER party from the offer author AND duel has no Disposition |
+| `canAgree(person, claim)` | Person is authenticated AND person ≠ claim.authorId AND no existing ClaimAccord by person on this claim AND person has not challenged this claim |
+| `canJudge(person, duel)` | Person is NOT a party in the Duel AND duel has a Disposition AND a qualifying Analysis exists AND person has a declared BaseOfTruth with a STANDING anchor Claim |
+| `canAnalyse(person, duel)` | Person is authenticated AND duel has a Disposition |
+| `canDeclareDefault(duel)` | DeadlineConditions.active === true AND Date.now() > currentDeadlineIso AND no Disposition yet exists |
+| `canContestDisposition(person, disposition)` | Person is the party ruled against AND disposition.isContested === false |
+| `canLinkSimilarity(person, recordA, recordB)` | Person is authenticated AND recordA ≠ recordB AND no existing SimilarityLink between them by this person |
+
+---
+
+## Storage Architecture Notes
+
+GitHub Issues is the canonical append-only ledger. All writes go here. Reads in v1 are satisfied by label-filtered Issue searches with localStorage ETag caching.
+
+**Known constraints at scale**:
+- Graph traversal (lineage, nested Cases) requires multiple sequential API calls — not a GitHub-native query.
+- Derived strength queries require client-side aggregation over fetched Issues.
+- SimilarityLink discovery requires full scans without a secondary index.
+- At >50 concurrent users, the 5,000 req/hour GitHub API limit becomes a ceiling.
+
+**Planned v2 read model**: A secondary index (JSON committed to the repo, or a Cloudflare Worker KV/D1 store) that mirrors Issues into a queryable form. All queries hit the index; all writes go to GitHub Issues. The ledger remains authoritative; the index is derived and rebuildable.
+
+This architectural boundary is a deliberate design decision: GitHub Issues as tamper-evident, auth-tied ledger; the read model as a performance layer only.
