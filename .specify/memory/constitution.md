@@ -63,6 +63,18 @@ All user-facing surfaces MUST present a coherent, predictable experience:
 
 **Rationale**: Inconsistent UX erodes user trust and increases support burden. Predictability and accessibility are non-negotiable qualities for a dispute-resolution product.
 
+### V. Free-First Tool Selection
+
+When evaluating third-party tools, services, libraries, or APIs, the zero-cost option MUST be chosen if it meets requirements:
+
+- If a free tier, open-source alternative, or no-cost service satisfies the functional and non-functional requirements, it MUST be selected over a paid equivalent.
+- Paid tools MAY only be introduced when the free option has a documented, specific shortcoming that materially impacts the product.
+- Each paid dependency MUST be recorded in the spec with a justification explaining why no free alternative was viable.
+- When a paid tool is in use and a free equivalent later becomes viable, migration MUST be evaluated at the next planning cycle.
+- "Free" means zero recurring monetary cost to the project; tools that are free only during a trial period do not qualify.
+
+**Rationale**: Minimising operating costs preserves runway, reduces vendor lock-in, and forces deliberate decisions about every paid dependency. The burden of proof lies with paid tooling.
+
 ### IV. Performance Requirements
 
 Performance is a feature and MUST be validated continuously:
@@ -109,4 +121,4 @@ This constitution supersedes all other development guidelines and practices with
 
 **Compliance review**: Adherence to this constitution MUST be verified during each sprint retrospective and whenever a new team member joins.
 
-**Version**: 1.0.0 | **Ratified**: 2026-04-18 | **Last Amended**: 2026-04-18
+**Version**: 1.1.0 | **Ratified**: 2026-04-18 | **Last Amended**: 2026-04-20
