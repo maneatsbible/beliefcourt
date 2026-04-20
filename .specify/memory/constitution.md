@@ -234,6 +234,77 @@ Duel-level disclosure MUST appear in the Case View header whenever either Duel p
 
 **Rationale**: The platform's epistemic integrity rests on the identity of the Person behind every Record. Bots cannot hold worldviews, cannot accumulate Belief Ledger entries in their own right, and cannot be confused with Persons. Where AI acts, it must be labelled. Where a Person acts with AI assistance, they remain the accountable author. The badge system makes this distinction visible at the point of display — not buried in metadata.
 
+## Principle XI — Youth Zone and the Guardian Relation
+
+The platform provides first-class supervised participation for persons under 18 in a dedicated **Youth Zone**. The Youth Zone is not a restricted version of the adult platform. It is a structured space with its own bot environment, its own identity-protection layer, and its own Ledger rules. Every Youth Zone interaction is real — real Duels, real Records, real Judgment. Protections wrap identity, not substance.
+
+**The Guardian relation:**
+
+Guardian is a relationship between two Persons, not an account class. A `GuardianRelation` has: `guardian` (Person FK), `ward` (Person FK), `relationshipType` (enum: `parent`, `teacher`, `coach`, `other`), and `youthSpaceEnabled` (boolean). `youthSpaceEnabled: true` only when the ward is under 18 and the Guardian subscribes to the Guardian tier. A teacher whose ward is an adult has `youthSpaceEnabled: false` — advisory oversight with consent, adult-mode rules apply fully.
+
+**Accountability and the Belief Ledger under Guardianship:**
+
+- When a Guardian **enters a new Duel or Challenge on behalf of a ward**, it is a **co-signature**: the Record goes on both the Guardian's Ledger and the ward's Ledger. The Guardian takes epistemic ownership of the position they are advancing. Badge: `[co-filed: @guardian on behalf of @ward]`. This prevents a Guardian from building their own record while attributing it to a child.
+- When a Guardian **rescinds an errant Record or files a Judgment** on a ward's Duel, it is a **PoA act**: the Record goes on the ward's Ledger, attributed to the ward, with badge `[via @guardian]`. The ward is fully Miranda'd for it — the Guardian is acting in the ward's interest, not advancing their own belief.
+- This distinction is constitutionally fixed. A Guardian cannot recharacterize a co-signing act as PoA, or vice versa.
+
+**Youth Zone as an Org:**
+
+A Youth Zone is an org of `type: youth`. A Guardian (or institution, e.g. a school) creates the org and is the admin. Additional Guardians — including teachers assigned to a school org — may hold the `guardian` role, giving them the same oversight, advisory, and action powers over their own linked wards within that org. A Guardian assigned to a `youth` org is formally a **Guardian-in-Context** for that org: they can observe all Duels in the org, act on behalf of their own wards only, and file Judgment within the org where they hold Guardian-in-Context standing.
+
+**Guardian tier subscription (Person add-on):**
+
+The Guardian tier is a Person-level add-on subscription, not an org tier. It includes:
+- Access to create `youth` orgs and add wards.
+- **AdvisorBot Advisory included at no additional charge** — Guardian may privately consult AdvisorBot before acting on a ward's behalf. The bot advises; only the Guardian acts. Guardian's own AdvisorBot use is separate from the ward's activity.
+- Oversight dashboard: full visibility into every Duel, Record, Annotation, and Judgment filed by all linked wards, across all Youth Zone orgs.
+- The ability to Rescind, file Judgment, and co-file Challenges on behalf of linked wards.
+
+No Guardian subscription = no Youth Zone access for any ward. The Guardian's payment is the COPPA consent anchor. No payment, no Youth Zone.
+
+**COPPA compliance model:**
+
+- **Under 13**: Guardian MUST create the ward account. The ward cannot self-register. Guardian is the legal and contractual consent anchor.
+- **Age 13–17**: Ward MAY self-register. To enter the Youth Zone, ward MUST link a verified Guardian within 30 days. Without a linked, paying Guardian, a 13–17 Person operates in standard adult mode — no Youth Zone access, no `youth` org membership.
+- Age verification is by birth-date declaration at registration. Fraudulent declaration transfers legal liability to the declarant; this is disclosed at registration.
+
+**Walled garden:**
+
+- **Under 13**: Fully walled. A ward may only Duel other wards in the same Youth Zone org(s). No contact with the adult platform in any direction — neither viewing nor being viewed.
+- **Age 13–17**: Default walled. A Guardian may explicitly unlock a specific ward to file Duels in adult-mode contexts. Unlocking is an explicit, logged, reversible Guardian action.
+
+**Youth testimony and the Belief Ledger at 18:**
+
+When a ward turns 18, all Youth Zone Records are permanently sequestered as **youth testimony**:
+- Youth testimony is NOT migrated to the adult Belief Ledger.
+- Youth testimony is NOT admissible as cross-record Evidence in any adult-mode Duel.
+- The now-adult Person CANNOT Rescind youth testimony. Rescission of youth Records is not available to adults. The archive is permanent.
+- The now-adult Person has read-only access to their own Youth Record — they can view it, but it has no epistemic effect on their adult Worldview.
+- Youth testimony is excluded from all Verdict Data API exports. No third-party analytics may target youth cohort characteristics.
+
+**Anonymization for non-guardian adults:**
+
+Any authenticated adult who is not a linked Guardian of a specific ward views Youth Zone Duels with the following protections:
+- Ward handles → deterministic per-session pseudonyms (e.g. `@child_A`): consistent within a session, re-randomized per viewer per session.
+- Guardian handles → `@guardian_of_A` (matching the ward pseudonym).
+- All avatars → platform-default silhouettes; uploaded avatars are never shown.
+- Assigned Judges → `[Judge]` with role badge; handle not shown.
+- Claim content → visible unchanged. Substance is not hidden; identity is.
+- `KidsGalleryBot` → **NOT anonymized**. It is a Bot, not a Person or ward.
+- `@herald` → NOT anonymized. Platform bot, not a Person.
+
+**KidsGalleryBot:**
+
+KidsGalleryBot is a system bot, one instance per `youth` org. It is prompted with the **aggregate Worldviews of all ward members in the org** and posts Annotations (not Records) on completed Duels. KidsGalleryBot commentary is absurdist, age-appropriate, warm, and grounded in the actual positions the kids hold in their Duels. It MUST NOT editorialize on who won — verdict is Judgment's exclusive domain.
+
+- KidsGalleryBot posts **after a Duel closes**, never during.
+- Annotations are visible to: all ward members of the org, all linked Guardians.
+- Annotations are visible externally with ward and Guardian identity anonymized as above — the bot's commentary reveals nothing about any individual ward's identity.
+- KidsGalleryBot Annotations carry `[KidsGalleryBot]` badge. They are NOT Records and NOT Ledger entries.
+- KidsGalleryBot commentary sourced from aggregate Worldviews is a feature of the Youth Zone's **Guardian Analytics** panel — Guardians and Guardian-in-Context teachers can observe which topics generate the most engagement, how the cohort's Worldview is evolving, and where bot commentary is most active. This is the primary analytical value for school deployments.
+
+**Rationale**: Children deserve a space that is real — not dumbed-down, not consequence-free — but protected. The Youth Zone is the platform's conviction that structured honest disagreement is a life skill worth teaching, and that doing it on the record under supervised conditions is better than the alternative. The Ledger consequences are real. The identity is protected. At 18, they carry the skills, not the receipts.
+
 ## Quality Gates
 
 The following gates MUST pass before any code may be merged to the main branch:
@@ -268,4 +339,4 @@ This constitution supersedes all other development guidelines and practices with
 
 **Compliance review**: Adherence to this constitution MUST be verified during each sprint retrospective and whenever a new team member joins.
 
-**Version**: 2.4.0 | **Ratified**: 2026-04-18 | **Last Amended**: 2026-04-20
+**Version**: 2.5.0 | **Ratified**: 2026-04-18 | **Last Amended**: 2026-04-20

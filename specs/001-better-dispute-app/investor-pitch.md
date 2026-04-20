@@ -34,6 +34,7 @@ This need exists across every context where humans disagree:
 - **Romantic** — compatibility before commitment; the “Duel me before you date me” hook
 - **Marital** — documented decisions, covenant commitments, dispute history, on the record
 - **Family** — parent-child household agreements; the parent is the authority, the child is fully heard
+- **Youth** — kids learning to defend positions under supervised conditions, on the record, with structured consequences
 - **Faith** — doctrinal positions defended with scripture; accountability; Church Discipline; Exploring Our Faith
 - **Neighborhood** — noise policies, parking rules, community agreements
 - **Workplace** — decisions, apologies, accountability
@@ -80,6 +81,27 @@ The viral mechanic in this engine is **Christians exploring their faith together
 **Revenue**: Christian Match ($12.99/month).  
 **K-factor target by Month 6**: 0.7–1.0 (compounding through institutional referrals and faith community word-of-mouth, not algorithm)
 
+### Engine 3 (and a new market) — Youth Zone
+
+**Hook**: A supervised debate space for kids that parents and teachers actually want to exist.
+
+The Youth Zone is judgmental.io's most structurally novel market entry. Children under 18 operate in a walled, supervised space within the platform. Their Duels are real, their Judgments are real, their Records are on the record — but their identity is protected from outside view, and their youth testimony is permanently sequestered when they turn 18. They do not carry the receipts into adulthood. They carry the skill.
+
+Guardians — parents, teachers, coaches — subscribe at $14.99/month and get:
+- Full oversight of every Duel, Record, and Judgment filed by their linked wards
+- AdvisorBot Advisory included free, for consulting before acting on a ward's behalf
+- The ability to Rescind errant Records, co-file Challenges, and file Judgment on their ward's Duels
+- A Guardian Analytics panel showing cohort Worldview trends, topic engagement, and KidsGalleryBot commentary
+
+**KidsGalleryBot** is the platform's most joyful feature: a bot prompted with the aggregate Worldviews of all the kids in a Youth Zone, posting absurdist peanut-gallery commentary on completed Duels. It generates shareable content organically — parents and teachers share its output constantly. KidsGalleryBot Annotations are visible outside the Youth Zone (with anonymized content), making them a public face of the platform's educational mission.
+
+The school channel is the institutional play: a school creates a `youth` org, assigns teachers as Guardians-in-Context, and runs structured class debates through the platform. Analytics surface to teachers in real time. The Guardian tier is affordable at the class level. One teacher who uses this in a classroom creates 20–30 ward accounts — and every parent of those children is a warm lead for the Guardian tier.
+
+**The COPPA moat**: Every under-13 ward account requires a paying Guardian. There is no free under-13 tier. This is not a limitation — it is the business model and the legal compliance mechanism simultaneously. A competitor who wants to enter this market must solve the same COPPA problem; we have already built the architecture and the consent flow.
+
+**Revenue**: Guardian tier ($14.99/month per Guardian, includes AdvisorBot Advisory). Youth Zone is not org-billed — every Guardian pays individually, anchoring retention to the parental relationship.
+**K-factor in this channel**: Low virality coefficient but very high institutional pull. One school pilot = one teacher + 25–30 Guardian subscriptions + 50–60 conversations among parents about the platform.
+
 ### The Crossover
 
 A dating user encounters the depth of a Christian's Doctrinal Claim and realizes the platform is serious. A Christian singles user shares their Faith Alignment Score Card on Instagram. A couple who met through a Dating Duel activates the Pre-marital Track. The two engines are designed to cross-pollinate.
@@ -99,6 +121,7 @@ All revenue is subscription and micro-transaction. No passive advertising. No ba
 | Dating Boost ($2.99/use) | $1,500–$4,000 |
 | Compatibility Unlock ($1.99/pair) | $1,000–$3,000 |
 | Parenting+ ($7.99/mo) | $1,000–$4,000 |
+| Guardian tier ($14.99/mo) | $2,000–$6,000 |
 | Neighborhood+ ($6.99/mo) | $1,000–$4,000 |
 | AdvisorBot — Advisory ($9.99/mo) | $2,000–$6,000 |
 | AdvisorBot — Power of Attorney ($29.99/mo) | $1,500–$5,000 |
@@ -106,7 +129,7 @@ All revenue is subscription and micro-transaction. No passive advertising. No ba
 | Non-church Org placement | $400–$1,200 |
 | Brand Claim placement ($39–$99/mo per Claim) | $1,500–$5,000 |
 | Verdict Data API | $500–$2,000 |
-| **Total** | **$23,000–$58,700/month** |
+| **Total** | **$25,000–$64,700/month** |
 
 **Assumptions**: 10,000–25,000 active users by Month 6. 12–18% conversion to any paid tier. AdvisorBot tiers assume 3–5% of active users at Month 6 — a conservative early-adopter rate for a genuinely novel product.
 
@@ -141,7 +164,8 @@ Infrastructure: SQLite + Litestream on Fly.io. No database bill. No CDN bill. No
 3. **The bot solution is structural.** Every other platform fights bots reactively. judgmental.io has made bots legible, first-class, and commercially productive — while keeping the Person namespace human. There is no equivalent architecture anywhere.
 4. **The Christian community does not switch tools.** Once a church runs a Discipline process or a pastor uses Accountability, the records stay forever. Institutional credibility compounds quietly.
 5. **The physical channel.** The neighborhood QR flyer acquires users with zero algorithm, zero ad spend, and zero decay. A flyer on a bulletin board keeps converting for months.
-6. **No equivalent exists.** Not for the Worldview Explorer. Not for the bot ecosystem. Not for the friends-and-family judging mechanic. Not for the full Christian faith arc from belief formation to Church Discipline. The competitive landscape is social media on one side and generic debate apps on the other. This is neither.
+6. **The school channel.** One teacher pilot converts to 20–30 Guardian subscriptions and 50–60 parent conversations. The institutional sale creates a class of users whose retention is anchored to their children’s participation.
+7. **No equivalent exists.** Not for the Worldview Explorer. Not for the bot ecosystem. Not for the friends-and-family judging mechanic. Not for the full Christian faith arc from belief formation to Church Discipline. Not for supervised youth debate with a peanut-gallery bot and sequestered youth testimony. The competitive landscape is social media on one side and generic debate apps on the other. This is neither.
 
 ---
 

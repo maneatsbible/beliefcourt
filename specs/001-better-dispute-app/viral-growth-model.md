@@ -79,6 +79,37 @@ Building/Dorm Block tier ($19.99/month): Up to 5 orgs under one account (for a p
 
 ---
 
+### Engine 4 — Youth Zone (Institutional + Parental)
+
+**Emotional trigger**: *The satisfaction of watching your child become someone who can defend what they actually believe.*  
+**Social context**: School classrooms, homeschool co-ops, church youth groups, parents who take their kids’ intellectual development seriously.  
+**Sharing trigger**: KidsGalleryBot commentary. Guardian Analytics dashboards. The absurdity of watching a 10-year-old defend a position about whether dogs or cats are better — with evidence — in a structured Duel that ends in a Judgment.
+
+The Youth Zone is not a feature. It is a new acquisition channel with institutional pull that operates on a different sales cycle than any other part of the platform.
+
+**Why this is different from the other channels:**
+
+Every other channel on the platform acquires users who choose to be here. The Youth Zone acquires a Guardian who then brings their ward(s) with them. The Guardian’s purchase is the ward’s access — COPPA compliance and revenue model solved simultaneously. And once a Guardian is subscribed, they are watching their children grow. Churn is anchored to the parental relationship, not to the product’s ability to retain an individual user’s attention.
+
+The school pilot is the highest-leverage play:
+1. One teacher brings the platform to a class (30 students = up to 30 Guardian subscriptions from parents)
+2. KidsGalleryBot commentary becomes a class artifact — teachers share it, parents share it, the school newsletter picks it up
+3. Parents who see the Guardian Analytics panel are sold on the platform’s depth
+4. The school recommends the platform to another class or department
+
+The homeschool channel is similar but word-of-mouth-first: homeschool co-ops are tightly networked, parent-driven, and highly receptive to tools that treat their children as capable of serious intellectual work under structured conditions.
+
+**KidsGalleryBot as the viral artifact:**
+
+KidsGalleryBot posts commentary on completed Youth Zone Duels, prompted by the aggregate Worldviews of all the kids in a org. Its output — warm, absurdist, completely unhinged in the best sense — is shared by Guardians constantly. It is visible outside the Youth Zone (with ward content anonymized). A parent sharing a KidsGalleryBot post is sharing the platform’s existence and its core proposition: that kids’ arguments are worth taking seriously, and they’re also hilarious.
+
+**Revenue stream (RS-8 — Guardian tier)**:  
+Guardian tier at $14.99/month per Guardian. Includes AdvisorBot Advisory (a $9.99/month value). No free Guardian tier — COPPA compliance requires the Guardian’s payment as the consent anchor for under-13 wards. No payment, no Youth Zone access.  
+
+**Projected MRR contribution by Month 6**: $2,000–$6,000/month. Assumes 135–400 Guardian subscribers at Month 6 — conservative given that one school pilot generates 25–30 subs in a single cohort. Low viral coefficient (K ~0.3) but exceptional retention and institutional expansion path.
+
+---
+
 ## Revenue Streams — Full Summary
 
 | Stream | Est. Monthly Revenue (Month 6) |
@@ -88,6 +119,7 @@ Building/Dorm Block tier ($19.99/month): Up to 5 orgs under one account (for a p
 | Dating Boost (feed visibility) | $1,500–$4,000 |
 | Dating Unlock (full compatibility reveal) | $1,000–$3,000 |
 | Parenting+ subscriptions | $1,000–$4,000 |
+| Guardian tier ($14.99/mo) | $2,000–$6,000 |
 | Neighborhood+ / Building tier | $1,000–$4,000 |
 | AdvisorBot — Advisory ($9.99/mo) | $2,000–$6,000 |
 | AdvisorBot — Power of Attorney ($29.99/mo) | $1,500–$5,000 |
@@ -95,7 +127,7 @@ Building/Dorm Block tier ($19.99/month): Up to 5 orgs under one account (for a p
 | Non-church Org placement | $400–$1,200 |
 | Brand Claim placement (Standard/Pro) | $1,500–$5,000 |
 | Verdict Data API | $500–$2,000 |
-| **Total** | **$23,000–$58,700/month** |
+| **Total** | **$25,000–$64,700/month** |
 
 ---
 
