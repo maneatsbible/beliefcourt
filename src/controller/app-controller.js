@@ -11,13 +11,16 @@
 
 import { HomeController }    from './home-controller.js';
 import { DisputeController } from './dispute-controller.js';
+import { JudgmentController } from './judgment-controller.js';
+import { WorldviewController } from './worldview-controller.js';
 import { HomeView }          from '../view/home-view.js';
 import { DisputeView }       from '../view/dispute-view.js';
+import { PersonView }        from '../view/person-view.js';
 import { renderHeader }      from '../view/components/header.js';
 import { showNotification }  from '../view/components/notification.js';
 import { showErrorPanel }    from '../view/components/error-panel.js';
 import { logger }            from '../utils/logger.js';
-import { setUrlParams }      from '../utils/url.js';
+import { setUrlParams, buildPersonUrl } from '../utils/url.js';
 import {
   startDeviceFlow,
   pollForToken,
@@ -54,9 +57,10 @@ export class AppController {
    */
   async init(params) {
     this._main.addEventListener('dsp:navigate', e => {
-      const { view, id } = e.detail;
+      const { view, id, who } = e.detail;
       if (view === 'home')    { setUrlParams({}); this.navigate({}); }
       if (view === 'dispute') { setUrlParams({ v: 'dispute', id: String(id) }); this.navigate({ v: 'dispute', id: String(id) }); }
+      if (view === 'person' && who)  { setUrlParams({ v: 'person', who }); this.navigate({ v: 'person', who }); }
     });
 
     this._main.addEventListener('dsp:card-action', e => {
@@ -76,7 +80,9 @@ export class AppController {
     window.scrollTo({ top: 0, behavior: 'instant' });
 
     try {
-      if (v === 'dispute' && id) {
+      if (v === 'person' && params.who) {
+        await this._renderPersonView(params.who);
+      } else if (v === 'dispute' && id) {
         await this._renderDisputeView(Number(id));
       } else {
         await this._renderHomeView(params);
@@ -134,6 +140,26 @@ export class AppController {
   }
 
   // ---------------------------------------------------------------------------
+  // Person view (Worldview Renderer)
+  // ---------------------------------------------------------------------------
+
+  async _renderPersonView(login) {
+    const worldviewCtrl = new WorldviewController({
+      config: this._config,
+      token:  this._token,
+    });
+    const judgmentCtrl = new JudgmentController({
+      config:      this._config,
+      token:       this._token,
+      currentUser: this._user,
+    });
+    const view = new PersonView(
+      this._main, worldviewCtrl, judgmentCtrl, this._user, this._disputes,
+    );
+    await view.render(login);
+  }
+
+  // ---------------------------------------------------------------------------
   // Dispute view
   // ---------------------------------------------------------------------------
 
@@ -141,9 +167,15 @@ export class AppController {
     const ctrl = new DisputeController({
       config: this._config, token: this._token, currentUser: this._user,
     });
+    const judgmentCtrl = new JudgmentController({
+      config:      this._config,
+      token:       this._token,
+      currentUser: this._user,
+    });
 
     const view = new DisputeView(this._main, ctrl, this._user, {
-      agreements: this._agreements,
+      agreements:   this._agreements,
+      judgmentCtrl,
     });
 
     await view.render(disputeId);

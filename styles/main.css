@@ -1230,3 +1230,572 @@ details > summary::marker { display: none; }
   cursor: default;
   user-select: none;
 }
+
+/* ==========================================================================
+   Context badge
+   ========================================================================== */
+
+.context-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: var(--color-surface-2);
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  white-space: nowrap;
+  user-select: none;
+  margin-left: 8px;
+}
+
+/* ==========================================================================
+   Role badge (Examining / Testifying)
+   ========================================================================== */
+
+.role-badge {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: var(--color-surface-2);
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  vertical-align: middle;
+  margin-left: 4px;
+}
+
+/* ==========================================================================
+   Post author — clickable @login
+   ========================================================================== */
+
+.post-author--btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: var(--color-accent);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.post-author--btn:hover,
+.post-author--btn:focus-visible {
+  text-decoration: underline;
+  outline: none;
+}
+
+/* ==========================================================================
+   Person View (Worldview Renderer)
+   ========================================================================== */
+
+.person-view {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.person-view__back {
+  align-self: flex-start;
+}
+
+.person-view__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.person-view__identity {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.person-view__avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.person-view__login {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0 0 2px;
+}
+
+.person-view__subtitle {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+.person-view__stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+}
+
+.person-view__stat {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.person-view__stat strong {
+  color: var(--color-text-primary);
+  font-weight: 700;
+}
+
+/* Sections */
+
+.person-view__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.person-view__section-title {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-1);
+  padding-bottom: var(--space-1);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.person-view__empty-note {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin: 0;
+  font-style: italic;
+}
+
+/* Base of Truth */
+
+.person-view__bot-card {
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: var(--space-3) var(--space-4);
+}
+
+.person-view__bot-text {
+  font-size: 14px;
+  color: var(--color-text-primary);
+  margin: 0 0 var(--space-1);
+  line-height: 1.5;
+}
+
+.person-view__bot-anchor {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.person-view__bot-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.person-view__bot-form-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.person-view__bot-anchor-input {
+  width: 160px;
+  padding: var(--space-1) var(--space-2);
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-input);
+  color: var(--color-text-primary);
+  font-size: 13px;
+}
+
+/* Claims */
+
+.person-view__claim-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.person-view__claim-row {
+  background: var(--color-surface-1);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: var(--space-2) var(--space-3);
+  font-size: 13px;
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.person-view__claim-row--rescinded {
+  opacity: .5;
+  text-decoration: line-through;
+}
+
+.person-view__claim-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.person-view__claim-badge {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  padding: 1px 6px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.person-view__claim-badge--rescinded {
+  background: var(--color-danger, #b33);
+  color: #fff;
+}
+
+/* Duels */
+
+.person-view__duel-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.person-view__duel-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 13px;
+  color: var(--color-text-primary);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-1);
+  border: 1px solid var(--color-border);
+  flex-wrap: wrap;
+}
+
+.person-view__duel-role {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--color-text-muted);
+  background: var(--color-surface-2);
+  padding: 1px 5px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.person-view__duel-parties {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin-left: auto;
+}
+
+/* Agreements */
+
+.person-view__agreement-list,
+.person-view__judgment-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.person-view__agreement-row,
+.person-view__judgment-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  font-size: 13px;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-1);
+  border: 1px solid var(--color-border);
+  flex-wrap: wrap;
+}
+
+.person-view__judgment-verdict {
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.person-view__judgment-reasoning {
+  color: var(--color-text-muted);
+  font-size: 12px;
+  font-style: italic;
+  flex: 1;
+  min-width: 0;
+}
+
+.person-view__link {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.person-view__link:hover {
+  text-decoration: underline;
+}
+
+.person-view__error,
+.person-view__loading {
+  color: var(--color-text-muted);
+  font-size: 14px;
+  padding: var(--space-4);
+  text-align: center;
+}
+
+/* ==========================================================================
+   Judgment Panel
+   ========================================================================== */
+
+.judgment-panel {
+  margin-top: var(--space-5);
+  padding: var(--space-4);
+  background: var(--color-surface-1);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.judgment-panel__title {
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.judgment-panel__tally {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 13px;
+}
+
+.judgment-tally__item {
+  font-weight: 600;
+}
+
+.judgment-tally__item--challenger {
+  color: var(--color-accent);
+}
+
+.judgment-tally__item--defender {
+  color: var(--color-success, #4a9);
+}
+
+.judgment-tally__sep {
+  color: var(--color-text-muted);
+}
+
+.judgment-panel__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.judgment-panel__empty {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  font-style: italic;
+  margin: 0;
+}
+
+.judgment-panel__gate-note {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  font-style: italic;
+  margin: 0;
+}
+
+.judgment-panel__signin-cta {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.judgment-panel-loading {
+  padding: var(--space-3);
+  font-size: 13px;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+/* Judgment cards */
+
+.judgment-card {
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: var(--space-3);
+  border-left: 3px solid var(--color-border);
+}
+
+.judgment-card--challenger {
+  border-left-color: var(--color-accent);
+}
+
+.judgment-card--defender {
+  border-left-color: var(--color-success, #4a9);
+}
+
+.judgment-card--inconclusive {
+  border-left-color: var(--color-text-muted);
+}
+
+.judgment-card__header {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin-bottom: var(--space-1);
+  flex-wrap: wrap;
+}
+
+.judgment-card__judge {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.judgment-card__verdict {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--color-text-muted);
+  margin-left: 2px;
+}
+
+.judgment-card__time {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  margin-left: auto;
+}
+
+.judgment-card__reasoning {
+  font-size: 13px;
+  color: var(--color-text-primary);
+  margin: 0 0 var(--space-1);
+  line-height: 1.5;
+}
+
+.judgment-card__bot {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  margin: 0;
+  font-style: italic;
+}
+
+/* Judgment + Analysis forms */
+
+.judgment-form {
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.judgment-form__title {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.judgment-form__hint {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.judgment-form__bot-summary {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin: 0;
+  padding: var(--space-1) var(--space-2);
+  background: var(--color-surface-1);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+}
+
+.judgment-form__textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--space-2);
+  background: var(--color-surface-1);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-input);
+  color: var(--color-text-primary);
+  font-size: 13px;
+  resize: vertical;
+  font-family: inherit;
+  line-height: 1.5;
+}
+
+.judgment-form__textarea:focus {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+}
+
+.judgment-form__verdict-selector {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.judgment-form__verdict-selector legend {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  padding: 0 4px;
+}
+
+.judgment-form__verdict-selector label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 13px;
+  color: var(--color-text-primary);
+  cursor: pointer;
+}
+
+.judgment-form__actions {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.judgment-form__error {
+  font-size: 12px;
+  color: var(--color-danger, #b33);
+  margin: 0;
+}
+

@@ -51,7 +51,9 @@ export function renderPostCard(post, permissions, currentUser) {
   card.innerHTML = `
     <div class="card__header">
       <span class="post-type-icon" aria-label="${post.type}">${typeIcon}</span>
-      <span class="post-author">@${_esc(post.meta?.proxyAuthor?.replace(/^@/, '') ?? post.authorLogin)}</span>
+      <button class="post-author post-author--btn" data-action="profile"
+              data-login="${_esc(post.meta?.proxyAuthor?.replace(/^@/, '') ?? post.authorLogin)}"
+              aria-label="View profile">@${_esc(post.meta?.proxyAuthor?.replace(/^@/, '') ?? post.authorLogin)}</button>
       <time class="post-time" datetime="${_esc(post.createdAt)}">${_relTime(post.createdAt)}</time>
       ${statusBadge}
       ${isYourTurn ? '<span class="badge badge--your-turn">Your turn</span>' : ''}

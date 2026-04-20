@@ -6,6 +6,7 @@
  */
 
 import { parseBody } from '../api/github-client.js';
+import { DUEL_CONTEXT_STANDARD } from './duel-context.js';
 
 export const DISPUTE_STATUS_ACTIVE    = 'active';
 export const DISPUTE_STATUS_RESOLVED  = 'resolved';
@@ -26,6 +27,7 @@ export class Dispute {
    * @param {string}   createdAt          ISO 8601 string
    * @param {object}   meta               Parsed DSP:META object
    * @param {string[]} labelNames         Current label names on the issue
+   * @param {string}   context            Duel context (DUEL_CONTEXT_*)
    */
   constructor(
     id,
@@ -33,7 +35,8 @@ export class Dispute {
     defenderId,    defenderLogin,
     rootPostId,    triggerChallengeId,
     status,        createdAt,
-    meta,          labelNames = []
+    meta,          labelNames = [],
+    context        = DUEL_CONTEXT_STANDARD
   ) {
     this.id                  = id;
     this.challengerId        = challengerId;
@@ -46,6 +49,7 @@ export class Dispute {
     this.createdAt           = createdAt;
     this.meta                = meta;
     this.labelNames          = labelNames;
+    this.context             = context ?? DUEL_CONTEXT_STANDARD;
   }
 
   /** True when this dispute is still open. */
@@ -87,7 +91,8 @@ export class Dispute {
       status,
       issue.created_at,
       meta,
-      labelNames
+      labelNames,
+      meta.context ?? DUEL_CONTEXT_STANDARD
     );
   }
 }

@@ -10,6 +10,254 @@
 
 ## What This Is
 
+judgmental.io is a structured judgment engine — Claims, Evidence, Duels, Verdicts. Everything on the record. But the launch strategy isn't "debate platform." It's a simultaneous blitz across two high-intent communities that have never had a tool like this:
+
+1. **Dating** — "Duel me before you date me." Compatibility through honest disagreement, shareable Score Cards, viral invite links, a Faith Alignment Score for Christians. The mechanic generates content every time two people use it.
+
+2. **Christian faith** — Built specifically for Bible-following Christians who take truth seriously. Not a general faith mode. Not Patheos. The platform runs deep into the full range of Christian life: personal belief formation through Doctrinal Duels and Exploring Our Faith; accountability and repentance mechanics modeled on Matthew 18; Church Discipline; and Christian courtship built on the same honest-disagreement mechanic. These are not features layered onto a debate app. They are the reason the platform was built.
+
+These are not two separate products. They are two acquisition channels for the same platform, feeding each other. A Christian who uses the accountability feature discovers the dating feed. A dating user who gets serious reaches the Marriage features. The funnel is the product.
+
+---
+
+## Why Judgment? Why Now?
+
+People need a way to render judgment — and they don't have one.
+
+Not just in disputes. In every domain where two people need to reach a decision, an agreement, or a documented resolution: a couple deciding whether to move in together, a parent setting a rule with a teenager, two neighbors who need to agree on a noise policy, a church handling a discipline matter, a team making a product decision. In all of these, the same problem recurs: people know roughly what they think, they can't articulate their positions clearly, there's no structure to the disagreement, and there's no record of what was decided or why.
+
+The result is that nothing actually gets resolved. It gets re-litigated. The same fight resurfaces. Resentment compounds. People avoid the conversation, or have it in the worst possible context, or have it six times and still don't have an answer.
+
+judgmental.io fixes this. Not by mediating. Not by offering coaching. By giving people a structure — Claim, Evidence, Challenge, Answer, Offer, Disposition — that forces a position to be stated, evidence to be produced, and a resolution to be reached and recorded. The resolution is the product. The record is the value.
+
+This need exists across every context where humans disagree:
+- **Romantic** — compatibility before commitment; the "Duel me before you date me" hook
+- **Marital** — documented decisions, covenant commitments, dispute history, on the record
+- **Family** — parent-child household agreements; the parent is the authority, the child is fully heard
+- **Youth** — kids learning to defend positions under supervised conditions, on the record, with structured consequences
+- **Faith** — doctrinal positions defended with scripture; accountability; Church Discipline; Exploring Our Faith
+- **Neighborhood** — noise policies, parking rules, community agreements
+- **Workplace** — decisions, apologies, accountability
+- **Historical** — re-trying famous disputes with new evidence and the same structured mechanic
+
+One Workflow Engine. Every context. The mechanic doesn't change. The framing does.
+
+---
+
+## Why This, Why Now
+
+- Dating apps optimize for matches, not compatibility. "Swipe right" selects for photos. judgmental.io selects for positions. How someone *defends* what they believe is a far stronger compatibility signal than any profile photo or questionnaire.
+- The Christian dating market is large, underserved, and enormously word-of-mouth driven. A platform that treats Christian courtship with actual theological seriousness — not just a "faith" checkbox — has no direct competitor.
+- Every Duel is shareable content. Every Score Card is a watermarked referral. The product markets itself every time two people use it.
+- AI bots are a $50B+ problem for social platforms. judgmental.io is the first platform to solve it architecturally rather than reactively — and to convert it into a revenue stream.
+- **The platform never cold-starts.** Worldview Sync pre-seeds the Belief Ledger with real public figures' statements from trending content, news, and social feeds — on day one, before those figures have ever heard of the platform. The content that fills every other platform is already in the Duel queue here.
+
+---
+
+## The Content Acquisition Strategy: Worldview Sync + Auto-Claim Anywhere
+
+These are the two mechanics that solve the hardest problem in social platform history: where does the first content come from, and how does it keep growing without a paid acquisition budget?
+
+### Worldview Sync (Platform-Initiated Herald Import)
+
+The platform monitors trending content across social media, YouTube, news sites, and news aggregators continuously. When a notable claim is detected — a politician's statement, a theologian's position, a broadcaster's take — the `Herald` account auto-files it into the Belief Ledger as a Claim attributed to the real person's [unverified] handle.
+
+**Why trending content specifically**: trending claims are *already being contested* across X, Reddit, YouTube comments, and news aggregators. The public argument is already happening — Worldview Sync formalizes it. The platform doesn't start debates. It gives live debates a structure and a permanent record.
+
+**The Duel loop this creates:**
+1. Herald files claim attributed to `@politician [unverified]`
+2. A user issues a Challenge
+3. The Duel accumulates Analysis and Judgment from witnesses
+4. The politician's followers see the Duel, some join to defend
+5. Eventually the politician (or their team) claims the handle
+6. They walk into a room where their public record has already been examined, challenged, and judged
+7. Their existing audience is the distribution channel — the platform never paid for it
+
+**The "claiming" moment**: when a public figure joins, they see "Herald has filed N Claims on your behalf — review and adopt, modify, or rescind each one." That review process is itself a Duel. Every decision to rescind or modify opens a new contention. The platform gains content from the subject's arrival, not just before it.
+
+**Hard product questions (to be resolved via Duels on the platform constitution):**
+- *Claim extraction*: how do we identify a challengeable claim vs. a non-falsifiable statement? ("I had pizza" is not a Claim.) Requires an LLM extraction step with a challengeability score threshold — the threshold is itself a constitutionally debatable parameter.
+- *Deduplication*: a public figure repeats the same position across 40 interviews. We want one canonical Claim (the strongest/clearest instance), not 40 near-duplicates. Deduplication heuristic is a policy decision, resolved by platform Duel.
+- *Attribution accuracy*: misquotes, out-of-context clips, satire accounts. All Herald-filed Claims carry a source URL and a confidence flag. Low-confidence Claims are held in `pending` state until a human Analyst confirms. The confirmation process is itself a Duel mechanic.
+- *Defamation surface*: filing a false Claim attributed to a real person — even via Herald — is a legal risk. The `pending`/confirm flow is the legal mitigation. This is also why the confidence flag and source URL are non-optional fields. A Claim that cannot be sourced cannot be filed.
+
+### Auto-Claim Anywhere (User-Initiated, Paid Tier)
+
+Users who want to build a public Worldview — or simply never repeat themselves — subscribe to **Auto-Claim Anywhere**. The platform monitors their connected social, YouTube, Substack, and podcast RSS feeds and surfaces candidate Claims for review.
+
+**The mechanic is notify-then-confirm, not silent auto-file.** The platform sends a notification: "We detected a potential Claim in your post from Tuesday — confirm to file it to your Ledger." The user has 24 hours to reject or modify it before it files automatically. This creates accountability pressure that is the entire point: subscribers *know their public statements are being watched and queued*, which changes how carefully they make them.
+
+**Why this is a paid feature**: the monitoring infrastructure has a real cost. But more importantly, the willingness to pay is a signal of seriousness — the subset of users who pay for Auto-Claim Anywhere are precisely the users whose Worldview the Ledger most wants on record. High-conviction people who want to be held to account. Influencers who want a credibility trail. Public intellectuals who want their positions permanent.
+
+**Hard product questions (to be resolved via Duels):**
+- *Sarcasm and irony detection*: a post saying "Oh sure, capitalism is *totally* working great" should not be filed as a Claim supporting capitalism. LLM context-window is the first pass; user-confirm is the backstop.
+- *Evolving positions*: the user held position X in 2023, position Y in 2026. Both are on record. The Rescission mechanic handles explicit reversals; implicit evolution is harder. Platform policy on how to surface "position drift" is a constitution question.
+- *Platform coverage*: X, Bluesky, YouTube captions, Substack, podcast transcription (via Whisper). Each integration is a legal/API question as much as a technical one.
+
+---
+
+## The Launch Flywheels
+
+### Flywheel 1 — Dating (General)
+
+**Hook**: "Duel me on this before we go further."
+
+Two people stake out positions on the things that actually matter — values, deal-breakers, standards, beliefs — and defend them through a structured mechanic, on the record. Friends and family join as **Judges**: watching the exchange, submitting Analysis, casting weighted votes on who made the stronger case and whether the relationship has legs. Your best friend thinks he's wrong for you. He thinks differently. Now they each defend their position publicly while you watch — and their judgment is on the record.
+
+The Score Card is the output — a shareable compatibility record covering every contested position. The Verdict is rendered. The record is permanent. And everyone who watched has a stake in it.
+
+This is not a questionnaire. It is not a compatibility quiz. It is the only platform in existence where the people who know you best can be brought into the room — and their judgment counts.
+
+**Viral mechanic**: Single-URL invite link. No account to read; account to respond. Score Card and Judge verdicts shared after every Duel. Friends and family share because they were *in it*.
+**Revenue**: Dating+ ($9.99/month), Dating Boost ($2.99 per use), Compatibility Unlock ($1.99 per pair).
+**K-factor target by Month 4**: 1.0–1.4
+
+### Flywheel 2 — Christian Faith
+
+**Hook**: Biblical understanding → Exploring Our Faith → accountability → Christian dating → family governance → Church Discipline.
+
+The entry point is belief formation, not conflict resolution. Christians come to the platform because they want to know what they believe, understand where they stand in relation to their tradition, and engage with other Christians who are doing the same. Exploring Our Faith is the front door: a belief-system mapping tool that grows as Christians file Doctrinal Duels and accumulate ClaimAccords. A Duel IS a Catechism — there are no preset questions; the questions that matter emerge from what Christians actually bring.
+
+The viral mechanic in this flywheel is **Christians exploring their faith together, and being blessed by that.** When two Christians engage on a doctrinal question honestly — not competing to win, but defending what they actually believe — something real happens. The Score Card for a Bible Study Duel is a record of something worth sharing not because it was dramatic but because it was true. And uniquely: at the close of any Christian context Duel, either party may offer to **pray for their interlocutor** — an in-app gesture that turns even a disagreement into a moment of Christian community.
+
+**Seeding**: 5–10 pastors and church leaders pre-launch, using Accountability and Community Discernment. Their word carries; institutional credibility compounds.
+**Revenue**: Christian Match ($12.99/month).
+**K-factor target by Month 6**: 0.7–1.0 (compounding through institutional referrals and faith community word-of-mouth, not algorithm)
+
+### Flywheel 3 — Youth Zone (and a new market)
+
+**Hook**: A supervised debate space for kids that parents and teachers actually want to exist.
+
+The Youth Zone is judgmental.io's most structurally novel market entry. Children under 18 operate in a walled, supervised space within the platform. Their Duels are real, their Judgments are real, their Records are on the record — but their identity is protected from outside view, and their youth testimony is permanently sequestered when they turn 18. They do not carry the receipts into adulthood. They carry the skill.
+
+Guardians — parents, teachers, coaches — subscribe at $14.99/month and get:
+- Full oversight of every Duel, Record, and Judgment filed by their linked wards
+- AdvisorBot Advisory included free, for consulting before acting on a ward's behalf
+- The ability to Rescind errant Records, co-file Challenges, and file Judgment on their ward's Duels
+- A Guardian Analytics panel showing cohort Worldview trends, topic engagement, and KidsGalleryBot commentary
+
+**KidsGalleryBot** is the platform's most joyful feature: a bot prompted with the aggregate Worldviews of all the kids in a Youth Zone, posting absurdist peanut-gallery commentary on completed Duels. It generates shareable content organically — parents and teachers share its output constantly. KidsGalleryBot Annotations are visible outside the Youth Zone (with anonymized content), making them a public face of the platform's educational mission.
+
+The school channel is the institutional play: a school creates a `youth` org, assigns teachers as Guardians-in-Context, and runs structured class debates through the platform. Analytics surface to teachers in real time. The Guardian tier is affordable at the class level. One teacher who uses this in a classroom creates 20–30 ward accounts — and every parent of those children is a warm lead for the Guardian tier.
+
+**The COPPA moat**: Every under-13 ward account requires a paying Guardian. There is no free under-13 tier. This is not a limitation — it is the business model and the legal compliance mechanism simultaneously.
+
+**Revenue**: Guardian tier ($14.99/month per Guardian, includes AdvisorBot Advisory).
+**K-factor in this channel**: Low virality coefficient but very high institutional pull. One school pilot = one teacher + 25–30 Guardian subscriptions + 50–60 conversations among parents about the platform.
+
+### Flywheel 4 — Worldview Sync and the Public Record
+
+**Hook**: Every public statement by every major public figure is already in the Duel queue. Every trending claim from every news site and social feed enters the platform at peak contention.
+
+`PublicRecordBot` drives Worldview Sync — monitoring trending content and news aggregators, extracting Claims, filing them via Herald against a pre-seeded list of public figures. Politicians, media owners, broadcasters, commentators, entertainers. Every Claim is an invitation logged at the moment of peak public interest: challenge it, defend it, file Analysis. The real person's handle is reserved but marked `[unverified]`. When any figure on the list shows up, they walk into a room where their statements have already been examined, challenged, defended, and judged.
+
+Separately, **Auto-Claim Anywhere** (paid add-on, ~$4.99/month) lets any user connect their social and content feeds and have candidate Claims surfaced for review. The platform monitors their output, queues Claims for confirmation, and files them to their Ledger. This is the individual user's version of Worldview Sync — not platform-wide trending detection, but personal feed monitoring. It targets influencers, public intellectuals, politicians, and anyone who publishes regularly and wants their positions on permanent record.
+
+**Virality mechanics:**
+- A Duel filed against `@politician [unverified]` 30 days ago, with Judgments rendered, becomes news when they claim the handle. The media covers it.
+- Every `[unverified]` herald profile is a shareable link. "Challenge this senator's actual statement from March 4th" is a social hook that circulates on every political platform simultaneously.
+- Auto-Claim Anywhere subscribers are incentivized to share their Worldview profile — it's their credibility trail, publicly readable.
+- When a public figure claims their handle, every user who filed a Challenge against them receives a re-engagement notification.
+
+**Revenue**: Auto-Claim Anywhere ($4.99/month add-on). Verdict Data API (researchers, journalists, political strategists pay for anonymized verdict data on public figures' claim history). AdvisorBot tier for public figures running statement strategy through a PoA bot.
+
+**K-factor contribution**: The Worldview Sync mechanic contributes to Platform-level virality (not user-to-user). Each famous-person Duel generates external media coverage and social sharing not captured in standard K-factor models but materially significant. The trending-content pipeline means every news cycle is a potential acquisition moment.
+
+### The Crossover
+
+A dating user encounters the depth of a Christian's Doctrinal Claim and realizes the platform is serious. A Christian singles user shares their Faith Alignment Score Card on Instagram. A couple who met through a Dating Duel activates the Pre-marital Track. A teacher sets up a Youth Zone and twenty parents join. A politician claims their herald handle and their challenger's reply goes viral. An Auto-Claim Anywhere subscriber's Worldview profile is cited in a news story about their public statements. The flywheels cross-pollinate continuously.
+
+---
+
+## Revenue Model
+
+All revenue is subscription and micro-transaction. No passive advertising. No banner ads. No impression-based monetization. Every dollar comes from users and orgs paying for access to features that make the product work better for them — or from orgs paying to be placed in a feed where they must defend their position publicly.
+
+**Brand Claims** are the most structurally novel commercial product on the platform. Instead of a sponsored listing, an org files a belief statement — "We believe our supply chain is fully traceable" — attaches their evidence, opens it to challenge, and pays for placement. They then defend it, Duel by Duel, on the public record. Every outcome is permanent on their org profile. DEFENDED builds credibility. ACCORD builds trust. ABANDONED is reputationally damaging. The mechanic is anti-greenwashing by design: an org that won't defend what it says doesn't get placement. Pricing: $39–$99/month per active Brand Claim, up to 5 simultaneously. Church orgs are ineligible — this is for brands.
+
+| Stream | Month 6 MRR |
+|---|---|
+| Dating+ ($9.99/mo) | $8,000–$15,000 |
+| Christian Match ($12.99/mo) | $3,000–$6,000 |
+| Dating Boost ($2.99/use) | $1,500–$4,000 |
+| Compatibility Unlock ($1.99/pair) | $1,000–$3,000 |
+| Parenting+ ($7.99/mo) | $1,000–$4,000 |
+| Guardian tier ($14.99/mo) | $2,000–$6,000 |
+| Neighborhood+ ($6.99/mo) | $1,000–$4,000 |
+| AdvisorBot — Advisory ($9.99/mo) | $2,000–$6,000 |
+| AdvisorBot — Power of Attorney ($29.99/mo) | $1,500–$5,000 |
+| **Auto-Claim Anywhere ($4.99/mo add-on)** | **$2,000–$8,000** |
+| Video Duel tier ($4.99/mo or included in paid sub) | $800–$2,500 |
+| Non-church Org subscriptions | $600–$1,500 |
+| Non-church Org placement | $400–$1,200 |
+| Brand Claim placement ($39–$99/mo per Claim) | $1,500–$5,000 |
+| Verdict Data API (incl. youth\_cohort + public record tiers) | $1,500–$5,000 |
+| **Total** | **$32,300–$80,200/month** |
+
+**Assumptions**: 10,000–25,000 active users by Month 6. 12–18% conversion to any paid tier. Auto-Claim Anywhere assumes 5–8% take rate among active users — skewed toward influencer/publisher segment. AdvisorBot tiers assume 3–5% of active users at Month 6. Worldview Sync (platform-side) is not a direct revenue line — it is the MAU multiplier that underpins every other projection. Verdict Data API is revised upward vs. prior model because the Worldview Sync pipeline generates a materially richer public-figures dataset from day one.
+
+---
+
+## Projected Growth
+
+| Year | Est. MAU | MRR | ARR |
+|---|---|---|---|
+| Y1 | 35,000 | $55,000 | $660,000 |
+| Y2 | 120,000 | $195,000 | $2.3M |
+| Y3 | 340,000 | $530,000 | $6.4M |
+| Y4 | 750,000 | $1.2M | $14.4M |
+| Y5 | 1,500,000 | $2.6M | $31.2M |
+
+**What changed in this revision**: Worldview Sync materially changes the Y1–Y2 trajectory by seeding the public-record Belief Ledger from day one rather than waiting for organic user growth to produce content. Auto-Claim Anywhere adds a recurring revenue line that scales directly with the influencer and publisher segment — a segment with exceptional K-factor (they already have audiences). The Verdict Data API expands significantly at Y3–Y5 because by that point the public-figures Ledger has 2–3 years of structured verdict data on thousands of notable claims — the kind of dataset political researchers, fact-checkers, and media organizations will pay materially to access.
+
+**The Y5 ceiling is conservatively set.** The trading floor for a platform with 1.5M MAU, 90%+ net margin, and a proprietary Belief Ledger with years of structured public-figures verdict data is not $31M ARR. It is the acquisition price of a media company or research firm that lacks this data and can not build it.
+
+---
+
+## The Cost Structure
+
+Infrastructure: SQLite + Litestream on Fly.io. No database bill. No CDN bill. No per-seat infrastructure cost. The architecture scales to 500,000 MAU on approximately $300–500/month of server costs. Competitors on Postgres + cloud RDS are paying $500–$2,000/month at the same user counts. This is a structural advantage, not an operational choice.
+
+Worldview Sync adds one infrastructure cost line: the LLM extraction pipeline for claim detection runs per-article/post on incoming content. At scale this is $200–$800/month depending on model tier and volume — a rounding error relative to the content acquisition value it delivers.
+
+**Net margin at scale: 88–90%.**
+
+---
+
+## The Moat
+
+1. **The Belief Ledger is irreplaceable.** Every resolved Duel is a permanent public artifact attributed to the people who filed it. Network value compounds with every interaction. You cannot copy the ledger without copying the people.
+2. **Switching cost is identity.** Your Duel history, your compatibility scores, your faith positions, your Worldview — they live here. Your AdvisorBot is trained on your Ledger. You don't leave.
+3. **The bot solution is structural.** Every other platform fights bots reactively. judgmental.io has made bots legible, first-class, and commercially productive — while keeping the Person namespace human. There is no equivalent architecture anywhere.
+4. **The Christian community does not switch tools.** Once a church runs a Discipline process or a pastor uses Accountability, the records stay forever. Institutional credibility compounds quietly.
+5. **The physical channel.** The neighborhood QR flyer acquires users with zero algorithm, zero ad spend, and zero decay. A flyer on a bulletin board keeps converting for months.
+6. **The school channel.** One teacher pilot converts to 20–30 Guardian subscriptions and 50–60 parent conversations. The institutional sale creates a class of users whose retention is anchored to their children's participation.
+7. **Worldview Sync.** The platform pre-seeds a public record of every major public figure's statements from day one by monitoring trending content across social media, YouTube, and news aggregators. No competitor can replicate this without also having the structured Duel mechanic, the Belief Ledger, the verified Judge panel, and the Auto-Claim Anywhere infrastructure. The data asset grows with every Duel filed — and the trending-content pipeline ensures every news cycle feeds it.
+8. **Auto-Claim Anywhere.** The first tool that lets any person put their entire publishing output on formal epistemic record — monitored, confirmed, and appended to a permanent Ledger. Influencers, politicians, and public intellectuals will pay for this because the credibility trail is the product. The network effect: when multiple public voices have Auto-Claim Anywhere active, the Ledger becomes a primary source for journalists and researchers.
+9. **Open governance by design.** The platform's own constitution is publicly readable, publicly improvable, and amendable only through the platform's own Duel mechanic. This is structural commitment. Every proposed change to the platform's principles — including the hard product questions above — is litigated in the same space where users litigate their beliefs.
+10. **No equivalent exists.** Not for the Worldview Explorer. Not for the bot ecosystem. Not for the friends-and-family judging mechanic. Not for Video Duels with auto-deposition stitching. Not for the full Christian faith arc from belief formation to Church Discipline. Not for supervised youth debate with sequestered youth testimony. Not for famous-person herald profiles with years of pre-filed Challenges. Not for a claim-extraction pipeline that formalizes every trending news cycle into a structured Duel. The competitive landscape is social media on one side and generic debate apps on the other. This is neither.
+
+---
+
+## The Foundation
+
+This platform was built from a conviction rooted in biblical faith in Jesus Christ — that truth is real and knowable, and that people are capable of defending what they actually believe. The Christian Mode, the repentance and reconciliation mechanics, the anti-proof-texting principle, the parent-authority structure in Parenting Duels, the prayer offer at the close of a Christian Duel: these are not features layered on a debate app. They are the reason the platform was built.
+
+The dating flywheel and the neighborhood features are downstream of the same conviction: honest disagreement, pursued with integrity and structured by a fair process, produces something real.
+
+**judgmental.io — On the record.**
+
+
+**The structured judgment engine for every domain where people need to reach a real decision — and the game everyone wants to play when the stakes involve love.**
+
+*Where worldviews collide, people open cases to confront the differences, seeking harmony.*
+
+*Social media usually means social mayhem. judgmental.io introduces social mediation.*
+
+---
+
+## What This Is
+
 judgmental.io is a structured judgment engine — Claims, Evidence, Duels, Verdicts. Everything on the record. But the launch strategy isn’t “debate platform.” It’s a simultaneous blitz across two high-intent communities that have never had a tool like this:
 
 1. **Dating** — “Duel me before you date me.” Compatibility through honest disagreement, shareable Score Cards, viral invite links, a Faith Alignment Score for Christians. The mechanic generates content every time two people use it.

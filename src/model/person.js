@@ -10,14 +10,21 @@ export const HERALD_LOGIN = 'herald'; // overridden by CONFIG.heraldLogin at run
 
 export class Person {
   /**
-   * @param {number} id        User id
-   * @param {string} login     User login (no @)
-   * @param {string} profilePicUrl Profile pic URL
+   * @param {number}  id           User id
+   * @param {string}  login        User login (no @)
+   * @param {string}  profilePicUrl Profile pic URL
+   * @param {object}  [opts]
+   * @param {boolean} [opts.isSuperAdmin]
+   * @param {boolean} [opts.isAi]
+   * @param {string|null} [opts.aiModel]
    */
-  constructor(id, login, profilePicUrl = '') {
-    this.id        = id;
-    this.login     = login;
+  constructor(id, login, profilePicUrl = '', { isSuperAdmin = false, isAi = false, aiModel = null } = {}) {
+    this.id            = id;
+    this.login         = login;
     this.profilePicUrl = profilePicUrl;
+    this.isSuperAdmin  = isSuperAdmin;
+    this.isAi          = isAi;
+    this.aiModel       = aiModel;
   }
 
   /** True when this person is the configured @herald placeholder account. */

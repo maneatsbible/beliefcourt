@@ -473,6 +473,267 @@ const I_DISPUTE = issue(
 );
 
 // ---------------------------------------------------------------------------
+// SCENARIO J — Judgment flow (defended Duel gets analyzed + judged)
+// Topic: "True conditionals don't require material implication"
+// Challenger: frank  |  Defender: bob
+// Dispute is DEFENDED. carol analyzes, judges in favour of defender.
+// ---------------------------------------------------------------------------
+
+const J_ASSERT = issue(
+  15, ['dsp:assertion'],
+  USERS.bob, '2026-03-10T08:00:00Z',
+  meta({ type: 'assertion', rootId: 15, parentId: null }) +
+  '\n\nThe material-conditional interpretation of "if-then" in classical logic fails as an account of natural-language conditionals — true conditionals express a genuine inferential connection, not merely the absence of a true antecedent and false consequent.',
+  'Conditionals: more than material implication',
+);
+
+const J_CHALL = issue(
+  110, ['dsp:challenge'],
+  USERS.frank, '2026-03-10T09:30:00Z',
+  meta({ type: 'challenge', challengeType: 'objection', rootId: 15, parentId: 15, disputeId: 308 }) +
+  '\n\nStrawson and Lewis\'s work notwithstanding, classical logic\'s material conditional is extensionally adequate for every formal proof we care about. The demand for an "inferential connection" is a natural-language intuition, not a logical requirement.',
+);
+
+const J_ANSWER = issue(
+  209, ['dsp:answer'],
+  USERS.bob, '2026-03-10T10:45:00Z',
+  meta({ type: 'answer', rootId: 15, parentId: 110, disputeId: 308 }) +
+  '\n\nExtensional adequacy for formal proofs is precisely what is not at issue. The claim is about what conditionals *mean* — and "P→Q is true when P is false" renders every false antecedent conditional vacuously true, which is a semantic absurdity in ordinary discourse.',
+);
+
+const J_DISPUTE = issue(
+  308, ['dsp:dispute', 'dsp:verdict-defended'],
+  USERS.frank, '2026-03-10T09:30:00Z',
+  meta({
+    type: 'dispute',
+    challengerId: USERS.frank.id, challengerLogin: 'frank',
+    defenderId:   USERS.bob.id,   defenderLogin:   'bob',
+    rootPostId:   15,
+    triggerChallengeId: 110,
+    context: 'standard',
+  }),
+  'Dispute #308 — Material implication debate (DEFENDED)',
+);
+
+// carol's Analysis and Judgment on Dispute #308
+const J_ANALYSIS = issue(
+  701, ['dsp:analysis'],
+  USERS.carol, '2026-03-12T14:00:00Z',
+  meta({
+    type:     'analysis',
+    duelId:   308,
+    momentRefs: [110, 209],
+  }) +
+  '\n\nFrank\'s objection conflates extensional adequacy with semantic correctness. Bob correctly distinguishes formal proof calculus from the semantics of natural-language conditionals. Frank never addressed the vacuous-truth absurdity directly. Bob\'s position held throughout.',
+  'Analysis of Dispute #308',
+);
+
+const J_JUDGMENT = issue(
+  801, ['dsp:judgment'],
+  USERS.carol, '2026-03-12T15:00:00Z',
+  meta({
+    type:               'judgment',
+    duelId:             308,
+    verdict:            'defender',
+    analysisId:         701,
+    baseOfTruthClaimId: 901,
+  }) +
+  '\n\nBob\'s distinction between formal adequacy and semantic meaning is philosophically sound and went unanswered. Verdict: Defender.',
+  'Judgment on Dispute #308 — Defender',
+);
+
+const J_BOT = issue(
+  901, ['dsp:base-of-truth'],
+  USERS.carol, '2026-03-05T10:00:00Z',
+  meta({
+    type:            'base-of-truth',
+    personLogin:     'carol',
+    anchorClaimId:   14,
+  }) +
+  '\n\nMy epistemic foundation is coherentism grounded in analytic philosophy: claims must be internally consistent, engage seriously with the strongest objections, and track the best available philosophical literature. I defer to conceptual precision over intuitive plausibility.',
+  'Base of Truth — carol',
+);
+
+// ---------------------------------------------------------------------------
+// SCENARIO K — Dating context
+// Topic: "Shared financial goals matter more than income level in a partner"
+// Challenger: dave  |  Defender: alice
+// Active dispute in dating context
+// ---------------------------------------------------------------------------
+
+const K_ASSERT = issue(
+  16, ['dsp:assertion'],
+  USERS.alice, '2026-03-15T09:00:00Z',
+  meta({ type: 'assertion', rootId: 16, parentId: null }) +
+  '\n\nIn long-term romantic compatibility, alignment on financial goals and spending philosophies matters far more than the absolute income level of either partner.',
+  'Financial compatibility: goals > income',
+);
+
+const K_CHALL = issue(
+  111, ['dsp:challenge'],
+  USERS.dave, '2026-03-15T10:00:00Z',
+  meta({ type: 'challenge', challengeType: 'interrogatory', rootId: 16, parentId: 16, disputeId: 309, context: 'dating' }) +
+  '\n\nWould you maintain this position in a scenario where one partner\'s income is below the poverty line? At what income floor does income level start to matter, and why?',
+);
+
+const K_DISPUTE = issue(
+  309, ['dsp:dispute'],
+  USERS.dave, '2026-03-15T10:00:00Z',
+  meta({
+    type: 'dispute',
+    challengerId: USERS.dave.id,  challengerLogin: 'dave',
+    defenderId:   USERS.alice.id, defenderLogin:   'alice',
+    rootPostId:   16,
+    triggerChallengeId: 111,
+    context: 'dating',
+  }),
+  'Dispute #309 — Financial compatibility (DATING context)',
+);
+
+// ---------------------------------------------------------------------------
+// SCENARIO L — Christian context
+// Topic: "Scripture is sufficiently clear on all matters essential to salvation"
+// Challenger: bob  |  Defender: carol
+// Active dispute in christian context
+// ---------------------------------------------------------------------------
+
+const L_ASSERT = issue(
+  17, ['dsp:assertion'],
+  USERS.carol, '2026-03-18T08:00:00Z',
+  meta({ type: 'assertion', rootId: 17, parentId: null }) +
+  '\n\nScripture is perspicuous — sufficiently clear on all matters essential to salvation — such that an ordinary believer reading it faithfully can understand what is necessary for eternal life without requiring authoritative ecclesiastical interpretation.',
+  'Scripture perspicuity — sufficient for salvation',
+);
+
+const L_CHALL = issue(
+  112, ['dsp:challenge'],
+  USERS.bob, '2026-03-18T09:30:00Z',
+  meta({ type: 'challenge', challengeType: 'interrogatory', rootId: 17, parentId: 17, disputeId: 310, context: 'christian' }) +
+  '\n\nHow do you account for the 40,000+ Protestant denominations that all claim to read Scripture faithfully yet disagree on what is essential to salvation — including whether faith alone or faith-plus-works is required?',
+);
+
+const L_ANSWER = issue(
+  210, ['dsp:answer'],
+  USERS.carol, '2026-03-18T11:00:00Z',
+  meta({ type: 'answer', rootId: 17, parentId: 112, disputeId: 310 }) +
+  '\n\nDenominational fragmentation demonstrates human fallibility in interpretation, not a failure of Scripture\'s clarity. The core of perspicuity is that Scripture is clear on *essentials* — the 40,000-denominations figure collapses on examination; most diverge on secondary matters, not salvation itself.',
+);
+
+const L_DISPUTE = issue(
+  310, ['dsp:dispute'],
+  USERS.bob, '2026-03-18T09:30:00Z',
+  meta({
+    type: 'dispute',
+    challengerId: USERS.bob.id,   challengerLogin: 'bob',
+    defenderId:   USERS.carol.id, defenderLogin:   'carol',
+    rootPostId:   17,
+    triggerChallengeId: 112,
+    context: 'christian',
+  }),
+  'Dispute #310 — Scripture perspicuity (CHRISTIAN context)',
+);
+
+// ---------------------------------------------------------------------------
+// SCENARIO M — Historical context
+// Topic: "Galileo's opponents had rational scientific grounds for resistance"
+// Challenger: alice  |  Defender: frank
+// Active dispute in historical context
+// ---------------------------------------------------------------------------
+
+const M_ASSERT = issue(
+  18, ['dsp:assertion'],
+  USERS.frank, '2026-03-20T08:00:00Z',
+  meta({ type: 'assertion', rootId: 18, parentId: null }) +
+  '\n\nGalileo\'s ecclesiastical and scientific opponents were not simply obscurantists — many had rational empirical grounds for resisting heliocentrism in 1616, given the state of evidence available at the time (stellar parallax undetected, no stellar aberration, Tychonic model fit the data equally well).',
+  'Galileo\'s opponents had rational grounds in 1616',
+);
+
+const M_CHALL = issue(
+  113, ['dsp:challenge'],
+  USERS.alice, '2026-03-20T10:00:00Z',
+  meta({ type: 'challenge', challengeType: 'objection', rootId: 18, parentId: 18, disputeId: 311, context: 'historical' }) +
+  '\n\nThe Tychonic model was a face-saving compromise invented specifically to avoid committing to heliocentrism while matching its predictions — citing it as "equal" evidence is motivated reasoning dressed as empiricism.',
+);
+
+const M_ANSWER = issue(
+  211, ['dsp:answer'],
+  USERS.frank, '2026-03-20T12:00:00Z',
+  meta({ type: 'answer', rootId: 18, parentId: 113, disputeId: 311 }) +
+  '\n\nThe Tychonic model\'s motivation is irrelevant to its empirical adequacy in 1616. Empirical underdetermination is a legitimate scientific principle — if two models fit all available data, both remain rational options. Retroactive "motivated reasoning" accusations require knowing which theory was true, which they did not.',
+);
+
+const M_DISPUTE = issue(
+  311, ['dsp:dispute'],
+  USERS.alice, '2026-03-20T10:00:00Z',
+  meta({
+    type: 'dispute',
+    challengerId: USERS.alice.id, challengerLogin: 'alice',
+    defenderId:   USERS.frank.id, defenderLogin:   'frank',
+    rootPostId:   18,
+    triggerChallengeId: 113,
+    context: 'historical',
+  }),
+  'Dispute #311 — Galileo opponents (HISTORICAL context)',
+);
+
+// ---------------------------------------------------------------------------
+// SCENARIO N — Apology Court
+// Topic: dave's public apology to eve
+// Resolved via accord in apology context
+// ---------------------------------------------------------------------------
+
+const N_ASSERT = issue(
+  19, ['dsp:assertion'],
+  USERS.dave, '2026-03-22T09:00:00Z',
+  meta({ type: 'assertion', rootId: 19, parentId: null }) +
+  '\n\nI publicly and unreservedly apologize to @eve for asserting without evidence in Dispute #307 that her challenge was made in bad faith. The challenge was legitimate. I was wrong and I retract the characterisation.',
+  'Dave\'s public apology to @eve',
+);
+
+const N_CHALL = issue(
+  114, ['dsp:challenge'],
+  USERS.eve, '2026-03-22T11:00:00Z',
+  meta({ type: 'challenge', challengeType: 'interrogatory', rootId: 19, parentId: 19, disputeId: 312, context: 'apology' }) +
+  '\n\nDo you acknowledge that the accusation of bad faith was stated publicly and did reputational harm, and do you accept responsibility for that harm specifically — not merely the underlying factual error?',
+);
+
+const N_ANSWER = issue(
+  212, ['dsp:answer'],
+  USERS.dave, '2026-03-22T13:00:00Z',
+  meta({ type: 'answer', rootId: 19, parentId: 114, disputeId: 312 }) +
+  '\n\nYes. I acknowledge the statement was made publicly, that it caused reputational harm, and I take full responsibility for both the error and the harm it caused — not merely the underlying factual mistake.',
+);
+
+const N_DISPUTE = issue(
+  312, ['dsp:dispute', 'dsp:resolved'],
+  USERS.eve, '2026-03-22T11:00:00Z',
+  meta({
+    type: 'dispute',
+    challengerId: USERS.eve.id,  challengerLogin: 'eve',
+    defenderId:   USERS.dave.id, defenderLogin:   'dave',
+    rootPostId:   19,
+    triggerChallengeId: 114,
+    context: 'apology',
+  }),
+  'Dispute #312 — Apology Court (RESOLVED)',
+);
+
+// ---------------------------------------------------------------------------
+// RESCISSION — alice rescinds her own assertion #11
+// ---------------------------------------------------------------------------
+
+const RESCISSION_ALICE_11 = issue(
+  1001, ['dsp:rescission'],
+  USERS.alice, '2026-03-25T10:00:00Z',
+  meta({
+    type:     'rescission',
+    recordId: 11,
+    reason:   'I no longer hold this position after further reflection on the epistemic limitations of representative democracy at scale.',
+  }),
+  'Rescission of assertion #11 by alice',
+);
+
+// ---------------------------------------------------------------------------
 // Export
 // ---------------------------------------------------------------------------
 
@@ -495,4 +756,16 @@ export const SEED_ISSUES = [
   H_ASSERT, H_CHALL, H_ANSWER, H_DISPUTE,
   // Scenario I — CONTESTED verdict
   I_ASSERT, I_CHALL, I_ANSWER, I_DISPUTE,
+  // Scenario J — Judgment flow (analysis + judgment + base-of-truth)
+  J_ASSERT, J_CHALL, J_ANSWER, J_DISPUTE, J_ANALYSIS, J_JUDGMENT, J_BOT,
+  // Scenario K — Dating context
+  K_ASSERT, K_CHALL, K_DISPUTE,
+  // Scenario L — Christian context
+  L_ASSERT, L_CHALL, L_ANSWER, L_DISPUTE,
+  // Scenario M — Historical context
+  M_ASSERT, M_CHALL, M_ANSWER, M_DISPUTE,
+  // Scenario N — Apology Court (resolved)
+  N_ASSERT, N_CHALL, N_ANSWER, N_DISPUTE,
+  // Rescission — alice rescinds assertion #11
+  RESCISSION_ALICE_11,
 ];

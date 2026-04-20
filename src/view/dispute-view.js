@@ -16,11 +16,13 @@
 
 import { renderPostCard }      from './components/post-card.js';
 import { renderComposer }      from './components/composer.js';
+import { renderJudgmentPanel } from './components/judgment-panel.js';
 import { showNotification }    from './components/notification.js';
 import { setUrlParams }        from '../utils/url.js';
 import { ICON_BACK }           from '../utils/icons.js';
 import { playCricketsChirp }   from '../utils/audio.js';
 import { POST_TYPE_CHALLENGE } from '../model/post.js';
+import { getFraming }          from '../model/duel-context.js';
 
 export class DisputeView {
   /**
@@ -30,11 +32,12 @@ export class DisputeView {
    * @param {{ agreements: object[] }}                                    context
    */
   constructor(root, controller, currentUser, context = {}) {
-    this._root       = root;
-    this._ctrl       = controller;
-    this._user       = currentUser;
-    this._agreements = context.agreements ?? [];
-    this._composer   = null;
+    this._root         = root;
+    this._ctrl         = controller;
+    this._user         = currentUser;
+    this._agreements   = context.agreements ?? [];
+    this._judgmentCtrl = context.judgmentCtrl ?? null;
+    this._composer     = null;
   }
 
   /**
@@ -140,6 +143,11 @@ export class DisputeView {
     // Dispute action bar (offers, crickets proposals)
     if (dispute.isActive) {
       container.appendChild(this._buildActionBar(dispute));
+    }
+
+    // Post-Disposition Judgment panel
+    if (!dispute.isActive && this._judgmentCtrl) {
+      this._appendJudgmentPanel(container, dispute);
     }
 
     this._root.innerHTML = '';
@@ -249,7 +257,14 @@ export class DisputeView {
   // ---------------------------------------------------------------------------
 
   _handleCardAction(action, post, dispute, postTree) {
-    if (action === 'challenge') {
+    if (action === 'profile') {
+      const login = post.meta?.proxyAuthor?.replace(/^@/, '') ?? post.authorLogin;
+      if (!login) return;
+      setUrlParams({ v: 'person', who: login });
+      this._root.dispatchEvent(new CustomEvent('dsp:navigate', {
+        bubbles: true, detail: { view: 'person', who: login },
+      }));
+    } else if (action === 'challenge') {
       this._openChallengeComposer(post, dispute);
     } else if (action === 'answer') {
       this._openAnswerComposer(post, dispute, postTree);
@@ -337,6 +352,37 @@ export class DisputeView {
   }
 
   // ---------------------------------------------------------------------------
+  // Judgment panel (async, appended after initial render)
+  // ---------------------------------------------------------------------------
+
+  _appendJudgmentPanel(container, dispute) {
+    const placeholder = document.createElement('div');
+    placeholder.className = 'judgment-panel-loading';
+    placeholder.textContent = 'Loading judgments…';
+    container.appendChild(placeholder);
+
+    const refresh = async () => {
+      try {
+        const [judgments, analyses, baseOfTruth] = await Promise.all([
+          this._judgmentCtrl.loadJudgments(dispute.id),
+          this._judgmentCtrl.loadAnalyses(dispute.id),
+          this._user ? this._judgmentCtrl.loadBaseOfTruth(this._user.login) : Promise.resolve(null),
+        ]);
+        const panel = renderJudgmentPanel({
+          dispute, judgments, analyses, baseOfTruth,
+          user:         this._user,
+          judgmentCtrl: this._judgmentCtrl,
+          onRefresh:    refresh,
+        });
+        placeholder.replaceWith(panel);
+      } catch (err) {
+        placeholder.textContent = `Judgments unavailable: ${err.message}`;
+      }
+    };
+    refresh();
+  }
+
+  // ---------------------------------------------------------------------------
   // Permission helper
   // ---------------------------------------------------------------------------
 
@@ -383,6 +429,11 @@ function _buildLineage(dispute, postTree) {
     ? _truncate(rootPost.content, 40)
     : `#${dispute.rootPostId}`;
 
+  const framing = getFraming(dispute.context ?? 'standard');
+  const contextBadge = (framing && framing.label !== 'Standard')
+    ? `<span class="context-badge" title="${_esc(framing.label)}">${_esc(framing.icon)} ${_esc(framing.label)}</span>`
+    : '';
+
   root.innerHTML = `
     <a class="dispute-view__lineage-link" role="link" tabindex="0"
        aria-label="Back to home feed">
@@ -390,6 +441,7 @@ function _buildLineage(dispute, postTree) {
     </a>
     <span class="dispute-view__lineage-sep"> → </span>
     <span>Dispute #${dispute.id}</span>
+    ${contextBadge}
   `.trim();
 
   return root;

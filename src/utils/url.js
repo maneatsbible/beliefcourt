@@ -25,8 +25,9 @@ export function getUrlParams() {
   if (p.has('v'))  result.v  = p.get('v');
   if (p.has('id')) result.id = p.get('id');
   if (p.has('p'))  result.p  = p.get('p');
-  if (p.has('m'))  result.m  = p.get('m');
-  if (p.has('u'))  result.u  = p.get('u');
+  if (p.has('m'))   result.m   = p.get('m');
+  if (p.has('u'))   result.u   = p.get('u');
+  if (p.has('who')) result.who = p.get('who');
   return result;
 }
 
@@ -60,6 +61,23 @@ export function isMockMode() {
 /** Returns the ?u param value, or null when absent. */
 export function getMockUser() {
   return new URLSearchParams(window.location.search).get('u') ?? null;
+}
+
+/**
+ * Build a sticky URL for a person profile.
+ * Preserves m and u params from current URL.
+ * @param {string} login
+ * @returns {string}
+ */
+export function buildPersonUrl(login) {
+  const current = new URLSearchParams(window.location.search);
+  const p = new URLSearchParams();
+  for (const key of ['m', 'u']) {
+    if (current.has(key)) p.set(key, current.get(key));
+  }
+  p.set('v', 'person');
+  p.set('who', login);
+  return `${window.location.pathname}?${p.toString()}`;
 }
 
 /**
