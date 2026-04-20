@@ -1,6 +1,6 @@
 # judgmental.io — Investor Brief
 
-**Two communities. One platform. A blitz launch.**
+**The structured judgment engine for every domain where people need to reach a real decision — and the game everyone wants to play when the stakes involve love.**
 
 ---
 
@@ -51,9 +51,16 @@ Every one of these contexts is the same product. The mechanic doesn’t change. 
 
 ### Engine 1 — Dating (General)
 
-**Hook**: "Duel me on this before we go further."  
-**Viral mechanic**: Single-URL invite link sent to any match on any platform. No account to read; account to respond. Score Card shared publicly after every Duel.  
-**Revenue**: Dating+ ($9.99/month), Dating Boost ($2.99 per use), Compatibility Unlock ($1.99 per pair).  
+**Hook**: "Duel me on this before we go further."
+
+This is the compatibility game the dating world has never had. Two people stake out positions on the things that actually matter — values, deal-breakers, standards, beliefs — and argue them through a structured mechanic, on the record. But it goes further than two: friends and family can be invited into the Duel as **Judges** — watching the exchange, submitting Analysis, casting weighted votes on who made the stronger case and whether the relationship has legs. Your best friend thinks he's wrong for you. He thinks differently. Now they can argue it publicly while you watch.
+
+The Score Card is the output — a shareable compatibility record covering every contested position. The Verdict is rendered. The record is permanent. And everyone who watched has a stake in it.
+
+This is not a questionnaire. It is not a compatibility quiz. It is the only platform where the people who know you best can be brought into the room — and their judgment counts.
+
+**Viral mechanic**: Single-URL invite link sent to any match on any platform. No account to read; account to respond. Score Card and Judge verdicts shared publicly after every Duel. Friends and family share because they were *in it*.
+**Revenue**: Dating+ ($9.99/month), Dating Boost ($2.99 per use), Compatibility Unlock ($1.99 per pair).
 **K-factor target by Month 4**: 1.0–1.4 (viral)
 
 ### Engine 2 — Christian Faith
@@ -133,6 +140,6 @@ Infrastructure: SQLite + Litestream on Fly.io. No database bill. No CDN bill. No
 
 This platform was built from a conviction rooted in biblical faith in Jesus Christ — that truth is real and knowable, and that people are capable of defending what they actually believe. The Christian Mode, the repentance and reconciliation mechanics, the anti-proof-texting principle, the parent-authority structure in Parenting Duels, the prayer offer at the close of a Christian Duel: these are not features layered on a debate app. They are the reason the platform was built.
 
-The dating engine and the neighborhood features are downstream of the same conviction: honest disagreement, pursued with integrity and structured by a fair process, produces something worth building for.
+The dating engine and the neighborhood features are downstream of the same conviction: honest disagreement, pursued with integrity and structured by a fair process, produces something real.
 
 **judgmental.io — On the record.**

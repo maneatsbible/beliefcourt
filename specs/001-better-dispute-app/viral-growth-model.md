@@ -27,7 +27,7 @@ The Christian community shares through:
 - Small group leader introduction for Bible Study and Exploring Our Faith Duels
 - Church bulletin / group WhatsApp for Doctrinal Claims and Community Discernment
 - Christian dating match invitation — "Duel me on this before we go further"
-- Parent sharing the Duel record with a trusted elder, counsellor, or spouse
+- Parent sharing the Duel record with a trusted elder, counselor, or spouse
 
 Growth in this channel is slower per share but extremely high in trust and retention. Once a pastor uses the Church Discipline process for a real case, the platform's credibility with church leadership is established permanently.
 
@@ -97,7 +97,7 @@ Building/Dorm Block tier ($19.99/month): Up to 5 orgs under one account (for a p
 
 ---
 
-Dating mode is the primary commercial engine. Every mechanic has a monetisation path.
+Dating mode is the primary commercial engine. Every mechanic has a monetization path.
 
 ### RS-1 — Premium Dating Subscriptions
 
@@ -137,7 +137,7 @@ When two users complete a dating Duel, by default both see a **summary compatibi
 
 ### RS-4 — Parenting Concierge (Premium Parenting)
 
-**Parenting+** ($7.99/month): Unlocks the full Christian parenting template library, elder/counsellor access grants for parenting Duels, and private parenting history archive.
+**Parenting+** ($7.99/month): Unlocks the full Christian parenting template library, elder/counselor access grants for parenting Duels, and private parenting history archive.
 
 **Target users**: Parents working through recurring disputes with their children, married couples navigating child-rearing decisions, Christian parents who want a faith-informed resolution record. Co-parenting disputes (between separated parents) are supported as a distinct sub-case.
 
@@ -173,7 +173,7 @@ An anonymized, segmented dataset of Dating Duel outcomes — compatibility distr
 - Dating App Integration ($299/month): API access for dating platforms wanting to embed or study compatibility data
 - Research Institutional ($499/month): full dataset access
 
-**Target customers**: Dating apps, relationship researchers, Christian counselling researchers.
+**Target customers**: Dating apps, relationship researchers, Christian counseling researchers.
 
 ---
 
@@ -181,7 +181,7 @@ An anonymized, segmented dataset of Dating Duel outcomes — compatibility distr
 
 ### Pre-launch (Month −2 to 0): Seed the Faith Community First
 
-**Target**: 5–10 church contacts. Pastors, small group leaders, Christian counsellors.
+**Target**: 5–10 church contacts. Pastors, small group leaders, Christian counselors.
 
 The faith engine is seeded privately before public launch. These are endorsers whose personal use of accountability, Community Discernment, or Christian Dating establishes the platform's credibility before it is visible to the public.
 

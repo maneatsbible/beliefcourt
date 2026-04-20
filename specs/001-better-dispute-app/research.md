@@ -91,7 +91,7 @@ return data;
 - 5 000 req/hr authenticated ÷ ~60 min = ~83 req/min headroom.
 - A typical user session (view feed + open 2–3 disputes + submit 1 challenge) uses ~15–25 requests. ETag 304s count against rate limit but at a lower cost signal from GitHub (still counted). Acceptable.
 
-**Rationale**: ETag conditional GETs are the GitHub-documented approach for minimising rate-limit consumption. `localStorage` provides cross-tab and cross-navigation persistence.
+**Rationale**: ETag conditional GETs are the GitHub-documented approach for minimizing rate-limit consumption. `localStorage` provides cross-tab and cross-navigation persistence.
 
 **Alternatives considered**:
 - `sessionStorage` only: No cross-tab benefit, full re-fetch on every page load. Rejected.

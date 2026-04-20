@@ -136,7 +136,7 @@ When evaluating third-party tools, services, libraries, or APIs, the zero-cost o
 - When a paid tool is in use and a free equivalent later becomes viable, migration MUST be evaluated at the next planning cycle.
 - "Free" means zero recurring monetary cost to the project; tools that are free only during a trial period do not qualify.
 
-**Rationale**: Minimising operating costs preserves runway, reduces vendor lock-in, and forces deliberate decisions about every paid dependency. The burden of proof lies with paid tooling.
+**Rationale**: Minimizing operating costs preserves runway, reduces vendor lock-in, and forces deliberate decisions about every paid dependency. The burden of proof lies with paid tooling.
 
 ### VII. American English Only
 
@@ -144,7 +144,7 @@ All copy, documentation, code comments, UI text, help text, template text, AI-ge
 
 **Specific enforcement:**
 
-- Spellings MUST follow American convention without exception: *color* not *colour*, *center* not *centre*, *recognize* not *recognise*, *organized* not *organised*, *analyze* not *analyse*, *defense* not *defence*, *fulfill* not *fulfil*, *license* (noun and verb) not *licence*, *program* not *programme*, and so on.
+- Spellings MUST follow American convention without exception: *color* not *colour*, *center* not *centre*, *recognize* not *recognise*, *organized* not *organised*, *analyze* not *analyse*, *defense* not *defence*, *fulfill* not *fulfil*, *license* (noun and verb) not *licence*, *program* not *programme*, *counselor* not *counsellor*, *counseling* not *counselling*, *organization* not *organisation*, *monetize* not *monetise*, *minimizing* not *minimising*, *canceled* not *cancelled*, *labeled* not *labelled*, *characterization* not *characterisation*, *modeled* not *modelled*, *trialing* not *trialling*, *patronize* not *patronise*, and so on.
 - AI-generated copy, suggestions, and output MUST produce American English. Any AI feature that defaults to British spellings MUST have its prompt or system instruction corrected before merge.
 - Code review MUST include a check for British spellings in any PR that touches user-facing copy, documentation, or AI prompts. A PR containing British English in user-facing content MUST NOT be merged until corrected.
 - This rule applies to all contributors and all tools — including Copilot, GPT, Claude, and any other AI assistant used during development.
@@ -156,7 +156,7 @@ All copy, documentation, code comments, UI text, help text, template text, AI-ge
 Christian Mode is a first-release feature set built specifically for Bible-following Christians. It is not a generic spirituality layer, not an interfaith dialogue tool, and not a platform for comparative religion. It is built for people who hold scripture as their highest authority and who pursue repentance, reconciliation, and accountability as genuine practices of the faith — not as metaphors.
 
 **What Christian Mode is for:**
-- Robust, honest disputes — not soft-pedalled conversation. Christians can handle hard things. The platform MUST NOT patronise or over-protect users in this context.
+- Robust, honest disputes — not soft-pedaled conversation. Christians can handle hard things. The platform MUST NOT patronize or over-protect users in this context.
 - Repentance and reconciliation as structural outcomes: the Church Discipline process, the Accountability Partnership, and the Apology Court context all exist because these are real practices, not features.
 - Scripture as testimony and grounding — not as a logical club (see Principle I).
 - Parenting under a shared faith: co-parenting disagreements, discipline approaches, faith formation for children.
@@ -168,7 +168,7 @@ Christian Mode is a first-release feature set built specifically for Bible-follo
 - A soft community space for affirmation. The platform's core mechanic is structured challenge. Christian Mode operates by the same mechanic.
 
 **Implementation standards:**
-- Church Discipline (the three-stage reconciliation process modelled on Matthew 18) is the most structurally rigorous feature on the platform. It MUST be treated with that weight: careful UX, thorough testing, and respectful copy.
+- Church Discipline (the three-stage reconciliation process modeled on Matthew 18) is the most structurally rigorous feature on the platform. It MUST be treated with that weight: careful UX, thorough testing, and respectful copy.
 - No feature in Christian Mode may be implemented in a way that is dismissive, satirical, or reductive of sincere religious practice. Code review MUST include this check.
 - AI assistance in `context=doctrinal`, `context=bible_study`, `context=accountability`, `context=discernment`, `context=discipline`, and `context=parenting` contexts MUST default to a tone that is measured, non-adversarial, and deferential to the sincerity of the parties.
 - The **Exploring Our Faith** feature is a primary, ongoing, structured project — not a feed filter. It is a **belief-system cartography tool**: the Tradition Map is computed from a Person's `faith_relevant` ClaimAccords (not from their Tradition tag, which is a self-reported anchor only). The Catechism Library is community-driven — it is the accumulated body of Catechism-tagged Duels filed by users, not a pre-built question bank. **A Duel IS a Catechism engagement.** There are no preset question sets or Catechism categories. The Personal Faith Profile tracks ClaimAccords and Catechism-tagged Duels engaged. The Bible Widget and Bible Reader are its primary scripture study tools and MUST be integrated accordingly.
