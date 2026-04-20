@@ -18,6 +18,7 @@ import { renderPostCard }  from './components/post-card.js';
 import { renderComposer }  from './components/composer.js';
 import { showNotification } from './components/notification.js';
 import { setUrlParams }    from '../utils/url.js';
+import { Dispute }         from '../model/dispute.js';
 
 export class HomeView {
   /**
@@ -253,7 +254,10 @@ export class HomeView {
       onSubmit:    async ({ text, challengeType }) => {
         try {
           const { dispute } = await this._ctrl.submitChallenge(this._user, post, { challengeType, text });
-          this._disputes.push(dispute ? { id: dispute.number, challengerId: this._user.id, rootPostId: post.id, status: 'active' } : {});
+          if (dispute) {
+            const d = Dispute.fromIssue(dispute);
+            if (d) this._disputes.push(d);
+          }
           showNotification('Challenge submitted!', 'success');
           this._composer?.destroy();
           this._composer = null;

@@ -389,6 +389,90 @@ const G5 = issue(
 );
 
 // ---------------------------------------------------------------------------
+// SCENARIO H — Defended verdict (challenger conceded after strong answer)
+// Topic: "Compilers eliminate entire bug categories that tests cannot"
+// Challenger: dave  |  Defender: alice
+// alice's argument was so strong that dave withdrew — verdict: DEFENDED
+// ---------------------------------------------------------------------------
+
+const H_ASSERT = issue(
+  13, ['dsp:assertion'],
+  USERS.alice, '2026-03-01T10:00:00Z',
+  meta({ type: 'assertion', rootId: 13, parentId: null }) +
+  '\n\nType-checked compilers eliminate entire categories of runtime errors that no amount of unit-test coverage can catch — because they prove properties about all possible inputs, not just sampled ones.',
+  'Compilers vs tests — bug coverage',
+);
+
+const H_CHALL = issue(
+  108, ['dsp:challenge'],
+  USERS.dave, '2026-03-01T11:00:00Z',
+  meta({ type: 'challenge', challengeType: 'objection', rootId: 13, parentId: 13, disputeId: 306 }) +
+  '\n\nProperty-based testing (e.g. Hypothesis, QuickCheck) also proves properties about all possible inputs without requiring a type system.',
+);
+
+const H_ANSWER = issue(
+  207, ['dsp:answer'],
+  USERS.alice, '2026-03-01T12:00:00Z',
+  meta({ type: 'answer', rootId: 13, parentId: 108, disputeId: 306 }) +
+  '\n\nProperty-based testing still only tests a sampled subset of the input space — it approximates universal quantification. A type-checker guarantees it for every value the type admits, with no sampling. These are fundamentally different epistemic claims.',
+);
+
+const H_DISPUTE = issue(
+  306, ['dsp:dispute', 'dsp:verdict-defended'],
+  USERS.dave, '2026-03-01T11:00:00Z',
+  meta({
+    type: 'dispute',
+    challengerId: USERS.dave.id,  challengerLogin: 'dave',
+    defenderId:   USERS.alice.id, defenderLogin:   'alice',
+    rootPostId:   13,
+    triggerChallengeId: 108,
+  }),
+  'Dispute #306 — Compilers vs tests (DEFENDED)',
+);
+
+// ---------------------------------------------------------------------------
+// SCENARIO I — Contested verdict (judgment itself is under challenge)
+// Topic: "Null references are a billion-dollar mistake"
+// Challenger: eve  |  Defender: carol
+// Resolved = carol conceded, but carol now contests the judgment was rushed
+// ---------------------------------------------------------------------------
+
+const I_ASSERT = issue(
+  14, ['dsp:assertion'],
+  USERS.carol, '2026-02-15T09:00:00Z',
+  meta({ type: 'assertion', rootId: 14, parentId: null }) +
+  '\n\nNull references, as implemented in C, Java, and C#, represent the most costly single language-design mistake in history — Hoare\'s "billion-dollar mistake" framing is not hyperbole.',
+  'Null references — billion-dollar mistake',
+);
+
+const I_CHALL = issue(
+  109, ['dsp:challenge'],
+  USERS.eve, '2026-02-15T10:00:00Z',
+  meta({ type: 'challenge', challengeType: 'interrogatory', rootId: 14, parentId: 14, disputeId: 307 }) +
+  '\n\nBy what methodology are you quantifying "most costly" relative to other mistakes like buffer overflows, integer overflows, or the C memory model itself?',
+);
+
+const I_ANSWER = issue(
+  208, ['dsp:answer'],
+  USERS.carol, '2026-02-15T11:00:00Z',
+  meta({ type: 'answer', rootId: 14, parentId: 109, disputeId: 307 }) +
+  '\n\nI accept the epistemic problem: the claim requires a cost comparison methodology I cannot provide. I withdraw my assertion that nulls are specifically the worst single mistake.',
+);
+
+const I_DISPUTE = issue(
+  307, ['dsp:dispute', 'dsp:verdict-contested'],
+  USERS.eve, '2026-02-15T10:00:00Z',
+  meta({
+    type: 'dispute',
+    challengerId: USERS.eve.id,   challengerLogin: 'eve',
+    defenderId:   USERS.carol.id, defenderLogin:   'carol',
+    rootPostId:   14,
+    triggerChallengeId: 109,
+  }),
+  'Dispute #307 — Null references (VERDICT CONTESTED)',
+);
+
+// ---------------------------------------------------------------------------
 // Export
 // ---------------------------------------------------------------------------
 
@@ -407,4 +491,8 @@ export const SEED_ISSUES = [
   F_ASSERT, F_AGREE_ALICE, F_AGREE_CAROL,
   // Scenario G
   G1, G2, G3, G4, G5,
+  // Scenario H — DEFENDED verdict
+  H_ASSERT, H_CHALL, H_ANSWER, H_DISPUTE,
+  // Scenario I — CONTESTED verdict
+  I_ASSERT, I_CHALL, I_ANSWER, I_DISPUTE,
 ];

@@ -7,9 +7,11 @@
 
 import { parseBody } from '../api/github-client.js';
 
-export const DISPUTE_STATUS_ACTIVE   = 'active';
-export const DISPUTE_STATUS_RESOLVED = 'resolved';
-export const DISPUTE_STATUS_CRICKETS = 'crickets';
+export const DISPUTE_STATUS_ACTIVE    = 'active';
+export const DISPUTE_STATUS_RESOLVED  = 'resolved';
+export const DISPUTE_STATUS_CRICKETS  = 'crickets';
+export const DISPUTE_STATUS_DEFENDED  = 'defended';
+export const DISPUTE_STATUS_CONTESTED = 'contested';
 
 export class Dispute {
   /**
@@ -47,9 +49,13 @@ export class Dispute {
   }
 
   /** True when this dispute is still open. */
-  get isActive()   { return this.status === DISPUTE_STATUS_ACTIVE;   }
-  get isResolved() { return this.status === DISPUTE_STATUS_RESOLVED; }
-  get isCrickets() { return this.status === DISPUTE_STATUS_CRICKETS; }
+  get isActive()    { return this.status === DISPUTE_STATUS_ACTIVE;    }
+  get isResolved()  { return this.status === DISPUTE_STATUS_RESOLVED;  }
+  get isCrickets()  { return this.status === DISPUTE_STATUS_CRICKETS;  }
+  /** Assertion stood — challenger's position failed / was conceded. */
+  get isDefended()  { return this.status === DISPUTE_STATUS_DEFENDED;  }
+  /** Verdict is itself under challenge — judgment contested. */
+  get isContested() { return this.status === DISPUTE_STATUS_CONTESTED; }
 
   /**
    * Factory: create from a GitHub Issue response object.
@@ -89,7 +95,9 @@ export class Dispute {
 // ---------------------------------------------------------------------------
 
 function _deriveStatus(labelNames) {
-  if (labelNames.includes('dsp:crickets-event')) return DISPUTE_STATUS_CRICKETS;
-  if (labelNames.includes('dsp:resolved'))       return DISPUTE_STATUS_RESOLVED;
+  if (labelNames.includes('dsp:verdict-contested')) return DISPUTE_STATUS_CONTESTED;
+  if (labelNames.includes('dsp:verdict-defended'))  return DISPUTE_STATUS_DEFENDED;
+  if (labelNames.includes('dsp:crickets-event'))    return DISPUTE_STATUS_CRICKETS;
+  if (labelNames.includes('dsp:resolved'))          return DISPUTE_STATUS_RESOLVED;
   return DISPUTE_STATUS_ACTIVE;
 }
