@@ -22,9 +22,57 @@ Follow-up TODOs:
 
 # disputable.io Constitution
 
+## Founding Declaration
+
+judgmental.io exists because of a conviction drawn directly from biblical faith in Jesus Christ.
+
+The platform is built on the belief that truth is real, that it can be known, and that people made in the image of God are capable of holding and defending genuine convictions — not merely constructing plausible-sounding arguments. The capacity for reasoned disagreement, pursued honestly and in good faith, is an expression of the dignity God gives to every person.
+
+The product therefore serves two related purposes that flow from the same source:
+
+1. **To give every person — beginning with those who share this faith — a place to stand on what they actually believe**, defended with integrity, subject to challenge, and resolved with respect.
+2. **To build something that lasts**: a platform principled enough to serve the faith community well, and robust enough to serve anyone willing to engage sincerely.
+
+The dating features, the viral mechanics, the Christian Mode, the Church Discipline process, the open API, the historical re-trials — all of it exists downstream of this. The ambition for the platform to grow, to reach people, and to sustain itself commercially is not in tension with this foundation. It is in service of it.
+
+**This declaration is not a marketing statement. It is the reason the project exists.** Every principle that follows flows from it. When a decision is hard to make, this is where the answer starts.
+
+---
+
 ## Core Principles
 
-### I. Code Quality (NON-NEGOTIABLE)
+### I. No Argumentation — Defended Belief Only (NON-NEGOTIABLE — PRIORITY ONE)
+
+This is the foundational product principle. It governs every design decision, every line of UI copy, every AI behaviour, every feature, and every code review. It supersedes all other principles when in conflict.
+
+**The core commitment:**
+
+judgmental.io is a platform for *defended belief*, not for *constructed argument*. The question the platform asks of every person in every Duel, in every context, is: *"What do you actually believe, and can you defend it?"* — never *"Can you build a better argument?"*
+
+**What is prohibited, in all contexts, without exception:**
+
+- The platform MUST NOT encourage, reward, frame, or structurally enable formal syllogistic reasoning — the assembly of premises, inference steps, and logical conclusions — as a method of engaging with Claims, winning Duels, or establishing truth.
+- The platform MUST NOT treat "logically valid" as equivalent to "true". A formally valid argument from false or poorly grounded premises is not a victory. It is noise.
+- UI copy, tooltips, templates, onboarding text, AI suggestions, and help text MUST NEVER frame engagement as argument construction. Prohibited framings include: *"Therefore..."*, *"It follows that..."*, *"Premise one..."*, *"Given X, conclude Y"*, *"This argument is valid because..."*
+- The Fallacy Tag and Claim Map widgets are post-hoc diagnostic tools only. They describe what went wrong in reasoning that has already occurred. They MUST NEVER be presented as methods to win, as evaluation criteria for Claims, or as things to aim for.
+- AI features at every tier MUST NOT generate syllogisms, logical chains, or formal argument structures in response to user content. Any AI output that takes this form MUST be suppressed or reformulated before display.
+
+**Structural enforcement (not just guidance):**
+
+- Copy review is a merge gate: any PR that introduces UI copy, template text, help text, AI prompt, or onboarding content MUST be reviewed against this principle before merge. Reviewers MUST explicitly confirm: *"No syllogistic framing is present."*
+- The codebase MUST contain a `ANTI_ARGUMENTATION_REVIEW_CHECKLIST.md` at the root, used as a PR checklist for all copy and AI changes.
+- Any feature that surfaces "argument strength", "logical validity", "argument map", or similar scoring MUST be blocked unless explicitly approved as a post-hoc diagnostic tool with zero impact on Duel outcomes.
+
+**On proof-texting scripture specifically:**
+
+- Scripture references are first-class Evidence and are welcomed as genuine expressions of a person's Base of Truth. A scripture reference is testimony: *"This is what I believe, and here is the text that grounds me."* It is not a logical lever.
+- The practice of *proof-texting* — assembling isolated Bible verses as logical premises to compel a conclusion — is a specific failure mode this platform is designed to resist, in every context.
+- All inputs, templates, and AI prompts involving scripture MUST ask: *"What does this passage mean to you and how does it ground your position?"* — never *"What conclusions follow from this verse?"*
+- Any AI output that constructs a syllogism from scripture references MUST be suppressed or reformulated before display, regardless of context.
+
+**Rationale**: Argumentation rewards rhetorical skill over substantive truth. It is a game that can be won without being right. Proof-texting makes any position appear scriptually grounded through selective citation. This platform is built on the conviction that truth is knowable and defensible by real people holding real convictions — not by those most skilled at logical construction. The burden of proof is on lived, grounded belief.
+
+### II. Code Quality (NON-NEGOTIABLE)
 
 All production code MUST meet the following standards before merging:
 
@@ -37,7 +85,7 @@ All production code MUST meet the following standards before merging:
 
 **Rationale**: Consistent, clean code reduces onboarding friction, lowers defect rates, and makes the system maintainable as the team and codebase grow.
 
-### II. Testing Standards (NON-NEGOTIABLE)
+### III. Testing Standards (NON-NEGOTIABLE)
 
 Automated testing is a first-class deliverable, not an afterthought:
 
@@ -51,7 +99,7 @@ Automated testing is a first-class deliverable, not an afterthought:
 
 **Rationale**: Comprehensive, reliable tests are the primary mechanism for safe iteration and confident deployment.
 
-### III. User Experience Consistency (NON-NEGOTIABLE)
+### IV. User Experience Consistency (NON-NEGOTIABLE)
 
 All user-facing surfaces MUST present a coherent, predictable experience:
 
@@ -66,7 +114,19 @@ All user-facing surfaces MUST present a coherent, predictable experience:
 
 **Rationale**: Inconsistent UX erodes user trust and increases support burden. Predictability and accessibility are non-negotiable qualities for a dispute-resolution product.
 
-### V. Free-First Tool Selection
+### V. Performance Requirements
+
+Performance is a feature and MUST be validated continuously:
+
+- API endpoints MUST respond within **200 ms** at the 95th percentile under expected load; any endpoint exceeding **500 ms** p95 is a blocking defect.
+- Front-end pages MUST achieve a Largest Contentful Paint (LCP) ≤ **2.5 s** and a Cumulative Layout Shift (CLS) ≤ **0.1** on a simulated mid-range device.
+- Database queries MUST use appropriate indexes; queries without index coverage on tables > 10 k rows MUST be reviewed before merge.
+- Background jobs MUST define explicit timeout and retry policies; unbounded tasks are prohibited.
+- Performance benchmarks MUST be run in CI on every PR touching data-access or rendering-critical paths; regressions of > 10% MUST be resolved or justified before merge.
+
+**Rationale**: A dispute-resolution platform handles time-sensitive interactions. Slow or unpredictable performance degrades user trust and can affect legal or contractual outcomes.
+
+### VI. Free-First Tool Selection
 
 When evaluating third-party tools, services, libraries, or APIs, the zero-cost option MUST be chosen if it meets requirements:
 
@@ -78,17 +138,16 @@ When evaluating third-party tools, services, libraries, or APIs, the zero-cost o
 
 **Rationale**: Minimising operating costs preserves runway, reduces vendor lock-in, and forces deliberate decisions about every paid dependency. The burden of proof lies with paid tooling.
 
-### IV. Performance Requirements
+### VII. Christian Mode and Church Discipline are First-Class Features
 
-Performance is a feature and MUST be validated continuously:
+Christian Mode (faith community features including Church Discipline) is a first-release feature, not an add-on. This principle ensures it is never deprioritised, never hidden behind a feature flag by default, and never treated as secondary to the standard dispute mechanics.
 
-- API endpoints MUST respond within **200 ms** at the 95th percentile under expected load; any endpoint exceeding **500 ms** p95 is a blocking defect.
-- Front-end pages MUST achieve a Largest Contentful Paint (LCP) ≤ **2.5 s** and a Cumulative Layout Shift (CLS) ≤ **0.1** on a simulated mid-range device.
-- Database queries MUST use appropriate indexes; queries without index coverage on tables > 10 k rows MUST be reviewed before merge.
-- Background jobs MUST define explicit timeout and retry policies; unbounded tasks are prohibited.
-- Performance benchmarks MUST be run in CI on every PR touching data-access or rendering-critical paths; regressions of > 10% MUST be resolved or justified before merge.
+- Church Discipline (the three-stage reconciliation process modelled on Matthew 18) is the most structurally rigorous feature on the platform. It MUST be treated with that weight: careful UX, thorough testing, and respectful copy.
+- No feature in Christian Mode may be implemented in a way that is dismissive, satirical, or reductive of sincere religious practice. Code review MUST include this check.
+- AI assistance in `context=doctrinal`, `context=bible_study`, `context=accountability`, `context=discernment`, and `context=discipline` contexts MUST default to a tone that is measured, non-adversarial, and deferential to the sincerity of the parties.
+- The **Exploring Our Faith** feature is a primary discovery surface for the faith community and MUST be treated as a core feature, not an extension.
 
-**Rationale**: A dispute-resolution platform handles time-sensitive interactions. Slow or unpredictable performance degrades user trust and can affect legal or contractual outcomes.
+**Rationale**: The faith community is a primary user segment with well-defined, serious needs. Building for them well — with integrity and genuine understanding of their practices — is both a product and an ethical commitment.
 
 ## Quality Gates
 
@@ -124,4 +183,4 @@ This constitution supersedes all other development guidelines and practices with
 
 **Compliance review**: Adherence to this constitution MUST be verified during each sprint retrospective and whenever a new team member joins.
 
-**Version**: 1.2.0 | **Ratified**: 2026-04-18 | **Last Amended**: 2026-04-20
+**Version**: 2.1.0 | **Ratified**: 2026-04-18 | **Last Amended**: 2026-04-20
