@@ -694,13 +694,55 @@
 
 **Independent Test**: Load `index.html?m=1` → feed shows assertions with status icons; click dispute card → dispute view with correct turns; switch mock user via toolbar → your-turn and disabled states update correctly; file new Assertion → appears in feed; file Challenge → dispute created; switch to defender user → your-turn shown.
 
-- [ ] T264 Wire `duels: this._disputes` to `renderPostCard` perms in `home-view.js`; add `.duel-status-icon` CSS to `main.css`; verify ⚔️/🤝/🦗 display for all three seed scenarios
-- [ ] T265 Verify Assertion composer (`renderComposer`) posts to mock store and card appears in feed without reload — confirm in-memory store roundtrip
-- [ ] T266 Verify Challenge composer functional in mockMode — filing a challenge against a seed Assertion creates a dispute and the card shows ⚔️
-- [ ] T267 Verify Answer composer functional in mockMode — filing an Answer advances the active dispute turn
-- [ ] T268 Dispute view audit across all 4 seed scenarios (A=active, B=active objection, C=accord, D=crickets) — correct layout, correct action button states
-- [ ] T269 Mock user switch (toolbar) — verify your-turn indicator and action button disabled states update cleanly for each mock user with no state bleed
-- [ ] T270 Duel status icon visual review — correct emoji per status, tooltip text readable, no layout overflow on short cards
+- [X] T264 Wire `duels: this._disputes` to `renderPostCard` perms in `home-view.js`; add `.duel-status-icon` CSS to `main.css`; verify ⚔️/🤝/🦗 display for all three seed scenarios
+- [X] T265 Verify Assertion composer (`renderComposer`) posts to mock store and card appears in feed without reload — confirm in-memory store roundtrip
+- [X] T266 Verify Challenge composer functional in mockMode — filing a challenge against a seed Assertion creates a dispute and the card shows ⚔️
+- [X] T267 Verify Answer composer functional in mockMode — filing an Answer advances the active dispute turn
+- [X] T268 Dispute view audit across all seed scenarios (A–N: active, objection, accord, crickets, counter-challenge, offer, defended, contested, judgment, dating, christian, historical, apology) — correct layout, correct action button states
+- [X] T269 Mock user switch (toolbar) — verify your-turn indicator and action button disabled states update cleanly for each mock user with no state bleed
+- [X] T270 Duel status icon visual review — correct emoji for all 5 statuses (⚔️ active, 🤝 accord, 🦗 crickets, 🛡️ defended, ⚖️ contested), tooltip text readable, no layout overflow on short cards
 
-**Checkpoint**: A working UI demo runnable from `index.html?m=1` in any browser, no server required, covering all core Duel flows.
+**Checkpoint**: ✅ COMPLETE — Working UI demo runnable from `index.html?m=1`, no server required. Covers all core Duel flows across 14 seed scenarios (A–N).
+
+---
+
+## Phase 33: Milestone 2 — Worldview Explorer (mockMode)
+
+**Goal**: Full Worldview Explorer architecture functional in mockMode. Person profiles render correctly. Judgment flow (Analysis → Judgment → BaseOfTruth) works end-to-end. DuelContext framing (5 modes) renders in dispute view. @login clicks navigate to person profiles. Auto-Claim Anywhere and Worldview Sync stubs reflected in spec/data model.
+
+**Independent Test**: Load `index.html?m=1` → click @carol on any card → PersonView renders with correct stats, claims, duels, agreements, judgments; navigate to Dispute #308 (defended) → judgment panel loads with carol's judgment; context badge visible for dating/christian/historical/apology disputes; @login button on all cards navigates to person profile; declare Base of Truth form saves and reflects.
+
+- [X] T271 Implement `src/model/judgment.js` — `Judgment`, `Analysis`, `BaseOfTruth` classes with `fromIssue` factories; verdict constants `JUDGMENT_VERDICT_CHALLENGER/DEFENDER/INCONCLUSIVE`
+- [X] T272 Implement `src/model/rescission.js` — `Rescission` class with `fromIssue` factory
+- [X] T273 Implement `src/model/duel-context.js` — 5 context constants + `DUEL_CONTEXT_FRAMING` map + `getFraming(context)` helper
+- [X] T274 Extend `src/model/dispute.js` — add `context` field to constructor and `fromIssue`
+- [X] T275 Extend `src/model/person.js` — add `isSuperAdmin`, `isAi`, `aiModel` fields
+- [X] T276 Implement `src/controller/judgment-controller.js` — `loadAnalyses`, `loadJudgments`, `loadBaseOfTruth`; `canAnalyze`, `canJudge` gates; `submitAnalysis`, `submitJudgment`, `setBaseOfTruth`
+- [X] T277 Implement `src/controller/worldview-controller.js` — `WorldviewController.loadProfile(login)` with 8 parallel fetches; `WorldviewProfile` class with derived getters
+- [X] T278 Implement `src/view/person-view.js` — Worldview Renderer: header, stats, Base of Truth section (with declare form for own profile), Claims, Duels, Agreements, Judgments Rendered
+- [X] T279 Implement `src/view/components/judgment-panel.js` — tally, judgment cards, analysis form, judgment form with verdict selector and reasoning; grounded in Base of Truth
+- [X] T280 Extend `src/utils/url.js` — add `who` param to `getUrlParams`; add `buildPersonUrl(login)` helper
+- [X] T281 Make `@login` clickable in `src/view/components/post-card.js` — `<button data-action="profile" data-login="...">` replacing static `<span>`
+- [X] T282 Wire `?v=person&who=` route in `src/controller/app-controller.js`; pass `JudgmentController` to `DisputeView`; add `_renderPersonView(login)` method
+- [X] T283 Extend `src/view/dispute-view.js` — context badge in lineage header; post-Disposition judgment panel; `profile` action handler routing to person view; accept `judgmentCtrl` in context object
+- [X] T284 Add seed scenarios J–N to `src/mock/seed-data.js`: Scenario J (judgment flow with Analysis #701, Judgment #801, BaseOfTruth #901), K (dating context), L (christian context), M (historical context), N (apology court resolved); Rescission #1001 (alice rescinds #11)
+- [X] T285 Add CSS to `styles/main.css` — `.person-view`, `.judgment-panel`, `.judgment-card`, `.judgment-form`, `.context-badge`, `.role-badge`, `.post-author--btn`
+
+**Checkpoint**: ✅ COMPLETE — Worldview Explorer functional in mockMode. 14 seed scenarios. Full Judgment flow. 5 DuelContexts. PersonView with profile navigation from any @login.
+
+---
+
+## Phase 34: Milestone 3 — Worldview Sync + Auto-Claim Anywhere (Spec + Stubs)
+
+**Goal**: Spec the Worldview Sync (platform Herald auto-import from trending content) and Auto-Claim Anywhere (user-initiated paid feed monitoring) features fully enough that mockMode stubs can demonstrate the UX. Hard product questions (claim extraction, deduplication, attribution, defamation surface, sarcasm detection) are held as open constitutional questions in spec. Revenue model updated.
+
+**Independent Test**: Investor pitch reflects both features with revenue projections. Spec contains hard product questions as open items. Mock seed data includes at least one Herald-imported Claim (confidence flag, source URL in meta). tasks.md has implementation tasks for the claim-extraction pipeline stub.
+
+- [X] T286 Update `specs/001-better-dispute-app/investor-pitch.md` — add Worldview Sync (platform Herald), Auto-Claim Anywhere ($4.99/mo add-on), updated revenue table (adds Auto-Claim Anywhere line, revised Verdict Data API), revised growth projections (Y1–Y5); add hard product questions section under each feature
+- [ ] T287 Update `specs/001-better-dispute-app/spec.md` — add Worldview Sync section (Herald import pipeline, trending detection, confidence flag, pending/confirm flow, claim lifecycle); add Auto-Claim Anywhere section (feed monitoring, notify-then-confirm, 24h window, platform coverage); add open constitutional questions block for each
+- [ ] T288 Add Herald-imported seed Claim to `src/mock/seed-data.js` — Assertion with `source_url`, `confidence: 0.87`, `herald_imported: true` in meta, attributed to a public-figure-style login (`@senator_j_hayes [unverified]`); add corresponding pending Challenge
+- [ ] T289 Update `src/model/post.js` — add `heraldImported`, `sourceUrl`, `confidence`, `pendingConfirmation` fields to `Assertion.fromIssue`; add `isPending` getter
+- [ ] T290 Update `src/view/components/post-card.js` — render `[HERALD IMPORT]` badge and source URL link for herald-imported assertions; render `[PENDING]` badge for unconfirmed claims; show confidence indicator
+- [ ] T291 Update `src/mock/seed-data.js` — add `USERS['senator_j_hayes']` entry with `{ login: 'senator_j_hayes', id: 2001, unverified: true }`; add to `MOCK_USERS`
+
 
