@@ -330,7 +330,7 @@
 
 ## Phase 19: BibleWidget and Bible Reader (FR-210, FR-211)
 
-**Goal**: The Bible Widget is the first implemented Widget type. The Bible Reader is the platform's full scripture study tool — it powers the Catechism Library and all Christian Mode contexts. Both are deeply integrated into Exploring Our Faith. KJV is the default translation; 7 free public-domain translations are supported at launch via api.bible.
+**Goal**: The Bible Widget is the first implemented Widget type. The Bible Reader is the platform's full scripture study tool — it surfaces in all Christian Mode contexts and powers the Exploring Our Faith section. The Catechism Library is community-driven: it is the accumulated body of Catechism-tagged Duels filed by users, not a pre-built question bank. KJV is the default translation; 7 free public-domain translations are supported at launch via api.bible.
 
 **Supported translations at launch (all free via api.bible):**
 - KJV (ID: `de4e12af7f28f599-02`) — **default**
