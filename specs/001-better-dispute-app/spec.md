@@ -498,4 +498,13 @@ The following views are computed from the live database at query time, not store
 - Stripe is the primary tipping provider; Ko-fi link is the fallback. Stripe keys are stored in Fly.io secrets.
 - Plausible Analytics (primary, privacy-first) and Google Analytics 4 (secondary, for ads) are both integrated via `<script>` tag — no build step required.
 
+---
+
+## Marketing Taglines
+
+- *"Take ideas and their defenders to trial, and reach verdicts."*
+- *"You've been posting takes for years. Time to defend them."*
+- *"Likes don't make you right. Surviving challenges does."*
+- *"The internet has been arguing for 30 years. judgmental.io is where we settle it."*
+
 
