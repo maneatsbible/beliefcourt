@@ -59,6 +59,8 @@
 
 *Where worldviews collide, people open cases to confront the differences, seeking harmony.*
 
+*Social media usually means social mayhem. judgmental.io introduces social mediation.*
+
 judgmental.io is a **Worldview Explorer**. A Person's worldview is not a profile field, a survey result, or an AI-generated summary. It is the composition of all the Records they have produced and all the Accords they have reached — every Claim filed, every Challenge issued, every Answer given, every Offer made, every Rescission posted. The Worldview Explorer is the complete architecture through which those records are stored, structured, and presented.
 
 The architecture maps exactly onto MVC, and the correspondence is not incidental — it is the design:

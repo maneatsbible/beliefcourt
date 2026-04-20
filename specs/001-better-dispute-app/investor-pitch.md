@@ -4,6 +4,8 @@
 
 *Where worldviews collide, people open cases to confront the differences, seeking harmony.*
 
+*Social media usually means social mayhem. judgmental.io introduces social mediation.*
+
 ---
 
 ## What This Is
