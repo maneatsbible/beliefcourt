@@ -1,11 +1,22 @@
 /**
- * Icon constants for disputable.io.
+ * Icon constants for judgmental.io.
  * Using Unicode characters to stay framework-free.
  */
 
 export const ICON_ASSERTION = '!';
 export const ICON_CHALLENGE = '?';
 export const ICON_ANSWER    = '✓';
+
+// ---------------------------------------------------------------------------
+// Duel status icons
+// Shown on assertion cards in the home feed to indicate the aggregate state
+// of all Duels rooted at that assertion.
+// ---------------------------------------------------------------------------
+export const DUEL_ICON_ACTIVE   = '⚔️';  // combat in progress
+export const DUEL_ICON_ACCORD   = '🤝';  // all resolved by accord
+export const DUEL_ICON_CRICKETS = '🦗';  // challenger declared no-response
+export const DUEL_ICON_DEFENDED = '🛡️'; // verdict: defender held position
+export const DUEL_ICON_CONTESTED = '⚖️'; // verdict: judgment against the claim
 
 export const ICON_COPY = `<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13"
   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"

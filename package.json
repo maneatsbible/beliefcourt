@@ -1,7 +1,7 @@
 {
-  "name": "disputable.io",
+  "name": "judgmental.io",
   "version": "1.0.0",
-  "description": "disputable.io - disputes in, disputes out",
+  "description": "judgmental.io - on the record",
   "type": "module",
   "private": true,
   "scripts": {

@@ -1221,3 +1221,12 @@ details > summary::marker { display: none; }
   border-color: var(--color-accent-red);
   color: var(--color-accent-red);
 }
+
+.duel-status-icon {
+  font-size: 13px;
+  margin-left: auto;
+  flex-shrink: 0;
+  line-height: 1;
+  cursor: default;
+  user-select: none;
+}

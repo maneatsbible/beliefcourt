@@ -688,3 +688,19 @@
 
 **Checkpoint**: Open-spec public surface live. Section anchors and GitHub Issue links working. Admin spec view gated to super_admin.
 
+## Phase 32: Milestone 1 — mockMode MVP
+
+**Goal**: Full end-to-end user journey functional in mockMode with no server. All Duel states in seed data render correctly. Mock user switching demonstrates correct perspective changes. This is the First Stab toward MVP — working UI before any Fly.io deployment.
+
+**Independent Test**: Load `index.html?m=1` → feed shows assertions with status icons; click dispute card → dispute view with correct turns; switch mock user via toolbar → your-turn and disabled states update correctly; file new Assertion → appears in feed; file Challenge → dispute created; switch to defender user → your-turn shown.
+
+- [ ] T264 Wire `duels: this._disputes` to `renderPostCard` perms in `home-view.js`; add `.duel-status-icon` CSS to `main.css`; verify ⚔️/🤝/🦗 display for all three seed scenarios
+- [ ] T265 Verify Assertion composer (`renderComposer`) posts to mock store and card appears in feed without reload — confirm in-memory store roundtrip
+- [ ] T266 Verify Challenge composer functional in mockMode — filing a challenge against a seed Assertion creates a dispute and the card shows ⚔️
+- [ ] T267 Verify Answer composer functional in mockMode — filing an Answer advances the active dispute turn
+- [ ] T268 Dispute view audit across all 4 seed scenarios (A=active, B=active objection, C=accord, D=crickets) — correct layout, correct action button states
+- [ ] T269 Mock user switch (toolbar) — verify your-turn indicator and action button disabled states update cleanly for each mock user with no state bleed
+- [ ] T270 Duel status icon visual review — correct emoji per status, tooltip text readable, no layout overflow on short cards
+
+**Checkpoint**: A working UI demo runnable from `index.html?m=1` in any browser, no server required, covering all core Duel flows.
+

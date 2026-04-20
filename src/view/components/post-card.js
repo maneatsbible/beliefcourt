@@ -6,7 +6,8 @@
  * controller permission gates — never hidden.
  */
 
-import { ICON_ASSERTION, ICON_CHALLENGE, ICON_ANSWER, ICON_COPY, ICON_AGREE } from '../../utils/icons.js';
+import { ICON_ASSERTION, ICON_CHALLENGE, ICON_ANSWER, ICON_COPY, ICON_AGREE,
+         DUEL_ICON_ACTIVE, DUEL_ICON_ACCORD, DUEL_ICON_CRICKETS } from '../../utils/icons.js';
 import { buildCanonicalUrl } from '../../utils/url.js';
 import { showNotification }  from './notification.js';
 
@@ -20,6 +21,7 @@ import { showNotification }  from './notification.js';
  *   canAnswer:     { allowed: boolean } | null,
  *   isYourTurn:    boolean,
  *   disputeId:     number|null,
+ *   duels:         import('../../model/dispute.js').Dispute[],
  * }} permissions
  * @param {object|null} currentUser  { login, id } or null
  * @returns {HTMLElement}
@@ -31,10 +33,14 @@ export function renderPostCard(post, permissions, currentUser) {
     canAnswer    = null,
     isYourTurn   = false,
     disputeId    = null,
+    duels        = [],
   } = permissions;
 
-  const typeIcon  = _typeIcon(post.type);
-  const cardClass = _cardClass(post);
+  const typeIcon   = _typeIcon(post.type);
+  const cardClass  = _cardClass(post);
+  const statusBadge = (post.type === 'assertion')
+    ? _duelsStatusBadge(post, duels)
+    : '';
 
   const card = document.createElement('div');
   card.className   = `card post-card ${cardClass}`;
@@ -46,6 +52,7 @@ export function renderPostCard(post, permissions, currentUser) {
       <span class="post-type-icon" aria-label="${post.type}">${typeIcon}</span>
       <span class="post-author">@${_esc(post.meta?.proxyAuthor?.replace(/^@/, '') ?? post.authorLogin)}</span>
       <time class="post-time" datetime="${_esc(post.createdAt)}">${_relTime(post.createdAt)}</time>
+      ${statusBadge}
       ${isYourTurn ? '<span class="badge badge--your-turn">Your turn</span>' : ''}
     </div>
     <div class="card__body">${_renderContent(post)}</div>
@@ -91,6 +98,28 @@ function _cardClass(post) {
   const classes = [];
   if (post.type === 'assertion' && post.isOffer) classes.push('card--offer');
   return classes.join(' ');
+}
+
+/**
+ * Derive an aggregate status icon for all Duels rooted at this assertion.
+ * Priority: active > crickets > accord > none.
+ */
+function _duelsStatusBadge(post, duels) {
+  const related = duels.filter(
+    d => d.rootPostId === post.id || d.rootPostId === post.meta?.rootId
+  );
+  if (related.length === 0) return '';
+
+  let icon, label;
+  if (related.some(d => d.isActive)) {
+    icon = DUEL_ICON_ACTIVE;   label = 'Duel in progress';
+  } else if (related.some(d => d.isCrickets)) {
+    icon = DUEL_ICON_CRICKETS; label = 'No response — crickets';
+  } else {
+    icon = DUEL_ICON_ACCORD;   label = 'Resolved by accord';
+  }
+
+  return `<span class="duel-status-icon" aria-label="${label}" title="${label}">${icon}</span>`;
 }
 
 function _renderContent(post) {

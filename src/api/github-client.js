@@ -10,7 +10,9 @@
 import * as cache from './cache.js';
 
 const BASE_URL = 'https://api.github.com';
-export const APP_ID = 'disputable.io';
+export const APP_ID = 'judgmental.io';
+/** Legacy appId accepted during data-migration window. */
+export const APP_ID_LEGACY = 'disputable.io';
 
 // ---------------------------------------------------------------------------
 // Mock mode
@@ -349,7 +351,7 @@ export function parseBody(issueBody) {
   try {
     const meta = JSON.parse(jsonStr);
     if (!meta || typeof meta !== 'object' || Array.isArray(meta)) return null;
-    if (meta.appId !== APP_ID) return null;
+    if (meta.appId !== APP_ID && meta.appId !== APP_ID_LEGACY) return null;
     return meta;
   } catch {
     return null;

@@ -3,7 +3,7 @@
 
 export const CONFIG = {
   /** Product name shown in user-facing chrome */
-  appName: 'disputable.io',
+  appName: 'judgmental.io',
 
   /** GitHub OAuth App Client ID (public — safe to share) */
   githubClientId: 'Iv23lijU8slblZnF4ofj',

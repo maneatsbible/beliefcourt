@@ -1,5 +1,5 @@
 /**
- * disputable.io custom micro test-runner
+ * judgmental.io custom micro test-runner
  * Pure JavaScript, no external dependencies.
  * Run with: node --experimental-vm-modules tests/runner.js
  */

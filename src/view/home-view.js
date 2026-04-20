@@ -96,6 +96,7 @@ export class HomeView {
           canAgree:     this._ctrl.canAgree(this._user, post, this._agreements, this._disputes),
           isYourTurn,
           disputeId:    null,
+          duels:        this._disputes,
         };
 
         const card = renderPostCard(post, perms, this._user);

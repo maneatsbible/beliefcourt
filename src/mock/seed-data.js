@@ -22,7 +22,7 @@
  * All meta blocks carry  "appId": "disputable.io"  so parseBody() accepts them.
  */
 
-const APP_ID = 'disputable.io';
+const APP_ID = 'judgmental.io';
 
 function meta(obj) {
   return `<!-- DSP:META\n${JSON.stringify({ appId: APP_ID, ...obj }, null, 2)}\n-->`;
