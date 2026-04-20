@@ -26,7 +26,7 @@ Follow-up TODOs:
 
 judgmental.io exists because of a conviction drawn directly from biblical faith in Jesus Christ.
 
-The platform is built on the belief that truth is real, that it can be known, and that people made in the image of God are capable of holding and defending genuine convictions — not merely constructing plausible-sounding arguments. The capacity for reasoned disagreement, pursued honestly and in good faith, is an expression of the dignity God gives to every person.
+The platform is built on the belief that truth is real, that it can be known, and that people made in the image of God are capable of holding and defending genuine convictions — not merely constructing plausible-sounding arguments.
 
 The product therefore serves two related purposes that flow from the same source:
 
@@ -138,16 +138,29 @@ When evaluating third-party tools, services, libraries, or APIs, the zero-cost o
 
 **Rationale**: Minimising operating costs preserves runway, reduces vendor lock-in, and forces deliberate decisions about every paid dependency. The burden of proof lies with paid tooling.
 
-### VII. Christian Mode and Church Discipline are First-Class Features
+### VII. Christian Mode is Not a General Faith Platform
 
-Christian Mode (faith community features including Church Discipline) is a first-release feature, not an add-on. This principle ensures it is never deprioritised, never hidden behind a feature flag by default, and never treated as secondary to the standard dispute mechanics.
+Christian Mode is a first-release feature set built specifically for Bible-following Christians. It is not a generic spirituality layer, not an interfaith dialogue tool, and not a platform for comparative religion. It is built for people who hold scripture as their highest authority and who pursue repentance, reconciliation, and accountability as genuine practices of the faith — not as metaphors.
 
+**What Christian Mode is for:**
+- Robust, honest disputes — not soft-pedalled conversation. Christians can handle hard things. The platform MUST NOT patronise or over-protect users in this context.
+- Repentance and reconciliation as structural outcomes: the Church Discipline process, the Accountability Partnership, and the Apology Court context all exist because these are real practices, not features.
+- Scripture as testimony and grounding — not as a logical club (see Principle I).
+- Parenting under a shared faith: co-parenting disagreements, discipline approaches, faith formation for children.
+- Christian dating: the Exploring Our Faith context, Tradition tag, and faith-aligned matching are for people who regard shared faith as a non-negotiable in a relationship — not as a tiebreaker.
+
+**What Christian Mode is NOT:**
+- A general faith mode open to any religion or spirituality. If users want that, Patheos exists.
+- A theological neutral zone. The platform is built by someone with a specific confessional commitment, and Christian Mode reflects that.
+- A soft community space for affirmation. The platform's core mechanic is structured challenge. Christian Mode operates by the same mechanic.
+
+**Implementation standards:**
 - Church Discipline (the three-stage reconciliation process modelled on Matthew 18) is the most structurally rigorous feature on the platform. It MUST be treated with that weight: careful UX, thorough testing, and respectful copy.
 - No feature in Christian Mode may be implemented in a way that is dismissive, satirical, or reductive of sincere religious practice. Code review MUST include this check.
-- AI assistance in `context=doctrinal`, `context=bible_study`, `context=accountability`, `context=discernment`, and `context=discipline` contexts MUST default to a tone that is measured, non-adversarial, and deferential to the sincerity of the parties.
+- AI assistance in `context=doctrinal`, `context=bible_study`, `context=accountability`, `context=discernment`, `context=discipline`, and `context=parenting` contexts MUST default to a tone that is measured, non-adversarial, and deferential to the sincerity of the parties.
 - The **Exploring Our Faith** feature is a primary discovery surface for the faith community and MUST be treated as a core feature, not an extension.
 
-**Rationale**: The faith community is a primary user segment with well-defined, serious needs. Building for them well — with integrity and genuine understanding of their practices — is both a product and an ethical commitment.
+**Rationale**: This platform was built by someone with a specific biblical faith. Christian Mode is the most direct expression of that. It should be built with the integrity that conviction requires — seriously, robustly, and without hedging.
 
 ## Quality Gates
 
@@ -183,4 +196,4 @@ This constitution supersedes all other development guidelines and practices with
 
 **Compliance review**: Adherence to this constitution MUST be verified during each sprint retrospective and whenever a new team member joins.
 
-**Version**: 2.1.0 | **Ratified**: 2026-04-18 | **Last Amended**: 2026-04-20
+**Version**: 2.2.0 | **Ratified**: 2026-04-18 | **Last Amended**: 2026-04-20
