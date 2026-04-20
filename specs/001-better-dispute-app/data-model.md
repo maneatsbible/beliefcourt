@@ -451,7 +451,7 @@ survived_duels(claim) = count(Duels where disposition=STANDING and subjectRecord
 
 ### SimilarityLink
 
-A Person's assertion that two Records are conceptually equivalent — e.g. the same argument made twice. Treated as a first-class Record: it can be agreed with, challenged, and have Cases opened against it. Equivalence is determined by community consensus, not by algorithm.
+A Person's assertion that two Records are conceptually equivalent — e.g. the same claim made twice. Treated as a first-class Record: it can be agreed with, challenged, and have Cases opened against it. Equivalence is determined by community consensus, not by algorithm.
 
 | Field | Type | Notes |
 |-------|------|-------|

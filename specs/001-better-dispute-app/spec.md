@@ -35,9 +35,9 @@
 - Q: How are Compatibility Duels shared and discovered to drive traffic? → A: Three viral loops: (1) shareable invite link with anonymous teaser card sent outside the app; (2) public Open Challenges feed where anyone may accept; (3) shareable "Duel me on this" Score Card image watermarked with judgmental.io URL. Topic templates and a Match Profile alignment feature drive organic discovery. Dating leaderboard (Most Compatible Pairs) provides social proof.
 - Q: Are there features specifically for Bible-following Christians? → A: Yes — **Christian Mode** is a first-release feature set, not deferred, and not a general interfaith layer. It is built specifically for people who hold scripture as their highest authority. Features include: Scripture Evidence type, Doctrinal Claims with scripture citation helper, Bible Study Duels, Church/Small Group org tier with `elder` role, Accountability Partnerships, Community Discernment, a three-stage Church Discipline process (Reconciliation / Witnessed Reconciliation / Community Review), Theological topic templates, **Exploring Our Faith** (an ongoing structured project — see FR-169), Tradition tag, **Christian Dating** context (faith-first matching and courtship Duels), and **Parenting Duels** (faith formation, discipline approach, co-parenting under shared faith). The **Bible Widget** (FR-210) and **Bible Reader** (FR-211) are the platform's native scripture study tool — KJV default, 7 free translations at launch, with a low-priority roadmap for licensed translations requiring formal publisher partnerships. Pre-marital Counseling Track is included but is secondary priority — it ships after the core dispute and reconciliation features. No denomination is privileged. The platform actively discourages proof-texting in all contexts — scripture references are testimony, not logical premises (Constitutional Principle I). This is not Patheos. There is no generic spirituality mode.
 - Q: Should an Open API for third-party integrations be in v1? → A: Yes, as a documented public REST API with API-key auth. All read endpoints (Claims, Cases, Duels, Dispositions, Analytics views) are accessible. Write endpoints (file a Claim, open a Case) require org-tier or API-key auth. Rate-limited. Documented at `GET /api/docs` (JSON/OpenAPI 3.1).
-- Q: Should Historical Re-trials be in v1? → A: Yes. A Duel may be created with `context=historical` and a `historical_subject` string (e.g. "Galileo v The Church, 1633"). These Duels are special: parties are role-players arguing historical positions, not personal claims. The original Record is a system-authored Claim citing the historical subject. These Duels are always public, never generate ClaimAccords against living Persons, and are tagged for the Historic Re-trials analytics view.
+- Q: Should Historical Re-trials be in v1? → A: Yes. A Duel may be created with `context=historical` and a `historical_subject` string (e.g. "Galileo v The Church, 1633"). These Duels are special: parties are role-players defending assigned historical positions, not personal claims. The original Record is a system-authored Claim citing the historical subject. These Duels are always public, never generate ClaimAccords against living Persons, and are tagged for the Historic Re-trials analytics view.
 - Q: Should an Apology Court (Resolution/Reconciliation mode) be in v1? → A: Yes, as a named Duel context (`context=apology`). The filing party declares a wrong, submits evidence of it, and proposes remediation. The respondent may Accept (producing a `reconciliation` Disposition), reject, or contest. The UI frames this in restorative language — wrongdoing acknowledged, remedy proposed, verdict reached. Christian forgiveness theology (the idea that confession, acknowledgement, and genuine repentance are the preconditions of restoration) is the philosophical north star, but the system is belief-agnostic. No religious language is coded into the UI. The system simply asks: was the wrong acknowledged? Was a remedy offered? Did the other party accept? The moral weight of the resulting record is left to the parties and their community.
-- Q: Should Verdict data be sold as a product? → A: Yes. An anonymized, aggregated dataset of Claims, verdicts, and Judgment consistency scores is exposed as a subscription data API. Access tiers: Researcher (free, rate-limited), Professional ($99/month), Institutional ($499/month). Content is fully anonymized — no Persons, no handles, only argument structures and verdicts. Opt-out is available but defaults to opt-in.
+- Q: Should Verdict data be sold as a product? → A: Yes. An anonymized, aggregated dataset of Claims, verdicts, and Judgment consistency scores is exposed as a subscription data API. Access tiers: Researcher (free, rate-limited), Professional ($99/month), Institutional ($499/month). Content is fully anonymized — no Persons, no handles, only claim structures and verdicts. Opt-out is available but defaults to opt-in.
 - Q: What auto-analytics are wanted? → A: Ten public analytical views: (1) contested ground map, (2) consensus clusters, (3) undefeated Claims leaderboard, (4) serial challengers badge, (5) Judgment consistency score, (6) precedent chains graph, (7) dead ends / graveyard, (8) velocity (fastest-growing ClaimAccords), (9) flip rate (intellectual consistency), (10) "you disagree with N% on this" hook on Home View cards.
 
 ### Session 2026-04-19 — Scope widening to judgmental.io
@@ -67,7 +67,7 @@ The architecture maps exactly onto MVC, and the correspondence is not incidental
 
 - **Belief Ledger (Model)** — The SQLite database. Append-only record of every epistemic act: Claims, Challenges, Answers, Offers, Responses, Accords, ClaimAccords, Rescissions, Dispositions, Judgments, Evidence. The Ledger contains only what happened — what a Person actually filed, contested, agreed to, or withdrew. There is no inference layer. There are no implied beliefs. The Ledger is authoritative; it cannot be reconstructed from any other source.
 
-- **Worldview Engine (Controller)** — Derives structure from the Belief Ledger deterministically, without AI. This is where Tradition Map computation lives (Jaccard similarity over `faith_relevant` ClaimAccords), where Compatibility Scores are computed, where the Personal Faith Profile is assembled, where Accord chains are traced, where the Base of Truth is derived. The Engine asks: *given all the Records this Person has produced, what structure emerges?* That structure is not inferred. It is computed. A Tradition Map produced by the Worldview Engine is a faithful derivation of what a Person has actually argued and agreed to — nothing else.
+- **Worldview Engine (Controller)** — Derives structure from the Belief Ledger deterministically, without AI. This is where Tradition Map computation lives (Jaccard similarity over `faith_relevant` ClaimAccords), where Compatibility Scores are computed, where the Personal Faith Profile is assembled, where Accord chains are traced, where the Base of Truth is derived. The Engine asks: *given all the Records this Person has produced, what structure emerges?* That structure is not inferred. It is computed. A Tradition Map produced by the Worldview Engine is a faithful derivation of what a Person has actually defended and agreed to — nothing else.
 
 - **Worldview Renderer (View)** — Presents the derived worldview: the public profile, the Tradition Map, the Match Profile, the Exploring Our Faith view, Score Cards, the Personal Faith Profile. The Renderer has no opinions. It shows what the Engine derived from what the Ledger contains.
 
@@ -396,11 +396,11 @@ Two consenting Persons want to use the Duel mechanic to structure a high-stakes 
 
 ### User Story 18 — Historical Re-trial (Priority: P3)
 
-A user wants to re-argue a famous historical dispute — Galileo vs the Church, Keynes vs Hayek, Tesla vs Edison. They file a Re-trial, claiming one of the historical positions. Another user claims the opposing position. The Duel proceeds with standard mechanics. The verdict joins a public Historic Re-trials archive.
+A user wants to re-litigate a famous historical dispute — Galileo vs the Church, Keynes vs Hayek, Tesla vs Edison. They file a Re-trial, claiming one of the historical positions. Another user claims the opposing position. The Duel proceeds with standard mechanics. The verdict joins a public Historic Re-trials archive.
 
 **Why this priority**: High organic shareability. Drives SEO. Zero data-model changes needed.
 
-**Independent Test**: User A files a Historical Re-trial with `historical_subject="Galileo v The Church, 1633"`. The root Claim is authored by `@system`. User B argues the opposing position. Neither user's ClaimAccord count is affected by the verdict.
+**Independent Test**: User A files a Historical Re-trial with `historical_subject="Galileo v The Church, 1633"`. The root Claim is authored by `@system`. User B defends the opposing position. Neither user's ClaimAccord count is affected by the verdict.
 
 **Acceptance Scenarios**:
 
@@ -520,7 +520,7 @@ The platform explicitly discourages philosophical argumentation — construction
 
 ### On Precedent and Repeated Fights
 
-When a SimilarityLink between two Records reaches STANDING state, the system surfaces the prior Duel as Precedent for any new equivalent Challenge. The intention is that a good argument, once won, should not need to be won again. People defend their claims once; the record speaks for itself.
+When a SimilarityLink between two Records reaches STANDING state, the system surfaces the prior Duel as Precedent for any new equivalent Challenge. The intention is that a well-defended position, once it has held, should not need to be defended again. People defend their claims once; the record speaks for itself.
 
 ### On Openness and Access
 
@@ -749,7 +749,7 @@ Dating Mode is a first-class product mode in v1. The dating/compatibility experi
 - **FR-153** (**Dating Duel teaser card**): The invite link page MUST show a teaser that reveals only the Duel topic (e.g. "Are we compatible enough to move in together?") without revealing the filer's identity until Person B signs in and accepts. This creates curiosity-driven click-through. The teaser card is branded as a **Dating Duel** in the header.
 - **FR-154** (**Public "Settle It" challenges**): Person A MAY file a Dating Duel as a **public open challenge** — directed at any Person who matches a stated profile (e.g. "Anyone who thinks pineapple belongs on pizza — settle it with me"). These appear in a dedicated **Open Challenges** feed section. Any authenticated Person MAY accept. Once accepted, the Duel becomes private between the two parties.
 - **FR-155** (**Dating topic templates**): A library of pre-written **topic templates** MUST be available when filing a `context=compatibility` Dating Duel. Categories: Lifestyle, Values, Finances, Family, Conflict Style, Future Plans, Dealbreakers. Selecting a template pre-fills the Claim text and suggested turn structure. Templates are community-contributed (filed as Records and upvoted) — the most-used templates surface first.
-- **FR-156** (**Dating Duel score card**): After a Dating Duel reaches a Disposition, the system generates a private **Score Card** for the two parties — a visual summary showing: topic, how each party argued, where they converged, where they diverged, and the verdict. Both parties may choose to share the Score Card as a static image (generated server-side as an SVG/PNG). Shared Score Cards are watermarked with the judgmental.io URL and Duel ID.
+- **FR-156** (**Dating Duel score card**): After a Dating Duel reaches a Disposition, the system generates a private **Score Card** for the two parties — a visual summary showing: topic, the position each party held, where they converged, where they diverged, and the verdict. Both parties may choose to share the Score Card as a static image (generated server-side as an SVG/PNG). Shared Score Cards are watermarked with the judgmental.io URL and Duel ID.
 - **FR-157** (**"Find your match" Claim alignment**): Any Person MAY publish a set of their public ClaimAccords as a **Match Profile** — a curated list of positions they hold (e.g. political, lifestyle, values Claims). The system MAY surface other Persons with high Claim-alignment scores as potential Dating Duel matches. Alignment is computed as Jaccard similarity over public ClaimAccords. This feature requires explicit opt-in for both the publisher and the surfaced match.
 - **FR-158** (**Shareable Dating Duel teaser**): A Person MAY generate a public **"Duel me on this"** card from any of their public Claims — a shareable image linking to an open Dating Duel challenge on that Claim. Format: the Claim text, their handle, and a CTA ("Think you can beat this? Accept the challenge"). This is the primary viral loop: post the card on X/Threads/Instagram, drive clicks to judgmental.io, new users sign up to accept.
 - **FR-159** (**Dating leaderboard**): An opt-in public leaderboard of **Most Compatible Pairs** (couples who have completed the most Dating Duels with `reconciliation` or `accord` dispositions and chosen to be public). Displayed on the Commitments feed. Drives social proof and aspiration.
@@ -1010,7 +1010,7 @@ This is the placement mechanic for non-church orgs. Instead of passive sponsored
 
 - **FR-118**: A Duel MAY be created with `context=historical` and a `historical_subject` string (e.g. `"Galileo v The Church, 1633"`).
 - **FR-119**: The root Claim for a Historical Re-trial MUST be a system-authored Record (authored by `@system`) citing the `historical_subject`. No living Person's Base of Truth is affected by the outcome.
-- **FR-120**: Historical Re-trial parties argue assigned historical positions. Their Judgment verdict does NOT produce a ClaimAccord against either party's personal Base of Truth.
+- **FR-120**: Historical Re-trial parties defend assigned historical positions. Their Judgment verdict does NOT produce a ClaimAccord against either party's personal Base of Truth.
 - **FR-121**: Historical Re-trials are ALWAYS public. They appear in a dedicated **Historic Re-trials** analytics view and feed section.
 - **FR-122**: A `historical_subject` search MAY surface existing Re-trials on the same subject, displaying precedent verdicts before a new one is filed.
 
@@ -1028,9 +1028,9 @@ This is the placement mechanic for non-church orgs. Instead of passive sponsored
 - **FR-129**: An anonymized, aggregated dataset of Claims (text only, no author), Disposition outcomes, and Judgment consistency scores MUST be exposed as a subscription data API at `GET /api/data/*`.
 - **FR-130**: Verdict Data API access tiers and rate limits:
   - **Researcher** — free, 100 req/day, read-only, anonymized only
-  - **Professional** — $99/month, 2,000 req/day, full anonymized dataset including argument structure
+  - **Professional** — $99/month, 2,000 req/day, full anonymized dataset including claim structure
   - **Institutional** — $499/month, unlimited, bulk export (JSONL), priority support
-- **FR-131**: All data returned by the Verdict Data API MUST be fully anonymized. No Person handles, display names, or platform identifiers may be included. Argument structure (Claim text, challenge text, evidence summaries) is included but stripped of any PII.
+- **FR-131**: All data returned by the Verdict Data API MUST be fully anonymized. No Person handles, display names, or platform identifiers may be included. Claim structure (Claim text, challenge text, evidence summaries) is included but stripped of any PII.
 - **FR-132**: Persons MAY opt out of Verdict Data API inclusion via a toggle in User Settings. Opt-out is respected within 24 hours (next analytics rollup cycle). Default is **opted in**.
 - **FR-076**: An "Sign in to remove ads" label MUST appear above the ad strip for unauthenticated users.
 - **FR-077**: Google Ads MUST be the ad provider. Ad content MUST NOT appear in any authenticated view.
@@ -1200,7 +1200,7 @@ The Bluesky ATProto OAuth flow requires Dynamic Client Registration per PDS inst
 - *"Take ideas and their defenders to trial, and reach verdicts."*
 - *"You've been posting takes for years. Time to defend them."*
 - *"Likes don't make you right. Surviving challenges does."*
-- *"The internet has been arguing for 30 years. judgmental.io is where we settle it."*
+- *"The internet has been fighting for 30 years. judgmental.io is where we settle it."*
 
 ---
 

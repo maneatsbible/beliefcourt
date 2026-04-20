@@ -66,7 +66,7 @@ export class HomeController {
 
   /**
    * Can the given person use the @herald option to import external content?
-   * Any authenticated user may plant a herald argument.
+   * Any authenticated user may plant a herald claim.
    *
    * @param {{ id: number, login: string }|null} person
    * @returns {{ allowed: boolean, reason: string }}
@@ -129,7 +129,7 @@ export class HomeController {
     cache.invalidatePattern(gh.issuesUrl(this._dataRepo));
 
     // When posting as @herald, automatically create a challenge+dispute so the
-    // current user is immediately disputing their own planted herald argument.
+    // current user is immediately disputing their own planted herald claim.
     if (asHerald) {
       const assertionPost = {
         id:         created.number,

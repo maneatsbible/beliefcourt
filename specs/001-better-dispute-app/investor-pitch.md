@@ -45,7 +45,7 @@ One engine. Every context. The mechanic doesn't change. The framing does.
 
 ## Why This, Why Now
 
-- Dating apps optimize for matches, not compatibility. "Swipe right" selects for photos. judgmental.io selects for positions. How someone argues what they believe is a far stronger compatibility signal than any profile photo or questionnaire.
+- Dating apps optimize for matches, not compatibility. "Swipe right" selects for photos. judgmental.io selects for positions. How someone *defends* what they believe is a far stronger compatibility signal than any profile photo or questionnaire.
 - The Christian dating market is large, underserved, and enormously word-of-mouth driven. A platform that treats Christian courtship with actual theological seriousness — not just a "faith" checkbox — has no direct competitor.
 - Every Duel is shareable content. Every Score Card is a watermarked referral. The product markets itself every time two people use it.
 - AI bots are a $50B+ problem for social platforms. judgmental.io is the first platform to solve it architecturally rather than reactively — and to convert it into a revenue stream.
@@ -58,7 +58,7 @@ One engine. Every context. The mechanic doesn't change. The framing does.
 
 **Hook**: "Duel me on this before we go further."
 
-Two people stake out positions on the things that actually matter — values, deal-breakers, standards, beliefs — and argue them through a structured mechanic, on the record. Friends and family join as **Judges**: watching the exchange, submitting Analysis, casting weighted votes on who made the stronger case and whether the relationship has legs. Your best friend thinks he's wrong for you. He thinks differently. Now they argue it publicly while you watch — and their judgment is on the record.
+Two people stake out positions on the things that actually matter — values, deal-breakers, standards, beliefs — and defend them through a structured mechanic, on the record. Friends and family join as **Judges**: watching the exchange, submitting Analysis, casting weighted votes on who made the stronger case and whether the relationship has legs. Your best friend thinks he's wrong for you. He thinks differently. Now they each defend their position publicly while you watch — and their judgment is on the record.
 
 The Score Card is the output — a shareable compatibility record covering every contested position. The Verdict is rendered. The record is permanent. And everyone who watched has a stake in it.
 
@@ -74,7 +74,7 @@ This is not a questionnaire. It is not a compatibility quiz. It is the only plat
 
 The entry point is belief formation, not conflict resolution. Christians come to the platform because they want to know what they believe, understand where they stand in relation to their tradition, and engage with other Christians who are doing the same. Exploring Our Faith is the front door: a belief-system mapping tool that grows as Christians file Doctrinal Duels and accumulate ClaimAccords. A Duel IS a Catechism — there are no preset questions; the questions that matter emerge from what Christians actually bring.
 
-The viral mechanic in this engine is **Christians exploring their faith together, and being blessed by that.** When two Christians engage on a doctrinal question honestly — not arguing to win, but defending what they actually believe — something real happens. The Score Card for a Bible Study Duel is a record of something worth sharing not because it was dramatic but because it was true. And uniquely: at the close of any Christian context Duel, either party may offer to **pray for their interlocutor** — an in-app gesture that turns even a disagreement into a moment of Christian community.
+The viral mechanic in this engine is **Christians exploring their faith together, and being blessed by that.** When two Christians engage on a doctrinal question honestly — not competing to win, but defending what they actually believe — something real happens. The Score Card for a Bible Study Duel is a record of something worth sharing not because it was dramatic but because it was true. And uniquely: at the close of any Christian context Duel, either party may offer to **pray for their interlocutor** — an in-app gesture that turns even a disagreement into a moment of Christian community.
 
 **Seeding**: 5–10 pastors and church leaders pre-launch, using Accountability and Community Discernment. Their word carries; institutional credibility compounds.  
 **Revenue**: Christian Match ($12.99/month).  
