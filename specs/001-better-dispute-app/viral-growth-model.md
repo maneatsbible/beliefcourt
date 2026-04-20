@@ -1,8 +1,8 @@
 # judgmental.io — Viral Growth Model
 
-**Two engines. One platform.**
+**Two engines. One platform. One physical-world channel.**
 
-judgmental.io is designed to spread through two distinct communities with different sharing mechanics, different emotional triggers, and different retention loops. They are compatible, and they reinforce each other.
+judgmental.io is designed to spread through two distinct communities with different sharing mechanics, different emotional triggers, and different retention loops — plus a third acquisition channel that operates entirely offline.
 
 ---
 
@@ -10,32 +10,152 @@ judgmental.io is designed to spread through two distinct communities with differ
 
 ### Engine 1 — Christian Faith
 
-**Emotional trigger**: *The desire to be understood, not just defeated.*  
-**Social context**: Church community, accountability relationships, Bible study groups, marriage prep.  
-**Sharing trigger**: Depth, honesty, resolution. Someone shares a link to a Duel because it went *well* — because they reached genuine accord, or because a hard thing got said with dignity.
+**Emotional trigger**: *The desire to be genuinely known, genuinely challenged, and actually reconciled.*  
+**Social context**: Church community, accountability relationships, Bible study groups, Christian dating, parenting disagreements, church discipline.  
+**Sharing trigger**: Resolution. Someone shares a Duel because it went *somewhere real* — repentance happened, reconciliation was reached, a hard position was defended with scripture-grounded honesty.
 
-The Christian community shares differently from the general public. They share through:
-- Personal testimony ("This helped us resolve something real")
-- Pastor/elder recommendation
-- Small group leader introduction
-- Marriage preparation context
-- Church bulletin / group message thread
+This is not a general faith mode. It is not interfaith dialogue. It is for Bible-following Christians who take dispute, repentance, and reconciliation seriously as practices — not metaphors. The emotional hook is depth of resolution, not entertainment.
 
-Growth in this channel is slower per share but extremely high in trust and retention. A pastor who adopts it for marriage prep introduces it to every couple they counsel.
+The Christian community shares through:
+- Personal testimony ("This helped us resolve something we'd been avoiding for years")
+- Pastor/elder recommendation for accountability and discipline contexts
+- Small group leader introduction for Bible Study Duels
+- Church bulletin / group WhatsApp for Doctrinal Claims and Community Discernment
+- Christian dating match invitation — "Duel me on this before we go further"
+- Parenting co-decision share with a co-parent or trusted third party
+
+Growth in this channel is slower per share but extremely high in trust and retention. Once a pastor uses the Church Discipline process for a real case, the platform's credibility with church leadership is established permanently.
 
 ---
 
-### Engine 2 — Dating
+### Engine 2 — Dating (General and Christian)
 
 **Emotional trigger**: *Curiosity, competition, chemistry, and the thrill of being seen.*  
-**Social context**: Singles, first dates, group chats, "send this to your ex", Twitter/X, TikTok, Instagram Stories.  
-**Sharing trigger**: The Verdict card. The Score Card. The "Duel me on this" card. The leaderboard position.
+**Social context**: Singles, first dates, group chats, "send this to your ex", Twitter/X, TikTok, Instagram Stories. And separately: Christians who want faith-first matching.  
+**Sharing trigger**: The Verdict card. The Faith Alignment Score card. The Score Card. The "Duel me on this" card. The leaderboard position.
 
 The dating mechanics are designed for virality at every UX touchpoint:
 - **"Duel me on this"** card is a public, shareable challenge — designed to be screenshot and captioned
 - **Score Card** shows compatibility on hard topics — "we disagreed on everything and still matched"
+- **Faith Alignment Score Card** — shareable card showing how two Christians aligned or differed on faith positions. "We're both Reformed but he's wrong about sabbath" is extremely shareable in the Christian community
 - **Leaderboard** creates public bragging rights — "top 1% most challenged person in London"
 - **Dating Duel invite link** is a single URL — send to a match on any platform, no account required to read, account required to respond
+- **Christian Dating feed** — Open Challenges posted as public faith statements, browsable by tradition tag. "I believe marriage is a covenant" as a public claim invites responses
+
+---
+
+### Engine 3 — Neighbourhood (Physical-World QR Distribution)
+
+**Emotional trigger**: *The frustration of living next to people you've never properly spoken to about the things that actually affect your life.*  
+**Social context**: Apartment buildings, dorms, shared houses, cul-de-sacs — any group of people who share a physical space but are strangers.  
+**Sharing trigger**: A printed QR flyer posted on a noticeboard, letterbox, or communal door. No algorithm. No platform. No feed. A piece of paper.
+
+This is the third growth channel and the most structurally unique. It operates entirely offline. The acquisition mechanic is a PDF flyer generated by the platform at zero marginal cost, posted in a physical space, and scanned by people who would never have heard of the platform online.
+
+**Why this works:**
+- The person who scans a QR code on a communal noticeboard has immediate context and motivation — they live there. They have a stake. They don't need to be convinced the use case is relevant. It already is.
+- Unlike digital sharing, a flyer doesn't decay algorithmically. It stays on the noticeboard until someone takes it down. It keeps converting.
+- A single apartment building of 40 units is 40 potential users acquired by one PDF printed by one person.
+
+**Sharing mechanic (share-by-share):**
+1. One motivated resident creates a neighbourhood org and prints the QR flyer (one action, under 2 minutes)
+2. They post it in the communal hallway, letterbox area, or laundry room
+3. Residents scan it over days and weeks as they pass — no time pressure, no social obligation
+4. Each new join notifies the convenor and invites them to file or respond to a policy or dispute
+5. The first Community Policy that reaches accord produces a printable Policy Document — which gets physically posted next to the flyer as proof that it works
+6. A second building in the same street sees the policy and the flyer — and one of those residents becomes the next convenor
+
+**Revenue stream (RS-7 — Neighbourhood+ subscription)**:  
+Free tier: 1 neighbourhood org, up to 10 members, 3 active Duels, 1 Policy Document.  
+Neighbourhood+ ($6.99/month): Unlimited members, unlimited Duels, unlimited Policy Documents, anonymous dispute filing, guest access for property managers, and branded flyer with custom org logo.  
+Building/Dorm Block tier ($19.99/month): Up to 5 orgs under one account (for a property manager or building super managing multiple blocks), bulk flyer generation, export all Policy Documents as a ZIP.
+
+**Projected MRR contribution by Month 6**: $1,000–$4,000/month from neighbourhood subscriptions alone. Low churn — once a community is organised, the org is sticky.
+
+---
+
+## Revenue Streams — Full Summary
+
+| Stream | Est. Monthly Revenue (Month 6) |
+|---|---|
+| Dating+ subscriptions | $8,000–$15,000 |
+| Christian Match subscriptions | $3,000–$6,000 |
+| Church Org placement | $500–$2,000 |
+| Score Card Keepsakes | $500–$1,500 |
+| Parenting+ subscriptions | $1,000–$4,000 |
+| Neighbourhood+ / Building tier | $1,000–$4,000 |
+| Verdict Data API | $500–$2,000 |
+| Duel Coach AI add-on | $500–$2,000 |
+| **Total** | **$15,000–$36,500/month** |
+
+---
+
+Dating mode is the primary commercial engine. Every mechanic has a monetisation path.
+
+### RS-1 — Premium Dating Subscriptions
+
+**Free tier**: Send up to 3 Duel invites/month, see Score Cards, post to Christian Dating feed.  
+**Dating+ ($9.99/month)**: Unlimited Duel invites, full Match Profile history, Faith Alignment Score on all profiles, priority placement in Open Challenges feed, and read receipts on invite links.  
+**Christian Match ($12.99/month)**: Everything in Dating+, plus the Christian Dating feed, Tradition tag filtering, `context=christian_dating` Duel templates, and Faith Alignment browsing.
+
+**Projected MRR at 10,000 active dating users (15% conversion)**: ~$15,000–$20,000/month.
+
+---
+
+### RS-2 — Score Card NFT / Digital Keepsake
+
+When a couple's Duel reaches a meaningful Verdict (Reconciliation, or a high-alignment Score Card), they may purchase a **Permanent Score Card** — a designed, watermarked digital artefact of their Duel outcome. One-time payment: $4.99–$9.99.
+
+Use cases:
+- "This is the Duel where we agreed on everything that matters"
+- "Our first proper disagreement, resolved"
+- Frame it. Print it. Send it to your pastor as part of pre-marital documentation.
+
+**Virality mechanic**: Every purchased Score Card is a watermarked advertisement shared organically to social media by the couple.
+
+**Projected revenue at 1% of active dating pairs purchasing**: Medium-low volume, high margin, near-zero cost.
+
+---
+
+### RS-3 — Christian Dating Placement (Church-Tier)
+
+Churches and Christian organisations may pay for **Verified Org Placement** — their church or group appears as a verified badge on member profiles in the Christian Dating feed. Couples who meet through a church-org-verified profile generate a referral attribution back to the church.
+
+**Price**: $49–$99/month per church org.  
+**Virality mechanic**: Church orgs are incentivised to promote the platform to their singles communities to justify the subscription. Pastor promotion → new signups → new subscriptions.
+
+---
+
+### RS-4 — Parenting Concierge (Premium Parenting)
+
+**Parenting+** ($7.99/month): Unlocks the full Christian parenting template library, elder/counsellor access grants for parenting Duels, private parenting history archive, and AI-assisted turn drafting in `context=parenting` contexts.
+
+**Target users**: Co-parents navigating shared custody, married couples with recurring parenting disputes, Christian parents who want a faith-informed resolution record.
+
+**Projected MRR at 5,000 parenting users (10% conversion)**: ~$4,000/month.
+
+---
+
+### RS-5 — Verdict Data API (Dating Segment)
+
+An anonymised, segmented dataset of Dating Duel outcomes — compatibility distributions, most-disputed topics by demographic, faith tradition alignment patterns — exposed as a subscription data API.
+
+**Access tiers**:
+- Researcher: free, rate-limited
+- Dating App Integration ($299/month): API access for dating platforms wanting to embed or study compatibility data
+- Research Institutional ($499/month): full dataset access
+
+**Target customers**: Dating apps, relationship researchers, Christian counselling researchers.
+
+---
+
+### RS-6 — "Duel Coach" AI Add-on ($4.99/month)
+
+An AI assistant that reviews your Duel turns before submission and gives feedback on whether you're defending your position clearly, not just constructing an argument. It flags if your turn sounds like proof-texting, asks if you've said what you actually believe, and helps you articulate your position without rhetorical construction.
+
+Not a "make your argument stronger" tool. A "say what you actually mean" tool. This distinction matters in the copy.
+
+**Virality mechanic**: Users who use Duel Coach produce noticeably better, more genuine Duel records — which generates better Score Cards — which get shared more.
 
 ---
 
@@ -43,18 +163,18 @@ The dating mechanics are designed for virality at every UX touchpoint:
 
 ### Pre-launch (Month −2 to 0): Seed the Faith Community First
 
-**Target**: 5–10 church contacts. Pastors, small group leaders, marriage counsellors.
+**Target**: 5–10 church contacts. Pastors, small group leaders, Christian counsellors.
 
-The faith engine is seeded privately before public launch. These are not "beta testers" — they are endorsers. When they use it in a real counselling or accountability context and find it valuable, they become long-term advocates.
+The faith engine is seeded privately before public launch. These are endorsers whose personal use of accountability, Community Discernment, or Christian Dating establishes the platform's credibility before it is visible to the public.
 
-**Shares generated in this phase**: Low volume. High quality. These are the people who later tell their congregations.
+**Shares generated in this phase**: Low volume. High quality. These are the people who later tell their congregations, and whose recommendation carries weight because they use it themselves.
 
 ---
 
 ### Month 1: Launch — Dating Engine Fires First
 
 **Activation**: dating.judgmental.io campaign, "Duel me before you date me" framing.  
-**Target platforms**: Twitter/X, Reddit (r/dating, r/relationships), TikTok.
+**Target platforms**: Twitter/X, Reddit (r/dating, r/relationships, r/christianity), TikTok.
 
 **Share-by-share arc**:
 
@@ -66,57 +186,62 @@ The faith engine is seeded privately before public launch. These are not "beta t
 > → 3–5 posts organically get 200–1,000 impressions each on Twitter/X.  
 > → Estimated 5–15 new signups per viral post.
 
-> **Week 2**: First Score Cards comparing partners appear. People share "we agreed on nothing and matched anyway" outcomes.  
+> **Week 2**: First Score Cards appear. A Christian Dating user shares their Faith Alignment Score Card on Instagram with "we disagreed on sabbath and agreed on everything else, this is it honestly".  
 > → Leaderboard appears. Top users get public bragging rights.  
-> → Estimated total active users end of Month 1: **200–500**.
+> → Estimated total active users end of Month 1: **200–500**.  
+> → First Dating+ conversions: estimated 10–30 paying users.
 
-**Estimated K-factor (dating engine, Month 1)**: ~0.4–0.7 (sub-viral but building)
+**Estimated K-factor (dating engine, Month 1)**: ~0.4–0.7 (sub-viral but building)  
+**Estimated MRR end of Month 1**: ~$100–$300
 
 ---
 
 ### Month 2: Faith Engine Activates
 
-**Activation**: Direct outreach to pastors who were seeded pre-launch. First church group adopts for marriage prep.  
+**Activation**: Direct outreach to church contacts seeded pre-launch. First Christian community adopts Bible Study Duels for a sermon series.  
 **Platform**: WhatsApp, church email lists, personal pastoral recommendation.
 
-> **Week 1**: A church in a mid-size city (500–2,000 members) adopts Pre-marital Counselling Track for engaged couples.  
-> 4–6 couples begin the track privately.
+> **Week 1**: A small group (8–12 people) starts using Bible Study Duels on a contentious passage.  
+> Group leader refers two other leaders. Each brings their group.  
+> → Estimated 20–30 new users per referral hop.
 
-> **Week 2**: One couple, unprompted, shares their Exploring Our Faith compatibility score on Instagram.  
-> → 200–600 profile views, 15–40 new signups from the faith community.
+> **Week 2**: One group member, frustrated at a co-parent, uses `context=parenting` for a custody disagreement. Shares the Verdict privately with their pastor.  
+> → Pastor tries the Accountability Partnership context with a member.  
+> → Accountability use case spreads through pastoral networks by recommendation only — no public sharing, but very high conversion.
 
-> **Week 3**: A Bible study group (8–12 people) starts using Bible Study Duels for a current sermon series.  
-> → Group leader refers two other group leaders from the same church.  
-> → Each new group brings 8–12 people. Estimated 20–30 new users per referral hop.
+> **Week 3**: First Christian Dating Open Challenge posted: "I believe sexual purity before marriage is non-negotiable — fight me."  
+> → 12 responses. 3 Faith Alignment Score Cards generated. 2 shared publicly.  
+> → 40–100 new signups from the Christian community within 1 week.
 
-> **Week 4**: Pastor mentions the platform from the pulpit or in a church newsletter.  
-> → Single mention: 50–150 new signups over the following 2 weeks.
+> **Week 4**: Parenting Duel Score Card shared by a co-parent: "We finally agreed on screen time. This is the document."  
+> → Low impressions but high conversion — parenting audience is targeted and motivated.
 
-**Estimated new users from faith engine, Month 2**: **100–300**  
-**Cumulative users end of Month 2**: **300–800**
+**Estimated new users, Month 2**: **150–400**  
+**Estimated MRR end of Month 2**: ~$500–$1,200
 
 ---
 
 ### Month 3: Cross-Contamination Begins
 
-This is the non-obvious mechanic. The two engines start feeding each other.
+> A Christian Dating user invites a general dating user to a faith-context Duel.  
+> The general user, not religious, engages seriously because the mechanic demands it.  
+> They share the outcome: "she's Reformed, I'm agnostic, and we agreed on how to raise kids — figure that out"  
+> → This is the crossover content that goes wide.
 
-> A faith community user notices the dating features.  
-> A dating user files a Doctrinal Claim as a joke and encounters the Bible Study Duel context.  
-> A couple in Dating Mode reaches Proposal stage and activates the Pre-marital Track.
-
-The platform starts to appear as a serious relationship tool — not a debate game. This repositioning happens organically, not through marketing.
+> A pastor in a church of 400 recommends the platform in a sermon series on conflict.  
+> → 60–120 new signups over 2 weeks from a single sermon mention.
 
 **Dating engine in Month 3**:
-- "This is actually how I want to meet someone" narrative emerges
-- Power users share leaderboard positions + Score Cards on first-date TikToks
-- Estimated K-factor climbs to **0.8–1.1** (approaching viral threshold)
+- Duel Coach AI add-on launches. Power users subscribe immediately.
+- Score Card Keepsakes first sold — couples post them to Instagram.
+- Estimated K-factor climbs to **0.8–1.1**
 
 **Faith engine in Month 3**:
-- Second and third church contacts activated through word-of-mouth from Month 2 adopter
-- Accountability Partnership context spreads in recovery/support group circles
-- Estimated faith referrals: 3–5 new church/group adoption events
+- First Church Org subscription sold ($49/month). Church posts verified badge on members' profiles in Christian Dating feed.
+- Second and third church contacts activated.
+- Parenting template library expands through community contribution.
 
+**Estimated MRR end of Month 3**: ~$1,500–$4,000  
 **Cumulative users end of Month 3**: **800–2,500**
 
 ---
@@ -124,100 +249,112 @@ The platform starts to appear as a serious relationship tool — not a debate ga
 ### Month 4: First Viral Spike (Dating-Led)
 
 One of the following triggers the first organic spike:
-- A Verdict card gets picked up by a relationship advice account with 50k+ followers
-- A "best 10 questions to ask before dating someone" post includes a judgmental.io Duel link
+- A Verdict card gets picked up by a relationship advice account (50k+ followers)
+- A "10 questions to ask before committing" post cites a judgmental.io Duel link
 - A TikTok "try this on your situationship" trend format uses a Score Card
+- A Christian influencer (podcast, newsletter) mentions the Christian Dating feed
 
-**Spike scenario (conservative)**:
-> A Twitter/X post with a Score Card image gets 2,000 retweets.  
-> → 3,000–8,000 profile views over 48 hours.  
-> → 5–12% conversion to new accounts: **150–960 new users in 48 hours**.  
-> → Post-spike, 30–40% of spike users remain active after 7 days.
+**Conservative spike scenario**:
+> A Twitter/X post with a Faith Alignment Score Card gets 3,000 retweets.  
+> → 5,000–10,000 profile views in 48 hours.  
+> → 5–12% conversion: **250–1,200 new users**.  
+> → 15–20% of new users convert to paid within 30 days.
 
-**Cumulative users end of Month 4**: **2,000–5,000** (spike scenario)
+**Estimated MRR end of Month 4**: ~$4,000–$10,000  
+**Cumulative users end of Month 4**: **2,000–5,000**
 
 ---
 
-### Month 5: Faith Community Reaches Institutional Scale
+### Month 5: Institutional Faith Scale
 
-> A well-known Christian content creator (podcast, newsletter, YouTube — 20k–100k audience) discovers the platform through a personal use case (marriage, accountability), mentions it.  
+> A well-known Christian content creator (podcast, 20k–100k audience) discovers the Christian Dating feed, uses it personally, mentions it.  
 > → 500–3,000 new signups over 2–4 weeks.  
-> → These users have the highest retention rate of any cohort — they are using the platform for genuine, serious purposes.
+> → These users have the highest retention rate of any cohort.  
+> → 3–5 new church org subscriptions triggered by the creator mention.
 
-> The Church Discipline feature gets used for the first time in a church of record.  
-> → Not publicised. No viral event. But it establishes the platform's credibility with church leadership at a new level.
+> The Church Discipline process is used for the first time in a church of record.  
+> → Not publicised. No viral event. But the pastor tells other pastors.  
+> → Credibility compounds quietly.
 
+> The Verdict Data API (dating segment) sells its first Researcher subscription.  
+> A dating app purchases a Dating App Integration.
+
+**Estimated MRR end of Month 5**: ~$8,000–$20,000  
 **Cumulative users end of Month 5**: **4,000–10,000**
 
 ---
 
-### Month 6: Network Effects Kick In
+### Month 6: Network Effects and Revenue Diversification
 
-By Month 6, the following loops are active:
+By Month 6, all revenue streams are active. See Full Summary table above. Neighbourhood+ is contributing meaningfully from Month 4 onwards — the physical flyer channel compounds slowly but has zero decay.
 
-**Dating loop**:
-1. User sends "Duel me on this" card to a match
-2. Match creates account to respond
-3. Their Verdict card gets shared
-4. New users from that share send their own cards
-5. Leaderboard draws repeat engagement
-
-**Faith loop**:
-1. Pastor recommends → couples adopt → they recommend to engaged friends
-2. Bible study group adopts → leader refers other group leaders
-3. Church newsletter → spike → retention through Pre-marital Track or Accountability Partnership
-
-**Convergence loop**:
-1. Dating users in serious relationships hit the Proposal feature
-2. Proposal → Marriage Record → Pre-marital Track → Church Discipline (if church org exists)
-3. Dating virality funds and sustains the community depth that makes the faith features credible
-
-**Estimated K-factor by Month 6**:
+**K-factor estimates by Month 6**:
 - Dating channel: 1.0–1.4 (viral)
-- Faith channel: 0.6–0.9 (sub-viral but high-retention)
-- Combined: **1.1–1.3** (compounding)
+- Christian faith channel: 0.7–1.0 (compounding through institutional referrals)
+- Neighbourhood channel: 0.3–0.6 (sub-viral but offline and self-sustaining per building)
+- Combined: **1.1–1.4**
 
-**Cumulative users end of Month 6**: **10,000–25,000**
+**Cumulative users end of Month 6**: **10,000–30,000**
 
 ---
 
 ## Sample Share Scenarios
 
-### Scenario A — "Duel me before you date me" (Dating)
+### Scenario A — "Duel me before you date me" (General Dating)
 
 > Sarah sends a "Duel me on this" link to three matches on Hinge. One responds.  
-> They play a 3-round Duel on whether you should pay off debt before buying a house.  
-> Their Verdict card shows: "67% agreement. One major unresolved difference."  
-> Sarah screenshots it and posts: *"more useful than 6 months of therapy, honestly"*  
-> 340 likes. 52 retweets. 18 new signups from her post alone.
+> They Duel on whether you should pay off debt before buying a house.  
+> Verdict card: "67% agreement. One major unresolved difference."  
+> Sarah posts it: *"more useful than 6 months of therapy, honestly"*  
+> 340 likes. 52 retweets. 18 new signups. 4 Dating+ conversions.
 
-### Scenario B — "Our Faith" (Christian community)
+### Scenario B — Christian Dating (Faith community)
 
-> James and Rachel, engaged, are going through marriage prep with their pastor.  
-> He suggests judgmental.io for the 12-topic Pre-marital Track.  
-> They work through finances, faith practice, and family roles over 3 weeks.  
-> Rachel sends the link to her best friend, also engaged: "we're doing this, you should too"  
-> Her friend's church small group adopts it for their engaged couples series.  
-> 1 share → 4 couples → 1 group leader → 2 more churches approached.
+> Daniel posts a public Open Challenge in the Christian Dating feed: "I believe the husband is the spiritual head of the household \u2014 defend or dispute."  
+> 9 responses. Three women respond seriously, grounding their positions in scripture.  
+> Daniel and one respondent continue in a private `context=christian_dating` Duel.  
+> Their Faith Alignment Score Card: "3 agreements, 1 unresolved, same tradition."  
+> She shares it with her accountability partner. He shares it with his pastor.  
+> 1 public post \u2192 6 new users \u2192 2 Christian Match subscriptions.
 
-### Scenario C — The Crossover
+### Scenario C — Parenting Crossover
 
-> Marcus signs up through a "Duel me" card in the dating context.  
-> He's not religious. He creates a Doctrinal Claim as a joke — "should Christians vote?"  
-> He gets three serious responses from faith community users.  
-> He finds the exchanges more substantive than anything he's had on Twitter.  
-> He doesn't convert to Christian Mode. But he stays. And he refers two friends who also aren't religious.  
-> The depth of the faith community makes the secular users take the platform more seriously.
+> Janelle and her co-parent use `context=parenting` to resolve a screen time dispute.  
+> They purchase a Score Card Keepsake to attach to their parenting plan document.  
+> She mentions it in a Facebook parenting group.  
+> 11 comments. 4 sign-ups. 1 Parenting+ conversion.
+
+### Scenario D \u2014 Repentance and Reconciliation (Christian community, non-viral but high-retention)
+
+> A church elder initiates the Church Discipline process with a member over a serious breach of trust.  
+> Three stages. Private throughout. Takes 6 weeks.  
+> At Stage 3 (Community Review), the member acknowledges the wrong. The Disposition is Reconciliation.  
+> No one posts it. No Score Card. No share.  
+> But the elder tells two other pastors what happened: "the platform held the process dignified."  
+> 2 church org subscriptions follow within 30 days.
 
 ---
 
-## Why These Two Engines Work Together
+### Scenario E — The QR Flyer (Neighbourhood)
 
-The dating engine provides **volume and virality** — fast shares, emotional hooks, public visibility.  
-The faith engine provides **credibility and depth** — serious use cases, institutional adoption, high retention.
+> Ahmed lives in a 24-unit apartment block. The building has a recurring noise problem — weekend parties, no agreed quiet hours — and no property manager with authority to enforce anything.  
+> He creates a neighbourhood org ("Block 7 Residents"), prints the QR flyer at the library, and tapes it next to the postboxes.  
+> Over 10 days, 9 residents scan the QR and join.  
+> Ahmed files a `context=community_policy` Duel from the Noise template: "No amplified music after 11pm on weekdays, midnight on weekends."  
+> 7 residents file Analysis. 2 propose amendments. The policy reaches accord with one amendment accepted.  
+> Ahmed generates the Policy Document PDF and posts it on the noticeboard alongside the original flyer.  
+> A resident in the adjacent building sees the document on the noticeboard, mentions it to a neighbour: "There's an app that generates legally-ish binding house rules."  
+> The adjacent building gets its own org within 2 weeks.  
+> 1 flyer → 9 joins → 1 Policy Document → 1 organic referral → second building org.
 
-A platform that only had the dating mechanics would feel shallow. A platform that only had the faith mechanics would grow slowly and stay niche.
+---
 
-Together: the dating users prove the platform can handle real tension between real people. The faith users prove it can handle the most serious human disagreements with dignity. Each community, encountering the other's use of the platform, upgrades their own understanding of what it is.
+## Why These Three Channels Work Together
 
-That is the product. That is the distribution strategy. And it flows from the same conviction: truth is real, people can defend it, and doing that well — in any context — is worth building for.
+The dating engine provides **volume and virality** — fast shares, emotional hooks, public visibility, and diverse revenue streams.  
+The faith engine provides **credibility and depth** — institutional adoption, serious use cases (repentance, accountability, parenting, reconciliation), and high long-term retention.  
+The neighbourhood channel provides **offline reach and physical-world permanence** — a flyer doesn't decay, doesn't compete with the algorithm, and acquires users who would never have found the platform online.
+
+The crossover is the non-obvious mechanic: general dating users encounter the depth of the Christian community's engagement and the platform becomes repositioned as a serious relationship tool, not a debate game. Christian users see the viral mechanics of the dating engine and recognise the platform has reach beyond their community. Neighbourhood users, once their building has a Policy Document on the noticeboard, understand that this platform produces real-world outcomes — not just internet opinions.
+
+Each channel upgrades the other's perception of what this platform is. That is the distribution strategy. It flows from a single conviction: truth is real, people can defend it, and doing that honestly — in any context — is worth building for.
