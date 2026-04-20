@@ -40,7 +40,7 @@ This need exists across every context where humans disagree:
 - **Workplace** — decisions, apologies, accountability
 - **Historical** — re-trying famous disputes with new evidence and the same structured mechanic
 
-One engine. Every context. The mechanic doesn't change. The framing does.
+One Workflow Engine. Every context. The mechanic doesn't change. The framing does.
 
 ---
 
@@ -53,9 +53,9 @@ One engine. Every context. The mechanic doesn't change. The framing does.
 
 ---
 
-## The Two-Engine Launch
+## The Launch Flywheels
 
-### Engine 1 — Dating (General)
+### Flywheel 1 — Dating (General)
 
 **Hook**: "Duel me on this before we go further."
 
@@ -69,19 +69,19 @@ This is not a questionnaire. It is not a compatibility quiz. It is the only plat
 **Revenue**: Dating+ ($9.99/month), Dating Boost ($2.99 per use), Compatibility Unlock ($1.99 per pair).
 **K-factor target by Month 4**: 1.0–1.4
 
-### Engine 2 — Christian Faith
+### Flywheel 2 — Christian Faith
 
 **Hook**: Biblical understanding → Exploring Our Faith → accountability → Christian dating → family governance → Church Discipline.
 
 The entry point is belief formation, not conflict resolution. Christians come to the platform because they want to know what they believe, understand where they stand in relation to their tradition, and engage with other Christians who are doing the same. Exploring Our Faith is the front door: a belief-system mapping tool that grows as Christians file Doctrinal Duels and accumulate ClaimAccords. A Duel IS a Catechism — there are no preset questions; the questions that matter emerge from what Christians actually bring.
 
-The viral mechanic in this engine is **Christians exploring their faith together, and being blessed by that.** When two Christians engage on a doctrinal question honestly — not competing to win, but defending what they actually believe — something real happens. The Score Card for a Bible Study Duel is a record of something worth sharing not because it was dramatic but because it was true. And uniquely: at the close of any Christian context Duel, either party may offer to **pray for their interlocutor** — an in-app gesture that turns even a disagreement into a moment of Christian community.
+The viral mechanic in this flywheel is **Christians exploring their faith together, and being blessed by that.** When two Christians engage on a doctrinal question honestly — not competing to win, but defending what they actually believe — something real happens. The Score Card for a Bible Study Duel is a record of something worth sharing not because it was dramatic but because it was true. And uniquely: at the close of any Christian context Duel, either party may offer to **pray for their interlocutor** — an in-app gesture that turns even a disagreement into a moment of Christian community.
 
 **Seeding**: 5–10 pastors and church leaders pre-launch, using Accountability and Community Discernment. Their word carries; institutional credibility compounds.  
 **Revenue**: Christian Match ($12.99/month).  
 **K-factor target by Month 6**: 0.7–1.0 (compounding through institutional referrals and faith community word-of-mouth, not algorithm)
 
-### Engine 3 (and a new market) — Youth Zone
+### Flywheel 3 — Youth Zone (and a new market)
 
 **Hook**: A supervised debate space for kids that parents and teachers actually want to exist.
 
@@ -102,7 +102,7 @@ The school channel is the institutional play: a school creates a `youth` org, as
 **Revenue**: Guardian tier ($14.99/month per Guardian, includes AdvisorBot Advisory). Youth Zone is not org-billed — every Guardian pays individually, anchoring retention to the parental relationship.
 **K-factor in this channel**: Low virality coefficient but very high institutional pull. One school pilot = one teacher + 25–30 Guardian subscriptions + 50–60 conversations among parents about the platform.
 
-### Engine 4 — Famous Person Herald and the Public Record
+### Flywheel 4 — Famous Person Herald and the Public Record
 
 **Hook**: Every public statement by every major public figure is already in the Duel queue.
 
@@ -122,7 +122,7 @@ This is not a trap. It is a standing invitation to defend what you actually beli
 
 ### The Crossover
 
-A dating user encounters the depth of a Christian’s Doctrinal Claim and realizes the platform is serious. A Christian singles user shares their Faith Alignment Score Card on Instagram. A couple who met through a Dating Duel activates the Pre-marital Track. A teacher sets up a Youth Zone and twenty parents join. A famous politician claims their herald handle and their challenger’s reply goes viral. The engines cross-pollinate continuously.
+A dating user encounters the depth of a Christian’s Doctrinal Claim and realizes the platform is serious. A Christian singles user shares their Faith Alignment Score Card on Instagram. A couple who met through a Dating Duel activates the Pre-marital Track. A teacher sets up a Youth Zone and twenty parents join. A famous politician claims their herald handle and their challenger’s reply goes viral. The flywheels cross-pollinate continuously.
 
 ---
 
@@ -194,6 +194,6 @@ Infrastructure: SQLite + Litestream on Fly.io. No database bill. No CDN bill. No
 
 This platform was built from a conviction rooted in biblical faith in Jesus Christ — that truth is real and knowable, and that people are capable of defending what they actually believe. The Christian Mode, the repentance and reconciliation mechanics, the anti-proof-texting principle, the parent-authority structure in Parenting Duels, the prayer offer at the close of a Christian Duel: these are not features layered on a debate app. They are the reason the platform was built.
 
-The dating engine and the neighborhood features are downstream of the same conviction: honest disagreement, pursued with integrity and structured by a fair process, produces something real.
+The dating flywheel and the neighborhood features are downstream of the same conviction: honest disagreement, pursued with integrity and structured by a fair process, produces something real.
 
 **judgmental.io — On the record.**

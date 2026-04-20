@@ -50,13 +50,13 @@ export class AppController {
 
   /**
    * Called on DOMContentLoaded with the initial URL params.
-   * @param {{ view: string|null, id: string|null, post: string|null }} params
+   * @param {{ v?: string, id?: string, p?: string, m?: string, u?: string }} params
    */
   async init(params) {
     this._main.addEventListener('dsp:navigate', e => {
       const { view, id } = e.detail;
       if (view === 'home')    { setUrlParams({}); this.navigate({}); }
-      if (view === 'dispute') { setUrlParams({ view: 'dispute', id: String(id) }); this.navigate({ view: 'dispute', id: String(id) }); }
+      if (view === 'dispute') { setUrlParams({ v: 'dispute', id: String(id) }); this.navigate({ v: 'dispute', id: String(id) }); }
     });
 
     this._main.addEventListener('dsp:card-action', e => {
@@ -69,14 +69,14 @@ export class AppController {
 
   /**
    * Navigate to the appropriate view based on URL params.
-   * @param {{ view: string|null, id: string|null, post: string|null }} params
+   * @param {{ v?: string, id?: string, p?: string }} params
    */
   async navigate(params) {
-    const { view, id } = params;
+    const { v, id } = params;
     window.scrollTo({ top: 0, behavior: 'instant' });
 
     try {
-      if (view === 'dispute' && id) {
+      if (v === 'dispute' && id) {
         await this._renderDisputeView(Number(id));
       } else {
         await this._renderHomeView(params);
@@ -126,9 +126,9 @@ export class AppController {
 
     await view.render();
 
-    // If ?post=Y — scroll to that card.
-    if (params.post) {
-      const card = this._main.querySelector(`[data-post-id="${params.post}"]`);
+    // If ?p=Y — scroll to that card.
+    if (params.p) {
+      const card = this._main.querySelector(`[data-post-id="${params.p}"]`);
       card?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   }

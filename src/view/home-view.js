@@ -110,7 +110,7 @@ export class HomeView {
             d => d.rootPostId === post.id || d.rootPostId === post.meta?.rootId
           );
           if (disputeForCard) {
-            setUrlParams({ view: 'dispute', id: String(disputeForCard.id) });
+            setUrlParams({ v: 'dispute', id: String(disputeForCard.id) });
             this._root.dispatchEvent(new CustomEvent('dsp:navigate', {
               bubbles: true,
               detail: { view: 'dispute', id: disputeForCard.id },

@@ -325,6 +325,35 @@ A `CONTESTED` Judgment blocks the amendment. The `super_admin` MAY file a **Noti
 
 **Rationale**: A platform whose core proposition is that honest disagreement under structured rules produces real outcomes is obligated to operate by those rules itself. The Constitutional Duel is not a procedural formality — it is the platform proving, each time it is invoked, that the mechanic works.
 
+## Principle XIII — URL Parameter Minimization and Mock Mode
+
+**All URL query parameters MUST use the shortest unambiguous name possible.** This is not a style preference — it is a constitutional constraint. Short params keep canonical URLs clean, reduce sharing friction, and ensure that machine-generated URLs (canonical share links, API-generated deeplinks) are as readable as possible in UI surfaces.
+
+**Canonical param names:**
+
+| Param | Meaning |
+|---|---|
+| `v` | View name (e.g. `dispute`, `blog`, `admin`) |
+| `id` | Numeric resource ID associated with `v` |
+| `p` | Post ID — scroll-anchor target on home view |
+| `m` | Mock mode flag (presence = active; any truthy value) |
+| `u` | Mock user login override |
+
+Any new navigational param introduced to the codebase MUST be ≤ 2 characters or obtain a constitutional amendment. Param names of three or more characters are a violation of this principle and MUST NOT be merged.
+
+**Mock mode is a URL-param feature, not a config-file feature.**
+
+Mock mode is activated by the presence of `?m=` in the URL. It is NOT controlled by any configuration file. This is intentional:
+
+1. It makes mock mode available in any deployed environment — including production — without environment-specific deployment or config change.
+2. It survives SPA navigation automatically (sticky param semantics — `m` and `u` are preserved across all `setUrlParams()` calls).
+3. It is self-documenting: a URL with `?m=1&u=admin` carries its own context.
+4. It has no config file footprint — `mockMode: true` in a committed config is a risk; a URL param is not.
+
+**Mock mode in production** is permitted and is the correct tool for verifying front-end working order during maintenance, upgrades, and infra migrations. The mock toolbar provides a visible indicator that mock mode is active. The `?m=` param MUST NOT bypass authorization for back-end operations — mock mode is exclusively a front-end concern. Any server-side route that receives a request bearing `?m=` treats it as any other request.
+
+**Mock user switching** is handled by changing `?u=` in the URL and reloading. Session and auth state are cleanly reset from seed on every page load in mock mode. There is no in-page state mutation between mock users — this is a deliberate design choice to prevent bleed between mock sessions.
+
 ## Quality Gates
 
 The following gates MUST pass before any code may be merged to the main branch:
@@ -359,4 +388,4 @@ This constitution supersedes all other development guidelines and practices with
 
 **Compliance review**: Adherence to this constitution MUST be verified during each sprint retrospective and whenever a new team member joins.
 
-**Version**: 2.6.0 | **Ratified**: 2026-04-18 | **Last Amended**: 2026-04-20
+**Version**: 2.7.0 | **Ratified**: 2026-04-18 | **Last Amended**: 2026-04-20

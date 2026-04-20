@@ -11,7 +11,7 @@
 import { CONFIG } from './config.js';
 import { getStoredToken, getCachedUser, installMockUser } from './api/device-auth.js';
 import { installMockMode }                               from './api/github-client.js';
-import { getUrlParams, setUrlParams }     from './utils/url.js';
+import { getUrlParams, setUrlParams, isMockMode, getMockUser } from './utils/url.js';
 import { renderHeader }                   from './view/components/header.js';
 import { showNotification }               from './view/components/notification.js';
 import { logger }                         from './utils/logger.js';
@@ -22,17 +22,25 @@ import { showErrorPanel }                 from './view/components/error-panel.js
 // ---------------------------------------------------------------------------
 
 async function bootstrap() {
-  // ---- Mock mode setup (dev/testing only) ---------------------------------
-  if (CONFIG.mockMode) {
-    // Always start from the canonical seed so data never accumulates across reloads.
+  const urlParams = getUrlParams();
+
+  // ---- Mock mode: activated by ?m= URL param, NOT by config -------------------
+  // Using a URL param means it works in any environment including production,
+  // survives SPA navigation (sticky params), and leaves no config file footprint.
+  if (isMockMode()) {
     const { SEED_ISSUES, MOCK_USERS } = await import('./mock/seed-data.js');
     installMockMode(SEED_ISSUES);
 
-    // Sign in as the configured mock user (or first in the default list).
-    const mockUser = CONFIG.mockUser
-      ? MOCK_USERS.find(u => u.login === CONFIG.mockUser) ?? MOCK_USERS[0]
-      : MOCK_USERS[0];
+    // Honour ?u=login or fall back to first mock user.
+    const requestedLogin = getMockUser();
+    const mockUser = (requestedLogin && MOCK_USERS.find(u => u.login === requestedLogin))
+      ?? MOCK_USERS[0];
     installMockUser(mockUser);
+
+    // Mount the mock toolbar (async — non-blocking chrome).
+    import('./view/components/mock-toolbar.js').then(({ mountMockToolbar }) => {
+      mountMockToolbar(MOCK_USERS, mockUser);
+    });
   }
   // -------------------------------------------------------------------------
 
@@ -51,7 +59,7 @@ async function bootstrap() {
     onNotification:  showNotification,
   });
 
-  await appController.init(getUrlParams());
+  await appController.init(urlParams);
 
   // Header action delegation (home button + sign-in button).
   document.getElementById('app-header')?.addEventListener('click', e => {

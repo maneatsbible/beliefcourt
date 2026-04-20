@@ -1,14 +1,14 @@
 # judgmental.io — Viral Growth Model
 
-**Five engines. One platform. One physical-world channel.**
+**Five flywheels. One platform. One physical-world channel.**
 
-judgmental.io is designed to spread through five distinct channels — two primary community engines, one physical-world acquisition channel, one institutional/parental channel, and one platform-level public-record virality engine — each with different sharing mechanics, different emotional triggers, and different retention loops.
+judgmental.io is designed to spread through five distinct channels — two primary community flywheels, one physical-world acquisition channel, one institutional/parental flywheel, and one platform-level public-record virality flywheel — each with different sharing mechanics, different emotional triggers, and different retention loops.
 
 ---
 
-## The Engines
+## The Growth Flywheels
 
-### Engine 1 — Christian Faith
+### Flywheel 1 — Christian Faith
 
 **Emotional trigger**: *The desire to be genuinely known, genuinely challenged, and actually reconciled.*  
 **Social context**: Church community, accountability relationships, Bible study groups, Christian dating, parenting, church discipline.  
@@ -16,7 +16,7 @@ judgmental.io is designed to spread through five distinct channels — two prima
 
 This is not a general faith mode. It is not interfaith dialogue. It is for Bible-following Christians who take Scripture, repentance, and reconciliation seriously as practices — not metaphors. The front door is the Exploring Our Faith context — the Duel as catechism, a way to discover where two people actually stand on what they believe. The emotional hook is both depth of resolution and the joy of exploring faith together.
 
-The viral mechanic for the Christian engine is not conflict — it is blessing. When two Christians work through a passage of Scripture, a doctrinal question, or a faith commitment together in a structured Duel, and it ends well, they want others to experience that. The platform spreads because the process itself is spiritually enriching.
+The viral mechanic for the Christian flywheel is not conflict — it is blessing. When two Christians work through a passage of Scripture, a doctrinal question, or a faith commitment together in a structured Duel, and it ends well, they want others to experience that. The platform spreads because the process itself is spiritually enriching.
 
 At the close of any Christian context Duel, participants are invited to pray for one another — including for the person they disagreed with. This is not a feature. It is a practice. And it is the most distinctive thing about the platform in this channel.
 
@@ -33,7 +33,7 @@ Growth in this channel is slower per share but extremely high in trust and reten
 
 ---
 
-### Engine 2 — Dating (General and Christian)
+### Flywheel 2 — Dating (General and Christian)
 
 **Emotional trigger**: *Curiosity, competition, chemistry, and the thrill of being seen.*  
 **Social context**: Singles, first dates, group chats, "send this to your ex", Twitter/X, TikTok, Instagram Stories. And separately: Christians who want faith-first matching.  
@@ -49,7 +49,7 @@ The dating mechanics are designed for virality at every UX touchpoint:
 
 ---
 
-### Engine 3 — Neighborhood (Physical-World QR Distribution)
+### Flywheel 3 — Neighborhood (Physical-World QR Distribution)
 
 **Emotional trigger**: *The frustration of living next to people you've never properly spoken to about the things that actually affect your life.*  
 **Social context**: Apartment buildings, dorms, shared houses, cul-de-sacs — any group of people who share a physical space but are strangers.  
@@ -79,7 +79,7 @@ Building/Dorm Block tier ($19.99/month): Up to 5 orgs under one account (for a p
 
 ---
 
-### Engine 4 — Youth Zone (Institutional + Parental)
+### Flywheel 4 — Youth Zone (Institutional + Parental)
 
 **Emotional trigger**: *The satisfaction of watching your child become someone who can defend what they actually believe.*  
 **Social context**: School classrooms, homeschool co-ops, church youth groups, parents who take their kids’ intellectual development seriously.  
@@ -110,7 +110,7 @@ Guardian tier at $14.99/month per Guardian. Includes AdvisorBot Advisory (a $9.9
 
 ---
 
-### Engine 5 — PublicRecordBot and the Famous Person Herald
+### Flywheel 5 — PublicRecordBot and the Famous Person Herald
 
 **Emotional trigger**: *The public record is already in session. The famous person just hasn't shown up yet.*  
 **Social context**: Political Twitter/X, media commentary, watchdog communities, political hobbyists, journalists, researchers.  
@@ -132,7 +132,7 @@ No direct subscription from the famous person. The revenue engine is indirect bu
 - Famous persons who claim their handle and want to file a responding Claim or an AdvisorBot-assisted strategy are high-value individual subscribers.
 - The MAU multiplier effect: herald profile traffic increases platform sign-ups at 2–3× the rate of organic channels. This lifts revenue in every other stream.
 
-**K-factor:** The famous-person herald mechanic is a platform-level virality engine, not a user-to-user referral loop. Standard K-factor arithmetic doesn't capture it. The correct model is: one viral herald-profile moment (e.g. a major public figure's claim rendered ABANDONED) = 10,000–50,000 new profile visits in 48 hours = 500–2,500 new user registrations = 60–300 paid conversions at 12% rate.
+**K-factor:** The famous-person herald mechanic is a platform-level virality flywheel, not a user-to-user referral loop. Standard K-factor arithmetic doesn't capture it. The correct model is: one viral herald-profile moment (e.g. a major public figure's claim rendered ABANDONED) = 10,000–50,000 new profile visits in 48 hours = 500–2,500 new user registrations = 60–300 paid conversions at 12% rate.
 
 ---
 
@@ -158,7 +158,7 @@ No direct subscription from the famous person. The revenue engine is indirect bu
 
 ---
 
-Dating mode is the primary commercial engine. Every mechanic has a monetization path.
+Dating mode is the primary commercial flywheel. Every mechanic has a monetization path.
 
 ### RS-1 — Premium Dating Subscriptions
 
@@ -244,13 +244,13 @@ An anonymized, segmented dataset of Dating Duel outcomes — compatibility distr
 
 **Target**: 5–10 church contacts. Pastors, small group leaders, Christian counselors.
 
-The faith engine is seeded privately before public launch. These are endorsers whose personal use of accountability, Community Discernment, or Christian Dating establishes the platform's credibility before it is visible to the public.
+The faith flywheel is seeded privately before public launch. These are endorsers whose personal use of accountability, Community Discernment, or Christian Dating establishes the platform's credibility before it is visible to the public.
 
 **Shares generated in this phase**: Low volume. High quality. These are the people who later tell their congregations, and whose recommendation carries weight because they use it themselves.
 
 ---
 
-### Month 1: Launch — Dating Engine Fires First
+### Month 1: Launch — Dating Flywheel Fires First
 
 **Activation**: dating.judgmental.io campaign, "Duel me before you date me" framing.  
 **Target platforms**: Twitter/X, Reddit (r/dating, r/relationships, r/christianity), TikTok.
@@ -270,12 +270,12 @@ The faith engine is seeded privately before public launch. These are endorsers w
 > → Estimated total active users end of Month 1: **200–500**.  
 > → First Dating+ conversions: estimated 10–30 paying users.
 
-**Estimated K-factor (dating engine, Month 1)**: ~0.4–0.7 (sub-viral but building)  
+**Estimated K-factor (dating flywheel, Month 1)**: ~0.4–0.7 (sub-viral but building)  
 **Estimated MRR end of Month 1**: ~$100–$300
 
 ---
 
-### Month 2: Faith Engine Activates
+### Month 2: Faith Flywheel Activates
 
 **Activation**: Direct outreach to church contacts seeded pre-launch. First Christian community adopts Bible Study Duels for a sermon series.  
 **Platform**: WhatsApp, church email lists, personal pastoral recommendation.
@@ -310,11 +310,11 @@ The faith engine is seeded privately before public launch. These are endorsers w
 > A pastor in a church of 400 recommends the platform in a sermon series on conflict.  
 > → 60–120 new signups over 2 weeks from a single sermon mention.
 
-**Dating engine in Month 3**:
+**Dating flywheel in Month 3**:
 
 - Estimated K-factor climbs to **0.8–1.1**
 
-**Faith engine in Month 3**:
+**Faith flywheel in Month 3**:
 - First Church Org subscription sold ($49/month). Church posts verified badge on members' profiles in Christian Dating feed.
 - Second and third church contacts activated through word-of-mouth from Month 2 adopter.
 - Parenting template library expands through community contribution.
@@ -447,11 +447,11 @@ The challenger badge is the other half of the flywheel. Users who challenge and 
 
 ## Why These Channels Work Together
 
-The dating engine provides **volume and virality** — fast shares, emotional hooks, public visibility, and diverse revenue streams.  
-The faith engine provides **credibility and depth** — institutional adoption, serious use cases (repentance, accountability, parenting, reconciliation), and high long-term retention.  
+The dating flywheel provides **volume and virality** — fast shares, emotional hooks, public visibility, and diverse revenue streams.  
+The faith flywheel provides **credibility and depth** — institutional adoption, serious use cases (repentance, accountability, parenting, reconciliation), and high long-term retention.  
 The neighborhood channel provides **offline reach and physical-world permanence** — a flyer doesn't decay, doesn't compete with the algorithm, and acquires users who would never have found the platform online.  
 The Brand Claims mechanic provides **commercial gravity and earned press** — the badge system turns corporate accountability into a shareable credential, the ABANDONED outcome is a natural deterrent against bad-faith placement, and every major challenger win is an earned media event.
 
-The crossover is the non-obvious mechanic: general dating users encounter the depth of the Christian community's engagement and the platform becomes repositioned as a serious relationship tool, not a debate game. Christian users see the viral mechanics of the dating engine and recognize the platform has reach beyond their community. Neighborhood users, once their building has a Policy Document on the bulletin board, understand that this platform produces real-world outcomes — not just internet opinions. Brand users, encountering a CONTESTED badge on a competitor's profile, understand this is a platform where truth is the product — not attention.
+The crossover is the non-obvious mechanic: general dating users encounter the depth of the Christian community's engagement and the platform becomes repositioned as a serious relationship tool, not a debate game. Christian users see the viral mechanics of the dating flywheel and recognize the platform has reach beyond their community. Neighborhood users, once their building has a Policy Document on the bulletin board, understand that this platform produces real-world outcomes — not just internet opinions. Brand users, encountering a CONTESTED badge on a competitor's profile, understand this is a platform where truth is the product — not attention.
 
 Each channel upgrades the other's perception of what this platform is. That is the distribution strategy. It flows from a single conviction: truth is real, people can defend it, and doing that honestly — in any context — is worth building for.

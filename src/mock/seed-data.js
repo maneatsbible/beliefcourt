@@ -48,6 +48,8 @@ const USERS = {
   'dave':         { login: 'dave',         id: 1004 },
   'eve':          { login: 'eve',          id: 1005 },
   'frank':        { login: 'frank',        id: 1006 },
+  // admin: has is_super_admin flag and blog_author role for UI testing admin surfaces
+  'admin':        { login: 'admin',        id: 1007, is_super_admin: true, is_blog_author: true },
   'herald':       { login: 'herald',      id: 1 },
 };
 
