@@ -4,7 +4,7 @@
 **Date**: 2026-04-18 (revised 2026-04-19)  
 **Plan**: [plan.md](plan.md)
 
-> **Revision note**: This document supersedes the original disputable.io data model. Entities have been renamed and extended to reflect the full judgmental.io vision. The implementation target remains the same GitHub Issues backend.
+> **Revision note**: This document supersedes the original disputable.io data model. Entities have been renamed and extended to reflect the full judgmental.io vision. The implementation target is **Fly.io + SQLite + Hono** (not GitHub Issues). See plan.md for the full SQL schema.
 
 ---
 
@@ -32,14 +32,17 @@ Any Record (Claim, Challenge, Answer, Offer, Response, SimilarityLink) can itsel
 
 ### Person
 
-Represents an authenticated GitHub user.
+Represents an authenticated user (SM OAuth — X, Threads, Bluesky, or GitHub).
 
 | Field | Type | Source | Notes |
 |-------|------|--------|-------|
-| `id` | `number` | GitHub user id | Globally unique, immutable |
-| `name` | `string` | GitHub login prefixed `@` | e.g., `@alice` |
-| `profilePicUrl` | `string` | GitHub `avatar_url` | Display only |
-| `isStrawman` | `boolean` | Derived | `true` if `name === '@strawman'` |
+| `id` | `integer` | DB auto-increment | Globally unique, immutable |
+| `name` | `string` | SM handle prefixed `@` | e.g., `@alice` |
+| `profilePicUrl` | `string` | SM OAuth `picture` | Display only |
+| `isStrawman` | `boolean` | Derived | `true` if this is the system-level @strawman account |
+| `isAi` | `boolean` | Set at registration | `true` if this Person is an AI persona (bot account) |
+| `aiModel` | `string \| null` | Set at registration | The model identifier if `isAi` is true (e.g. `"gpt-4o"`) |
+| `linkedPlatforms` | `string[]` | linked_identities table | All SM platforms this person has linked |
 
 **Special instance — @strawman**: A placeholder identity used to import external content for immediate disputation. When you quote something from the internet (a tweet, an article, a public statement), you submit it as a Claim attributed to @strawman. A Challenge against that Claim is submitted simultaneously, summoning the original author. If and when the original author arrives and authenticates, they can claim ownership of the @strawman Claim, replacing @strawman with their own Person record. @strawman is not a persona; it is a beacon.
 
@@ -52,12 +55,23 @@ Represents an authenticated GitHub user.
 
 ### Record (abstract — implementation only)
 
-The base of all user-created content. Every Record is a GitHub Issue in the shared repo. Not a domain term — users never see the word "Record." Its subtypes are the real entities.
+The base of all user-created content. Every Record is a row in the `records` table. Not a domain term — users never see the word "Record." Its subtypes are the real entities.
 
 | Field | Type | Source | Notes |
 |-------|------|--------|-------|
-| `id` | `number` | GitHub issue number | Globally unique within the repo |
-| `type` | `enum` | `JDG:META.type` | `"claim"`, `"challenge"`, `"answer"`, `"offer"`, `"response"` |
+| `id` | `integer` | DB auto-increment | Globally unique |
+| `type` | `enum` | DB column | `"claim"`, `"challenge"`, `"answer"`, `"offer"`, `"response"` |
+| `authorId` | `integer` | DB foreign key | Person who created the Record |
+| `strawmanClaimId` | `integer \| null` | DB column | Set when @strawman is replaced by the real author; points to original Claim id |
+| `parentId` | `integer \| null` | DB column | Parent Record id; `null` for root Claims |
+| `caseId` | `integer \| null` | DB column | The nearest ancestor Claim or challenged Record that is the subject of this Record's Case |
+| `text` | `string \| null` | DB column | Optional for non-Claim records |
+| `imageUrl` | `string \| null` | DB column | Path or URL of attached image |
+| `sourceUrl` | `string \| null` | DB column | Original URL when Claim was imported via @strawman |
+| `isAi` | `boolean` | DB column | `true` if entirely AI-generated |
+| `aiModel` | `string \| null` | DB column | AI model identifier if `isAi=true` or AI-assisted; e.g. `"gpt-4o"` |
+| `aiAssisted` | `boolean` | DB column | `true` if human-authored but substantially AI-assisted |
+| `createdAt` | `ISO8601` | DB `created_at` | |
 | `authorId` | `number` | GitHub issue `user.id` | Person who created the Issue |
 | `strawmanClaimId` | `number \| null` | `JDG:META.strawmanClaimId` | Set when @strawman is replaced by the real author; points to original Claim id |
 | `parentId` | `number \| null` | `JDG:META.parentId` | Parent Record id; `null` for root Claims |
@@ -159,6 +173,40 @@ Accepts or rejects an Offer.
 - `authorId` MUST be the OTHER party from the Offer's author.
 - An accepted Response produces an Accord (see below).
 - A Response can itself be challenged, opening a nested Case.
+
+---
+
+### Rescission
+
+A Person's public declaration that they no longer hold a Record they authored. Append-only — the original Record is never deleted or hidden. The Rescission is visible on the original Record as a prominent notice.
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `id` | `integer` | DB auto-increment |
+| `recordId` | `integer` | The Record being rescinded |
+| `authorId` | `integer` | MUST equal the original Record's `authorId` |
+| `reason` | `string \| null` | The person's stated reason for rescinding |
+| `createdAt` | `ISO8601` | |
+
+**What a Rescission does**:
+- The original Record gains a `[RESCINDED]` notice and visual treatment (strike-through author attribution, muted border).
+- The author is no longer summoned as a defender for that Record going forward — they are not obligated to defend a position they have publicly abandoned.
+- **Active Duels are not closed.** Any in-progress Duel involving the rescinded Record continues to its Disposition unchanged. The Rescission is surfaced as a notice in the Case View.
+- **ClaimAccords are not voided.** Others who agreed with a rescinded Claim retain their agreement; the Claim's history is preserved. The author's own ClaimAccord on their own rescinded Claim is implicitly superseded but not deleted.
+- The Rescission Record itself is challengeable — anyone may open a Case questioning whether the rescission is sincere or in good faith.
+
+**What a Rescission does NOT do**:
+- It does not delete, hide, or alter the original Record.
+- It does not close Cases or Duels.
+- It does not remove ClaimAccords held by others.
+- It does not remove the Record from the Miranda pool — the rescinded Record remains admissible as cross-record Evidence by anyone in any Duel.
+
+**Virtue framing**: A Rescission on a STANDING Claim — one that had been challenged and survived — is a significant epistemic act. It is displayed prominently in the Velocity and Flip Rate analytics views, and on the author's Person card, as a mark of intellectual courage: the willingness to publicly abandon a defended position.
+
+**Constraints**:
+- Only the original `authorId` may create a Rescission on a Record.
+- One Rescission per Record; duplicate Rescission attempts return a conflict error.
+- A Rescission cannot be rescinded (it's a declaration, not a position).
 
 ---
 
@@ -314,7 +362,7 @@ A Person's verdict on a Duel, grounded in their Base of Truth. The accumulation 
 
 | Field | Type | Notes |
 |-------|------|-------|
-| `id` | `number` | GitHub issue number |
+| `id` | `number` | DB auto-increment |
 | `duelId` | `number` | The Duel being judged |
 | `judgeId` | `number` | The Person rendering judgment |
 | `analysisId` | `number` | The Analysis this Judgment is based on |
@@ -327,6 +375,19 @@ A Person's verdict on a Duel, grounded in their Base of Truth. The accumulation 
 - Judgment requires a completed Analysis and a Disposition.
 - The judge's `baseOfTruthClaimId` MUST be a Claim the judge holds a ClaimAccord on and that is in STANDING state (unchallenged or challenge survived).
 - A Person MAY NOT judge a Duel they were a party to.
+
+**Judgment weight** (computed at query time, never stored):
+```
+weight(judgment) = strength(anchor_claim) × judgment_track_record(judge)
+
+strength(anchor_claim) = count(ClaimAccords on that Claim) × survived_duels(that Claim)
+
+judgment_track_record(judge) =
+  count(prior Judgments by judge that aligned with eventual Accord outcome)
+  ÷ count(all prior Judgments by judge on disposed Duels)
+  (defaults to 1.0 for judges with no prior record)
+```
+This weight is applied when aggregating Judgments on a Duel into a consensus display. A judge who has consistently agreed with Accord outcomes carries more weight than one whose verdicts have not correlated with resolved outcomes. Neither metric is stored; both are derived from the live dataset on each query.
 
 ---
 
@@ -341,7 +402,9 @@ A Person's declared anchor Claim — the foundation from which they judge. A Per
 | `agreedClaimIds` | `number[]` | All Claims this Person holds ClaimAccords on (derived) |
 | `declaredAt` | `ISO8601` | When the anchor was set |
 
-The strength of a Person's Judgments is informed by the STANDING strength of their anchor Claim. A Claim that has survived more Duels carries more epistemic weight. This weighting is computed at query time from the dataset — not stored as a score.
+The weight of a Person's Judgments is a function of two factors computed at query time from the dataset — neither is stored:
+1. **Anchor Claim strength**: `count(ClaimAccords on anchor) × survived_duels(anchor)`. A Claim that has been tested and held in more Duels anchors a stronger epistemic foundation.
+2. **Track record**: the fraction of the Person's prior Judgments that aligned with eventual Accord outcomes. Consistent alignment with outcomes reflects trustworthy judgment.
 
 **Claim strength query** (derived, not stored):
 ```
@@ -368,7 +431,78 @@ When a SimilarityLink is in STANDING state (challenged and survived, or unchalle
 
 ---
 
-## Navigation Structure
+### Evidence
+
+A structured attachment on any Record, providing supporting material. Not itself a turn in a Duel — it is attached at record-creation time or added post-hoc.
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `id` | `integer` | DB auto-increment |
+| `recordId` | `integer` | The Record this Evidence supports |
+| `authorId` | `integer` | Person who attached it |
+| `attachmentType` | `enum` | `"url"`, `"quote"`, `"image"`, `"file"`, `"cross_record"` |
+| `title` | `string \| null` | Optional display label |
+| `url` | `string \| null` | For `url` and `image` types |
+| `text` | `string \| null` | For `quote` type |
+| `filePath` | `string \| null` | For `file` type (server-stored path) |
+| `sourceUrl` | `string \| null` | Original source URL for `quote` type |
+| `sourceRecordId` | `integer \| null` | For `cross_record` type — the cited Record's id |
+| `createdAt` | `ISO8601` | |
+
+**Constraints**:
+- Evidence is append-only; it cannot be removed once attached.
+- Evidence attached to a Record is visible to all viewers of that Record.
+- For `cross_record` type: `sourceRecordId` MUST reference an existing Record; `url`, `text`, and `filePath` MUST be null.
+
+**Miranda Principle**: Any Record on judgmental.io — Claim, Challenge, Answer, Offer, Response — may be submitted as `cross_record` Evidence in any Duel in which its author is a party. Everything is on the record. Every position a Person has ever taken is admissible against them. This is not a feature; it is the constitutional foundation of the platform.
+
+---
+
+### Exhibit
+
+A formally submitted Evidence item within a Duel, assigned an auto-incrementing exhibit label (Exhibit A, B, C …). Either party may submit Evidence as an Exhibit, and either party may object to an Exhibit.
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `id` | `integer` | DB auto-increment |
+| `duelId` | `integer` | The Duel this Exhibit belongs to |
+| `evidenceId` | `integer` | The underlying Evidence item |
+| `submittedByPersonId` | `integer` | The Duel party who formally submitted it |
+| `exhibitLabel` | `string` | Auto-assigned: "A", "B", "C", … (scoped per Duel) |
+| `isObjected` | `boolean` | Derived — `true` if a nested Case exists against this Exhibit |
+| `createdAt` | `ISO8601` | |
+
+**Constraints**:
+- Only Duel parties may submit Exhibits.
+- Objecting to an Exhibit opens a nested Case against the Exhibit Record (same mechanic as contesting any Record).
+- Labels are auto-assigned sequentially within the Duel; they are not editable.
+
+---
+
+### Tip
+
+A voluntary peer-to-peer monetary support. Platform fee is 0% in v1.
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `id` | `integer` | DB auto-increment |
+| `fromPersonId` | `integer` | The Person sending the tip |
+| `toPersonId` | `integer` | The Person receiving the tip |
+| `amountCents` | `integer` | Amount in smallest currency unit |
+| `currency` | `string` | ISO 4217 code, e.g. `"USD"` |
+| `subjectRecordId` | `integer \| null` | The Record that prompted the tip (optional) |
+| `paymentProvider` | `enum` | `"stripe"`, `"kofi"` |
+| `stripePaymentIntentId` | `string \| null` | Stripe payment intent id (for reconciliation) |
+| `platformFeePercent` | `integer` | Always `0` in v1 |
+| `createdAt` | `ISO8601` | |
+
+**Constraints**:
+- Tips have no effect on any Record's strength, Judgment eligibility, Duel participation, or Claim visibility. Constitutional constraint — absolute.
+- A Person may tip themselves (not blocked, but meaningless; payment providers handle self-tip prevention at their level).
+
+---
+
+
 
 ```
 Home View
@@ -420,25 +554,48 @@ Home View
 
 ---
 
-## GitHub Issues → Entity Mapping
+## Entity → Database Table Mapping
 
-| Entity | GitHub Issues label | Key metadata fields |
-|--------|---------------------|---------------------|
-| Claim | `jdg:claim` | `parentId=null`, `caseId=self` |
-| Challenge | `jdg:challenge` | `parentId`, `caseId`, `challengeType`, `subjectRecordId` |
-| Answer | `jdg:answer` | `parentId`, `caseId`, `yesNo`, `challengeId` |
-| Offer | `jdg:offer` | `duelId`, `subjectRecordId` |
-| Response | `jdg:response` | `offerId`, `accepted` |
-| Case | `jdg:case` | `subjectRecordId`, `openedByPersonId`, `triggerChallengeId` |
-| Duel | `jdg:duel` | `caseId`, `challengerId`, `defenderId` |
-| Disposition | `jdg:disposition` | `duelId`, `type` |
-| Accord | `jdg:accord` | `duelId`, `offerId`, `responseId` |
-| ClaimAccord | `jdg:claim-accord` | `claimId`, `personId` |
-| DeadlineConditions | `jdg:deadline` | `duelId`, `durationMs`, `agreedByPersonId` |
-| Moment | `jdg:moment` | `subjectRecordId`, `duelId` |
-| Analysis | `jdg:analysis` | `duelId`, `momentIds` |
-| Judgment | `jdg:judgment` | `duelId`, `judgeId`, `analysisId`, `verdict`, `baseOfTruthClaimId` |
-| SimilarityLink | `jdg:similarity` | `recordAId`, `recordBId` |
+| Entity | Table | Key columns |
+|--------|-------|-------------|
+| Person | `persons` | `id`, `name`, `profile_pic_url`, `is_strawman`, `is_ai`, `ai_model` |
+| LinkedIdentity | `linked_identities` | `person_id`, `platform`, `platform_user_id` |
+| Record (all types) | `records` | `id`, `type`, `author_id`, `parent_id`, `case_id`, `text`, `image_url`, `source_url`, `is_ai`, `ai_model`, `ai_assisted` |
+| Case | `cases` | `id`, `subject_record_id`, `opened_by_person_id`, `trigger_challenge_id` |
+| Duel | `duels` | `id`, `case_id`, `challenger_id`, `defender_id` |
+| Disposition | `dispositions` | `id`, `duel_id`, `type`, `triggered_by_person_id` |
+| Accord | `accords` | `id`, `duel_id`, `offer_id`, `response_id` |
+| ClaimAccord | `claim_accords` | `id`, `claim_id`, `person_id` |
+| DeadlineConditions | `deadline_conditions` | `id`, `duel_id`, `duration_ms`, `agreed_by_person_id`, `active` |
+| Moment | `moments` | `id`, `subject_record_id`, `duel_id`, `author_id`, `text` |
+| Analysis | `analyses` | `id`, `duel_id`, `author_id`, `text` |
+| AnalysisMoment | `analysis_moments` | `analysis_id`, `moment_id` |
+| Judgment | `judgments` | `id`, `duel_id`, `judge_id`, `analysis_id`, `verdict`, `base_of_truth_claim_id` |
+| BaseOfTruth | `base_of_truth` | `person_id`, `anchor_claim_id` |
+| SimilarityLink | `similarity_links` | `id`, `author_id`, `record_a_id`, `record_b_id` |
+| Evidence | `evidence` | `id`, `record_id`, `author_id`, `attachment_type`, `url`, `text`, `source_record_id` |
+| Exhibit | `exhibits` | `id`, `duel_id`, `evidence_id`, `submitted_by_person_id`, `exhibit_label` |
+| Rescission | `rescissions` | `id`, `record_id`, `author_id`, `reason` |
+| Tip | `tips` | `id`, `from_person_id`, `to_person_id`, `amount_cents`, `subject_record_id` |
+
+---
+
+## Storage Architecture Notes
+
+SQLite (WAL mode) on a Fly.io persistent volume is the canonical append-only ledger. All writes go through the Hono API server. Litestream continuously replicates every WAL frame to Tigris (S3-compatible object storage, free on Fly.io) for point-in-time restore.
+
+**Append-only enforcement**: SQLite triggers prevent UPDATE/DELETE on content tables (`records`, `cases`, `duels`, `dispositions`, `accords`, `claim_accords`, `moments`, `analyses`, `judgments`, `similarity_links`, `evidence`, `exhibits`, `rescissions`). Only operational tables (`deadline_conditions.active`, `maintenance_messages`) allow updates.
+
+**Known constraints at scale**:
+- Single-writer SQLite means write throughput tops out at ~10k writes/day on a shared-cpu-1x machine.
+- Graph traversal (lineage, nested Cases) is handled by recursive SQL CTEs — performant for typical chain depths of <10.
+- Migration path to Postgres is documented in plan.md, triggered by write latency p95 > 200ms, file size > 5 GB, or need for multiple write instances.
+
+**Read performance**:
+- Indexes on `records.type`, `records.author_id`, `records.case_id`, `claim_accords.claim_id`, `duels.case_id`, `judgments.duel_id` cover all primary query paths.
+- Home feed Claim strength is computed at query time using a single SQL query with two subquery aggregates — no stored score field.
+- Analytics views are served as precomputed SQL queries with a 60-second TTL cache on the server.
+
 
 ---
 
@@ -453,7 +610,8 @@ These are implemented in the Controller layer. The View reads these — it never
 | `canOffer(person, duel)` | Person is a party in the Duel AND duel has no Disposition |
 | `canRespond(person, offer)` | Person is the OTHER party from the offer author AND duel has no Disposition |
 | `canAgree(person, claim)` | Person is authenticated AND person ≠ claim.authorId AND no existing ClaimAccord by person on this claim AND person has not challenged this claim |
-| `canJudge(person, duel)` | Person is NOT a party in the Duel AND duel has a Disposition AND a qualifying Analysis exists AND person has a declared BaseOfTruth with a STANDING anchor Claim |
+| `canRescind(person, record)` | Person is the `authorId` of the Record AND no Rescission already exists for that Record |
+| `canJudge(person, duel)` | Person is NOT a party in the Duel AND duel has a Disposition AND a qualifying Analysis exists AND person has a declared BaseOfTruth with a STANDING anchor Claim. Weight of resulting Judgment is computed as `strength(anchor_claim) × judgment_track_record(person)` — see Judgment entity. |
 | `canAnalyse(person, duel)` | Person is authenticated AND duel has a Disposition |
 | `canDeclareDefault(duel)` | DeadlineConditions.active === true AND Date.now() > currentDeadlineIso AND no Disposition yet exists |
 | `canContestDisposition(person, disposition)` | Person is the party ruled against AND disposition.isContested === false |
@@ -463,14 +621,4 @@ These are implemented in the Controller layer. The View reads these — it never
 
 ## Storage Architecture Notes
 
-GitHub Issues is the canonical append-only ledger. All writes go here. Reads in v1 are satisfied by label-filtered Issue searches with localStorage ETag caching.
-
-**Known constraints at scale**:
-- Graph traversal (lineage, nested Cases) requires multiple sequential API calls — not a GitHub-native query.
-- Derived strength queries require client-side aggregation over fetched Issues.
-- SimilarityLink discovery requires full scans without a secondary index.
-- At >50 concurrent users, the 5,000 req/hour GitHub API limit becomes a ceiling.
-
-**Planned v2 read model**: A secondary index (JSON committed to the repo, or a Cloudflare Worker KV/D1 store) that mirrors Issues into a queryable form. All queries hit the index; all writes go to GitHub Issues. The ledger remains authoritative; the index is derived and rebuildable.
-
-This architectural boundary is a deliberate design decision: GitHub Issues as tamper-evident, auth-tied ledger; the read model as a performance layer only.
+*(This section is superseded by the more detailed version in the Entity → Database Table Mapping section above. See plan.md for the full SQL schema and migration strategy.)*

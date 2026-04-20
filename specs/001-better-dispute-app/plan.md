@@ -322,9 +322,77 @@ CREATE INDEX idx_judgments_duel ON judgments(duel_id);
 CREATE INDEX idx_linked_identities_person ON linked_identities(person_id);
 ```
 
----
+### Extended tables (Migration 002)
 
-## Versioning
+```sql
+-- AI disclosure fields on records (alter existing table)
+ALTER TABLE records ADD COLUMN is_ai      INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE records ADD COLUMN ai_model   TEXT;
+ALTER TABLE records ADD COLUMN ai_assisted INTEGER NOT NULL DEFAULT 0;
+
+-- AI persona fields on persons (alter existing table)
+ALTER TABLE persons ADD COLUMN is_ai    INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE persons ADD COLUMN ai_model TEXT;
+
+-- Evidence: structured attachments on any Record
+CREATE TABLE evidence (
+  id              INTEGER PRIMARY KEY AUTOINCREMENT,
+  record_id       INTEGER NOT NULL REFERENCES records(id),
+  author_id       INTEGER NOT NULL REFERENCES persons(id),
+  attachment_type TEXT NOT NULL CHECK(attachment_type IN ('url','quote','image','file')),
+  title           TEXT,
+  url             TEXT,
+  text            TEXT,
+  file_path       TEXT,
+  source_url      TEXT,
+  created_at      TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX idx_evidence_record ON evidence(record_id);
+
+-- Exhibits: formally submitted Evidence in a Duel
+CREATE TABLE exhibits (
+  id                     INTEGER PRIMARY KEY AUTOINCREMENT,
+  duel_id                INTEGER NOT NULL REFERENCES duels(id),
+  evidence_id            INTEGER NOT NULL REFERENCES evidence(id),
+  submitted_by_person_id INTEGER NOT NULL REFERENCES persons(id),
+  exhibit_label          TEXT NOT NULL,  -- "A", "B", "C" ...
+  created_at             TEXT NOT NULL DEFAULT (datetime('now')),
+  UNIQUE(duel_id, exhibit_label)
+);
+CREATE INDEX idx_exhibits_duel ON exhibits(duel_id);
+
+-- Tips: voluntary peer-to-peer support
+CREATE TABLE tips (
+  id                      INTEGER PRIMARY KEY AUTOINCREMENT,
+  from_person_id          INTEGER NOT NULL REFERENCES persons(id),
+  to_person_id            INTEGER NOT NULL REFERENCES persons(id),
+  amount_cents            INTEGER NOT NULL,
+  currency                TEXT NOT NULL DEFAULT 'USD',
+  subject_record_id       INTEGER REFERENCES records(id),
+  payment_provider        TEXT NOT NULL CHECK(payment_provider IN ('stripe','kofi')),
+  stripe_payment_intent_id TEXT,
+  platform_fee_percent    INTEGER NOT NULL DEFAULT 0,
+  created_at              TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX idx_tips_to ON tips(to_person_id);
+CREATE INDEX idx_tips_from ON tips(from_person_id);
+
+-- Append-only triggers for new content tables
+CREATE TRIGGER evidence_no_update BEFORE UPDATE ON evidence BEGIN
+  SELECT RAISE(ABORT, 'evidence table is append-only');
+END;
+CREATE TRIGGER evidence_no_delete BEFORE DELETE ON evidence BEGIN
+  SELECT RAISE(ABORT, 'evidence table is append-only');
+END;
+CREATE TRIGGER exhibits_no_update BEFORE UPDATE ON exhibits BEGIN
+  SELECT RAISE(ABORT, 'exhibits table is append-only');
+END;
+CREATE TRIGGER exhibits_no_delete BEFORE DELETE ON exhibits BEGIN
+  SELECT RAISE(ABORT, 'exhibits table is append-only');
+END;
+```
+
+
 
 ### Application versioning
 
@@ -425,17 +493,59 @@ Swapping backends = swap `adapter.js` import. All queries remain unchanged.
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-checked after Phase 1 design.*
+*GATE: Must pass before Phase 0 research. Re-checked after Phase 1 design. Updated 2026-04-20.*
 
 | Principle | Status | Notes |
 |-----------|--------|-------|
 | I. Code Quality | ✅ PASS | MVC enforces SRP by design. Each module has one responsibility. DB adapter pattern isolates persistence from business logic. |
 | II. Testing Standards | ⚠️ TENSION | Browser frontend forbids external libraries. Custom micro test-runner (~50 lines, pure JS) satisfies coverage gates without violating no-library constraint. Server-side code uses Node.js test runner (built-in, no library). |
-| III. UX Consistency | ✅ PASS | Dark theme, design tokens in CSS custom properties, WCAG 2.1 AA target. |
-| IV. Performance | ✅ PASS | HTTP cache headers from API, viewport pre-fetch, LCP/CLS targets encoded in spec SC-004/SC-005. |
-| V. Security | ✅ PASS | Parameterised queries (no ORM, no SQL injection); JWT HS256 with server-side secret; OAuth PKCE; append-only DB triggers; IP hashing in maintenance composer (no raw PII). |
+| III. UX Consistency | ✅ PASS | Dark theme, design tokens in CSS custom properties, WCAG 2.1 AA target. Tooltips on all interactive controls. Minimum 44×44px tap targets. |
+| IV. Performance | ✅ PASS | HTTP cache headers from API, viewport pre-fetch, LCP/CLS targets encoded in spec SC-004/SC-005. Analytics scripts loaded defer/async. |
+| V. Security | ✅ PASS | Parameterised queries (no ORM, no SQL injection); JWT HS256 with server-side secret stored in Fly.io secrets; OAuth state param (CSRF protection); append-only DB triggers; IP hashing in maintenance composer (no raw PII); CSP headers; rate limiting on write endpoints; CORS locked to app origin; `npm audit` blocks CI. |
+| VI. Openness | ✅ PASS | Full judgment participation is free and requires no payment. Ads appear only for unauthenticated users. Tipping has zero effect on Record visibility, strength, or Duel eligibility. Constitutional constraint encoded in Tip model (`platform_fee_percent DEFAULT 0`, no access gates). |
+| VII. Disclosure | ✅ PASS | Every Record carries `is_ai`, `ai_model`, `ai_assisted` fields. UI renders disclosure badge on every affected card. @strawman imports carry `[Imported · @handle · Platform]` label. Sponsored content is prohibited. |
+| VIII. Analytics Privacy | ✅ PASS | Plausible (primary) collects no PII, no cookies, no consent banner required. GA4 (secondary) uses IP anonymisation. Neither analytics provider receives personally identifiable data. |
 
 **Gate decision**: PASS with one documented tension (Testing Standards). The micro test-runner approach resolves the conflict.
+
+---
+
+## Analytics Integration
+
+### Plausible Analytics (primary)
+
+[Plausible](https://plausible.io) is an open-source, privacy-first web analytics tool. It collects no personally identifiable information, sets no cookies, and requires no GDPR/CCPA consent banner. It is fully self-hostable on Fly.io as a separate app instance, or available as a hosted service at $9/month for up to 10k monthly page views.
+
+**Integration**: A single `<script>` tag in `index.html`. No build step, no npm package.
+
+```html
+<script defer data-domain="judgmental.io"
+  src="https://plausible.io/js/script.js"></script>
+```
+
+For self-hosted: replace `https://plausible.io/js/script.js` with your own Plausible instance URL.
+
+**What it tracks**: Page views, referrers, browser/OS, country — all aggregated, no per-user data. Custom events (e.g. `plausible('challenge-submitted')`) can be fired from the Controller after key actions.
+
+**Why Plausible first**: No consent UX overhead. No cookie banner. EU-hosted option available. Dashboard is public-shareable if desired. Aligns with platform's disclosure principles.
+
+### Google Analytics 4 (secondary)
+
+GA4 is required for Google Ads conversion tracking (FR-079). Integrated alongside Plausible.
+
+```html
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX', { anonymize_ip: true });
+</script>
+```
+
+`anonymize_ip: true` is mandatory. The GA4 `Measurement ID` (`G-XXXXXXXXXX`) is stored as a public config value (not a secret — it appears in HTML source by design).
+
+**Loading strategy**: Both scripts are loaded with `async`/`defer` after the critical content paint (appended by `app.js` after `DOMContentLoaded`). They MUST NOT block first render.
 
 ---
 

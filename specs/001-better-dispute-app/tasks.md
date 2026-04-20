@@ -236,11 +236,11 @@
 
 **Independent Test**: Person C (not a party) opens a resolved Duel → sees "Write Judgment" button → submits Judgment with Analysis → `judgments` row + `analyses` row created; Judgment visible to all.
 
-- [ ] T090 Add `POST /api/duels/:id/judgments` route with auth middleware — creates `judgments` row + `analyses` row; validates duel is resolved; any authenticated person may judge
-- [ ] T091 Add `GET /api/duels/:id/judgments` route — returns all Judgments with Analyses for a Duel
-- [ ] T092 Create `src/client/model/judgment.js` — `Judgment` client class with `fromApi(data)` factory
-- [ ] T093 Update `duel-view.js` — add Judgment section below the two-lane layout showing all Judgments as cards; "Write Judgment" button opens composer with `mode="judgment"`; submit creates Judgment via API
-- [ ] T094 Add `canJudge(person, duel)` gate: authenticated, duel is resolved
+- [ ] T090 Add `POST /api/duels/:id/judgments` route with auth middleware — creates `judgments` row + `analyses` row; validates duel is resolved; validates judge has a declared BaseOfTruth with a STANDING anchor Claim; is not a party to the Duel
+- [ ] T091 Add `GET /api/duels/:id/judgments` route — returns all Judgments with Analyses for a Duel; each Judgment includes computed `weight` (`strength(anchor_claim) × judgment_track_record(judge)`) as a float
+- [ ] T092 Create `src/client/model/judgment.js` — `Judgment` client class with `fromApi(data)` factory; stores `weight` from API response
+- [ ] T093 Update `duel-view.js` — add Judgment section below the two-lane layout showing all Judgments as cards ordered by descending `weight`; show judge's anchor Claim handle and computed weight; "Write Judgment" button opens composer with `mode="judgment"`; submit creates Judgment via API
+- [ ] T094 Add `canJudge(person, duel)` gate: authenticated, duel is resolved, person is not a party, person has declared BaseOfTruth with a STANDING anchor Claim; tooltip on disabled state explains which condition is not met
 - [ ] T095 Fire Plausible `jdg:judgment_written` after successful judgment
 
 **Checkpoint**: Judgment system live. Any authenticated user can judge resolved Duels.
@@ -347,6 +347,56 @@
 - [ ] T132 Add `bibleApiKey` to `src/client/config.js` and `src/client/config.sample.js`
 
 **Checkpoint**: BibleWidget renders collapsed and expanded. Bible Reader slide-over functional with all four tabs.
+
+---
+
+## Phase 26: Miranda, Rescission, Judgment Weight, and On-the-Record Search
+
+**Goal**: Complete all gaps identified in the 2026-04-20 coherence review. (1) Cross-record Evidence (Miranda) wired end-to-end. (2) Rescission entity with simple deactivation semantics. (3) Judgment weight computation and display. (4) Miranda acknowledgement card at first composition. (5) On-the-record Person search.
+
+**Independent Test**: Post a Claim, then in a separate Duel cite that Claim as cross_record Evidence against its author — Exhibit panel shows the cited Record inline. Rescind the Claim — original Record shows `[RESCINDED]` notice, Duel remains open. Write a Judgment — weight shown beside verdict. New user sees acknowledgement card before first compose.
+
+### Miranda — Cross-Record Evidence
+
+- [ ] T161 Add `source_record_id INTEGER REFERENCES records(id)` column to `evidence` table in a new migration `db/migrations/002_cross_record_rescissions.sql`; add `attachment_type` value `'cross_record'` to the CHECK constraint
+- [ ] T162 Update `POST /api/duels/:id/evidence` route — accept `attachment_type: 'cross_record'` with `source_record_id`; validate: the cited Record exists AND its `author_id` matches one of the Duel's parties; require no `url`, `text`, or `file_path` for this type
+- [ ] T163 Update `src/client/view/components/evidence-panel.js` — add "Cite a Record" option alongside file/URL/quote; opens a Record search picker (search by text, author handle, date); selected Record submitted as `cross_record` Evidence; rendered inline as a quoted Record card with `[CITED AS EVIDENCE]` label
+- [ ] T164 Add Miranda notice chip to `post-card.js`: any Record that has been cited as `cross_record` Evidence in at least one Duel shows a small `⦿ cited` indicator (tooltip: "This record has been used as evidence in a Duel")
+- [ ] T165 Fire Plausible `jdg:evidence_cross_record` event on successful cross-record submission
+
+### Miranda Acknowledgement Card
+
+- [ ] T166 Create `src/client/view/components/miranda-card.js` — `renderMirandaCard()`: persistent card rendered above composer on Home View; text: *"Everything you post on judgmental.io is permanent, public, and on the record. Any of your posts can be submitted as Evidence in a Duel by anyone, at any time."*; shows "I understand" button; on click: stores acknowledgement in `localStorage` (`jdg:miranda_ack=1`) and collapses the card smoothly; NEVER a modal; NEVER auto-dismissed
+- [ ] T167 Wire `miranda-card.js` into `home-view.js`: render above composer when `!localStorage.getItem('jdg:miranda_ack')` and user is authenticated
+- [ ] T168 Add CSS: miranda card uses `--color-warning` left border accent, muted background, warning icon; collapse animation smooth
+
+### Rescission
+
+- [ ] T169 Add `rescissions` table to migration `002_cross_record_rescissions.sql`: `id INTEGER PRIMARY KEY, record_id INTEGER NOT NULL REFERENCES records(id), author_id INTEGER NOT NULL REFERENCES persons(id), reason TEXT, created_at TEXT NOT NULL`; UNIQUE constraint on `record_id`; append-only trigger (no UPDATE/DELETE)
+- [ ] T170 Add `POST /api/records/:id/rescind` route with auth middleware — creates `rescissions` row; validates `person_id` equals `record.author_id`; validates no existing Rescission; returns 409 if already rescinded
+- [ ] T171 Add `GET /api/records/:id` to return `rescission` object if one exists (join `rescissions`)
+- [ ] T172 Update `canRescind(person, record)` gate in `src/server/controllers/record-controller.js`: person is `authorId` AND no existing Rescission
+- [ ] T173 Update `post-card.js` — when `record.rescission` is present: apply `[RESCINDED]` badge on author attribution line (amber, struck-through); render muted card border; show rescission reason as a collapsed note; "Rescind" action in overflow menu when `canRescind`
+- [ ] T174 In `duel-view.js`: when any Turn's source Record is rescinded, show a `[RESCINDED]` inline notice within the Turn card; Duel remains fully active and functional
+- [ ] T175 Add analytics hook: when a Rescission is created on a Claim that was STANDING, fire Plausible `jdg:rescission_standing` event; record is surfaced in Velocity and Flip Rate analytics views with a `♥ rescinded STANDING` label as virtue marker
+
+### Judgment Weight
+
+- [ ] T176 Add `GET /api/persons/:id/judgment-track-record` route — returns `{ total: N, aligned: M, rate: float }` where `aligned` = Judgments this Person made that matched the eventual Accord outcome of the same Duel; returns `{ rate: 1.0 }` for judges with no prior record
+- [ ] T177 Update `POST /api/duels/:id/judgments` route — after creating the Judgment, compute and return `weight = strength(anchor_claim) × track_record_rate` inline in the response (do not store)
+- [ ] T178 Update `GET /api/duels/:id/judgments` route — compute and return `weight` for each Judgment in the list; sort by descending weight
+- [ ] T179 Update `duel-view.js` Judgment section — display `weight` as a visual strength indicator beside each Judgment verdict (e.g. `●●○○` dots or a percentage label); show tooltip explaining the two contributing factors; weighted consensus indicator at section header (e.g. "Weighted: 68% Challenger")
+
+### On-the-Record Person Search
+
+- [ ] T180 Add `GET /api/persons/:id/record` route — returns paginated list of all Records authored by this person, filterable by `type` (claim/challenge/answer/etc) and `topic` (full-text search on `text`); includes rescission status and cross-record citation count per Record
+- [ ] T181 Add `GET /api/persons/:id/accords` route — returns all ClaimAccords held by this person with Claim summary
+- [ ] T182 Add `GET /api/persons/:id/judgments-rendered` route — returns all Judgments rendered by this person with verdict, weight at time of render, and alignment status (did they agree with eventual Accord?)
+- [ ] T183 Create `src/client/view/person-view.js` — `renderPersonView(person)`: shows Person handle, profile pic, BaseOfTruth anchor Claim, judgment track record rate; tabs: **All Records** (filterable by type), **Agreements** (ClaimAccords), **Judgments** (rendered), **Rescissions**; accessible from any Record card author attribution click
+- [ ] T184 Update `post-card.js` — author attribution is clickable; navigates to `?view=person&id=<personId>` which renders `person-view.js`
+- [ ] T185 Fire Plausible `jdg:person_profile_viewed` on Person view load
+
+**Checkpoint**: Miranda cross-record Evidence submittable and displayed. Rescission creates `[RESCINDED]` notice, Duel stays open. Judgment weight shown and explained. Miranda acknowledgement card shown to new users. Person profile shows full on-the-record history.
 
 ---
 
