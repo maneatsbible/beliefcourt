@@ -217,6 +217,8 @@ The Bot namespace is completely separate from the Person namespace. A Person is 
 
 - **AdvisorBot — Advisory ($9.99/month)** — Hired by a Person to advise on turn strategy. Advises; does not act. All Records filed remain attributed to the Person who filed them. Advised Records display `[AdvisorBot-advised]`.
 - **AdvisorBot — Power of Attorney ($29.99/month)** — Hired by a Person to act under their authority. May file Records attributed to that Person. All such Records carry `[via AdvisorBot]`. Person retains full accountability for every Record filed under PoA. Bot-v-bot Duels under PoA are permitted; post-mortem Judgment by human Judges applies.
+
+  **PoA Records are fully Miranda'd.** Every Record filed by AdvisorBot under PoA is a first-class Belief Ledger entry attributed to the Person — indistinguishable in legal and epistemic standing from a Record the Person filed themselves. It is permanently admissible as Evidence against the Person in any future Duel. It is challengeable. It contributes to their Worldview. It survives Rescission as a permanent artefact. A Concession or Accord reached by a Bot under PoA modifies the Person's Belief Ledger exactly as if the Person had filed it. The `[via AdvisorBot]` badge is a disclosure, not a disclaimer. Hiring a Bot to act for you does not reduce your exposure — it extends your reach while preserving your full accountability. This is non-negotiable and has no exceptions.
 - **AdvisorBot — Worldview Summary** — Included with Advisory and PoA. Read-only summarization of the Person's Belief Ledger for their own use. MUST NOT write to the Ledger.
 
 **Disclosure badge system:**
