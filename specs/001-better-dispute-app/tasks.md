@@ -328,25 +328,39 @@
 
 ---
 
-## Phase 19: BibleWidget (First Widget)
+## Phase 19: BibleWidget and Bible Reader (FR-210, FR-211)
 
-**Goal**: BibleWidget is the first implemented Widget type per spec. Posts can attach a Bible passage reference. The widget renders as a collapsed pill; expanded shows the passage text from api.bible (KJV). A Bible Reader slide-over provides full chapter context, original-language interlinear, and cross-references.
+**Goal**: The Bible Widget is the first implemented Widget type. The Bible Reader is the platform's full scripture study tool — it powers the Catechism Library and all Christian Mode contexts. Both are deeply integrated into Exploring Our Faith. KJV is the default translation; 7 free public-domain translations are supported at launch via api.bible.
 
-**Independent Test**: Compose a Claim with BibleWidget attaching "John 3:16" → `widgets: [{type:"bible", payload:{ref:"John 3:16", verseIds:["JHN.3.16"]}}]` stored in Record; Claim card shows collapsed "John 3:16 ▾" pill; expand → KJV passage text; "View in context" → Bible Reader opens.
+**Supported translations at launch (all free via api.bible):**
+- KJV (ID: `de4e12af7f28f599-02`) — **default**
+- WEB (ID: `9879dbb7cfe39e4d-04`)
+- ASV (ID: `685d1470fe4d5c3b-04`)
+- Bishops' Bible 1568 (ID: `c315fa9f71d4af3a-04`)
+- Geneva Bible 1587 (ID: `c4872018b0e01352-01`)
+- Darby (ID: `179568874c45066f-01`)
+- Young's Literal Translation — YLT (ID: `65eec8e0b60e656b-01`)
+
+**Independent Test**: Compose a Claim with BibleWidget attaching "John 3:16" with KJV selected → `widgets: [{type:"bible", payload:{ref:"John 3:16", verseIds:["JHN.3.16"], translation:"KJV"}}]` stored in Record; Claim card shows collapsed "John 3:16 · KJV ▾" pill; expand → KJV passage text; "Open in Bible Reader" → Bible Reader slide-over opens to Passage tab; switch to Context tab → full chapter with verse 16 highlighted; switch to Original Languages → Greek interlinear renders; switch to Cross-References → TSK cross-refs render as inline pills.
 
 - [ ] T122 Add `widgets` JSON column to `records` table (include in migration 001 or append migration 002): `widgets TEXT DEFAULT '[]'`
-- [ ] T123 Create `src/client/api/bible-client.js` — `getPassage(verseIds)`, `search(query)`, `getChapter(bookId, chapter)`; all call api.bible KJV (ID: `de4e12af7f28f599-02`); API key from `CONFIG.bibleApiKey`; cached via client-side Map (long TTL); typed `ApiError` on failure
+- [ ] T123 Create `src/client/api/bible-client.js` — `getPassage(verseIds, translation)`, `search(query, translation)`, `getChapter(bookId, chapter, translation)`, `getInterlinear(verseIds)`; default translation `"KJV"`; translation lookup map of name → api.bible ID; API key from `CONFIG.bibleApiKey`; results cached via client-side Map keyed by `verseId+translationId` (long TTL); `ApiError` on failure
+- [ ] T123a Add `BIBLE_TRANSLATIONS` config constant in `bible-client.js` — array of `{name, id, label, notes}` for all 7 supported translations; KJV first; used to populate translation selector dropdowns
 - [ ] T124 Create `src/client/view/components/widgets/widget-host.js` — `renderWidget(widgetData)` dispatches to registered widget renderers; graceful "Unknown widget" placeholder for unrecognized types
-- [ ] T125 Create `src/client/view/components/widgets/bible-widget.js` — `renderBibleWidget(payload)`: collapsed pill showing reference + "▾"; expand shows verse text individually numbered; "View in context" button opens Bible Reader; fetch passage on expand (skeleton while loading)
-- [ ] T126 Create `src/client/view/components/bible-reader.js` — slide-over panel; tabs: Passage (formatted HTML), Context (full chapter, current verses highlighted), Original (interlinear Hebrew/Greek from BHSA/SBLGNT Bible IDs, word-by-word with transliteration + gloss on hover), Cross-refs; loading skeleton while fetching
-- [ ] T127 Add `"+ Widget"` button to `composer.js`: opens widget picker (initially only "Bible"); selecting "Bible" opens a Bible passage search/navigator; confirmed selection appends widget chip to draft
-- [ ] T128 Create `src/client/view/components/bible-navigator.js` — book → chapter → verse drill-down picker; "Attach selected verses" commits payload
+- [ ] T125 Create `src/client/view/components/widgets/bible-widget.js` — `renderBibleWidget(payload)`: collapsed pill showing `${ref} · ${translation} ▾`; expand shows verse text individually numbered; "Open in Bible Reader" button opens Bible Reader; fetch passage on expand (skeleton while loading); translation stored in payload rendered consistently
+- [ ] T126 Create `src/client/view/components/bible-reader.js` — slide-over panel; 4 tabs: Passage, Context, Original Languages, Cross-References; 5th tab stub (Commentary — disabled, roadmap label); loading skeleton while fetching; accessible as standalone route `/bible/:ref`
+- [ ] T126a Passage tab: formatted passage; translation selector dropdown using `BIBLE_TRANSLATIONS`; copy-verse button per verse (copies as `"Ref Translation — text"`); "Attach to record" shortcut if Composer is open
+- [ ] T126b Context tab: full chapter; current passage highlighted; prev/next chapter arrows; book + chapter selector
+- [ ] T126c Original Languages tab: OT → BHSA Hebrew interlinear from api.bible; NT → SBLGNT Greek interlinear; word stack: original script / transliteration / gloss; hover → lexical entry panel (Strong's number, semantic range, usage count)
+- [ ] T126d Cross-References tab: TSK cross-reference data for passage (embed as JSON or fetch from static asset); render each as inline BibleWidget pill at collapsed state; grouped by theme label
+- [ ] T127 Add `"+ Widget"` button to `composer.js`: opens widget picker (initially only "Bible"); selecting "Bible" opens BibleNavigator
+- [ ] T128 Create `src/client/view/components/bible-navigator.js` — book → chapter → verse drill-down picker; translation selector present at top (KJV default); "Attach selected verses" commits `{ref, verseIds, translation}` payload
 - [ ] T129 Wire `widget-host.js` into `post-card.js`: after post text, iterate `record.widgets` and render each widget
 - [ ] T130 Update `POST /api/records` and `POST /api/claims` routes to accept and store `widgets` JSON column
-- [ ] T131 Add CSS: bible widget pill, expanded passage block (line-height 1.8), verse number superscripts, interlinear word rows (original script / transliteration / gloss), highlighted context verses, slide-over panel animation, tab bar in `styles/main.css`
-- [ ] T132 Add `bibleApiKey` to `src/client/config.js` and `src/client/config.sample.js`
+- [ ] T131 Add CSS: bible widget pill with translation badge, expanded passage block (line-height 1.8), verse number superscripts, interlinear word rows (original script / transliteration / gloss), lexical hover panel, highlighted context verses, slide-over panel animation, translation selector, tab bar in `styles/main.css`
+- [ ] T132 Add `bibleApiKey` to `src/config.js` and `src/config.sample.js`
 
-**Checkpoint**: BibleWidget renders collapsed and expanded. Bible Reader slide-over functional with all four tabs.
+**Checkpoint**: BibleWidget renders collapsed and expanded with translation badge. Bible Reader functional with all four active tabs. Translation switching works across all 7 translations. Bible Reader accessible at `/bible/:ref`.
 
 ---
 

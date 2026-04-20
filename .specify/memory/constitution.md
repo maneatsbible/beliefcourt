@@ -171,7 +171,7 @@ Christian Mode is a first-release feature set built specifically for Bible-follo
 - Church Discipline (the three-stage reconciliation process modelled on Matthew 18) is the most structurally rigorous feature on the platform. It MUST be treated with that weight: careful UX, thorough testing, and respectful copy.
 - No feature in Christian Mode may be implemented in a way that is dismissive, satirical, or reductive of sincere religious practice. Code review MUST include this check.
 - AI assistance in `context=doctrinal`, `context=bible_study`, `context=accountability`, `context=discernment`, `context=discipline`, and `context=parenting` contexts MUST default to a tone that is measured, non-adversarial, and deferential to the sincerity of the parties.
-- The **Exploring Our Faith** feature is a primary discovery surface for the faith community and MUST be treated as a core feature, not an extension.
+- The **Exploring Our Faith** feature is a primary, ongoing, structured project — not a feed filter. It includes the Tradition Map, the Catechism Library, and the Personal Faith Profile. It MUST be treated as a core feature, not an extension. The Bible Widget and Bible Reader are its primary scripture study tools and MUST be integrated accordingly.
 - All copy in Christian Mode contexts is subject to Principle VII (American English Only) without exception.
 
 **Rationale**: This platform was built by someone with a specific biblical faith. Christian Mode is the most direct expression of that. It should be built with the integrity that conviction requires — seriously, robustly, and without hedging.
