@@ -28,6 +28,14 @@
 - Q: What is the judicial role framing in the UI? → A: Each party carries a visible role badge (EXAMINING / TESTIFYING) that flips on counter-challenge. Judicial names are metadata; button labels remain user-friendly. Mapping: Challenge(Interrogatory) = Examination, Challenge(Objection) = Objection, Answer = Testimony, Counter-challenge = Cross-examination, Offer = Stipulation, Response(accepted) = So stipulated.
 - Q: What is the ad policy? → A: Ads are shown only to unauthenticated users as a fixed bottom strip. Signing in removes ads permanently for that session. Constitutional principle: **full participation in the judgment process is free forever**.
 - Q: What advanced judicial concepts should be modelled? → A: Voir dire (pre-Duel judge qualification), Subpoena (requesting a Person enter as witness), Amicus curiae (non-party Analysis submitter — already modelled), Deposition (pre-Case structured Q&A chain), Standing (right to bring a Case — modelled via ClaimAccord), Burden of proof (Duel-level flag indicating which party must prove their position).
+
+### Session 2026-04-20 — Expanded product scope
+
+- Q: Should a Dating/Compatibility mode be in v1? → A: Yes. A Duel can be filed with `context=compatibility` between two consenting Persons. Mechanics are identical to standard Duels; the framing, copy, and UI chrome change. Both Persons must accept the Duel invitation before it begins. The verdict is private to the two parties by default but may be made public.
+- Q: Should an Open API for third-party integrations be in v1? → A: Yes, as a documented public REST API with API-key auth. All read endpoints (Claims, Cases, Duels, Dispositions, Analytics views) are accessible. Write endpoints (file a Claim, open a Case) require org-tier or API-key auth. Rate-limited. Documented at `GET /api/docs` (JSON/OpenAPI 3.1).
+- Q: Should Historical Re-trials be in v1? → A: Yes. A Duel may be created with `context=historical` and a `historical_subject` string (e.g. "Galileo v The Church, 1633"). These Duels are special: parties are role-players arguing historical positions, not personal claims. The original Record is a system-authored Claim citing the historical subject. These Duels are always public, never generate ClaimAccords against living Persons, and are tagged for the Historic Re-trials analytics view.
+- Q: Should an Apology Court (Resolution/Reconciliation mode) be in v1? → A: Yes, as a named Duel context (`context=apology`). The filing party declares a wrong, submits evidence of it, and proposes remediation. The respondent may Accept (producing a `reconciliation` Disposition), reject, or contest. The UI frames this in restorative language — wrongdoing acknowledged, remedy proposed, verdict reached. Christian forgiveness theology (the idea that confession, acknowledgement, and genuine repentance are the preconditions of restoration) is the philosophical north star, but the system is belief-agnostic. No religious language is coded into the UI. The system simply asks: was the wrong acknowledged? Was a remedy offered? Did the other party accept? The moral weight of the resulting record is left to the parties and their community.
+- Q: Should Verdict data be sold as a product? → A: Yes. An anonymised, aggregated dataset of Claims, verdicts, and Judgment consistency scores is exposed as a subscription data API. Access tiers: Researcher (free, rate-limited), Professional ($99/month), Institutional ($499/month). Content is fully anonymised — no Persons, no handles, only argument structures and verdicts. Opt-out is available but defaults to opt-in.
 - Q: What auto-analytics are wanted? → A: Ten public analytical views: (1) contested ground map, (2) consensus clusters, (3) undefeated Claims leaderboard, (4) serial challengers badge, (5) Judgment consistency score, (6) precedent chains graph, (7) dead ends / graveyard, (8) velocity (fastest-growing ClaimAccords), (9) flip rate (intellectual consistency), (10) "you disagree with N% on this" hook on Home View cards.
 
 ### Session 2026-04-19 — Scope widening to judgmental.io
@@ -340,6 +348,93 @@ An admin user manages Persons (role changes, bans), monitors cron job health, an
 
 ---
 
+### User Story 17 — Dating and Compatibility Duel (Priority: P3)
+
+Two consenting Persons want to use the Duel mechanic to structure a high-stakes relational decision — whether to move in together, whether a relationship should continue, whether they are compatible on a key value. Both must explicitly accept before the Duel begins. The result is private by default.
+
+**Why this priority**: The mechanic is already built. The context layer is a framing change. Viral potential is very high.
+
+**Independent Test**: Person A files a Compatibility Duel naming Person B. Person B sees a consent prompt. The Duel does not begin until Person B accepts. After a Disposition is reached, the verdict is visible only to A and B.
+
+**Acceptance Scenarios**:
+
+1. **Given** Person A files a Duel with `context=compatibility` naming Person B, **Then** Person B receives a consent notification and the Duel shows `Awaiting acceptance` to Person A.
+2. **Given** Person B declines the consent prompt, **Then** the Duel is cancelled; no Records are created.
+3. **Given** both Persons have accepted, **Then** the Duel proceeds using standard mechanics with compatibility UI framing.
+4. **Given** a Disposition is reached, **Then** the verdict is visible only to persons A and B unless both explicitly toggle "Make public".
+5. **Given** the Duel is private, **Then** it MUST NOT appear in the public feed, any analytics view, or the Verdict Data API.
+
+---
+
+### User Story 18 — Historical Re-trial (Priority: P3)
+
+A user wants to re-argue a famous historical dispute — Galileo vs the Church, Keynes vs Hayek, Tesla vs Edison. They file a Re-trial, claiming one of the historical positions. Another user claims the opposing position. The Duel proceeds with standard mechanics. The verdict joins a public Historic Re-trials archive.
+
+**Why this priority**: High organic shareability. Drives SEO. Zero data-model changes needed.
+
+**Independent Test**: User A files a Historical Re-trial with `historical_subject="Galileo v The Church, 1633"`. The root Claim is authored by `@system`. User B argues the opposing position. Neither user's ClaimAccord count is affected by the verdict.
+
+**Acceptance Scenarios**:
+
+1. **Given** a Historical Re-trial is filed, **Then** the root Claim is created by `@system` citing `historical_subject`; no living Person is the Claim author.
+2. **Given** a Disposition is reached, **Then** neither party's BaseOfTruth is modified (no ClaimAccord is created).
+3. **Given** the Historic Re-trials analytics view is open, **Then** all completed Re-trials are listed, searchable by `historical_subject`.
+4. **Given** a `historical_subject` already has a prior Re-trial, **Then** filing a new Re-trial surfaces existing precedent verdicts before submission.
+
+---
+
+### User Story 19 — Apology Court (Priority: P3)
+
+A Person wants to publicly acknowledge a wrong, propose a remedy, and seek the other party's acceptance — on the record. They file an Apology Court Duel. The other party may accept (reconciliation) or reject (the public record stands).
+
+**Why this priority**: Unique to the platform. No social network offers structured public reconciliation. High viral and press potential. Philosophically central to what the platform stands for.
+
+**Independent Test**: Person A files an Apology Court Duel with acknowledgement, evidence, and remedy text. Person B accepts. A `reconciliation` Disposition is created. The feed renders the "Resolved" visual state.
+
+**Acceptance Scenarios**:
+
+1. **Given** Person A files a Duel with `context=apology`, **Then** the UI requires all three fields before submission: acknowledgement, evidence, proposed remedy.
+2. **Given** Person B accepts, **Then** a `reconciliation` Disposition is created and the Duel card shows a visually distinct "Restored" state.
+3. **Given** Person B rejects, **Then** a `rejection` Disposition is created; the Duel remains as a public record of an unresolved wrong.
+4. **Given** Person B contests the characterisation, **Then** a standard turn sequence begins; mechanics are identical to a normal Duel.
+5. **Given** any Apology Court Duel, **Then** no religious terminology appears anywhere in the UI.
+
+---
+
+### User Story 20 — Open API (Priority: P2)
+
+A developer or organisation wants to query judgmental.io data programmatically — embedding verdicts in another app, building a research tool, or filing Claims via automation. They use an API key to access documented endpoints.
+
+**Why this priority**: Enables the Org tier, data API monetisation, and third-party ecosystem without building a dedicated integration for each.
+
+**Independent Test**: Developer calls `GET /api/docs` → receives valid OpenAPI 3.1 JSON. Calls `GET /api/claims` with an API key → receives Claims. Calls the same route without a key → receives `401`. Exceeds rate limit → receives `429` with `Retry-After`.
+
+**Acceptance Scenarios**:
+
+1. **Given** any client calls `GET /api/docs`, **Then** a valid OpenAPI 3.1 JSON document is returned with all public endpoints documented.
+2. **Given** a read-only API key, **When** used on a write endpoint, **Then** a `403 Forbidden` is returned.
+3. **Given** a request exceeds the rate limit, **Then** `429 Too Many Requests` is returned with a `Retry-After` header.
+4. **Given** an admin revokes an API key, **Then** the key stops working within 60 seconds (next cache invalidation cycle).
+
+---
+
+### User Story 21 — Verdict Data API Subscription (Priority: P2 — Business)
+
+A researcher or institution wants bulk access to anonymised Duel outcome data for analysis — studying how claims survive contestation, how judgment consistency correlates with claim strength, etc. They subscribe to a data tier and query the Verdict Data API.
+
+**Why this priority**: Zero marginal cost. Pure revenue. The data is a byproduct of the platform's existing mechanics.
+
+**Independent Test**: Researcher API key calls `GET /api/data/claims` → returns anonymised Claim texts and Disposition outcomes with no Person identifiers. A Person who has opted out does not appear.
+
+**Acceptance Scenarios**:
+
+1. **Given** a Researcher API key, **Then** `GET /api/data/claims` returns anonymised claim text and Disposition outcomes only; no Person handles or platform identifiers are present.
+2. **Given** a Person has opted out via User Settings, **Then** their Records do not appear in any Verdict Data API response within 24 hours of opt-out.
+3. **Given** an Institutional subscriber, **Then** bulk JSONL export via `GET /api/data/export` is available with no daily rate limit.
+4. **Given** a free Researcher key, **Then** requests beyond 100/day return `429`.
+
+---
+
 ## Platform Philosophy
 
 ### On Truth and Judgment
@@ -543,7 +638,49 @@ Sponsored content is prohibited. Any sponsored-in-intent Record would be require
 - **FR-105** (**SimilarityLink cluster recompute**): `every 24 hours` — walks the `similarity_links` graph and recomputes connected-component cluster ids, storing cluster membership in `similarity_clusters` table. Enables Precedent surfacing queries.
 - **FR-106** (**DB integrity check**): `every 24 hours` — runs `PRAGMA integrity_check`; runs `PRAGMA wal_checkpoint(PASSIVE)`; records Litestream replication lag; if integrity check fails or lag > 5 minutes, creates an auto-flag in the moderation queue and writes to `cron_runs` with `status=error`.
 - **FR-107** (**Tip settlement digest**): `every 24 hours at 00:00 UTC` — aggregates tip totals per recipient for the prior day; writes a row to `tip_digests`; exposes via `GET /api/persons/:id/tips/digest` for creator dashboard.
-- **FR-075**: Signing in MUST immediately remove all advertising for that session.
+
+**Dating and Compatibility Mode**
+
+- **FR-108**: A Duel MAY be filed with `context=compatibility`. Both named Persons MUST accept a consent prompt before the Duel begins — no compatibility Duel can be imposed unilaterally.
+- **FR-109**: Compatibility Duels use identical mechanics to standard Duels. Only the framing copy and UI chrome change (e.g. "Proposal" instead of "Claim", "We should move in together" style). The underlying records schema is unchanged.
+- **FR-110**: Compatibility Duel verdicts are **private by default** — visible only to the two parties. Either party may choose to make the verdict public, but ONLY if both consent. Consent is a mutual toggle.
+- **FR-111**: Compatibility Duels MUST be excluded from all public Analytics views, the public feed, and Verdict Data API unless both parties have made the verdict public.
+- **FR-112**: A trusted panel of up to 5 invited Persons (e.g. mutual friends, a therapist) MAY be added as Judges on a Compatibility Duel. Invitations are sent via in-app notification.
+
+**Open API**
+
+- **FR-113**: A public REST API MUST be documented at `GET /api/docs` as an OpenAPI 3.1 JSON document. A human-readable HTML render MAY be served at `/api/docs/ui`.
+- **FR-114**: All read endpoints (Claims, Cases, Duels, Dispositions, Persons, Analytics views) MUST be accessible to authenticated API-key holders with no rate-limit tier above Researcher.
+- **FR-115**: Write endpoints (create Claim, open Case, submit Analysis) MUST require an active org-tier subscription or a dedicated API key issued by an admin.
+- **FR-116**: API keys MUST be scoped (read-only, read-write) and revocable from the user settings page. Keys MUST be stored as bcrypt hashes server-side; the plaintext is shown only once at creation.
+- **FR-117**: All API routes MUST return `429 Too Many Requests` with `Retry-After` header when rate limits are exceeded. Rate limits: Researcher = 60 req/min; Professional/Institutional = 600 req/min; Org API key = 1,200 req/min.
+
+**Historical Re-trials**
+
+- **FR-118**: A Duel MAY be created with `context=historical` and a `historical_subject` string (e.g. `"Galileo v The Church, 1633"`).
+- **FR-119**: The root Claim for a Historical Re-trial MUST be a system-authored Record (authored by `@system`) citing the `historical_subject`. No living Person's Base of Truth is affected by the outcome.
+- **FR-120**: Historical Re-trial parties argue assigned historical positions. Their Judgment verdict does NOT produce a ClaimAccord against either party's personal Base of Truth.
+- **FR-121**: Historical Re-trials are ALWAYS public. They appear in a dedicated **Historic Re-trials** analytics view and feed section.
+- **FR-122**: A `historical_subject` search MAY surface existing Re-trials on the same subject, displaying precedent verdicts before a new one is filed.
+
+**Apology Court (Restorative Resolution)**
+
+- **FR-123**: A Duel MAY be filed with `context=apology`. The filing party is the `petitioner`; the respondent is the `recipient`.
+- **FR-124**: The petitioner MUST submit: (a) an acknowledgement of the wrong (`claim_text`), (b) supporting Evidence, and (c) a proposed remedy (`remedy_text`). All three fields are required before the Duel begins.
+- **FR-125**: The recipient may: (a) **Accept** — producing a `reconciliation` Disposition and marking the Duel resolved; (b) **Reject** — producing a `rejection` Disposition; or (c) **Contest** — opening a standard turn sequence disputing the characterisation of the wrong or the adequacy of the remedy.
+- **FR-126**: Apology Court Duels use restorative UI language throughout. Labels: "Acknowledgement" (Claim), "Proposed Remedy" (Offer), "Restored" (Accord), "Unresolved" (Default). No religious terminology is used. The system is belief-agnostic.
+- **FR-127**: The philosophical design principle — that genuine acknowledgement of wrongdoing, a sincere remedy, and acceptance by the wronged party constitute the preconditions of restoration — is documented in the codebase as a comment in the apology-context controller. It is never rendered to the user.
+- **FR-128**: Apology Court dispositions (`reconciliation`, `rejection`) MUST be visually distinct in the feed. A `reconciliation` disposition MUST show a visual "resolved" state. A `rejection` remains as an open public record.
+
+**Verdict Data API**
+
+- **FR-129**: An anonymised, aggregated dataset of Claims (text only, no author), Disposition outcomes, and Judgment consistency scores MUST be exposed as a subscription data API at `GET /api/data/*`.
+- **FR-130**: Verdict Data API access tiers and rate limits:
+  - **Researcher** — free, 100 req/day, read-only, anonymised only
+  - **Professional** — $99/month, 2,000 req/day, full anonymised dataset including argument structure
+  - **Institutional** — $499/month, unlimited, bulk export (JSONL), priority support
+- **FR-131**: All data returned by the Verdict Data API MUST be fully anonymised. No Person handles, display names, or platform identifiers may be included. Argument structure (Claim text, challenge text, evidence summaries) is included but stripped of any PII.
+- **FR-132**: Persons MAY opt out of Verdict Data API inclusion via a toggle in User Settings. Opt-out is respected within 24 hours (next analytics rollup cycle). Default is **opted in**.
 - **FR-076**: An "Sign in to remove ads" label MUST appear above the ad strip for unauthenticated users.
 - **FR-077**: Google Ads MUST be the ad provider. Ad content MUST NOT appear in any authenticated view.
 
@@ -625,6 +762,8 @@ The following views are computed from the live database at query time, not store
 | Velocity | Fastest-growing ClaimAccords in last 7 days |
 | Flip Rate | Persons who reversed ClaimAccord positions most frequently |
 | Disagreement Hook | "You disagree with N% on this" shown per Claim card on Home View |
+| Historic Re-trials | Completed Historical Re-trial Duels, searchable by `historical_subject` |
+| Apology Court | Resolved and unresolved Apology Court Duels, filterable by `reconciliation` / `rejection` |
 
 ---
 
@@ -642,6 +781,11 @@ The following views are computed from the live database at query time, not store
 - **SC-010**: All 10 auto-analytics views load and render in under 3 seconds.
 - **SC-011**: Admin interface loads and renders the user list (first page), cron panel, and system health widgets in under 2 seconds.
 - **SC-012**: All 7 cron jobs run to completion without error on a fresh database with seed data; each produces the correct output rows in its target table.
+- **SC-013**: A Compatibility Duel cannot begin until both named Persons have accepted the consent prompt; the filing party sees a "Awaiting acceptance" state.
+- **SC-014**: A Historical Re-trial's root Claim is authored by `@system`; neither party's ClaimAccord count changes after a verdict.
+- **SC-015**: An Apology Court Duel with all three required fields (acknowledgement, evidence, remedy) submitted produces a `reconciliation` or `rejection` Disposition correctly; the feed renders the correct visual state for each.
+- **SC-016**: `GET /api/docs` returns a valid OpenAPI 3.1 JSON document; all documented endpoints return the correct HTTP status for both authorised and unauthorised requests.
+- **SC-017**: `GET /api/data/claims` with a Researcher API key returns only anonymised claim text with no Person identifiers; a Person who has opted out does not appear in the results.
 
 ---
 
@@ -704,5 +848,19 @@ The Bluesky ATProto OAuth flow requires Dynamic Client Registration per PDS inst
 - *"You've been posting takes for years. Time to defend them."*
 - *"Likes don't make you right. Surviving challenges does."*
 - *"The internet has been arguing for 30 years. judgmental.io is where we settle it."*
+
+---
+
+## Product Modes
+
+judgmental.io ships five named Duel contexts in v1. The engine is identical across all; only framing, copy, and access rules differ.
+
+| Context | Use case | Visibility default | ClaimAccords affected |
+|---|---|---|---|
+| `standard` | Public debate, claim defence | Public | Yes |
+| `compatibility` | Relational/dating decision-making | Private | No |
+| `historical` | Re-trying historical disputes | Public | No |
+| `apology` | Restorative resolution | Public | No |
+| `org` | Private organisational workspace | Org-private | Configurable |
 
 
