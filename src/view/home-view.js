@@ -41,22 +41,24 @@ export class HomeView {
   }
 
   async render() {
+    const orgMode = this._ctrl._config?.orgMode ?? false;
+    const fabLabel = orgMode ? 'New Claim' : 'Start a fire…';
+    const fabIcon  = orgMode ? '⚖️' : '🔥';
+
     this._root.innerHTML = `
       <div class="home-view">
-        <div class="home-toolbar">
-          <button class="home-compose-trigger" id="home-compose-btn"
-                  ${this._user ? '' : 'disabled'}
-                  aria-label="Start a new assertion">
-            <span class="home-compose-trigger__icon">🔥</span>
-            <span class="home-compose-trigger__text">Start a fire&hellip;</span>
-          </button>
-        </div>
+        <div class="home-toolbar" id="home-toolbar"></div>
         <div class="home-feed" id="home-feed"></div>
         <div class="home-sentinel" id="home-sentinel" aria-hidden="true"></div>
       </div>
+      <button class="fab-compose" id="home-compose-fab"
+              ${this._user ? '' : 'disabled'}
+              aria-label="${fabLabel}">
+        <span aria-hidden="true">${fabIcon}</span>
+      </button>
     `.trim();
 
-    this._root.querySelector('#home-compose-btn')
+    this._root.querySelector('#home-compose-fab')
       ?.addEventListener('click', () => this._openComposer());
 
     // Event delegation for card actions
@@ -161,22 +163,30 @@ export class HomeView {
   _openComposer() {
     if (this._composer) return;
 
+    // Hide FAB while composer is active.
+    this._root.querySelector('#home-compose-fab')?.classList.add('fab-compose--hidden');
+
     const toolbar = this._root.querySelector('.home-toolbar');
     this._composer = renderComposer(toolbar, {
-      mode:              'assertion',
-      placeholder:       'Make an assertion…',
-      canPostAsStrawman: this._ctrl.canPostAsStrawman(this._user).allowed,
-      onSubmit:          data => this._submitAssertion(data),
-      onCancel:          ()   => { this._composer?.destroy(); this._composer = null; },
+      mode:           'assertion',
+      placeholder:    'Make a claim…',
+      canPostAsHerald: this._ctrl.canPostAsHerald(this._user).allowed,
+      onSubmit:       data => this._submitAssertion(data),
+      onCancel:       ()   => {
+        this._composer?.destroy();
+        this._composer = null;
+        this._root.querySelector('#home-compose-fab')?.classList.remove('fab-compose--hidden');
+      },
     });
   }
 
-  async _submitAssertion({ text, imageUrl, asStrawman }) {
+  async _submitAssertion({ text, imageUrl, asHerald }) {
     try {
-      await this._ctrl.submitAssertion(this._user, text, imageUrl || null, asStrawman);
+      await this._ctrl.submitAssertion(this._user, text, imageUrl || null, asHerald);
       this._composer?.destroy();
       this._composer = null;
-      showNotification('Assertion posted!', 'success');
+      this._root.querySelector('#home-compose-fab')?.classList.remove('fab-compose--hidden');
+      showNotification('Claim posted!', 'success');
       // Reload first page to show the new post.
       this._page = 1;
       this._root.querySelector('#home-feed').innerHTML = '';

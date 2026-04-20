@@ -626,7 +626,7 @@ details > summary::marker { display: none; }
 }
 .composer__file-label:hover { text-decoration: underline; }
 
-.composer__strawman-row {
+.composer__herald-row {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -634,7 +634,7 @@ details > summary::marker { display: none; }
   font-size: 12px;
   color: var(--color-text-muted);
 }
-.composer__strawman-row input[type="checkbox"] { cursor: pointer; }
+.composer__herald-row input[type="checkbox"] { cursor: pointer; }
 
 .composer__actions {
   display: flex;
@@ -702,45 +702,33 @@ details > summary::marker { display: none; }
   margin-bottom: 16px;
 }
 
-/* "Start a fire" CTA — full-width fake-input style, obviously clickable */
-.home-compose-trigger {
+/* ── Floating Action Button — Start a Fire / New Claim ────────────── */
+.fab-compose {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 90;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: #fff;
+  font-size: 24px;
   display: flex;
   align-items: center;
-  gap: 10px;
-  width: 100%;
-  text-align: left;
-  padding: 12px 16px;
-  background: var(--color-surface);
-  border: 1.5px solid var(--color-accent-blue);
-  border-radius: var(--radius-card);
-  color: var(--color-text-muted);
-  font-size: 15px;
-  margin-bottom: 20px;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.45);
+  border: none;
   cursor: pointer;
-  transition: border-color var(--transition-fast), background var(--transition-fast);
+  transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
 }
-.home-compose-trigger:hover:not(:disabled) {
-  background: var(--color-surface-2);
-  border-color: var(--color-accent-blue);
+.fab-compose:hover:not(:disabled) {
+  background: #ff6a1a;
+  transform: scale(1.07);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.55);
 }
-.home-compose-trigger:disabled { opacity: 0.45; cursor: not-allowed; }
-.home-compose-trigger__icon { font-size: 18px; flex-shrink: 0; }
-.home-compose-trigger__text { color: var(--color-text-muted); font-style: italic; }
-
-.home-feed__compose-btn {
-  width: 100%;
-  text-align: left;
-  padding: 10px 14px;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-card);
-  color: var(--color-text-muted);
-  font-size: 14px;
-  margin-bottom: 20px;
-  cursor: pointer;
-  transition: border-color var(--transition-fast);
-}
-.home-feed__compose-btn:hover { border-color: var(--color-accent-blue); }
+.fab-compose:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+.fab-compose--hidden  { display: none !important; }
 
 /* ── Dispute view ───────────────────────────────────────── */
 .dispute-view__lineage {

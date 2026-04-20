@@ -183,7 +183,7 @@ CREATE TABLE records (
   case_id       TEXT REFERENCES cases(id),
   text          TEXT,
   image_url     TEXT,
-  source_url    TEXT,              -- for @strawman imports
+  source_url    TEXT,              -- for @herald imports
   attributed_handle TEXT,          -- @handle on external platform
   attributed_platform TEXT,        -- 'x'|'threads' etc.
   integrity_hash TEXT NOT NULL,    -- SHA-256 of canonical fields
@@ -503,7 +503,7 @@ Swapping backends = swap `adapter.js` import. All queries remain unchanged.
 | IV. Performance | ✅ PASS | HTTP cache headers from API, viewport pre-fetch, LCP/CLS targets encoded in spec SC-004/SC-005. Analytics scripts loaded defer/async. |
 | V. Security | ✅ PASS | Parameterised queries (no ORM, no SQL injection); JWT HS256 with server-side secret stored in Fly.io secrets; OAuth state param (CSRF protection); append-only DB triggers; IP hashing in maintenance composer (no raw PII); CSP headers; rate limiting on write endpoints; CORS locked to app origin; `npm audit` blocks CI. |
 | VI. Openness | ✅ PASS | Full judgment participation is free and requires no payment. Ads appear only for unauthenticated users. Tipping has zero effect on Record visibility, strength, or Duel eligibility. Constitutional constraint encoded in Tip model (`platform_fee_percent DEFAULT 0`, no access gates). |
-| VII. Disclosure | ✅ PASS | Every Record carries `is_ai`, `ai_model`, `ai_assisted` fields. UI renders disclosure badge on every affected card. @strawman imports carry `[Imported · @handle · Platform]` label. Sponsored content is prohibited. |
+| VII. Disclosure | ✅ PASS | Every Record carries `is_ai`, `ai_model`, `ai_assisted` fields. UI renders disclosure badge on every affected card. @herald imports carry `[Imported · @handle · Platform]` label. Sponsored content is prohibited. |
 | VIII. Analytics Privacy | ✅ PASS | Plausible (primary) collects no PII, no cookies, no consent banner required. GA4 (secondary) uses IP anonymisation. Neither analytics provider receives personally identifiable data. |
 
 **Gate decision**: PASS with one documented tension (Testing Standards). The micro test-runner approach resolves the conflict.
@@ -574,7 +574,7 @@ src/
 │   │   ├── client.js               # Fetch wrapper for judgmental.io REST API
 │   │   └── auth.js                 # SM OAuth PKCE flow + JWT storage
 │   ├── model/
-│   │   ├── person.js               # Person entity + strawman attribution
+│   │   ├── person.js               # Person entity + herald attribution
 │   │   ├── record.js               # Record base + Claim/Challenge/Answer/Offer/Response
 │   │   ├── duel.js                 # Duel + Case + Disposition entities
 │   │   └── judgment.js             # Judgment + Analysis + BaseOfTruth entities

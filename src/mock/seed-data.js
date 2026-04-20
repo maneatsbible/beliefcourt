@@ -48,7 +48,7 @@ const USERS = {
   'dave':         { login: 'dave',         id: 1004 },
   'eve':          { login: 'eve',          id: 1005 },
   'frank':        { login: 'frank',        id: 1006 },
-  'strawman':     { login: 'strawman',     id: 1 },
+  'herald':       { login: 'herald',      id: 1 },
 };
 
 function _userId(login) {
@@ -56,7 +56,7 @@ function _userId(login) {
 }
 
 // Exported convenience list of mock users so the dev toolbar can offer a picker.
-export const MOCK_USERS = Object.values(USERS).filter(u => u.login !== 'strawman');
+export const MOCK_USERS = Object.values(USERS).filter(u => u.login !== 'herald');
 
 // ---------------------------------------------------------------------------
 // SCENARIO A — Active dispute, interrogatory challenge, multi-round Q&A

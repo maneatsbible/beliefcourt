@@ -58,7 +58,7 @@ export const CONFIG = {
   githubClientId: 'Ov23li...',          // Your OAuth App Client ID
   appName: 'disputable.io',             // product name shown in the UI
   dataRepo: 'disputableio/disputable-data', // owner/repo of your data repository
-  strawmanLogin: 'bd-strawman',         // GitHub username of the @strawman account
+  heraldLogin: 'bd-herald',            // GitHub username of the @herald account
   appVersion: '0.1.0',
 };
 ```
@@ -109,20 +109,22 @@ npx c8 check-coverage --lines 85 --functions 85 --branches 80
 
 ---
 
-## @strawman Setup
+## @herald Setup
 
-@strawman is a special GitHub account that any user can post as. To enable it:
+@herald is a reserved system placeholder used to import external content for immediate disputation. When you quote something from the internet, you submit it as a Claim attributed to @herald with a simultaneous Challenge. The real author can later authenticate and claim ownership.
 
-1. Create a GitHub account named `bd-strawman` (or your preferred login).
+To enable it:
+
+1. Create a GitHub account named `bd-herald` (or your preferred login).
 2. Create a Personal Access Token for that account with `repo` scope.
 3. Add the token to your data repo's Secrets (for CI/CD) or to a local `.env` file:
 
 ```bash
 # .env (never commit this)
-STRAWMAN_TOKEN=ghp_xxxxxxxxxxxx
+HERALD_TOKEN=ghp_xxxxxxxxxxxx
 ```
 
-The app uses this token only when a user explicitly toggles "Post as @strawman".
+The app uses this token only when a user explicitly toggles "Import as @herald".
 
 ---
 

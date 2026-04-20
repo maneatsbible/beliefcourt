@@ -10,7 +10,7 @@ import { DISPUTE_STATUS_ACTIVE, DISPUTE_STATUS_RESOLVED } from '../../../src/mod
 const CONFIG = {
   githubClientId: 'test-client-id',
   dataRepo:       'owner/repo',
-  strawmanLogin:  'strawman',
+  heraldLogin:    'herald',
   appVersion:     '1.0.0-test',
 };
 

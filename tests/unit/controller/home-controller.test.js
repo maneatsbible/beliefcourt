@@ -9,7 +9,7 @@ import { HomeController } from '../../../src/controller/home-controller.js';
 const CONFIG = {
   githubClientId: 'test-client-id',
   dataRepo:       'owner/repo',
-  strawmanLogin:  'strawman',
+  heraldLogin:   'herald',
   appVersion:     '1.0.0-test',
 };
 
@@ -34,19 +34,19 @@ describe('HomeController', () => {
     });
   });
 
-  // ── canPostAsStrawman ───────────────────────────────────────────────────────
+  // ── canPostAsHerald ────────────────────────────────────────────────────────────
 
-  describe('canPostAsStrawman', () => {
+  describe('canPostAsHerald', () => {
     it('returns allowed=false for unauthenticated person', () => {
-      expect(ctrl.canPostAsStrawman(null).allowed).toBe(false);
+      expect(ctrl.canPostAsHerald(null).allowed).toBe(false);
     });
 
-    it('returns allowed=false for a non-strawman user', () => {
-      expect(ctrl.canPostAsStrawman({ id: 2, login: 'alice' }).allowed).toBe(false);
+    it('returns allowed=true for any authenticated user', () => {
+      expect(ctrl.canPostAsHerald({ id: 2, login: 'alice' }).allowed).toBe(true);
     });
 
-    it('returns allowed=true for the configured strawman login (case-insensitive)', () => {
-      expect(ctrl.canPostAsStrawman({ id: 99, login: 'STRAWMAN' }).allowed).toBe(true);
+    it('returns allowed=true for the configured herald login (case-insensitive)', () => {
+      expect(ctrl.canPostAsHerald({ id: 99, login: 'HERALD' }).allowed).toBe(true);
     });
   });
 

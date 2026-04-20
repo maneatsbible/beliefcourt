@@ -32,5 +32,5 @@
 ## Notes
 
 - All checklist items pass. Specification is ready for `/speckit.clarify` or `/speckit.plan`.
-- The @strawman OAuth token assumption is flagged in Assumptions as a deployment concern, not a functional spec concern.
+- The @herald OAuth token assumption is flagged in Assumptions as a deployment concern, not a functional spec concern.
 - Real-time notifications are explicitly out of scope (polling model assumed) — this is documented in Assumptions.

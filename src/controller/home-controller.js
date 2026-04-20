@@ -65,15 +65,15 @@ export class HomeController {
   }
 
   /**
-   * Can the given person use the @strawman option?
-   * Any authenticated user may plant a strawman argument.
+   * Can the given person use the @herald option to import external content?
+   * Any authenticated user may plant a herald argument.
    *
    * @param {{ id: number, login: string }|null} person
    * @returns {{ allowed: boolean, reason: string }}
    */
-  canPostAsStrawman(person) {
+  canPostAsHerald(person) {
     if (!person) {
-      return { allowed: false, reason: 'Sign in to use the strawman option.' };
+      return { allowed: false, reason: 'Sign in to use the @herald option.' };
     }
     return { allowed: true, reason: '' };
   }
@@ -88,10 +88,10 @@ export class HomeController {
    * @param {{ id: number, login: string }} person
    * @param {string}      text       Assertion text
    * @param {string|null} imageUrl   Optional image URL
-   * @param {boolean}     asStrawman Post on behalf of strawman
+   * @param {boolean}     asHerald Post on behalf of @herald placeholder
    * @returns {Promise<object>}  Created GitHub Issue object
    */
-  async submitAssertion(person, text, imageUrl = null, asStrawman = false) {
+  async submitAssertion(person, text, imageUrl = null, asHerald = false) {
     const { allowed } = this.canCompose(person);
     if (!allowed) throw new Error('Permission denied.');
 
@@ -104,7 +104,7 @@ export class HomeController {
       rootId:             null,   // will be self-referential — updated after creation
       isOffer:            false,
       offeredInDisputeId: null,
-      proxyAuthor:        asStrawman ? `@${this._config.strawmanLogin}` : null,
+      proxyAuthor:        asHerald ? `@${this._config.heraldLogin}` : null,
     };
 
     const content = imageUrl
@@ -128,9 +128,9 @@ export class HomeController {
     // Invalidate feed cache so next load picks up the new post.
     cache.invalidatePattern(gh.issuesUrl(this._dataRepo));
 
-    // When posting as @strawman, automatically create a challenge+dispute so the
-    // current user is immediately disputing their own planted strawman argument.
-    if (asStrawman) {
+    // When posting as @herald, automatically create a challenge+dispute so the
+    // current user is immediately disputing their own planted herald argument.
+    if (asHerald) {
       const assertionPost = {
         id:         created.number,
         authorId:   person.id,

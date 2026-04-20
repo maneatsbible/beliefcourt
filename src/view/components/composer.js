@@ -2,7 +2,7 @@
  * View component: inline Composer panel
  *
  * Supports multiple modes:
- *   - "assertion" — free text + optional image + optional @strawman toggle
+ *   - "assertion" — free text + optional image + optional @herald toggle
  *   - "challenge" — Interrogatory/Objection type selector + text
  *   - "answer"    — Yes/No radio (Interrogatory only) + text + optional counter-challenge
  *   - "offer"     — free text + optional image
@@ -21,7 +21,7 @@ const MODES = ['assertion', 'challenge', 'answer', 'offer'];
  * @param {{
  *   mode:           'assertion'|'challenge'|'answer'|'offer',
  *   placeholder:    string,
- *   canPostAsStrawman: boolean,
+ *   canPostAsHerald: boolean,
  *   challengeType:  'interrogatory'|'objection'|null,   // for answer mode
  *   onSubmit:       (data: object) => Promise<void>,
  *   onCancel:       () => void,
@@ -32,7 +32,7 @@ export function renderComposer(container, opts) {
   const {
     mode               = 'assertion',
     placeholder        = 'What do you want to say?',
-    canPostAsStrawman  = false,
+    canPostAsHerald   = false,
     challengeType      = null,
     onSubmit,
     onCancel,
@@ -45,7 +45,7 @@ export function renderComposer(container, opts) {
 
   el.innerHTML = `
     <form class="composer__form" novalidate>
-      ${_modeExtras(mode, challengeType, canPostAsStrawman)}
+      ${_modeExtras(mode, challengeType, canPostAsHerald)}
 
       ${mode === 'assertion' || mode === 'offer'
         ? `<div class="composer__type-toggle" role="group" aria-label="Content type">
@@ -172,7 +172,7 @@ export function renderComposer(container, opts) {
 
 // ---------------------------------------------------------------------------
 
-function _modeExtras(mode, challengeType, canPostAsStrawman) {
+function _modeExtras(mode, challengeType, canPostAsHerald) {
   const parts = [];
 
   if (mode === 'challenge') {
@@ -207,11 +207,11 @@ function _modeExtras(mode, challengeType, canPostAsStrawman) {
     `);
   }
 
-  if (mode === 'assertion' && canPostAsStrawman) {
+  if (mode === 'assertion' && canPostAsHerald) {
     parts.push(`
-      <label class="composer__strawman-toggle">
-        <input type="checkbox" class="composer__strawman-cb" name="asStrawman">
-        Plant a strawman (post as @strawman &amp; auto-challenge)
+      <label class="composer__herald-toggle">
+        <input type="checkbox" class="composer__herald-cb" name="asHerald">
+        Import as @herald (post as placeholder &amp; auto-challenge)
       </label>
     `);
   }
@@ -239,8 +239,8 @@ function _collectData(el, mode, { text, imageUrl }) {
   }
 
   if (mode === 'assertion') {
-    const strawmanCb = el.querySelector('.composer__strawman-cb');
-    data.asStrawman = strawmanCb?.checked ?? false;
+    const heraldCb = el.querySelector('.composer__herald-cb');
+    data.asHerald = heraldCb?.checked ?? false;
   }
 
   return data;

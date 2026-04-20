@@ -601,7 +601,7 @@
 
 ### B-010 — @system person seed
 
-- [ ] T224 Update migration 001 to insert `@strawman` (id=1) and `@system` (id=2) as the first two rows in the `persons` table immediately after schema creation; both rows have `is_strawman=false`, `is_ai=false`, `role='member'`, `banned_at=NULL`; note that `@strawman`'s semantics are described in the spec — it is a beacon, not a bot
+- [ ] T224 Update migration 001 to insert `@herald` (id=1) and `@system` (id=2) as the first two rows in the `persons` table immediately after schema creation; both rows have `is_herald=false`, `is_ai=false`, `role='member'`, `banned_at=NULL`; note that `@herald` is a beacon for imported external content, not a bot
 
 ### Data Model Gaps
 

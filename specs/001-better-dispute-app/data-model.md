@@ -593,7 +593,7 @@ Home View
 
 | Entity | Table | Key columns |
 |--------|-------|-------------|
-| Person | `persons` | `id`, `name`, `profile_pic_url`, `is_strawman`, `is_ai`, `ai_model` |
+| Person | `persons` | `id`, `name`, `profile_pic_url`, `is_herald`, `is_ai`, `ai_model` |
 | LinkedIdentity | `linked_identities` | `person_id`, `platform`, `platform_user_id`, `platform_handle` |
 | Record (all types) | `records` | `id`, `type`, `author_id`, `parent_id`, `case_id`, `text`, `image_url`, `source_url`, `is_ai`, `ai_model`, `ai_assisted` |
 | Case | `cases` | `id`, `subject_record_id`, `opened_by_person_id`, `trigger_challenge_id` |
@@ -632,7 +632,7 @@ SQLite (WAL mode) on a Fly.io persistent volume is the canonical append-only led
 **Append-only enforcement**: SQLite triggers prevent UPDATE/DELETE on content tables (`records`, `cases`, `duels`, `dispositions`, `accords`, `claim_accords`, `moments`, `analyses`, `judgments`, `similarity_links`, `evidence`, `exhibits`, `rescissions`). Only operational/cache tables (`deadline_conditions.active`, `maintenance_messages`, `person_stats`, `analytics_snapshots`, `similarity_clusters`, `cron_runs`, `moderation_flags`, `notifications.read_at`) allow updates or upserts.
 
 **Reserved system persons**: Two `persons` rows are seeded before migration 001 completes and before any OAuth user is created:
-- `id=1, name='@strawman'` — placeholder identity for imported external content (B-010 resolved).
+- `id=1, name='@herald'` — placeholder identity for imported external content (B-010 resolved).
 - `id=2, name='@system'` — server-side actor used for auto-generated `moderation_flags` (e.g. from `db-integrity` cron) and system `notifications`. Never returned by `GET /api/persons/:id` to public clients.
 
 **Handle disambiguation**: If a new OAuth user's handle derived from their SM platform conflicts with an existing `persons.name`, the server appends a 4-digit random numeric suffix (e.g. `@alice` → `@alice4821`) and returns the resolved handle in the JWT. The original platform handle is stored separately in `linked_identities.platform_handle`.

@@ -11,9 +11,16 @@ export const CONFIG = {
   /** owner/repo of the shared data repository, e.g. "myorg/disputable-data" */
   dataRepo: 'YOUR_ORG/dsp-data',
 
-  /** GitHub login of the @strawman account */
-  strawmanLogin: 'strawman',
+  /** GitHub login of the @herald placeholder account */
+  heraldLogin: 'herald',
 
   /** App version shown in the header */
   appVersion: '0.1.0',
+
+  /**
+   * Set to true for org/enterprise deployments.
+   * Changes composer language from "Start a fire 🔥" to "New Claim ⚖️" and
+   * removes consumer-facing "hot take" framing throughout the UI.
+   */
+  orgMode: false,
 };

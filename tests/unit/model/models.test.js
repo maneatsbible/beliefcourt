@@ -51,11 +51,11 @@ describe('Person', () => {
     expect(p.profilePicUrl).toBe('https://img.example.com/b');
   });
 
-  it('isStrawman returns true for matching login (case-insensitive)', () => {
-    const p = new Person(99, 'STRAWMAN', '');
-    expect(p.isStrawman('strawman')).toBe(true);
-    expect(p.isStrawman('StrawMan')).toBe(true);
-    expect(p.isStrawman('alice')).toBe(false);
+  it('isHerald returns true for matching login (case-insensitive)', () => {
+    const p = new Person(99, 'HERALD', '');
+    expect(p.isHerald('herald')).toBe(true);
+    expect(p.isHerald('Herald')).toBe(true);
+    expect(p.isHerald('alice')).toBe(false);
   });
 });
 

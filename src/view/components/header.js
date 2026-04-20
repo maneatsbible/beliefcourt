@@ -2,11 +2,9 @@
  * View component: application header bar.
  *
  * Renders `.header-bar` into the `#app-header` element.
- * The home/scales button fires a click that the controller handles via
+ * The home button fires a click that the controller handles via
  * event delegation on `data-action="home"`.
  */
-
-import { ICON_SCALES_FIRE } from '../../utils/icons.js';
 
 /**
  * Render (or re-render) the application header.
@@ -22,10 +20,10 @@ export function renderHeader(version, { userLogin = null } = {}) {
   root.innerHTML = `
     <div class="header-bar">
       <button class="header-home-btn icon-btn" data-action="home"
-              aria-label="Go to home / assertions feed">
-        ${ICON_SCALES_FIRE}
+              aria-label="Go to home / claims feed">
+        <span aria-hidden="true">⚖️</span>
       </button>
-      <span class="header-title">disputable.io</span>
+      <span class="header-title">judgmental.io</span>
       <span class="header-right">
         ${userLogin
           ? `<span class="header-user">@${_escape(userLogin)}</span>`

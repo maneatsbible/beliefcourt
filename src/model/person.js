@@ -1,18 +1,18 @@
 /**
  * Model: Person
  *
- * Represents a GitHub user participating in disputable.io.
- * The special "@strawman" user is the site owner who can have
- * assertions and challenges posted on their behalf.
+ * Represents an authenticated user participating in judgmental.io.
+ * The special "@herald" placeholder is used when Claims are imported from
+ * external sources pending the real author claiming ownership.
  */
 
-export const STRAWMAN_LOGIN = 'strawman'; // overridden by CONFIG.strawmanLogin at runtime
+export const HERALD_LOGIN = 'herald'; // overridden by CONFIG.heraldLogin at runtime
 
 export class Person {
   /**
-   * @param {number} id        GitHub user id
-   * @param {string} login     GitHub login (no @)
-   * @param {string} profilePicUrl GitHub profile pic URL
+   * @param {number} id        User id
+   * @param {string} login     User login (no @)
+   * @param {string} profilePicUrl Profile pic URL
    */
   constructor(id, login, profilePicUrl = '') {
     this.id        = id;
@@ -20,9 +20,9 @@ export class Person {
     this.profilePicUrl = profilePicUrl;
   }
 
-  /** True when this person is the configured strawman account. */
-  isStrawman(strawmanLogin) {
-    return this.login.toLowerCase() === strawmanLogin.toLowerCase();
+  /** True when this person is the configured @herald placeholder account. */
+  isHerald(heraldLogin) {
+    return this.login.toLowerCase() === heraldLogin.toLowerCase();
   }
 
   /**

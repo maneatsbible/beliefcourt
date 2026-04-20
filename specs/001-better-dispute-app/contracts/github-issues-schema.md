@@ -62,7 +62,7 @@ The `<!-- DSP:META ... -->` HTML comment is machine-readable but invisible in Gi
   "rootId": 42,               // GitHub issue number of root Assertion (self for top-level)
   "isOffer": false,           // true when submitted as a resolution offer
   "offeredInDisputeId": null, // Dispute issue number if isOffer=true
-  "proxyAuthor": null         // "@strawman" if posted on behalf of strawman; otherwise null
+  "proxyAuthor": null         // "@herald" if posted on behalf of @herald; otherwise null
 }
 ```
 
