@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 80" width="840" height="160">
+
+  <defs>
+    <linearGradient id="lbg" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#0e0e1c"/>
+      <stop offset="100%" stop-color="#0a0a14"/>
+    </linearGradient>
+    
+    <linearGradient id="flame-L-logo" x1="50%" y1="100%" x2="50%" y2="0%">
+      <stop offset="0%"   stop-color="#a06810"/>
+      <stop offset="42%"  stop-color="#e8c030"/>
+      <stop offset="100%" stop-color="#faf6e4" stop-opacity="0.9"/>
+    </linearGradient>
+    
+    <linearGradient id="flame-R-logo" x1="50%" y1="100%" x2="50%" y2="0%">
+      <stop offset="0%"   stop-color="#a06810"/>
+      <stop offset="42%"  stop-color="#e8c030"/>
+      <stop offset="100%" stop-color="#faf6e4" stop-opacity="0.9"/>
+    </linearGradient>
+    
+    <filter id="fglow-logo" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="pglow-logo" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="1.8" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+<rect width="420" height="80" fill="url(#lbg)"/>
+
+    <rect x="39.42" y="45.04"   width="1.15"  height="17.28" fill="#607084"/>
+    <rect x="33.52"   y="63.04"   width="12.96"   height="1.30" rx="0.65" fill="#607084"/>
+    <rect x="32.80"   y="63.90" width="1.80"  height="2.16"   rx="0.43" fill="#607084"/>
+    <rect x="45.04"   y="63.90" width="1.80"  height="2.16"   rx="0.43" fill="#607084"/>
+<path d="M 16.96 45.04 L 63.04 45.04" stroke="#8faabf" stroke-width="1.80" stroke-linecap="round" fill="none"/>
+
+    <line x1="16.96" y1="45.04" x2="16.96" y2="51.88" stroke="#607084" stroke-width="0.79"/>
+    <ellipse cx="16.96" cy="51.88" rx="7.20" ry="1.58" fill="#0c0e1a" stroke="#8faabf" stroke-width="0.94"/>
+
+    <line x1="63.04" y1="45.04" x2="63.04" y2="51.88" stroke="#607084" stroke-width="0.79"/>
+    <ellipse cx="63.04" cy="51.88" rx="7.20" ry="1.58" fill="#0c0e1a" stroke="#8faabf" stroke-width="0.94"/>
+
+    <path d="M 11.920000000000002 51.88 C 10.156 43.96 12.928 39.208000000000006 16.96 36.040000000000006 C 20.992 39.208000000000006 23.764000000000003 43.96 22 51.88 Z" fill="url(#flame-L-logo)" filter="url(#fglow-logo)"/>
+    <path d="M 14.8 51.88 C 14.368 46.336000000000006 15.664000000000001 38.056000000000004 16.96 37.62400000000001 C 18.256 38.056000000000004 19.552 46.336000000000006 19.12 51.88 Z" fill="#fdf8ec" opacity="0.45"/>
+    <path d="M 58 51.88 C 56.236 43.96 59.007999999999996 39.208000000000006 63.04 36.040000000000006 C 67.072 39.208000000000006 69.844 43.96 68.08 51.88 Z" fill="url(#flame-R-logo)" filter="url(#fglow-logo)"/>
+    <path d="M 60.879999999999995 51.88 C 60.448 46.336000000000006 61.744 38.056000000000004 63.04 37.62400000000001 C 64.336 38.056000000000004 65.632 46.336000000000006 65.2 51.88 Z" fill="#fdf8ec" opacity="0.45"/>
+
+    <circle cx="40.00" cy="45.04" r="3.60"   fill="#c8a420" filter="url(#pglow-logo)"/>
+    <circle cx="40.00" cy="45.04" r="2.16"   fill="#f0d048"/>
+    <circle cx="40.00" cy="45.04" r="0.86" fill="#fdf0a0"/>
+  <!-- Wordmark -->
+  <text x="82" y="53"
+        font-family="'SF Pro Display','Helvetica Neue',Arial,sans-serif"
+        font-size="32" font-weight="600" letter-spacing="-0.5"
+        fill="#e8dfc4">judgmental</text>
+  <text x="323" y="53"
+        font-family="'SF Pro Display','Helvetica Neue',Arial,sans-serif"
+        font-size="32" font-weight="300"
+        fill="#4868b0">.io</text>
+</svg>

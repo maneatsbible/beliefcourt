@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+
+  <defs>
+    <radialGradient id="obg" cx="50%" cy="40%" r="70%">
+      <stop offset="0%"   stop-color="#1a1a2e"/>
+      <stop offset="100%" stop-color="#060610"/>
+    </radialGradient>
+    
+    <linearGradient id="flame-L-og" x1="50%" y1="100%" x2="50%" y2="0%">
+      <stop offset="0%"   stop-color="#a06810"/>
+      <stop offset="42%"  stop-color="#e8c030"/>
+      <stop offset="100%" stop-color="#faf6e4" stop-opacity="0.9"/>
+    </linearGradient>
+    
+    <linearGradient id="flame-R-og" x1="50%" y1="100%" x2="50%" y2="0%">
+      <stop offset="0%"   stop-color="#a06810"/>
+      <stop offset="42%"  stop-color="#e8c030"/>
+      <stop offset="100%" stop-color="#faf6e4" stop-opacity="0.9"/>
+    </linearGradient>
+    
+    <filter id="fglow-og" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="pglow-og" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="1.8" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="txtglow" x="-10%" y="-30%" width="120%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <linearGradient id="rulefade" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#304060" stop-opacity="0"/>
+      <stop offset="30%"  stop-color="#4060a0" stop-opacity="0.5"/>
+      <stop offset="70%"  stop-color="#4060a0" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#304060" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+<rect width="1200" height="630" fill="url(#obg)"/>
+
+    <rect x="597.60" y="220.00"   width="4.80"  height="78.00" fill="#607084"/>
+    <rect x="573.00"   y="295.00"   width="54.00"   height="6.00"  rx="3.00" fill="#607084"/>
+    <rect x="570.00"   y="298.60" width="9.00"    height="10.50" rx="2.40" fill="#607084"/>
+    <rect x="621.00"   y="298.60" width="9.00"    height="10.50" rx="2.40" fill="#607084"/>
+<path d="M 504.00 220.00 L 696.00 220.00" stroke="#8faabf" stroke-width="7.50" stroke-linecap="round" fill="none"/>
+
+    <line x1="504.00" y1="220.00" x2="504.00" y2="248.50" stroke="#607084" stroke-width="3.30"/>
+    <ellipse cx="504.00" cy="248.50" rx="30.00" ry="6.60" fill="#0c0e1a" stroke="#8faabf" stroke-width="3.90"/>
+
+    <line x1="696.00" y1="220.00" x2="696.00" y2="248.50" stroke="#607084" stroke-width="3.30"/>
+    <ellipse cx="696.00" cy="248.50" rx="30.00" ry="6.60" fill="#0c0e1a" stroke="#8faabf" stroke-width="3.90"/>
+
+    <path d="M 483 248.5 C 475.65 215.5 487.2 195.7 504 182.5 C 520.8 195.7 532.35 215.5 525 248.5 Z" fill="url(#flame-L-og)" filter="url(#fglow-og)"/>
+    <path d="M 495 248.5 C 493.2 225.4 498.6 190.9 504 189.1 C 509.4 190.9 514.8 225.4 513 248.5 Z" fill="#fdf8ec" opacity="0.45"/>
+    <path d="M 675 248.5 C 667.65 215.5 679.2 195.7 696 182.5 C 712.8 195.7 724.35 215.5 717 248.5 Z" fill="url(#flame-R-og)" filter="url(#fglow-og)"/>
+    <path d="M 687 248.5 C 685.2 225.4 690.6 190.9 696 189.1 C 701.4 190.9 706.8 225.4 705 248.5 Z" fill="#fdf8ec" opacity="0.45"/>
+
+    <circle cx="600.00" cy="220.00" r="15.00"   fill="#c8a420" filter="url(#pglow-og)"/>
+    <circle cx="600.00" cy="220.00" r="9.00"   fill="#f0d048"/>
+    <circle cx="600.00" cy="220.00" r="3.60" fill="#fdf0a0"/>
+  <!-- Rule -->
+  <rect x="300" y="395" width="600" height="1" fill="url(#rulefade)"/>
+  <!-- Wordmark -->
+  <text text-anchor="middle" x="600" y="470"
+        font-family="'SF Pro Display','Helvetica Neue',Arial,sans-serif"
+        font-size="72" font-weight="600" letter-spacing="-1"
+        fill="#e8dfc4" filter="url(#txtglow)">judgmental<tspan fill="#4868b0" font-weight="300">.io</tspan></text>
+  <!-- Taglines -->
+  <text text-anchor="middle" x="600" y="536"
+        font-family="'SF Pro Display','Helvetica Neue',Arial,sans-serif"
+        font-size="22" font-weight="300" letter-spacing="0.5"
+        fill="#7080a8">The internet has been arguing for 30 years.</text>
+  <text text-anchor="middle" x="600" y="566"
+        font-family="'SF Pro Display','Helvetica Neue',Arial,sans-serif"
+        font-size="22" font-weight="300" letter-spacing="0.5"
+        fill="#7080a8">judgmental.io is where we settle it.</text>
+</svg>
