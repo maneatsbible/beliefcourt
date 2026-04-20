@@ -43,6 +43,7 @@ Automated testing is a first-class deliverable, not an afterthought:
 
 - Every new feature or bug fix MUST be accompanied by tests written before or alongside the implementation (TDD encouraged; coverage gate enforced).
 - Unit test coverage MUST not drop below **80%** for any module; the project-wide coverage gate is **85%**.
+- Coverage gates MUST be enforced automatically in CI (e.g. `c8 --branches 80 --lines 85` or equivalent); a PR where CI does not run coverage checks is not eligible for merge until CI is configured.
 - Integration tests MUST cover all cross-module contracts, external API interactions, and database operations.
 - Tests MUST be deterministic — flaky tests MUST be fixed or quarantined within one sprint of discovery.
 - Test data MUST be isolated; tests MUST NOT share mutable global state or depend on execution order.
@@ -54,7 +55,9 @@ Automated testing is a first-class deliverable, not an afterthought:
 
 All user-facing surfaces MUST present a coherent, predictable experience:
 
-- UI components MUST be sourced from the project's approved design system; custom one-off components require explicit design review.
+- The project design system is defined as: the CSS custom properties in `styles/main.css` (colour tokens, spacing scale, typography scale, and component-level variables) plus any component files under `src/view/components/`. These files are the canonical source of truth for visual style.
+- UI components MUST be built from design-system tokens and components; deviating from the token set (hardcoded colours, ad-hoc font sizes, etc.) requires explicit justification in the PR.
+- Custom one-off components that are not candidates for reuse MUST be flagged in the PR as intentional exceptions.
 - Error messages MUST be human-readable, actionable, and consistent in tone across the entire application.
 - Navigation patterns, loading states, and feedback mechanisms (toasts, modals, inline errors) MUST follow documented UX conventions.
 - Accessibility (WCAG 2.1 AA) MUST be validated for all new UI surfaces before release.
@@ -121,4 +124,4 @@ This constitution supersedes all other development guidelines and practices with
 
 **Compliance review**: Adherence to this constitution MUST be verified during each sprint retrospective and whenever a new team member joins.
 
-**Version**: 1.1.0 | **Ratified**: 2026-04-18 | **Last Amended**: 2026-04-20
+**Version**: 1.2.0 | **Ratified**: 2026-04-18 | **Last Amended**: 2026-04-20
