@@ -345,7 +345,7 @@ Post-Disposition structured review of a Duel. References Moments. Required befor
 | Field | Type | Notes |
 |-------|------|-------|
 | `id` | `number` | GitHub issue number |
-| `duelId` | `number` | The Duel being analysed |
+| `duelId` | `number` | The Duel being analyzed |
 | `authorId` | `number` | |
 | `momentIds` | `number[]` | `JDG:META.momentIds` — Moments cited |
 | `text` | `string` | The analysis text |
@@ -629,7 +629,7 @@ These are implemented in the Controller layer. The View reads these — it never
 | `canAgree(person, claim)` | Person is authenticated AND person ≠ claim.authorId AND no existing ClaimAccord by person on this claim AND person has not challenged this claim |
 | `canRescind(person, record)` | Person is the `authorId` of the Record AND no Rescission already exists for that Record |
 | `canJudge(person, duel)` | Person is NOT a party in the Duel AND duel has a Disposition AND a qualifying Analysis exists AND person has a declared BaseOfTruth with a STANDING anchor Claim. Weight of resulting Judgment is computed as `strength(anchor_claim) × judgment_track_record(person)` — see Judgment entity. |
-| `canAnalyse(person, duel)` | Person is authenticated AND duel has a Disposition |
+| `canAnalyze(person, duel)` | Person is authenticated AND duel has a Disposition |
 | `canDeclareDefault(duel)` | DeadlineConditions.active === true AND Date.now() > currentDeadlineIso AND no Disposition yet exists |
 | `canContestDisposition(person, disposition)` | Person is the party ruled against AND disposition.isContested === false |
 | `canLinkSimilarity(person, recordA, recordB)` | Person is authenticated AND recordA ≠ recordB AND no existing SimilarityLink between them by this person |

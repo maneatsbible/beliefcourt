@@ -87,7 +87,7 @@ Open `http://localhost:8080` in your browser.
 
 1. Click **Sign in with GitHub** in the app header.
 2. The app shows a short code (e.g., `ABCD-1234`) and opens `github.com/login/device` in a new tab.
-3. Enter the code on GitHub and authorise the OAuth App.
+3. Enter the code on GitHub and authorize the OAuth App.
 4. Return to the app — it detects completion and loads your profile.
 
 > **Token storage**: The access token is stored in `sessionStorage` and cleared on tab close. Your `@name` is stored in `localStorage` for session-resume prompts.

@@ -19,12 +19,12 @@
 
 ### Session 2026-04-20 — Infrastructure pivot and feature batch
 
-- Q: What analytics stack? → A: Both **Plausible** (privacy-first, no cookies, no consent banner — primary) and **Google Analytics 4** (IP-anonymised — secondary, required for ads integration). Both are script-tag only; no build step.
+- Q: What analytics stack? → A: Both **Plausible** (privacy-first, no cookies, no consent banner — primary) and **Google Analytics 4** (IP-anonymized — secondary, required for ads integration). Both are script-tag only; no build step.
 - Q: Should auth still use GitHub Device Flow? → A: No. Backend is now Fly.io + Hono + SQLite. Auth is **SM OAuth** (X, Threads, Bluesky, GitHub) → server-side token exchange → signed JWT (HS256, 24h). No GitHub API calls for data storage.
 - Q: How are AI-authored Records disclosed? → A: `is_ai: boolean` and `ai_model: string | null` on every Record. The UI renders an `[AI]` or `[AI-assisted]` badge on every affected Record card — not just on the Person profile.
 - Q: How does the tipping/creator-funding system work? → A: Direct peer-to-peer tips via Stripe (primary) or Ko-fi link. Platform fee 0% in v1. Tips are attached to a Person (and optionally to the Record that prompted the tip). Constitutional constraint: **no judgment, Claim access, or Duel participation is ever gated behind payment**.
 - Q: What are Evidence and Exhibits? → A: An **Evidence** is a structured attachment (file, URL, quote) on any Record as supporting material. An **Exhibit** is a formally submitted Evidence item during a Duel, given an exhibit label (Exhibit A, B …). Either party may object to an Exhibit, opening a nested Case.
-- Q: How should the logo communicate Duel state? → A: Scales beam angle + flame colours encode state. Left pan lower + larger left flame = challenger ahead. Right pan lower + larger right flame = defender holding. Both cold/grey = Disposed. Both white/gold = Accord/STANDING. Colour lane: challenger = cool blue-white; defender = warm amber.
+- Q: How should the logo communicate Duel state? → A: Scales beam angle + flame colors encode state. Left pan lower + larger left flame = challenger ahead. Right pan lower + larger right flame = defender holding. Both cold/grey = Disposed. Both white/gold = Accord/STANDING. Color lane: challenger = cool blue-white; defender = warm amber.
 - Q: What is the judicial role framing in the UI? → A: Each party carries a visible role badge (EXAMINING / TESTIFYING) that flips on counter-challenge. Judicial names are metadata; button labels remain user-friendly. Mapping: Challenge(Interrogatory) = Examination, Challenge(Objection) = Objection, Answer = Testimony, Counter-challenge = Cross-examination, Offer = Stipulation, Response(accepted) = So stipulated.
 - Q: What is the ad policy? → A: Ads are shown only to unauthenticated users as a fixed bottom strip. Signing in removes ads permanently for that session. Constitutional principle: **full participation in the judgment process is free forever**.
 - Q: What advanced judicial concepts should be modelled? → A: Voir dire (pre-Duel judge qualification), Subpoena (requesting a Person enter as witness), Amicus curiae (non-party Analysis submitter — already modelled), Deposition (pre-Case structured Q&A chain), Standing (right to bring a Case — modelled via ClaimAccord), Burden of proof (Duel-level flag indicating which party must prove their position).
@@ -37,7 +37,7 @@
 - Q: Should an Open API for third-party integrations be in v1? → A: Yes, as a documented public REST API with API-key auth. All read endpoints (Claims, Cases, Duels, Dispositions, Analytics views) are accessible. Write endpoints (file a Claim, open a Case) require org-tier or API-key auth. Rate-limited. Documented at `GET /api/docs` (JSON/OpenAPI 3.1).
 - Q: Should Historical Re-trials be in v1? → A: Yes. A Duel may be created with `context=historical` and a `historical_subject` string (e.g. "Galileo v The Church, 1633"). These Duels are special: parties are role-players arguing historical positions, not personal claims. The original Record is a system-authored Claim citing the historical subject. These Duels are always public, never generate ClaimAccords against living Persons, and are tagged for the Historic Re-trials analytics view.
 - Q: Should an Apology Court (Resolution/Reconciliation mode) be in v1? → A: Yes, as a named Duel context (`context=apology`). The filing party declares a wrong, submits evidence of it, and proposes remediation. The respondent may Accept (producing a `reconciliation` Disposition), reject, or contest. The UI frames this in restorative language — wrongdoing acknowledged, remedy proposed, verdict reached. Christian forgiveness theology (the idea that confession, acknowledgement, and genuine repentance are the preconditions of restoration) is the philosophical north star, but the system is belief-agnostic. No religious language is coded into the UI. The system simply asks: was the wrong acknowledged? Was a remedy offered? Did the other party accept? The moral weight of the resulting record is left to the parties and their community.
-- Q: Should Verdict data be sold as a product? → A: Yes. An anonymised, aggregated dataset of Claims, verdicts, and Judgment consistency scores is exposed as a subscription data API. Access tiers: Researcher (free, rate-limited), Professional ($99/month), Institutional ($499/month). Content is fully anonymised — no Persons, no handles, only argument structures and verdicts. Opt-out is available but defaults to opt-in.
+- Q: Should Verdict data be sold as a product? → A: Yes. An anonymized, aggregated dataset of Claims, verdicts, and Judgment consistency scores is exposed as a subscription data API. Access tiers: Researcher (free, rate-limited), Professional ($99/month), Institutional ($499/month). Content is fully anonymized — no Persons, no handles, only argument structures and verdicts. Opt-out is available but defaults to opt-in.
 - Q: What auto-analytics are wanted? → A: Ten public analytical views: (1) contested ground map, (2) consensus clusters, (3) undefeated Claims leaderboard, (4) serial challengers badge, (5) Judgment consistency score, (6) precedent chains graph, (7) dead ends / graveyard, (8) velocity (fastest-growing ClaimAccords), (9) flip rate (intellectual consistency), (10) "you disagree with N% on this" hook on Home View cards.
 
 ### Session 2026-04-19 — Scope widening to judgmental.io
@@ -422,37 +422,57 @@ A developer or organisation wants to query judgmental.io data programmatically �
 
 ### User Story 21 — Verdict Data API Subscription (Priority: P2 — Business)
 
-A researcher or institution wants bulk access to anonymised Duel outcome data for analysis — studying how claims survive contestation, how judgment consistency correlates with claim strength, etc. They subscribe to a data tier and query the Verdict Data API.
+A researcher or institution wants bulk access to anonymized Duel outcome data for analysis — studying how claims survive contestation, how judgment consistency correlates with claim strength, etc. They subscribe to a data tier and query the Verdict Data API.
 
 **Why this priority**: Zero marginal cost. Pure revenue. The data is a byproduct of the platform's existing mechanics.
 
-**Independent Test**: Researcher API key calls `GET /api/data/claims` → returns anonymised Claim texts and Disposition outcomes with no Person identifiers. A Person who has opted out does not appear.
+**Independent Test**: Researcher API key calls `GET /api/data/claims` → returns anonymized Claim texts and Disposition outcomes with no Person identifiers. A Person who has opted out does not appear.
 
 **Acceptance Scenarios**:
 
-1. **Given** a Researcher API key, **Then** `GET /api/data/claims` returns anonymised claim text and Disposition outcomes only; no Person handles or platform identifiers are present.
+1. **Given** a Researcher API key, **Then** `GET /api/data/claims` returns anonymized claim text and Disposition outcomes only; no Person handles or platform identifiers are present.
 2. **Given** a Person has opted out via User Settings, **Then** their Records do not appear in any Verdict Data API response within 24 hours of opt-out.
 3. **Given** an Institutional subscriber, **Then** bulk JSONL export via `GET /api/data/export` is available with no daily rate limit.
 4. **Given** a free Researcher key, **Then** requests beyond 100/day return `429`.
 
 ---
 
-### User Story 22 — Neighbourhood Dispute and Policy (Priority: P1)
+### User Story 22 — Neighborhood Dispute and Policy (Priority: P1)
 
-A group of residents in an apartment building — most of whom don't know each other — want to agree on a noise policy, resolve a parking dispute, and have a record of what everyone agreed to. One resident creates a neighbourhood org and prints a QR flyer to post in the communal hallway. Other residents scan it, join, and participate without needing to know each other's names.
+A group of residents in an apartment building — most of whom don't know each other — want to agree on a noise policy, resolve a parking dispute, and have a record of what everyone agreed to. One resident creates a neighborhood org and prints a QR flyer to post in the communal hallway. Other residents scan it, join, and participate without needing to know each other's names.
 
-**Why this priority**: The QR flyer is a physical-world acquisition mechanic with no marginal cost and no algorithm dependency. Every flyer posted is an ongoing acquisition channel. The use case is universal — every apartment block, dorm, and shared house has unresolved neighbour friction.
+**Why this priority**: The QR flyer is a physical-world acquisition mechanic with no marginal cost and no algorithm dependency. Every flyer posted is an ongoing acquisition channel. The use case is universal — every apartment block, dorm, and shared house has unresolved neighbor friction.
 
-**Independent Test**: A convenor creates a neighbourhood org → generates a QR flyer PDF → a second person scans the QR → lands on the join page → creates an account → joins as a resident → the convenor sees them listed. Convenor files a `context=community_policy` Duel from a template → policy reaches accord → Policy Document is generated and printable.
+**Independent Test**: A convenor creates a neighborhood org → generates a QR flyer PDF → a second person scans the QR → lands on the join page → creates an account → joins as a resident → the convenor sees them listed. Convenor files a `context=community_policy` Duel from a template → policy reaches accord → Policy Document is generated and printable.
 
 **Acceptance Scenarios**:
 
-1. **Given** a Person creates a neighbourhood org, **Then** a QR invite flyer is immediately available as a downloadable PDF at `/orgs/:id/flyer`.
+1. **Given** a Person creates a neighborhood org, **Then** a QR invite flyer is immediately available as a downloadable PDF at `/orgs/:id/flyer`.
 2. **Given** a person scans the QR code, **Then** they land on a join page showing org name and member count with no personal details required to view.
 3. **Given** a `context=community_policy` Duel reaches `accord`, **Then** a Policy Document is created, timestamped, and listed at `/orgs/:id/policies`.
-4. **Given** a `context=neighbour_dispute` Duel is filed with `anonymous=true`, **Then** the respondent sees "A Resident" as the filer; the convenor sees the true identity.
+4. **Given** a `context=neighbor_dispute` Duel is filed with `anonymous=true`, **Then** the respondent sees "A Resident" as the filer; the convenor sees the true identity.
 5. **Given** a resident files an anonymous dispute and then lifts anonymity, **Then** their handle is revealed to all parties from that point forward; prior Turns are not retroactively attributed.
 6. **Given** a Policy Document exists, **Then** it is downloadable as a formatted PDF signed by all active members at time of accord.
+
+---
+
+### User Story 23 — Brand Claim (Priority: P2 — Commercial)
+
+A brand wants to be discoverable on judgmental.io. They don't want a banner ad. They want to file a position — "We believe our supply chain is fully traceable and we can prove it" — and prove it publicly by defending it against anyone who challenges them. They file a Brand Claim, attach their evidence, open it to challenges, pay for placement in the Brand Challenges feed, and then defend their position Duel by Duel. Every DEFENDED verdict strengthens their public Credibility Score. Every genuine ACCORD is even better — it means they engaged honestly with someone who pushed back.
+
+**Why this priority**: Brand Claims are the non-church placement revenue stream. They are also a structural PR incentive for orgs with genuine integrity — the mechanic favours orgs that can actually back their claims. It is anti-greenwashing by design.
+
+**Independent Test**: An org admin files a Brand Claim with `claim_text` and one Evidence item → passes copy review → `is_brand_claim = true` Duel is created → Claim appears in Brand Challenges feed → a user taps Challenge → a `context=brand` Duel is opened with the org's `response_handle` as Defender → Duel proceeds to Verdict → Disposition badge appears on org profile.
+
+**Acceptance Scenarios**:
+
+1. **Given** an org admin submits a Brand Claim without Evidence, **Then** the submission is rejected with "At least one Evidence item is required before filing a Brand Claim."
+2. **Given** a Brand Claim uses the phrase "best in class" without Evidence, **Then** the copy review rejects it with a specific reason before it goes live.
+3. **Given** a user challenges a Brand Claim, **Then** a `context=brand` Duel is opened within 60 seconds; the org's `response_handle` receives a notification.
+4. **Given** the org's `response_handle` does not respond within the deadline, **Then** the Disposition is `abandoned` and the ABANDONED badge is permanently displayed on the org profile.
+5. **Given** a Brand Duel reaches `accord`, **Then** the ACCORD badge is displayed; the org's Credibility Score is updated; the Duel record links bidirectionally from both the org profile and the challenger's profile.
+6. **Given** an org has `placement_active = false`, **Then** their Brand Claims are not surfaced in the `/discover/brand-challenges` feed but remain accessible via direct link.
+7. **Given** a church org attempts to file a Brand Claim, **Then** the option is not available in the org admin interface.
 
 ---
 
@@ -729,35 +749,35 @@ Christian Mode is a first-release feature set, not an add-on, and not a general 
 - **FR-172** (**Christian Dating feed and discovery**): A public **Christian Dating** feed section MUST be available, surfacing Open Challenges filed with `context=christian_dating`. Browsable by Tradition tag. Members may post public faith statements (“I believe marriage is a covenant”) as an Open Challenge, inviting anyone who shares or disputes that position to respond. This is the primary discovery surface for Christians seeking a faith-first relationship. Faith Alignment Scores from completed Christian Dating Duels are shown on the Match Profile.
 - **FR-173** (**Parenting Duels — general**): A `context=parenting` Duel MAY be filed by any two Persons. This covers co-parenting disagreements, parenting philosophy disputes (e.g. screen time limits, discipline approach, education choices), and shared-custody decisions. The Duel mechanic is standard. Verdict is private by default. This context is available to all users — no Christian Mode required. Templates include: school choice, discipline method, bedtime/schedule, extra-curricular priorities, social media boundaries, and digital device rules.
 - **FR-174** (**Parenting Duels — Christian context**): A `context=parenting` Duel MAY be filed with an additional `faith_context=christian` flag. This surfaces scripture citation support and a dedicated template library for faith formation disagreements: (1) how to handle a child’s doubt, (2) which church to attend, (3) when to have faith conversations, (4) Christian school vs state school, (5) sabbath practices, (6) approach to confession and repentance with children, (7) purity and courtship teaching. Both parents must have opted into Christian Mode. AI turn prompts ask *"How does your understanding of scripture inform this?"* Elder/counsellor access can be granted to a trusted third party (e.g. pastor). Verdict is always private.
-**Neighbourhood Mode — DIY Community Governance**
+**Neighborhood Mode — DIY Community Governance**
 
-Neighbourhood Mode is for people who share a physical space and need to resolve disputes, agree on conduct, and produce documented shared policies — without a formal HOA, property manager, or legal structure. It is designed for apartment buildings, dorms, shared houses, cul-de-sacs, and any group of people who are neighbours but strangers. The primary acquisition mechanic is a printable QR flyer.
+Neighborhood Mode is for people who share a physical space and need to resolve disputes, agree on conduct, and produce documented shared policies — without a formal HOA, property manager, or legal structure. It is designed for apartment buildings, dorms, shared houses, cul-de-sacs, and any group of people who are neighbors but strangers. The primary acquisition mechanic is a printable QR flyer.
 
-- **FR-175** (**Neighbourhood Org tier**): An org of type `neighbourhood` MAY be created by any Person. A neighbourhood org has: a name (e.g. "Block 14, Maple Street"), an optional address or descriptor (never shown publicly), and an invite mechanism. Members join via invite link or QR code scan. The `neighbourhood` org type does not require verified identities — joining with a handle is sufficient. Roles: `resident` (default), `convenor` (org creator and subsequent elected convenors), `guest` (read-only, e.g. a property manager or mediator). A neighbourhood org is **private by default** — all Duels, Accords, and Policy Documents are visible only to members.
+- **FR-175** (**Neighborhood Org tier**): An org of type `neighborhood` MAY be created by any Person. A neighborhood org has: a name (e.g. "Block 14, Maple Street"), an optional address or descriptor (never shown publicly), and an invite mechanism. Members join via invite link or QR code scan. The `neighborhood` org type does not require verified identities — joining with a handle is sufficient. Roles: `resident` (default), `convenor` (org creator and subsequent elected convenors), `guest` (read-only, e.g. a property manager or mediator). A neighborhood org is **private by default** — all Duels, Accords, and Policy Documents are visible only to members.
 
-- **FR-176** (**Neighbourhood Duel contexts**): Within a neighbourhood org, the following Duel contexts are available: `context=neighbour_dispute` (bilateral dispute between two residents), `context=community_policy` (a proposed shared rule put to all members), and `context=community_vote` (a decision that needs a majority, not a verdict). Community Policy and Community Vote Duels are org-wide — all members are notified and may file Analysis. Neighbour Dispute Duels are private to the two parties and the convenor.
+- **FR-176** (**Neighborhood Duel contexts**): Within a neighborhood org, the following Duel contexts are available: `context=neighbor_dispute` (bilateral dispute between two residents), `context=community_policy` (a proposed shared rule put to all members), and `context=community_vote` (a decision that needs a majority, not a verdict). Community Policy and Community Vote Duels are org-wide — all members are notified and may file Analysis. Neighbor Dispute Duels are private to the two parties and the convenor.
 
 - **FR-177** (**Policy Document**): When a `context=community_policy` Duel reaches a Disposition of `accord`, the resulting ClaimAccord MAY be promoted to a **Policy Document**. A Policy Document is a signed, timestamped record of an agreed community rule. It is versioned — if the rule is later disputed and overturned, the old version is archived and the new accord becomes current. Policy Documents are listed at `/orgs/:id/policies` and are printable as a formatted PDF. They are signed by all members who were active at the time of the accord. Example policies: "No music after 11pm on weekdays", "Shared bike storage is first-come-first-served", "Dogs must be on lead in the courtyard".
 
-- **FR-178** (**QR Invite Flyer**): A convenor MAY generate a **printable QR invite flyer** for their neighbourhood org. The flyer is generated server-side as a PDF. It contains: the org name, the QR code (linking to the org's public join page), a one-line description field (e.g. "Residents of Flat 1–12, join our community dispute board"), and the judgmental.io wordmark. The QR code links to a join-intent page at `/join/:org_token` — scanning it shows the org name, member count, and a "Join as resident" button. No personal details are required to view the join page; an account is required to join. Flyer generation is available to all neighbourhood orgs at no cost. The PDF is styled to be legible at A5 (half an A4 sheet) so two can be printed per page and posted on noticeboards, letterboxes, or communal doors.
+- **FR-178** (**QR Invite Flyer**): A convenor MAY generate a **printable QR invite flyer** for their neighborhood org. The flyer is generated server-side as a PDF. It contains: the org name, the QR code (linking to the org's public join page), a one-line description field (e.g. "Residents of Unit 1–12, join our community dispute board"), and the judgmental.io wordmark. The QR code links to a join-intent page at `/join/:org_token` — scanning it shows the org name, member count, and a "Join as resident" button. No personal details are required to view the join page; an account is required to join. Flyer generation is available to all neighborhood orgs at no cost. The PDF is styled to be legible at half-letter size so two can be printed per page and posted on bulletin boards, mailboxes, or communal doors.
 
-- **FR-179** (**Anonymous Dispute Filing**): Within a neighbourhood org, a resident MAY file a `context=neighbour_dispute` Duel marked `anonymous=true`. Their handle is hidden from the respondent and other members; they are identified only as "A Resident". The convenor always sees the true identity for moderation purposes. Anonymous disputes are for situations where a resident is concerned about retaliation or social friction from a direct accusation. Once both parties have filed at least one Turn, anonymous status MAY be lifted by the filing party.
+- **FR-179** (**Anonymous Dispute Filing**): Within a neighborhood org, a resident MAY file a `context=neighbor_dispute` Duel marked `anonymous=true`. Their handle is hidden from the respondent and other members; they are identified only as "A Resident". The convenor always sees the true identity for moderation purposes. Anonymous disputes are for situations where a resident is concerned about retaliation or social friction from a direct accusation. Once both parties have filed at least one Turn, anonymous status MAY be lifted by the filing party.
 
-- **FR-180** (**Community Policy templates**): A library of pre-written `context=community_policy` templates MUST be available for neighbourhood orgs. Categories: Noise, Parking, Shared Spaces, Pets, Deliveries, Cleanliness, Guests, Security, Recycling, and Building Works. Each template includes a proposed rule text, a standard counterposition, and a list of common amendments. Templates are community-contributed and sorted by most-used nationally. A convenor may launch a Policy Duel directly from a template in under 60 seconds.
+- **FR-180** (**Community Policy templates**): A library of pre-written `context=community_policy` templates MUST be available for neighborhood orgs. Categories: Noise, Parking, Shared Spaces, Pets, Deliveries, Cleanliness, Guests, Security, Recycling, and Building Works. Each template includes a proposed rule text, a standard counterposition, and a list of common amendments. Templates are community-contributed and sorted by most-used nationally. A convenor may launch a Policy Duel directly from a template in under 60 seconds.
 
-- **FR-181** (**Neighbourhood feed and discovery**): A public **Neighbourhood** feed section surfaces anonymised community policies that have reached accord across all neighbourhood orgs (with org identity and individual identities hidden). This feed shows what rules real communities have agreed on — "Most agreed-upon noise policy in apartment buildings this month" — and functions as a discovery and persuasion surface: a convenor can share a link to a popular policy in their own org before filing it, showing their neighbours "others have agreed to this". The feed never exposes member identities, addresses, or org names.
+- **FR-181** (**Neighborhood feed and discovery**): A public **Neighborhood** feed section surfaces anonymized community policies that have reached accord across all neighborhood orgs (with org identity and individual identities hidden). This feed shows what rules real communities have agreed on — "Most agreed-upon noise policy in apartment buildings this month" — and functions as a discovery and persuasion surface: a convenor can share a link to a popular policy in their own org before filing it, showing their neighbors "others have agreed to this". The feed never exposes member identities, addresses, or org names.
 
-- **FR-182** (**Neighbour Dispute resolution arc**): A `context=neighbour_dispute` Duel follows a specific resolution arc distinct from standard Duels: (1) the filing party states the issue and proposed resolution; (2) the respondent may accept (producing an `accord`), contest (standard turn sequence), or escalate to the convenor for mediated Assessment; (3) if the convenor is invoked, they file an Analysis and may propose a binding Community Policy. The UI frames the arc in restorative language — "resolve between yourselves first; bring others in only if needed." The Disposition options are: `accord` (resolved between parties), `community_policy` (escalated to a policy vote), `unresolved` (on the record, no outcome), or `referred` (handed to a property manager or external body).
+- **FR-182** (**Neighbor Dispute resolution arc**): A `context=neighbor_dispute` Duel follows a specific resolution arc distinct from standard Duels: (1) the filing party states the issue and proposed resolution; (2) the respondent may accept (producing an `accord`), contest (standard turn sequence), or escalate to the convenor for mediated Assessment; (3) if the convenor is invoked, they file an Analysis and may propose a binding Community Policy. The UI frames the arc in restorative language — "resolve between yourselves first; bring others in only if needed." The Disposition options are: `accord` (resolved between parties), `community_policy` (escalated to a policy vote), `unresolved` (on the record, no outcome), or `referred` (handed to a property manager or external body).
 
 **Organizations — Core Data Model and Features**
 
 Orgs are the shared-workspace layer of the platform. They scope membership, access, roles, Duel visibility, and subscription billing. Every org type shares the same underlying data model with type-specific extensions. No org type is a second-class feature — all are first-release.
 
-- **FR-183** (**Org entity**): The `Org` entity MUST have: `id`, `name` (string, required), `slug` (unique, URL-safe, used at `/orgs/:slug`), `type` (enum: `church`, `small_group`, `neighbourhood`, `team`, `debate_club`, `legal`, `education`), `description` (text, optional), `is_private` (boolean, default `true`), `created_by` (Person FK), `created_at`, `updated_at`, `subscription_tier` (enum: `free`, `standard`, `pro`), `subscription_status` (enum: `active`, `trialling`, `lapsed`, `cancelled`), `member_count` (computed), and `placement_eligible` (boolean — see FR-195). An Org MAY have an optional `logo_url` and `banner_url` for org profile pages.
+- **FR-183** (**Org entity**): The `Org` entity MUST have: `id`, `name` (string, required), `slug` (unique, URL-safe, used at `/orgs/:slug`), `type` (enum: `church`, `small_group`, `neighborhood`, `team`, `debate_club`, `legal`, `education`), `description` (text, optional), `is_private` (boolean, default `true`), `created_by` (Person FK), `created_at`, `updated_at`, `subscription_tier` (enum: `free`, `standard`, `pro`), `subscription_status` (enum: `active`, `trialling`, `lapsed`, `cancelled`), `member_count` (computed), and `placement_eligible` (boolean — see FR-195). An Org MAY have an optional `logo_url` and `banner_url` for org profile pages.
 
 - **FR-184** (**Org types and their purposes**): The following org types are supported at launch:
   - `church` or `small_group` — faith community; Church Discipline, Discernment, Accountability contexts available; `elder` role available; **placement_eligible = false** (no paid placement in any feed).
-  - `neighbourhood` — residential community; Neighbour Dispute, Community Policy, Community Vote contexts available; `convenor` role; QR flyer generation available.
+  - `neighborhood` — residential community; Neighbor Dispute, Community Policy, Community Vote contexts available; `convenor` role; QR flyer generation available.
   - `team` — workplace or project team; `context=decision` and `context=apology` Duels available; standard role model; placement in the General Orgs discovery feed available.
   - `debate_club` — educational or competitive debate group; public Duel output encouraged; leaderboard and analytics emphasis; placement in the Debate Clubs discovery feed available.
   - `legal` — legal teams, law firms, mediation groups. Private by default, locked. `context=apology` and standard Duels. No public feed placement. Org API key available at Standard tier.
@@ -771,12 +791,12 @@ Orgs are the shared-workspace layer of the platform. They scope membership, acce
   
   Type-specific additional roles:
   - `church` / `small_group`: `elder` — above `moderator`, below `admin`. May initiate Church Discipline, file Community Discernment Duels, and approve Accountability Partnerships.
-  - `neighbourhood`: `convenor` — equivalent to `admin` for neighbourhood orgs; elected by `member` vote after initial creator tenure.
+  - `neighborhood`: `convenor` — equivalent to `admin` for neighborhood orgs; elected by `member` vote after initial creator tenure.
   - `legal`: `counsel` — above `member`, can file Cases on behalf of org; may invite external parties as non-member participants in a specific Duel.
 
-- **FR-186** (**Org membership lifecycle**): A Person joins an org via: (a) direct invite link with a `join_token`, (b) QR code scan (neighbourhood type), (c) admin-issued invitation by email or handle, or (d) a public join page if `is_private = false`. When a Person leaves or is removed from an org, their past Duel contributions within the org workspace remain visible to remaining members but are attributed to a `[Former Member]` label. An admin MAY permanently redact a removed member's contributions by explicit action (not automatic). A Person MAY belong to any number of orgs simultaneously.
+- **FR-186** (**Org membership lifecycle**): A Person joins an org via: (a) direct invite link with a `join_token`, (b) QR code scan (neighborhood type), (c) admin-issued invitation by email or handle, or (d) a public join page if `is_private = false`. When a Person leaves or is removed from an org, their past Duel contributions within the org workspace remain visible to remaining members but are attributed to a `[Former Member]` label. An admin MAY permanently redact a removed member's contributions by explicit action (not automatic). A Person MAY belong to any number of orgs simultaneously.
 
-- **FR-187** (**Org workspace**): Each org has a private workspace at `/orgs/:slug/workspace`. The workspace contains: (1) an Org Feed of all active and resolved Duels scoped to the org, (2) a Members list with roles and join dates, (3) a Policy Documents archive (neighbourhood type), (4) a Duel Templates library (org-specific templates in addition to global templates), (5) an Org Stats panel (total Duels, resolution rate, most active members), and (6) an Org Settings page (admin-only). All workspace content is visible only to org members except where the specific Duel has been explicitly made public by its author.
+- **FR-187** (**Org workspace**): Each org has a private workspace at `/orgs/:slug/workspace`. The workspace contains: (1) an Org Feed of all active and resolved Duels scoped to the org, (2) a Members list with roles and join dates, (3) a Policy Documents archive (neighborhood type), (4) a Duel Templates library (org-specific templates in addition to global templates), (5) an Org Stats panel (total Duels, resolution rate, most active members), and (6) an Org Settings page (admin-only). All workspace content is visible only to org members except where the specific Duel has been explicitly made public by its author.
 
 - **FR-188** (**Org-scoped Duel filing**): A Person who is a member of an org MAY file a Duel scoped to that org. Org-scoped Duels: appear in the org workspace feed, are private to org members by default, may be made public by the filer (subject to org settings — admin can restrict this), inherit the org's available Duel contexts, and may be Judge-panelled from org members only. Standard (non-scoped) Duels filed by org members are not visible in the org workspace unless explicitly cross-posted.
 
@@ -794,8 +814,8 @@ Orgs are the shared-workspace layer of the platform. They scope membership, acce
   | Org API key | No | Yes (read-only) | Yes (read-write) |
   | Org analytics | Basic | Full | Full + export |
   | Guest access | No | Yes | Yes |
-  | QR flyer (neighbourhood) | Yes | Yes | Yes (custom branded) |
-  | Policy Documents (neighbourhood) | 3 | Unlimited | Unlimited |
+  | QR flyer (neighborhood) | Yes | Yes | Yes (custom branded) |
+  | Policy Documents (neighborhood) | 3 | Unlimited | Unlimited |
   | Placement-eligible | No | Yes (opt-in) | Yes (opt-in) |
   | Church/small_group type | Free forever | — | — |
 
@@ -807,7 +827,7 @@ Orgs are the shared-workspace layer of the platform. They scope membership, acce
 
 - **FR-194** (**Org analytics**): Every org has an analytics panel at `/orgs/:slug/analytics`. Basic (free): total Duels, total Dispositions, resolution rate, member activity bar chart. Full (Standard/Pro): breakdown by Duel context, average turns to resolution, most active members ranked, most-disputed topics by tag, monthly trend line, Judge consistency scores for org-panelled Duels. Export (Pro only): all analytics data as CSV or JSON. Church orgs receive the Full tier analytics at no cost.
 
-- **FR-195** (**Org placement — non-church only**): Orgs of type `team`, `debate_club`, and `education` on Standard or Pro tier MAY opt into **Org Placement** — paid feed visibility in the relevant discovery feed. Placement is **not available** to `church`, `small_group`, `legal`, or `neighbourhood` org types.
+- **FR-195** (**Org placement — non-church only**): Orgs of type `team`, `debate_club`, and `education` on Standard or Pro tier MAY opt into **Org Placement** — paid feed visibility in the relevant discovery feed. Placement is **not available** to `church`, `small_group`, `legal`, or `neighborhood` org types.
 
   Placement mechanics:
   - A placed org appears in the **Orgs** discovery section at `/discover/orgs`, surfaced to users whose topic interests or Duel history overlap with the org's focus tags.
@@ -819,16 +839,49 @@ Orgs are the shared-workspace layer of the platform. They scope membership, acce
 
 - **FR-196** (**Org public profile**): Every org has a public profile page at `/orgs/:slug` showing: org name, type badge, description, member count, number of completed Duels, most recent public Duels (if any), and a "Request to join" or "Join" button (depending on `is_private`). Private orgs show only name, type, and member count on their public profile — no Duels visible. Church orgs may optionally display their `tradition` tag on their public profile.
 
-- **FR-197** (**Org discovery feed**): A public **Orgs** discovery section at `/discover/orgs` lists placement-eligible orgs that have opted in, filtered by topic tags and org type. Browsable by type: Teams, Debate Clubs, Education. Neighbourhood and Church orgs are NOT listed here — they have their own dedicated feeds (Neighbourhood feed at FR-181; Christian community is word-of-mouth only). A user may submit a join request directly from the discovery feed entry.
+- **FR-197** (**Org discovery feed**): A public **Orgs** discovery section at `/discover/orgs` lists placement-eligible orgs that have opted in, filtered by topic tags and org type. Browsable by type: Teams, Debate Clubs, Education. Neighborhood and Church orgs are NOT listed here — they have their own dedicated feeds (Neighborhood feed at FR-181; Christian community is word-of-mouth only). A user may submit a join request directly from the discovery feed entry.
 
 - **FR-198** (**Org Duel context restrictions by type**): Org admins MAY restrict which Duel contexts are available to members within the org workspace. This allows, for example, a debate club to restrict to `standard` context only, or a legal org to restrict to `apology` and `standard`. Restriction is set in Org Settings and enforced server-side — a member filing a Duel via API with a disallowed context receives `403 Forbidden` with a descriptive error.
 
-- **FR-199** (**Org transfer and succession**): An org `admin` MAY transfer admin ownership to another member. Transfer requires the recipient to explicitly accept. The outgoing admin is downgraded to `moderator` unless they remove themselves. For `neighbourhood` orgs, the `convenor` role MAY be put to a member vote — a vote opened by the current convenor or by a petition of ≥30% of members. Vote uses the `context=community_vote` Duel mechanic. For `church` orgs, succession is managed by the existing `elder` panel — any elder with `admin` access may promote another elder to admin.
+- **FR-199** (**Org transfer and succession**): An org `admin` MAY transfer admin ownership to another member. Transfer requires the recipient to explicitly accept. The outgoing admin is downgraded to `moderator` unless they remove themselves. For `neighborhood` orgs, the `convenor` role MAY be put to a member vote — a vote opened by the current convenor or by a petition of ≥30% of members. Vote uses the `context=community_vote` Duel mechanic. For `church` orgs, succession is managed by the existing `elder` panel — any elder with `admin` access may promote another elder to admin.
 
 - **FR-200** (**Org deletion and data retention**): An `admin` MAY delete an org. Deletion is a two-step process: (1) admin triggers deletion, (2) a 30-day cooling-off period begins during which the org is locked (no new Duels, no new members) but fully readable by all current members. After 30 days the org is permanently deleted. Policy Documents and completed Duel records are offered as a ZIP export to the admin before deletion completes. If the org has any Duel with `is_public = true`, those public Duels are detached from the org and remain as standalone public records attributed to `[Deleted Org]`.
 
+**Brand Claims — Interactive Org Placement**
 
-- **FR-114**: All read endpoints (Claims, Cases, Duels, Dispositions, Persons, Analytics views) MUST be accessible to authenticated API-key holders with no rate-limit tier above Researcher.
+This is the placement mechanic for non-church orgs. Instead of passive sponsored listings, an org's placement in the discovery feed IS a Claim they file and must be willing to defend. A Brand Claim is a public, first-person belief statement made by an org on behalf of their brand — filed as a live Duel that anyone may challenge. The org defends it with Evidence. The Verdict is permanently on their profile. This is not advertising. This is advertising as defended belief.
+
+**The constitutional fit**: Principle I prohibits argumentation but requires defended belief. A Brand Claim is exactly that — a position held by an org, grounded in evidence they can produce, subject to the same challenge mechanic as any other Claim on the platform. An org that says "Our supply chain is ethical" must be prepared to defend that. An org that says "We make the best coffee in London" must be prepared to have that challenged. The mechanic naturally filters for orgs that are willing to stand behind what they say. Orgs that won't file a Brand Claim don't get placement.
+
+- **FR-201** (**Brand Claim entity**): A Brand Claim is a `Claim` filed by an org (via its `admin`) with `is_brand_claim = true` and `filed_by_org_id` set. Brand Claims are always `is_public = true`. The `claim_text` is the org's position statement — first person, present tense, belief-grounded (e.g. "We believe our ingredients are ethically sourced and we can show our work"). Brand Claims MUST NOT use product slogans, superlatives without grounds ("best", "number one"), or passive-voice hedging. The filing interface enforces this with a copy review prompt before submission. A Brand Claim is filed to a `context=brand` Duel automatically upon submission.
+
+- **FR-202** (**Brand Claim filing flow**): An org admin files a Brand Claim at `/orgs/:slug/brand-claims/new`. The filing interface requires: (1) `claim_text` (the position, 20–280 characters), (2) at least one Evidence item (URL, document, or exhibit — supporting the claim), (3) a `challenge_open` boolean (must be `true` to be eligible for feed placement), and (4) optionally a `response_handle` — the specific org member who will handle challenges from the org's side (defaults to admin). Submission triggers a platform copy review (automated + async human review for first-time orgs). Approved Brand Claims are live within 24 hours.
+
+- **FR-203** (**Brand Duel mechanic**): When a user challenges a Brand Claim, a `context=brand` Duel is opened with: the challenging Person as the Challenger, the org's `response_handle` member as the Defender. The Duel follows the standard turn mechanic. The org may submit additional Evidence at each turn. The Challenger may submit counter-Evidence. The Duel is judged by the standard public Judge panel (3–7 Judges drawn from active users, not org members). The Verdict is public and permanently displayed on the org's Brand Claims profile section. An org MAY have multiple Brand Claims active simultaneously, each with its own Duel history.
+
+- **FR-204** (**Brand Claim outcomes and their display**): A Brand Claim Duel may reach the following Dispositions:
+  - `defended` — the org's position was upheld by the Judge panel. Displayed on the org profile as a green **DEFENDED** badge with the date.
+  - `challenged_successfully` — the challenger's position was upheld. Displayed as an amber **CONTESTED** badge. The org may file an amended Brand Claim (new Claim, new Duel) but the original contested record remains permanently visible.
+  - `accord` — both parties reached a mutual understanding. Displayed as a blue **ACCORD** badge — the most credibility-generating outcome for the org, since it implies they engaged genuinely.
+  - `abandoned` — the org's `response_handle` did not respond within the deadline. Displayed as a grey **ABANDONED** badge. This is the most damaging outcome and is permanent. It signals the org filed a claim they were unwilling to defend.
+  - `withdrawn` — the org withdrew the Brand Claim before any challenge was filed. No badge. The claim is removed from the feed. An org may not re-file the same claim text within 90 days.
+
+- **FR-205** (**Brand Claim feed placement**): A Brand Claim with `challenge_open = true` and `placement_active = true` appears in the **Brand Challenges** feed at `/discover/brand-challenges`. This feed is publicly browsable — no account required to read. Users see org Brand Claims and may tap **Challenge** to open a Duel (requires account). The feed is sorted by: most recently filed, most recently challenged, and "Most Defended" (highest ratio of DEFENDED outcomes). Placement in this feed is the commercial product — orgs pay for `placement_active = true` as a monthly fee (see FR-206). An org with `placement_active = false` may still file Brand Claims and receive challenges via direct link, but is not surfaced in the feed.
+
+- **FR-206** (**Brand Claim placement pricing**): Placement in the Brand Challenges feed is sold as a monthly subscription per active Brand Claim:
+  - **Standard placement**: $39/month per Brand Claim — surfaced in the standard rotation to all browsing users.
+  - **Pro placement**: $99/month per Brand Claim — surfaced in the Pro rotation with higher frequency and inclusion in the homepage Brand Challenges spotlight (up to 3 featured claims shown on the judgmental.io homepage to unauthenticated visitors).
+  - An org MAY have up to 5 active placed Brand Claims simultaneously.
+  - Placement is suspended automatically if the Claim receives an `abandoned` Disposition — the org must file a new Claim to re-enter placement.
+  - **Church and small_group orgs are ineligible for Brand Claim filing and placement.** This mechanic is for organisations that have a brand — not a faith community.
+
+- **FR-207** (**Brand Claim profile section**): Every org with at least one Brand Claim has a **Brand Record** section on their public org profile. This section shows: all current and historical Brand Claims, their Disposition badges (DEFENDED / CONTESTED / ACCORD / ABANDONED), the number of challenges received per Claim, and the org's overall **Credibility Score** — a computed ratio of DEFENDED + ACCORD outcomes against total adjudicated Brand Claims. Credibility Score is shown as a percentage and a rank label (e.g. "Top 10% of placed orgs"). The Credibility Score is a trust signal, not a game — it cannot be gamed by filing easy claims, because the Judge panel is drawn from the general user base.
+
+- **FR-208** (**Brand Claim copy enforcement**): All Brand Claim text MUST pass the platform's anti-argumentation copy review (Principle I) before going live. Additionally, Brand Claims MUST NOT: make comparative claims against named competitors ("better than X"), make unqualified absolute claims without Evidence ("always", "never", "guaranteed"), use clinical or legal language designed to limit challenge scope ("to the best of our knowledge"), or impersonate another org. Violations result in the Brand Claim being rejected with a specific reason. Repeat violations by an org result in the org being suspended from Brand Claim filing for 90 days.
+
+- **FR-209** (**Brand Claim challenge incentives**): To seed challenges and keep the Brand Challenges feed active, users who successfully challenge a Brand Claim (CONTESTED Disposition) receive a **Challenger Badge** on their profile — visually distinct from standard Duel badges. This badge is permanent, publicly visible, and links to the original Brand Duel record. There are no monetary rewards. The badge is the incentive — it signals the user is willing and able to hold organisations to account on the public record.
+
+ (Claims, Cases, Duels, Dispositions, Persons, Analytics views) MUST be accessible to authenticated API-key holders with no rate-limit tier above Researcher.
 - **FR-115**: Write endpoints (create Claim, open Case, submit Analysis) MUST require an active org-tier subscription or a dedicated API key issued by an admin.
 - **FR-116**: API keys MUST be scoped (read-only, read-write) and revocable from the user settings page. Keys MUST be stored as bcrypt hashes server-side; the plaintext is shown only once at creation.
 - **FR-117**: All API routes MUST return `429 Too Many Requests` with `Retry-After` header when rate limits are exceeded. Rate limits: Researcher = 60 req/min; Professional/Institutional = 600 req/min; Org API key = 1,200 req/min.
@@ -852,12 +905,12 @@ Orgs are the shared-workspace layer of the platform. They scope membership, acce
 
 **Verdict Data API**
 
-- **FR-129**: An anonymised, aggregated dataset of Claims (text only, no author), Disposition outcomes, and Judgment consistency scores MUST be exposed as a subscription data API at `GET /api/data/*`.
+- **FR-129**: An anonymized, aggregated dataset of Claims (text only, no author), Disposition outcomes, and Judgment consistency scores MUST be exposed as a subscription data API at `GET /api/data/*`.
 - **FR-130**: Verdict Data API access tiers and rate limits:
-  - **Researcher** — free, 100 req/day, read-only, anonymised only
-  - **Professional** — $99/month, 2,000 req/day, full anonymised dataset including argument structure
+  - **Researcher** — free, 100 req/day, read-only, anonymized only
+  - **Professional** — $99/month, 2,000 req/day, full anonymized dataset including argument structure
   - **Institutional** — $499/month, unlimited, bulk export (JSONL), priority support
-- **FR-131**: All data returned by the Verdict Data API MUST be fully anonymised. No Person handles, display names, or platform identifiers may be included. Argument structure (Claim text, challenge text, evidence summaries) is included but stripped of any PII.
+- **FR-131**: All data returned by the Verdict Data API MUST be fully anonymized. No Person handles, display names, or platform identifiers may be included. Argument structure (Claim text, challenge text, evidence summaries) is included but stripped of any PII.
 - **FR-132**: Persons MAY opt out of Verdict Data API inclusion via a toggle in User Settings. Opt-out is respected within 24 hours (next analytics rollup cycle). Default is **opted in**.
 - **FR-076**: An "Sign in to remove ads" label MUST appear above the ad strip for unauthenticated users.
 - **FR-077**: Google Ads MUST be the ad provider. Ad content MUST NOT appear in any authenticated view.
@@ -883,7 +936,7 @@ Orgs are the shared-workspace layer of the platform. They scope membership, acce
 
 - **FR-082**: The scales/logo icon MUST visually encode the current Duel state when rendered in the Case View header:
   - Beam angle: left pan lower = challenger ahead; right pan lower = defender holding; level = balanced or undecided.
-  - Flame colour: challenger lane = cool blue-white; defender lane = warm amber.
+  - Flame color: challenger lane = cool blue-white; defender lane = warm amber.
   - Disposed state: both sides cold/grey.
   - Accord/STANDING state: both sides white/gold.
 - **FR-083**: The Home View logo (header, top-left) MUST be the static scales icon (no state encoding in the Home context).
@@ -951,7 +1004,7 @@ The following views are computed from the live database at query time, not store
 
 - **SC-001**: A first-time user can read the Home feed, authenticate via SM OAuth, compose a Claim, and see it appear in the feed — all within 3 minutes.
 - **SC-002**: Any Record, Case, or Duel can be opened via its canonical URL in a freshly opened browser tab without additional navigation steps.
-- **SC-003**: All permission controls (Challenge, Answer, Offer, Agree, Judge) accurately reflect the current user's eligibility — zero cases of an unauthorised action being permitted client-side.
+- **SC-003**: All permission controls (Challenge, Answer, Offer, Agree, Judge) accurately reflect the current user's eligibility — zero cases of an unauthorized action being permitted client-side.
 - **SC-004**: The full challenge-answer-counter-challenge cycle for one Duel round-trips (submit → server → re-render) in under 4 seconds on a standard broadband connection.
 - **SC-005**: The Home feed loads and renders the first screen of Claim cards in under 2 seconds on a standard broadband connection.
 - **SC-006**: A deadline expiry triggers a visible and audible Default event within 60 seconds of the deadline passing (server-side node-cron, 1-minute tick); client displays event on next load/poll.
@@ -964,8 +1017,8 @@ The following views are computed from the live database at query time, not store
 - **SC-013**: A Compatibility Duel cannot begin until both named Persons have accepted the consent prompt; the filing party sees a "Awaiting acceptance" state.
 - **SC-014**: A Historical Re-trial's root Claim is authored by `@system`; neither party's ClaimAccord count changes after a verdict.
 - **SC-015**: An Apology Court Duel with all three required fields (acknowledgement, evidence, remedy) submitted produces a `reconciliation` or `rejection` Disposition correctly; the feed renders the correct visual state for each.
-- **SC-016**: `GET /api/docs` returns a valid OpenAPI 3.1 JSON document; all documented endpoints return the correct HTTP status for both authorised and unauthorised requests.
-- **SC-017**: `GET /api/data/claims` with a Researcher API key returns only anonymised claim text with no Person identifiers; a Person who has opted out does not appear in the results.
+- **SC-016**: `GET /api/docs` returns a valid OpenAPI 3.1 JSON document; all documented endpoints return the correct HTTP status for both authorized and unauthorized requests.
+- **SC-017**: `GET /api/data/claims` with a Researcher API key returns only anonymized claim text with no Person identifiers; a Person who has opted out does not appear in the results.
 
 ---
 

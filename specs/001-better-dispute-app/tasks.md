@@ -297,7 +297,7 @@
 
 ## Phase 17: Analytics
 
-**Goal**: Plausible tracks all navigation as privacy-first pageviews + custom events. GA4 loaded only for unauthenticated users (required for ads programme). Auto-analytics endpoints power knowledge-base queries.
+**Goal**: Plausible tracks all navigation as privacy-first pageviews + custom events. GA4 loaded only for unauthenticated users (required for ads program). Auto-analytics endpoints power knowledge-base queries.
 
 **Independent Test**: Load app unauthenticated → Plausible pageview fires, GA4 fires; sign in → GA4 script not present; call `GET /api/analytics/contested` → returns top contested Claims.
 
@@ -336,7 +336,7 @@
 
 - [ ] T122 Add `widgets` JSON column to `records` table (include in migration 001 or append migration 002): `widgets TEXT DEFAULT '[]'`
 - [ ] T123 Create `src/client/api/bible-client.js` — `getPassage(verseIds)`, `search(query)`, `getChapter(bookId, chapter)`; all call api.bible KJV (ID: `de4e12af7f28f599-02`); API key from `CONFIG.bibleApiKey`; cached via client-side Map (long TTL); typed `ApiError` on failure
-- [ ] T124 Create `src/client/view/components/widgets/widget-host.js` — `renderWidget(widgetData)` dispatches to registered widget renderers; graceful "Unknown widget" placeholder for unrecognised types
+- [ ] T124 Create `src/client/view/components/widgets/widget-host.js` — `renderWidget(widgetData)` dispatches to registered widget renderers; graceful "Unknown widget" placeholder for unrecognized types
 - [ ] T125 Create `src/client/view/components/widgets/bible-widget.js` — `renderBibleWidget(payload)`: collapsed pill showing reference + "▾"; expand shows verse text individually numbered; "View in context" button opens Bible Reader; fetch passage on expand (skeleton while loading)
 - [ ] T126 Create `src/client/view/components/bible-reader.js` — slide-over panel; tabs: Passage (formatted HTML), Context (full chapter, current verses highlighted), Original (interlinear Hebrew/Greek from BHSA/SBLGNT Bible IDs, word-by-word with transliteration + gloss on hover), Cross-refs; loading skeleton while fetching
 - [ ] T127 Add `"+ Widget"` button to `composer.js`: opens widget picker (initially only "Bible"); selecting "Bible" opens a Bible passage search/navigator; confirmed selection appends widget chip to draft

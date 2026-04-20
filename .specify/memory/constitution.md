@@ -43,7 +43,7 @@ The dating features, the viral mechanics, the Christian Mode, the Church Discipl
 
 ### I. No Argumentation — Defended Belief Only (NON-NEGOTIABLE — PRIORITY ONE)
 
-This is the foundational product principle. It governs every design decision, every line of UI copy, every AI behaviour, every feature, and every code review. It supersedes all other principles when in conflict.
+This is the foundational product principle. It governs every design decision, every line of UI copy, every AI behavior, every feature, and every code review. It supersedes all other principles when in conflict.
 
 **The core commitment:**
 
@@ -103,8 +103,8 @@ Automated testing is a first-class deliverable, not an afterthought:
 
 All user-facing surfaces MUST present a coherent, predictable experience:
 
-- The project design system is defined as: the CSS custom properties in `styles/main.css` (colour tokens, spacing scale, typography scale, and component-level variables) plus any component files under `src/view/components/`. These files are the canonical source of truth for visual style.
-- UI components MUST be built from design-system tokens and components; deviating from the token set (hardcoded colours, ad-hoc font sizes, etc.) requires explicit justification in the PR.
+- The project design system is defined as: the CSS custom properties in `styles/main.css` (color tokens, spacing scale, typography scale, and component-level variables) plus any component files under `src/view/components/`. These files are the canonical source of truth for visual style.
+- UI components MUST be built from design-system tokens and components; deviating from the token set (hardcoded colors, ad-hoc font sizes, etc.) requires explicit justification in the PR.
 - Custom one-off components that are not candidates for reuse MUST be flagged in the PR as intentional exceptions.
 - Error messages MUST be human-readable, actionable, and consistent in tone across the entire application.
 - Navigation patterns, loading states, and feedback mechanisms (toasts, modals, inline errors) MUST follow documented UX conventions.
@@ -138,7 +138,20 @@ When evaluating third-party tools, services, libraries, or APIs, the zero-cost o
 
 **Rationale**: Minimising operating costs preserves runway, reduces vendor lock-in, and forces deliberate decisions about every paid dependency. The burden of proof lies with paid tooling.
 
-### VII. Christian Mode is Not a General Faith Platform
+### VII. American English Only
+
+All copy, documentation, code comments, UI text, help text, template text, AI-generated output, and any human-readable string produced by or for this project MUST be written in American English. British English spellings, idioms, and conventions are prohibited.
+
+**Specific enforcement:**
+
+- Spellings MUST follow American convention without exception: *color* not *colour*, *center* not *centre*, *recognize* not *recognise*, *organized* not *organised*, *analyze* not *analyse*, *defense* not *defence*, *fulfill* not *fulfil*, *license* (noun and verb) not *licence*, *program* not *programme*, and so on.
+- AI-generated copy, suggestions, and output MUST produce American English. Any AI feature that defaults to British spellings MUST have its prompt or system instruction corrected before merge.
+- Code review MUST include a check for British spellings in any PR that touches user-facing copy, documentation, or AI prompts. A PR containing British English in user-facing content MUST NOT be merged until corrected.
+- This rule applies to all contributors and all tools — including Copilot, GPT, Claude, and any other AI assistant used during development.
+
+**Rationale**: Inconsistent spelling erodes copy quality and creates a fractured voice. American English is the declared standard for this project. Consistency is non-negotiable.
+
+### VIII. Christian Mode is Not a General Faith Platform
 
 Christian Mode is a first-release feature set built specifically for Bible-following Christians. It is not a generic spirituality layer, not an interfaith dialogue tool, and not a platform for comparative religion. It is built for people who hold scripture as their highest authority and who pursue repentance, reconciliation, and accountability as genuine practices of the faith — not as metaphors.
 
@@ -159,6 +172,7 @@ Christian Mode is a first-release feature set built specifically for Bible-follo
 - No feature in Christian Mode may be implemented in a way that is dismissive, satirical, or reductive of sincere religious practice. Code review MUST include this check.
 - AI assistance in `context=doctrinal`, `context=bible_study`, `context=accountability`, `context=discernment`, `context=discipline`, and `context=parenting` contexts MUST default to a tone that is measured, non-adversarial, and deferential to the sincerity of the parties.
 - The **Exploring Our Faith** feature is a primary discovery surface for the faith community and MUST be treated as a core feature, not an extension.
+- All copy in Christian Mode contexts is subject to Principle VII (American English Only) without exception.
 
 **Rationale**: This platform was built by someone with a specific biblical faith. Christian Mode is the most direct expression of that. It should be built with the integrity that conviction requires — seriously, robustly, and without hedging.
 
@@ -196,4 +210,4 @@ This constitution supersedes all other development guidelines and practices with
 
 **Compliance review**: Adherence to this constitution MUST be verified during each sprint retrospective and whenever a new team member joins.
 
-**Version**: 2.2.0 | **Ratified**: 2026-04-18 | **Last Amended**: 2026-04-20
+**Version**: 2.3.0 | **Ratified**: 2026-04-18 | **Last Amended**: 2026-04-20

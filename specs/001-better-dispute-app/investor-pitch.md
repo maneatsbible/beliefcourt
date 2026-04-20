@@ -18,7 +18,7 @@ These are not two separate products. They are two acquisition channels for the s
 
 ## Why This, Why Now
 
-- Dating apps are broken in a specific way: they optimise for matches, not compatibility. "Swipe right" selects for photos. judgmental.io selects for positions. How someone argues what they believe is a far stronger compatibility signal than any profile photo or questionnaire.
+- Dating apps are broken in a specific way: they optimize for matches, not compatibility. "Swipe right" selects for photos. judgmental.io selects for positions. How someone argues what they believe is a far stronger compatibility signal than any profile photo or questionnaire.
 - The Christian dating market is large, underserved, and enormously word-of-mouth driven. A platform that treats Christian courtship with actual theological seriousness — not just a "faith" checkbox — has no direct competitor.
 - Every Duel is shareable content. Every Score Card is a watermarked referral. The product markets itself every time two people use it.
 
@@ -42,13 +42,15 @@ These are not two separate products. They are two acquisition channels for the s
 
 ### The Crossover
 
-A dating user encounters the depth of a Christian's Doctrinal Claim and realises the platform is serious. A Christian singles user shares their Faith Alignment Score Card on Instagram. A couple who met through a Dating Duel activates the Pre-marital Track. The two engines are designed to cross-pollinate.
+A dating user encounters the depth of a Christian's Doctrinal Claim and realizes the platform is serious. A Christian singles user shares their Faith Alignment Score Card on Instagram. A couple who met through a Dating Duel activates the Pre-marital Track. The two engines are designed to cross-pollinate.
 
 ---
 
 ## Revenue Model
 
-All revenue is subscription and micro-transaction. No advertising. No org placement. No content monetisation. Every dollar comes from users paying for access to features that make the product work better for them.
+All revenue is subscription and micro-transaction. No passive advertising. No banner ads. No impression-based monetisation. Every dollar comes from users and orgs paying for access to features that make the product work better for them — or from orgs paying to be placed in a feed where they must defend their position publicly.
+
+**Brand Claims** are the most structurally novel commercial product on the platform. Instead of a sponsored listing, an org files a belief statement — "We believe our supply chain is fully traceable" — attaches their evidence, opens it to challenge, and pays for placement. They then defend it, Duel by Duel, on the public record. Every outcome is permanent on their org profile. DEFENDED builds credibility. ACCORD builds trust. ABANDONED is reputationally damaging. The mechanic is anti-greenwashing by design: an org that won't defend what it says doesn't get placement. Pricing: $39–$99/month per active Brand Claim, up to 5 simultaneously. Church orgs are ineligible — this is for brands.
 
 | Stream | Month 6 MRR |
 |---|---|
@@ -57,12 +59,13 @@ All revenue is subscription and micro-transaction. No advertising. No org placem
 | Dating Boost ($2.99/use) | $1,500–$4,000 |
 | Compatibility Unlock ($1.99/pair) | $1,000–$3,000 |
 | Parenting+ ($7.99/mo) | $1,000–$4,000 |
-| Neighbourhood+ ($6.99/mo) | $1,000–$4,000 |
+| Neighborhood+ ($6.99/mo) | $1,000–$4,000 |
 | Non-church Org subscriptions | $600–$1,500 |
 | Non-church Org placement | $400–$1,200 |
+| Brand Claim placement ($39–$99/mo per Claim) | $1,500–$5,000 |
 | Verdict Data API | $500–$2,000 |
 | Duel Coach AI ($4.99/mo) | $500–$2,000 |
-| **Total** | **$18,000–$42,700/month** |
+| **Total** | **$19,500–$47,700/month** |
 
 **Assumptions**: 10,000–25,000 active users by Month 6. 12–18% conversion to any paid tier. Micro-transaction layer (Boosts and Unlocks) adds revenue without requiring subscription commitment.
 
@@ -78,7 +81,7 @@ All revenue is subscription and micro-transaction. No advertising. No org placem
 | Y4 | 450,000 | $620,000 | $7.4M |
 | Y5 | 900,000 | $1.2M | $14.4M |
 
-These are conservative. The Christian dating market alone (estimated 30M+ US Christian singles) represents a TAM that makes the Y3–Y5 numbers modest. The neighbourhood channel (every apartment block in every city) is an acquisition surface with no digital equivalent.
+These are conservative. The Christian dating market alone (estimated 30M+ US Christian singles) represents a TAM that makes the Y3–Y5 numbers modest. The neighborhood channel (every apartment block in every city) is an acquisition surface with no digital equivalent.
 
 ---
 
@@ -95,12 +98,12 @@ Infrastructure: SQLite + Litestream on Fly.io. No database bill. No CDN bill. No
 1. **The record is the product.** Every resolved Duel is a permanent public artefact. The more Duels exist, the more valuable the network. Data compounds.
 2. **Switching cost is identity.** Your Duel history, your compatibility scores, your faith positions on record — they live here. You don't leave.
 3. **The Christian community does not switch tools.** Once a church uses the Discipline process or a pastor uses Accountability, the relationship history, the precedents, the records — they stay forever.
-4. **The physical channel.** The neighbourhood QR flyer acquires users with no algorithm, no ad spend, and no decay. A flyer on a noticeboard keeps converting for months.
+4. **The physical channel.** The neighborhood QR flyer acquires users with no algorithm, no ad spend, and no decay. A flyer on a bulletin board keeps converting for months.
 
 ---
 
 ## The Foundation
 
-This platform was built because of a conviction drawn from biblical faith in Jesus Christ — that truth is real and knowable, and that people are capable of defending what they actually believe. The Christian Mode, the repentance and reconciliation mechanics, the anti-proof-texting principle: these are not features layered on a debate app. They are the reason the platform was built. The dating engine and the neighbourhood features are downstream of the same conviction: honest disagreement, pursued with integrity, produces something worth building for.
+This platform was built because of a conviction drawn from biblical faith in Jesus Christ — that truth is real and knowable, and that people are capable of defending what they actually believe. The Christian Mode, the repentance and reconciliation mechanics, the anti-proof-texting principle: these are not features layered on a debate app. They are the reason the platform was built. The dating engine and the neighborhood features are downstream of the same conviction: honest disagreement, pursued with integrity, produces something worth building for.
 
 **judgmental.io — On the record.**
