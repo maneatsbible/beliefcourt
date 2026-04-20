@@ -305,6 +305,26 @@ KidsGalleryBot is a system bot, one instance per `youth` org. It is prompted wit
 
 **Rationale**: Children deserve a space that is real — not dumbed-down, not consequence-free — but protected. The Youth Zone is the platform's conviction that structured honest disagreement is a life skill worth teaching, and that doing it on the record under supervised conditions is better than the alternative. The Ledger consequences are real. The identity is protected. At 18, they carry the skills, not the receipts.
 
+## Principle XII — Open Governance and the Constitutional Duel
+
+**The platform governs itself using its own mechanics.** Every structural decision about how the platform operates — including amendments to this constitution — is subject to the same structured disagreement, evidence, and judgment process that the platform offers to its users.
+
+**Open-Spec (Tier 1 — public read):**
+
+The platform's specification documents (spec, data model, plan, constitution) are publicly readable at `/open-spec`. Every section has a GitHub Issues link for suggested improvements and problem reports. The platform's design decisions are not proprietary. They are on the record, permanently accountable to public scrutiny, and improvable by anyone with a GitHub account.
+
+**Open-Spec (Tier 2 — admin write):**
+
+The `super_admin` role has write access to spec documents via the admin console. The admin console integrates the SpecKit agent for AI-assisted spec authoring. All SpecKit-generated changes are drafts — the `super_admin` reviews and approves before committing. Changes to non-constitutional spec (new FRs, new tasks, new features) may be deployed by `super_admin` without additional process. Changes that touch a constitutional Principle require a Constitutional Duel.
+
+**Constitutional Duel — how the platform amends itself:**
+
+Any amendment to an enumerated Principle MUST be proposed as a **Constitutional Duel** — a public Duel filed by the `super_admin` where: (a) the proposed amendment text is the root Claim; (b) the existing constitutional text is the Counter-position; (c) the Duel is always public and always open to any authenticated Person as an Amicus curiae analysis submitter; (d) a Judge panel of ≥ 7 `verified_judge`-role Persons (minimum 10 completed Judgments) must render verdict; (e) the `super_admin` accepts the Duel Verdict before the amendment is applied.
+
+A `CONTESTED` Judgment blocks the amendment. The `super_admin` MAY file a **Notice of Override** — which is itself a first-class public Record attributed to the `super_admin`, permanently admissible as Evidence in any future Constitutional Duel touching the same Principle. An override is not prohibited; it is permanently on the record. Governance by the Ledger is its own accountability.
+
+**Rationale**: A platform whose core proposition is that honest disagreement under structured rules produces real outcomes is obligated to operate by those rules itself. The Constitutional Duel is not a procedural formality — it is the platform proving, each time it is invoked, that the mechanic works.
+
 ## Quality Gates
 
 The following gates MUST pass before any code may be merged to the main branch:
@@ -330,13 +350,13 @@ The following gates MUST pass before any code may be merged to the main branch:
 This constitution supersedes all other development guidelines and practices within the disputable.io project. Where conflicts arise, this document takes precedence.
 
 **Amendment procedure**:
-1. Propose a change via a PR that modifies this file with a clear rationale.
-2. At least two maintainers MUST approve the PR.
-3. A migration plan MUST be provided for any principle removal or redefinition (MAJOR version bump).
+1. Non-constitutional spec changes (new FRs, new tasks): `super_admin` may approve and deploy directly.
+2. Changes to any enumerated Principle: MUST be proposed as a **Constitutional Duel** (Principle XII). The `super_admin` accepts the Verdict or files a Notice of Override (permanently on the record).
+3. A migration plan MUST be provided for any Principle removal or redefinition (MAJOR version bump).
 4. `LAST_AMENDED_DATE` and `CONSTITUTION_VERSION` MUST be updated in the same commit.
 
 **Versioning policy**: Semantic versioning applies to this document per the rules described in the constitution agent instructions.
 
 **Compliance review**: Adherence to this constitution MUST be verified during each sprint retrospective and whenever a new team member joins.
 
-**Version**: 2.5.0 | **Ratified**: 2026-04-18 | **Last Amended**: 2026-04-20
+**Version**: 2.6.0 | **Ratified**: 2026-04-18 | **Last Amended**: 2026-04-20

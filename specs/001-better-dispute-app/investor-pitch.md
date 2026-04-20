@@ -102,9 +102,27 @@ The school channel is the institutional play: a school creates a `youth` org, as
 **Revenue**: Guardian tier ($14.99/month per Guardian, includes AdvisorBot Advisory). Youth Zone is not org-billed — every Guardian pays individually, anchoring retention to the parental relationship.
 **K-factor in this channel**: Low virality coefficient but very high institutional pull. One school pilot = one teacher + 25–30 Guardian subscriptions + 50–60 conversations among parents about the platform.
 
+### Engine 4 — Famous Person Herald and the Public Record
+
+**Hook**: Every public statement by every major public figure is already in the Duel queue.
+
+`PublicRecordBot` pre-seeds the platform with public statements from the Herald Seed List — politicians, media owners, broadcasters, commentators, entertainers. Every statement is an invitation: challenge it, defend it, file Analysis on it. The real person’s handle is reserved but marked `[unverified]`. When Trump, Musk, or any figure on the list shows up, they walk into a room where their statements have already been examined, challenged, defended, and judged.
+
+This is not a trap. It is a standing invitation to defend what you actually believe, on the record, in front of witnesses. The platform has done the work of entering the position. The famous person merely needs to show up.
+
+**Virality mechanics:**
+- A Duel that has been challenging `@realdonaldtrump [unverified]` for 30 days, with Judgments already rendered, is news when Trump claims the handle. The media covers it.
+- Every `[unverified]` herald profile is a shareable link. “Challenge Trump’s actual statement from November 3rd” is a social hook that operates on every political platform simultaneously.
+- The Herald Seed List creates a public-figures section of the platform with no acquisition cost: the content is already public, the handles are pre-seeded, the Duels are filed by the platform’s users.
+- When a famous person claims their handle, the notification to all their challenger history’s participants is a re-engagement moment.
+
+**Revenue**: No direct subscription from the famous person themselves. The revenue comes from: the users who file Challenges and Judgments (engagement → conversion), the AdvisorBot tier (public figures who want to run their statement strategy through a PoA bot), and the data API (political and media researchers will pay for anonymized verdict data on public figures' claims).
+
+**K-factor contribution**: The famous-person herald mechanic contributes to Platform-level virality (not user-to-user). Each famous-person Duel generates external media coverage and social sharing that is not captured in standard K-factor models but is materially significant.
+
 ### The Crossover
 
-A dating user encounters the depth of a Christian's Doctrinal Claim and realizes the platform is serious. A Christian singles user shares their Faith Alignment Score Card on Instagram. A couple who met through a Dating Duel activates the Pre-marital Track. The two engines are designed to cross-pollinate.
+A dating user encounters the depth of a Christian’s Doctrinal Claim and realizes the platform is serious. A Christian singles user shares their Faith Alignment Score Card on Instagram. A couple who met through a Dating Duel activates the Pre-marital Track. A teacher sets up a Youth Zone and twenty parents join. A famous politician claims their herald handle and their challenger’s reply goes viral. The engines cross-pollinate continuously.
 
 ---
 
@@ -125,13 +143,14 @@ All revenue is subscription and micro-transaction. No passive advertising. No ba
 | Neighborhood+ ($6.99/mo) | $1,000–$4,000 |
 | AdvisorBot — Advisory ($9.99/mo) | $2,000–$6,000 |
 | AdvisorBot — Power of Attorney ($29.99/mo) | $1,500–$5,000 |
+| Video Duel tier ($4.99/mo or included in paid sub) | $800–$2,500 |
 | Non-church Org subscriptions | $600–$1,500 |
 | Non-church Org placement | $400–$1,200 |
 | Brand Claim placement ($39–$99/mo per Claim) | $1,500–$5,000 |
-| Verdict Data API | $500–$2,000 |
-| **Total** | **$25,000–$64,700/month** |
+| Verdict Data API (incl. youth\_cohort + public record tiers) | $800–$3,000 |
+| **Total** | **$25,800–$67,200/month** |
 
-**Assumptions**: 10,000–25,000 active users by Month 6. 12–18% conversion to any paid tier. AdvisorBot tiers assume 3–5% of active users at Month 6 — a conservative early-adopter rate for a genuinely novel product.
+**Assumptions**: 10,000–25,000 active users by Month 6. 12–18% conversion to any paid tier. AdvisorBot tiers assume 3–5% of active users at Month 6. Famous-person herald mechanic is treated as a MAU multiplier (2–3× organic user acquisition rate), not a direct revenue line. Video Duel is a storage-gated add-on; conservative take rate at Month 6.
 
 ---
 
@@ -139,13 +158,13 @@ All revenue is subscription and micro-transaction. No passive advertising. No ba
 
 | Year | Est. MAU | MRR | ARR |
 |---|---|---|---|
-| Y1 | 25,000 | $40,000 | $480,000 |
-| Y2 | 80,000 | $130,000 | $1.6M |
-| Y3 | 200,000 | $340,000 | $4.1M |
-| Y4 | 450,000 | $750,000 | $9.0M |
-| Y5 | 900,000 | $1.5M | $18.0M |
+| Y1 | 30,000 | $45,000 | $540,000 |
+| Y2 | 100,000 | $160,000 | $1.9M |
+| Y3 | 280,000 | $430,000 | $5.2M |
+| Y4 | 600,000 | $950,000 | $11.4M |
+| Y5 | 1,200,000 | $2.0M | $24.0M |
 
-These are conservative. The Christian dating market alone (estimated 30M+ US Christian singles) makes the Y3–Y5 numbers modest. The AdvisorBot tiers — particularly Power of Attorney — have no comparable product anywhere. The neighborhood channel acquires users with no algorithm, no ad spend, and no decay.
+The famous-person herald mechanic materially changes the Y1–Y2 trajectory. Rather than growing only through word-of-mouth and organic community channels, the platform acquires a public-record presence from day one — every major political statement, every headline-generating claim, enters the platform automatically as a duelable position. At Y3–Y5 the Belief Ledger for public figures has years of Duels, Judgments, and Verdicts attached to it. That is an analytics product of significant value to researchers, journalists, and political strategists — captured in the expanded Verdict Data API projections.
 
 ---
 
@@ -165,7 +184,9 @@ Infrastructure: SQLite + Litestream on Fly.io. No database bill. No CDN bill. No
 4. **The Christian community does not switch tools.** Once a church runs a Discipline process or a pastor uses Accountability, the records stay forever. Institutional credibility compounds quietly.
 5. **The physical channel.** The neighborhood QR flyer acquires users with zero algorithm, zero ad spend, and zero decay. A flyer on a bulletin board keeps converting for months.
 6. **The school channel.** One teacher pilot converts to 20–30 Guardian subscriptions and 50–60 parent conversations. The institutional sale creates a class of users whose retention is anchored to their children’s participation.
-7. **No equivalent exists.** Not for the Worldview Explorer. Not for the bot ecosystem. Not for the friends-and-family judging mechanic. Not for the full Christian faith arc from belief formation to Church Discipline. Not for supervised youth debate with a peanut-gallery bot and sequestered youth testimony. The competitive landscape is social media on one side and generic debate apps on the other. This is neither.
+7. **The famous-person herald mechanic.** The platform has a pre-seeded public record of every major public figure's statements from day one. No competitor can replicate this without also having the structured Duel mechanic, the Belief Ledger, and the verified Judge panel. The data asset grows with every Duel filed against a famous-person herald.
+8. **Open governance by design.** The platform's own constitution is publicly readable, publicly improvable, and amendable only through the platform's own Duel mechanic. This is not a transparency PR move — it is structural commitment. Every proposed change to the platform's principles is litigated in the same space where users litigate their beliefs.
+9. **No equivalent exists.** Not for the Worldview Explorer. Not for the bot ecosystem. Not for the friends-and-family judging mechanic. Not for Video Duels with auto-deposition stitching. Not for the full Christian faith arc from belief formation to Church Discipline. Not for supervised youth debate with sequestered youth testimony. Not for famous-person herald profiles with years of pre-filed Challenges before the person joins. The competitive landscape is social media on one side and generic debate apps on the other. This is neither.
 
 ---
 

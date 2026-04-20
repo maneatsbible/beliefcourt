@@ -620,6 +620,71 @@
 
 **Checkpoint**: All 10 blockers resolved or formally deferred. `notifications` table live. `moments.type` discriminated. Deploy pipeline has preflight, health-check gate, and rollback strategy documented. `package.json` scripts in place.
 
+---
 
+## Phase 29: CI / CD Pipeline (FR-232 – FR-241)
 
+**Goal**: Full GitHub Actions CI pipeline enforced on every PR to `main`. Lint, unit tests, integration tests, security scan, build smoke test, staging deploy, and smoke test all required to pass before merge. Release versioning automated on merge.
+
+**Independent Test**: Open a PR → all 5 required status checks appear and pass; merge → staging deploy succeeds and smoke tests pass; `/version` returns bumped patch version; a PR with a lint error fails the `ci/lint` check and cannot be merged.
+
+### CI Setup
+
+- [ ] T234 Create `.github/workflows/ci.yml` — defines the `ci` workflow triggered on `pull_request` to `main` and `push` to `main`; jobs: `lint`, `unit-tests`, `integration-tests`, `security-scan`, `build-smoke`, `staging-deploy` (main-only); all jobs use `ubuntu-latest` runner and `node:22` image
+- [ ] T235 Add `ci/lint` job — runs `npm ci`, then `npm run lint` (ESLint), then `npm run format:check` (Prettier); fails on any error; no auto-fix
+- [ ] T236 Create `eslint.config.js` — `eslint:recommended`, `node` + `browser` environments, `no-console` rule set to `error` in `src/server/**` (warn in `src/client/**`), `no-eval: error`, `complexity: ['error', 12]`; exclude `tests/` from `no-console`
+- [ ] T237 Create `.prettierrc` — `{ "tabWidth": 2, "singleQuote": true, "semi": false, "trailingComma": "es5" }`; add `npm run format:check` script (`prettier --check .`) and `npm run format:fix` script (`prettier --write .`) to `package.json`
+- [ ] T238 Add `ci/unit-tests` job — depends on `lint`; runs `npm ci`, then `npx vitest run --coverage`; uploads `coverage/` as artifact; enforces `c8 --check-coverage --lines 85 --functions 80 --branches 80`; posts coverage summary comment to PR via `actions/github-script`
+- [ ] T239 Install Vitest and c8: `npm install --save-dev vitest @vitest/coverage-c8`; add `vitest.config.js` with `coverage: { provider: 'c8', reporter: ['text', 'html', 'json'], reportsDirectory: './coverage' }`; add `"test:unit": "vitest run"` and `"test:unit:watch": "vitest"` scripts to `package.json`
+- [ ] T240 Add `ci/integration-tests` job — depends on `lint`; runs `npm ci`, sets `DB_PATH=:memory:` and `NODE_ENV=test`; runs `npm run test:integration`; add `"test:integration": "vitest run tests/integration/**"` to `package.json`; integration tests auto-apply migrations at setup using `runMigrations(db)` with an in-memory DB
+- [ ] T241 Add `ci/security-scan` job — runs `npm ci`, then `npm audit --audit-level=high`; any HIGH or CRITICAL vulnerability exits non-zero and fails the build; add `"audit": "npm audit --audit-level=high"` script to `package.json`; also create `.github/dependabot.yml` enabling weekly npm dep updates to `main` via PR
+- [ ] T242 Create `.github/dependabot.yml` — `version: 2`, `updates` entry for `package-ecosystem: npm`, `directory: /`, `schedule: { interval: weekly }`, `open-pull-requests-limit: 10`
+- [ ] T243 Add `ci/build-smoke` job — runs `npm ci`; starts server with `NODE_ENV=test DB_PATH=:memory: node src/server/index.js &`; waits up to 5s for `GET /health` to return 200 (via `curl --retry 5 --retry-delay 1 -sf http://localhost:3000/health`); then sends `SIGTERM`; any failure fails build
+- [ ] T244 Create `tests/smoke/` directory with `smoke.test.js` — 5 critical path checks against `$SMOKE_URL` env var: `/health` returns 200, `/version` returns JSON with `version` and `schema`, `POST /api/auth/callback` with invalid code returns 400, `GET /api/claims` returns JSON array, `GET /api/analytics/contested` returns JSON array
+- [ ] T245 Add `ci/staging-deploy` job — runs only on `push` to `main`; uses `superfly/flyctl-actions/setup-flyctl@master`; runs `flyctl deploy --app judgmental-io-staging --remote-only`; runs smoke tests against staging URL (`SMOKE_URL=https://judgmental-io-staging.fly.dev`); on smoke failure runs `flyctl releases rollback --app judgmental-io-staging` and opens a GitHub Issue via `actions/github-script` tagged `ci-regression`
+- [ ] T246 Add GitHub Repository Secrets to CI: `FLY_API_TOKEN`, `JWT_SECRET_CI`, `STAGING_URL`; document all required secrets in `quickstart.md` under "CI Setup" section
+- [ ] T247 Configure branch protection rules in GitHub repository settings (document in `quickstart.md`): require status checks `ci/lint`, `ci/unit-tests`, `ci/integration-tests`, `ci/security-scan`, `ci/build-smoke` to pass before merging to `main`; require PR approval from at least 1 reviewer; no force-push to `main`
+- [ ] T248 Add release versioning job to `ci.yml` — runs after `staging-deploy` on `push` to `main`; reads `package.json` version; creates GitHub Release with tag `v<version>` via `actions/create-release`; runs `npm version patch` + commits and pushes to `main` with `[skip ci]` message to avoid CI loop; uses `GITHUB_TOKEN` from workflow context
+
+### ESLint Migration of Existing Tests
+
+- [ ] T249 Migrate existing `tests/unit/` files from the old `tests/runner.js` format to Vitest: convert `runner.run(name, fn)` calls to `describe/it` blocks; ensure all existing tests pass under `vitest run`
+- [ ] T250 Add `"test": "vitest run"` as the canonical `npm test` script (replaces `node tests/run-all.js`); update `quickstart.md` accordingly
+
+**Checkpoint**: Full CI pipeline live. All 5 required checks enforced on PRs. Staging deploy with auto-rollback on smoke failure. Coverage gate enforced. Dependabot enabled. ESLint and Prettier enforced. Release versioning automated.
+
+---
+
+## Phase 30: Judgy Blog (FR-242 – FR-245)
+
+**Goal**: Judgy Blog live at `/blog`. Admin can create and publish posts from `/admin/blog`. Public read, no auth required. No bot zone. Comments disabled.
+
+**Independent Test**: Admin creates a post via admin console; visits `/blog` → post card visible; visits `/blog/:slug` → full post renders; unauthenticated user can read; no bot annotations appear anywhere on blog pages.
+
+- [ ] T251 Add `blog_posts` table to migration `004_blog_opspec_herald.sql`: `id INTEGER PK, slug TEXT UNIQUE NOT NULL, title TEXT NOT NULL, body TEXT NOT NULL, author_id INTEGER FK references persons(id), published_at DATETIME, updated_at DATETIME, cover_image_url TEXT, tags TEXT DEFAULT '[]', is_featured BOOLEAN DEFAULT 0`
+- [ ] T252 Add `blog_author` and `super_admin` columns to `persons` in migration 004: `is_blog_author BOOLEAN DEFAULT 0`, `is_super_admin BOOLEAN DEFAULT 0`; seed the platform owner's Person row with both flags
+- [ ] T253 Add `GET /blog` route (public, no auth) — server-renders paginated list of published posts (`published_at IS NOT NULL`), sorted by `published_at DESC`; each card: title, author handle + avatar, date, tags, 200-char excerpt; Open Graph meta tags in `<head>`
+- [ ] T254 Add `GET /blog/:slug` route (public) — server-renders full post markdown as HTML via a markdown parser (`marked`); Open Graph + Twitter Card meta tags; no comments section; footer CTA: "Respond with a Claim on judgmental.io" → links to `/compose?context=blog&source=<slug>`
+- [ ] T255 Add `GET /admin/blog` (requireBlogAuthor) — paginated list of all posts (drafts + published) with edit links
+- [ ] T256 Add `GET /admin/blog/new` and `GET /admin/blog/:id/edit` (requireBlogAuthor) — markdown editor using a plain `<textarea>` with tab-key indent support; fields: title, slug (auto-generated from title, editable), cover_image_url, tags (comma list), body; Preview button renders markdown in-page; Save Draft / Publish buttons
+- [ ] T257 Add `POST /api/blog/posts` and `PATCH /api/blog/posts/:id` (requireBlogAuthor) — create/update post; `published_at` is set to `now` when `{ publish: true }` is passed and was previously null; validates non-empty title and body; slug uniqueness enforced
+- [ ] T258 Create `src/server/middleware/require-blog-author.js` — checks `person.is_blog_author OR person.is_super_admin`; returns 403 otherwise
+- [ ] T259 Wire Plausible `jdg:blog_post_viewed` event on `/blog/:slug` page load (no GA4 on blog pages)
+
+**Checkpoint**: Judgy Blog live. Posts creatable and publishable from admin console. Public read. No bot annotations.
+
+---
+
+## Phase 31: Open-Spec Public Surface (FR-247 – FR-250)
+
+**Goal**: Spec documents readable by anyone at `/open-spec`. Section-level anchor links. "Suggest improvement" and "Report problem" links to GitHub Issues. Constitutional Duel mechanic spec'd.
+
+**Independent Test**: Unauthenticated user visits `/open-spec` → index lists all documents; `/open-spec/spec` → spec.md rendered as HTML with anchor links; "Suggest improvement" on any section → GitHub Issue URL opens with pre-filled body.
+
+- [ ] T260 Add `GET /open-spec` route (public) — server-renders index page listing all spec documents: spec.md, data-model.md, plan.md, constitution.md; each shows title, last-amended date (from git metadata or hardcoded), and link to `/open-spec/:doc`
+- [ ] T261 Add `GET /open-spec/:doc` route (public) — reads the corresponding `.md` file from `specs/001-better-dispute-app/` and the constitution from `.specify/memory/`; renders as HTML via `marked`; injects `id` anchors on every `<h2>`, `<h3>`, `<h4>` heading; adds "Suggest improvement" and "Report problem" links after each heading as icon-only links (`✏` and `⚑`); links open pre-filled GitHub Issue URLs with `title=Suggestion: <section>` and `body=Document: <doc>\nSection: <heading>\n\n<!-- Describe your suggestion or problem here -->`
+- [ ] T262 Add `GET /admin/spec` route (requireSuperAdmin) — same rendering as `/open-spec/:doc` but with inline edit buttons on each section that open the admin spec editor; includes SpecKit agent invocation UI placeholder (deferred implementation)
+- [ ] T263 Document Constitutional Duel procedure in `quickstart.md`: how to file a Constitutional Duel, what constitutes a `verified_judge` role, how the super_admin accepts or overrides a Constitutional Duel verdict
+
+**Checkpoint**: Open-spec public surface live. Section anchors and GitHub Issue links working. Admin spec view gated to super_admin.
 
