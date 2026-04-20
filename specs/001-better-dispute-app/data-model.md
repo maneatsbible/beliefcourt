@@ -19,7 +19,8 @@ Claim                          ← root; the statement being disputed
            ├── Offer            ← parallel: propose resolution (non-blocking)
            ├── Response         ← parallel: accept/reject an Offer
            ├── Disposition      ← terminal state of the Duel
-           ├── Moment           ← annotation on any Record (post-turn)
+           ├── Moment           ← temporal span on a Duel (not a Record)
+           │    └── Annotation  ← comment within a Moment (GalleryBot or human)
            ├── Analysis         ← post-Disposition; references Moments
            └── Judgment         ← verdict on Duel, grounded in BaseOfTruth
 ```
@@ -53,12 +54,12 @@ Represents an authenticated user (SM OAuth — X, Threads, Bluesky, or GitHub).
 | `id` | `integer` | DB auto-increment | Globally unique, immutable |
 | `name` | `string` | SM handle prefixed `@` | e.g., `@alice` |
 | `profilePicUrl` | `string` | SM OAuth `picture` | Display only |
-| `isStrawman` | `boolean` | Derived | `true` if this is the system-level @strawman account |
+| `isHerald` | `boolean` | Derived | `true` if this is the system-level @herald account |
 | `isAi` | `boolean` | Set at registration | `true` if this Person is an AI persona (bot account) |
 | `aiModel` | `string \| null` | Set at registration | The model identifier if `isAi` is true (e.g. `"gpt-4o"`) |
 | `linkedPlatforms` | `string[]` | linked_identities table | All SM platforms this person has linked |
 
-**Special instance — @strawman**: A placeholder identity used to import external content for immediate disputation. When you quote something from the internet (a tweet, an article, a public statement), you submit it as a Claim attributed to @strawman. A Challenge against that Claim is submitted simultaneously, summoning the original author. If and when the original author arrives and authenticates, they can claim ownership of the @strawman Claim, replacing @strawman with their own Person record. @strawman is not a persona; it is a beacon.
+**Special instance — @herald**: A placeholder identity used to import external content for immediate disputation. When you quote something from the internet (a tweet, an article, a public statement), you submit it as a Claim attributed to @herald. A Challenge against that Claim is submitted simultaneously, summoning the original author. If and when the original author arrives and authenticates, they can claim ownership of the @herald Claim, replacing @herald with their own Person record. @herald is not a persona; it is a beacon. @herald is permanently reserved as a system handle — it is unavailable in the Person namespace and is neither a Person nor a Bot while unclaimed.
 
 **Person constraints**:
 - A Person MUST NOT challenge their own Record.
@@ -76,23 +77,23 @@ The base of all user-created content. Every Record is a row in the `records` tab
 | `id` | `integer` | DB auto-increment | Globally unique |
 | `type` | `enum` | DB column | `"claim"`, `"challenge"`, `"answer"`, `"offer"`, `"response"` |
 | `authorId` | `integer` | DB foreign key | Person who created the Record |
-| `strawmanClaimId` | `integer \| null` | DB column | Set when @strawman is replaced by the real author; points to original Claim id |
+| `heraldClaimId` | `integer \| null` | DB column | Set when @herald is replaced by the real author; points to original Claim id |
 | `parentId` | `integer \| null` | DB column | Parent Record id; `null` for root Claims |
 | `caseId` | `integer \| null` | DB column | The nearest ancestor Claim or challenged Record that is the subject of this Record's Case |
 | `text` | `string \| null` | DB column | Optional for non-Claim records |
 | `imageUrl` | `string \| null` | DB column | Path or URL of attached image |
-| `sourceUrl` | `string \| null` | DB column | Original URL when Claim was imported via @strawman |
+| `sourceUrl` | `string \| null` | DB column | Original URL when Claim was imported via @herald |
 | `isAi` | `boolean` | DB column | `true` if entirely AI-generated |
 | `aiModel` | `string \| null` | DB column | AI model identifier if `isAi=true` or AI-assisted; e.g. `"gpt-4o"` |
 | `aiAssisted` | `boolean` | DB column | `true` if human-authored but substantially AI-assisted |
 | `createdAt` | `ISO8601` | DB `created_at` | |
 | `authorId` | `number` | GitHub issue `user.id` | Person who created the Issue |
-| `strawmanClaimId` | `number \| null` | `JDG:META.strawmanClaimId` | Set when @strawman is replaced by the real author; points to original Claim id |
+| `heraldClaimId` | `number \| null` | `JDG:META.heraldClaimId` | Set when @herald is replaced by the real author; points to original Claim id |
 | `parentId` | `number \| null` | `JDG:META.parentId` | Parent Record id; `null` for root Claims |
 | `caseId` | `number \| null` | `JDG:META.caseId` | The nearest ancestor Claim or challenged Record that is the subject of this Record's Case |
 | `text` | `string \| null` | Issue body (after meta block) | Optional for non-Claim records |
 | `imageUrl` | `string \| null` | `JDG:META.imageUrl` | GitHub issue attachment URL |
-| `sourceUrl` | `string \| null` | `JDG:META.sourceUrl` | Original URL when Claim was imported via @strawman |
+| `sourceUrl` | `string \| null` | `JDG:META.sourceUrl` | Original URL when Claim was imported via @herald |
 | `createdAt` | `ISO8601` | GitHub `created_at` | |
 
 **Validation rules**:
@@ -108,7 +109,7 @@ The root statement being disputed. What people agree or disagree with. The subje
 
 | Field | Type | Notes |
 |-------|------|-------|
-| `isStrawmanPlaceholder` | `boolean` | `true` while attributed to @strawman pending the real author's arrival |
+| `isHeraldPlaceholder` | `boolean` | `true` while attributed to @herald pending the real author's arrival |
 | `originalAuthorHandle` | `string \| null` | The attributed author's handle (e.g. `@realuser` on another platform) when imported |
 
 **State** (derived from child Cases and Accords):
@@ -338,17 +339,36 @@ Records that a Person has agreed with a Claim without a Duel — a standing agre
 
 ### Moment
 
-A timed annotation on any Record, attached during or after a Duel. Referenced in Analysis.
+A temporal span on a Duel — a named window of time marking a significant passage in the exchange. A Moment is **not a Record**: it is not attributed to a Person as an epistemic act, it is not challengeable, and it does not appear in the Belief Ledger. Moments are referenced in Analysis.
 
 | Field | Type | Notes |
 |-------|------|-------|
-| `id` | `number` | GitHub issue number |
-| `subjectRecordId` | `number` | The Record this Moment annotates |
-| `duelId` | `number` | The Duel context |
-| `authorId` | `number` | |
-| `type` | `enum` | `"annotation"` (user-authored) or `"stale_notice"` (system-generated by stale-duel cron) |
-| `text` | `string` | The annotation |
+| `id` | `integer` | DB auto-increment |
+| `duelId` | `integer` | The Duel this Moment belongs to |
+| `label` | `string` | A descriptive label for the span (e.g., "Opening exchange", "Evidence phase") |
+| `startRecordId` | `integer` | The Record that opens this Moment |
+| `endRecordId` | `integer \| null` | The Record that closes this Moment; `null` = open |
 | `createdAt` | `ISO8601` | |
+
+---
+
+### Annotation
+
+A comment posted within a Moment — by a human or by GalleryBot. An Annotation is **not a Record**: it does not appear in the Belief Ledger, is not attributed as an epistemic act, and is not challengeable. GalleryBot Annotations are visually distinct from human Annotations and carry a `[GalleryBot]` badge.
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `id` | `integer` | DB auto-increment |
+| `momentId` | `integer` | The Moment this Annotation belongs to |
+| `authorId` | `integer \| null` | Person who posted it; `null` if posted by a system Bot |
+| `botId` | `integer \| null` | Bot that posted it (e.g., GalleryBot); `null` if human |
+| `text` | `string` | The annotation text |
+| `createdAt` | `ISO8601` | |
+
+**Constraints**:
+- Exactly one of `authorId` or `botId` MUST be non-null.
+- An Annotation MUST NOT be considered a Belief Ledger entry — it is commentary on the Duel, not a worldview act.
+- GalleryBot Annotations are not challengeable. A human Annotation is also not challengeable (Annotations are not Records).
 
 ---
 

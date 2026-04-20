@@ -39,15 +39,16 @@ This need exists across every context where humans disagree:
 - **Workplace** — decisions, apologies, accountability
 - **Historical** — re-trying famous disputes with new evidence and the same structured mechanic
 
-Every one of these contexts is the same product. The mechanic doesn’t change. The context framing does. This is the structural advantage: one engine, built once, deployable to every domain where people need judgment.
+One engine. Every context. The mechanic doesn't change. The framing does.
 
 ---
 
 ## Why This, Why Now
 
-- Dating apps are broken in a specific way: they optimize for matches, not compatibility. "Swipe right" selects for photos. judgmental.io selects for positions. How someone argues what they believe is a far stronger compatibility signal than any profile photo or questionnaire.
+- Dating apps optimize for matches, not compatibility. "Swipe right" selects for photos. judgmental.io selects for positions. How someone argues what they believe is a far stronger compatibility signal than any profile photo or questionnaire.
 - The Christian dating market is large, underserved, and enormously word-of-mouth driven. A platform that treats Christian courtship with actual theological seriousness — not just a "faith" checkbox — has no direct competitor.
 - Every Duel is shareable content. Every Score Card is a watermarked referral. The product markets itself every time two people use it.
+- AI bots are a $50B+ problem for social platforms. judgmental.io is the first platform to solve it architecturally rather than reactively — and to convert it into a revenue stream.
 
 ---
 
@@ -57,15 +58,15 @@ Every one of these contexts is the same product. The mechanic doesn’t change. 
 
 **Hook**: "Duel me on this before we go further."
 
-This is the compatibility game the dating world has never had. Two people stake out positions on the things that actually matter — values, deal-breakers, standards, beliefs — and argue them through a structured mechanic, on the record. But it goes further than two: friends and family can be invited into the Duel as **Judges** — watching the exchange, submitting Analysis, casting weighted votes on who made the stronger case and whether the relationship has legs. Your best friend thinks he's wrong for you. He thinks differently. Now they can argue it publicly while you watch.
+Two people stake out positions on the things that actually matter — values, deal-breakers, standards, beliefs — and argue them through a structured mechanic, on the record. Friends and family join as **Judges**: watching the exchange, submitting Analysis, casting weighted votes on who made the stronger case and whether the relationship has legs. Your best friend thinks he's wrong for you. He thinks differently. Now they argue it publicly while you watch — and their judgment is on the record.
 
 The Score Card is the output — a shareable compatibility record covering every contested position. The Verdict is rendered. The record is permanent. And everyone who watched has a stake in it.
 
-This is not a questionnaire. It is not a compatibility quiz. It is the only platform where the people who know you best can be brought into the room — and their judgment counts.
+This is not a questionnaire. It is not a compatibility quiz. It is the only platform in existence where the people who know you best can be brought into the room — and their judgment counts.
 
-**Viral mechanic**: Single-URL invite link sent to any match on any platform. No account to read; account to respond. Score Card and Judge verdicts shared publicly after every Duel. Friends and family share because they were *in it*.
+**Viral mechanic**: Single-URL invite link. No account to read; account to respond. Score Card and Judge verdicts shared after every Duel. Friends and family share because they were *in it*.
 **Revenue**: Dating+ ($9.99/month), Dating Boost ($2.99 per use), Compatibility Unlock ($1.99 per pair).
-**K-factor target by Month 4**: 1.0–1.4 (viral)
+**K-factor target by Month 4**: 1.0–1.4
 
 ### Engine 2 — Christian Faith
 
@@ -99,13 +100,15 @@ All revenue is subscription and micro-transaction. No passive advertising. No ba
 | Compatibility Unlock ($1.99/pair) | $1,000–$3,000 |
 | Parenting+ ($7.99/mo) | $1,000–$4,000 |
 | Neighborhood+ ($6.99/mo) | $1,000–$4,000 |
+| AdvisorBot — Advisory ($9.99/mo) | $2,000–$6,000 |
+| AdvisorBot — Power of Attorney ($29.99/mo) | $1,500–$5,000 |
 | Non-church Org subscriptions | $600–$1,500 |
 | Non-church Org placement | $400–$1,200 |
 | Brand Claim placement ($39–$99/mo per Claim) | $1,500–$5,000 |
 | Verdict Data API | $500–$2,000 |
-| **Total** | **$19,000–$45,700/month** |
+| **Total** | **$23,000–$58,700/month** |
 
-**Assumptions**: 10,000–25,000 active users by Month 6. 12–18% conversion to any paid tier. Micro-transaction layer (Boosts and Unlocks) adds revenue without requiring subscription commitment.
+**Assumptions**: 10,000–25,000 active users by Month 6. 12–18% conversion to any paid tier. AdvisorBot tiers assume 3–5% of active users at Month 6 — a conservative early-adopter rate for a genuinely novel product.
 
 ---
 
@@ -113,13 +116,13 @@ All revenue is subscription and micro-transaction. No passive advertising. No ba
 
 | Year | Est. MAU | MRR | ARR |
 |---|---|---|---|
-| Y1 | 25,000 | $35,000 | $420,000 |
-| Y2 | 80,000 | $110,000 | $1.3M |
-| Y3 | 200,000 | $280,000 | $3.4M |
-| Y4 | 450,000 | $620,000 | $7.4M |
-| Y5 | 900,000 | $1.2M | $14.4M |
+| Y1 | 25,000 | $40,000 | $480,000 |
+| Y2 | 80,000 | $130,000 | $1.6M |
+| Y3 | 200,000 | $340,000 | $4.1M |
+| Y4 | 450,000 | $750,000 | $9.0M |
+| Y5 | 900,000 | $1.5M | $18.0M |
 
-These are conservative. The Christian dating market alone (estimated 30M+ US Christian singles) represents a TAM that makes the Y3–Y5 numbers modest. The neighborhood channel (every apartment block in every city) is an acquisition surface with no digital equivalent.
+These are conservative. The Christian dating market alone (estimated 30M+ US Christian singles) makes the Y3–Y5 numbers modest. The AdvisorBot tiers — particularly Power of Attorney — have no comparable product anywhere. The neighborhood channel acquires users with no algorithm, no ad spend, and no decay.
 
 ---
 
@@ -133,10 +136,12 @@ Infrastructure: SQLite + Litestream on Fly.io. No database bill. No CDN bill. No
 
 ## The Moat
 
-1. **The record is the product.** Every resolved Duel is a permanent public artifact. The more Duels exist, the more valuable the network. Data compounds.
-2. **Switching cost is identity.** Your Duel history, your compatibility scores, your faith positions on record — they live here. You don't leave.
-3. **The Christian community does not switch tools.** Once a church uses the Discipline process or a pastor uses Accountability, the relationship history, the precedents, the records — they stay forever.
-4. **The physical channel.** The neighborhood QR flyer acquires users with no algorithm, no ad spend, and no decay. A flyer on a bulletin board keeps converting for months.
+1. **The Belief Ledger is irreplaceable.** Every resolved Duel is a permanent public artifact attributed to the People who filed it. Network value compounds with every interaction. You cannot copy the ledger without copying the people.
+2. **Switching cost is identity.** Your Duel history, your compatibility scores, your faith positions, your Worldview — they live here. Your AdvisorBot is trained on your Ledger. You don't leave.
+3. **The bot solution is structural.** Every other platform fights bots reactively. judgmental.io has made bots legible, first-class, and commercially productive — while keeping the Person namespace human. There is no equivalent architecture anywhere.
+4. **The Christian community does not switch tools.** Once a church runs a Discipline process or a pastor uses Accountability, the records stay forever. Institutional credibility compounds quietly.
+5. **The physical channel.** The neighborhood QR flyer acquires users with zero algorithm, zero ad spend, and zero decay. A flyer on a bulletin board keeps converting for months.
+6. **No equivalent exists.** Not for the Worldview Explorer. Not for the bot ecosystem. Not for the friends-and-family judging mechanic. Not for the full Christian faith arc from belief formation to Church Discipline. The competitive landscape is social media on one side and generic debate apps on the other. This is neither.
 
 ---
 

@@ -196,6 +196,42 @@ No AI system MAY participate in the Worldview Engine stack in any way that creat
 
 **Rationale**: The Belief Ledger records what people actually believe, as demonstrated by what they have actually done — filed, contested, agreed to, withdrawn. If AI can write to it, or if AI-generated content can be attributed to a Person as their worldview, the Ledger no longer records what the Person believes. It records what a model thought they probably believe. That corrupts the foundational premise of the platform: that truth is real, that people are capable of holding and defending genuine convictions, and that the record of those convictions is worth keeping. This principle is non-negotiable and has no exceptions.
 
+---
+
+## Principle X — Bot Namespace and Disclosure
+
+The Bot namespace is completely separate from the Person namespace. A Person is always a human authenticated via SM OAuth. A Bot is never a Person, and a Person is never a Bot. No handle in the Person namespace may be assigned to a Bot, and no Bot may acquire or inherit a Person identity.
+
+**Namespace rules:**
+
+- **Person namespace** — All authenticated SM OAuth users. Unique `@name` derived from SM handle. Must be human. The constraint is absolute: if an account is a Bot, it MUST NOT have a Person record.
+- **Bot namespace** — All automated agents on the platform: AnalyticsBot, GalleryBot, AdvisorBot. Stored separately from Person records. Display names carry a visual badge system to distinguish them from Persons at the point of display.
+- **@herald** — A reserved system handle that is neither Person nor Bot while unclaimed. @herald is the placeholder identity for imported external content. It is permanently reserved and unavailable in the Person namespace. When the real author authenticates and claims their imported Claim, @herald is replaced by their Person record. @herald yields to the real author; it does not accumulate a worldview of its own.
+
+**System bots:**
+
+- **AnalyticsBot** — System-level. Read-only access to the Belief Ledger. MUST NOT write to the Ledger or attribute inferred beliefs to any Person. Operates at the platform level only.
+- **GalleryBot** — System-level. Posts Annotations within Moments on Duels. Annotations are NOT Records: they are not Belief Ledger entries, are not attributed as epistemic acts, and are not challengeable. GalleryBot posts carry the `[GalleryBot]` badge.
+
+**Personal bots (AdvisorBot):**
+
+- **AdvisorBot — Advisory ($9.99/month)** — Hired by a Person to advise on turn strategy. Advises; does not act. All Records filed remain attributed to the Person who filed them. Advised Records display `[AdvisorBot-advised]`.
+- **AdvisorBot — Power of Attorney ($29.99/month)** — Hired by a Person to act under their authority. May file Records attributed to that Person. All such Records carry `[via AdvisorBot]`. Person retains full accountability for every Record filed under PoA. Bot-v-bot Duels under PoA are permitted; post-mortem Judgment by human Judges applies.
+- **AdvisorBot — Worldview Summary** — Included with Advisory and PoA. Read-only summarization of the Person's Belief Ledger for their own use. MUST NOT write to the Ledger.
+
+**Disclosure badge system:**
+
+| Badge | Meaning |
+|-------|---------|
+| `[AI-assisted]` | Record filed with AI assistance; Person confirmed and submitted |
+| `[AdvisorBot-advised]` | Person acted on AdvisorBot suggestion; Person filed |
+| `[via AdvisorBot]` | AdvisorBot filed under Person's Power of Attorney |
+| `[GalleryBot]` | GalleryBot Annotation within a Moment; not a Record |
+
+Duel-level disclosure MUST appear in the Case View header whenever either Duel party used AdvisorBot in any capacity during that Duel.
+
+**Rationale**: The platform's epistemic integrity rests on the identity of the Person behind every Record. Bots cannot hold worldviews, cannot accumulate Belief Ledger entries in their own right, and cannot be confused with Persons. Where AI acts, it must be labelled. Where a Person acts with AI assistance, they remain the accountable author. The badge system makes this distinction visible at the point of display — not buried in metadata.
+
 ## Quality Gates
 
 The following gates MUST pass before any code may be merged to the main branch:
@@ -230,4 +266,4 @@ This constitution supersedes all other development guidelines and practices with
 
 **Compliance review**: Adherence to this constitution MUST be verified during each sprint retrospective and whenever a new team member joins.
 
-**Version**: 2.3.0 | **Ratified**: 2026-04-18 | **Last Amended**: 2026-04-20
+**Version**: 2.4.0 | **Ratified**: 2026-04-18 | **Last Amended**: 2026-04-20

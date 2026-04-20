@@ -89,11 +89,13 @@ Building/Dorm Block tier ($19.99/month): Up to 5 orgs under one account (for a p
 | Dating Unlock (full compatibility reveal) | $1,000–$3,000 |
 | Parenting+ subscriptions | $1,000–$4,000 |
 | Neighborhood+ / Building tier | $1,000–$4,000 |
+| AdvisorBot — Advisory ($9.99/mo) | $2,000–$6,000 |
+| AdvisorBot — Power of Attorney ($29.99/mo) | $1,500–$5,000 |
 | Non-church Org subscriptions (Standard/Pro) | $600–$1,500 |
 | Non-church Org placement | $400–$1,200 |
 | Brand Claim placement (Standard/Pro) | $1,500–$5,000 |
 | Verdict Data API | $500–$2,000 |
-| **Total** | **$19,000–$45,700/month** |
+| **Total** | **$23,000–$58,700/month** |
 
 ---
 
