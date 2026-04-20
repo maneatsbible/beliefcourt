@@ -58,9 +58,11 @@ All revenue is subscription and micro-transaction. No advertising. No org placem
 | Compatibility Unlock ($1.99/pair) | $1,000–$3,000 |
 | Parenting+ ($7.99/mo) | $1,000–$4,000 |
 | Neighbourhood+ ($6.99/mo) | $1,000–$4,000 |
+| Non-church Org subscriptions | $600–$1,500 |
+| Non-church Org placement | $400–$1,200 |
 | Verdict Data API | $500–$2,000 |
 | Duel Coach AI ($4.99/mo) | $500–$2,000 |
-| **Total** | **$17,500–$40,000/month** |
+| **Total** | **$18,000–$42,700/month** |
 
 **Assumptions**: 10,000–25,000 active users by Month 6. 12–18% conversion to any paid tier. Micro-transaction layer (Boosts and Unlocks) adds revenue without requiring subscription commitment.
 

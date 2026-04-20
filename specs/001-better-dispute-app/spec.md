@@ -748,7 +748,86 @@ Neighbourhood Mode is for people who share a physical space and need to resolve 
 - **FR-181** (**Neighbourhood feed and discovery**): A public **Neighbourhood** feed section surfaces anonymised community policies that have reached accord across all neighbourhood orgs (with org identity and individual identities hidden). This feed shows what rules real communities have agreed on — "Most agreed-upon noise policy in apartment buildings this month" — and functions as a discovery and persuasion surface: a convenor can share a link to a popular policy in their own org before filing it, showing their neighbours "others have agreed to this". The feed never exposes member identities, addresses, or org names.
 
 - **FR-182** (**Neighbour Dispute resolution arc**): A `context=neighbour_dispute` Duel follows a specific resolution arc distinct from standard Duels: (1) the filing party states the issue and proposed resolution; (2) the respondent may accept (producing an `accord`), contest (standard turn sequence), or escalate to the convenor for mediated Assessment; (3) if the convenor is invoked, they file an Analysis and may propose a binding Community Policy. The UI frames the arc in restorative language — "resolve between yourselves first; bring others in only if needed." The Disposition options are: `accord` (resolved between parties), `community_policy` (escalated to a policy vote), `unresolved` (on the record, no outcome), or `referred` (handed to a property manager or external body).
-**Open API**
+
+**Organizations — Core Data Model and Features**
+
+Orgs are the shared-workspace layer of the platform. They scope membership, access, roles, Duel visibility, and subscription billing. Every org type shares the same underlying data model with type-specific extensions. No org type is a second-class feature — all are first-release.
+
+- **FR-183** (**Org entity**): The `Org` entity MUST have: `id`, `name` (string, required), `slug` (unique, URL-safe, used at `/orgs/:slug`), `type` (enum: `church`, `small_group`, `neighbourhood`, `team`, `debate_club`, `legal`, `education`), `description` (text, optional), `is_private` (boolean, default `true`), `created_by` (Person FK), `created_at`, `updated_at`, `subscription_tier` (enum: `free`, `standard`, `pro`), `subscription_status` (enum: `active`, `trialling`, `lapsed`, `cancelled`), `member_count` (computed), and `placement_eligible` (boolean — see FR-195). An Org MAY have an optional `logo_url` and `banner_url` for org profile pages.
+
+- **FR-184** (**Org types and their purposes**): The following org types are supported at launch:
+  - `church` or `small_group` — faith community; Church Discipline, Discernment, Accountability contexts available; `elder` role available; **placement_eligible = false** (no paid placement in any feed).
+  - `neighbourhood` — residential community; Neighbour Dispute, Community Policy, Community Vote contexts available; `convenor` role; QR flyer generation available.
+  - `team` — workplace or project team; `context=decision` and `context=apology` Duels available; standard role model; placement in the General Orgs discovery feed available.
+  - `debate_club` — educational or competitive debate group; public Duel output encouraged; leaderboard and analytics emphasis; placement in the Debate Clubs discovery feed available.
+  - `legal` — legal teams, law firms, mediation groups. Private by default, locked. `context=apology` and standard Duels. No public feed placement. Org API key available at Standard tier.
+  - `education` — university departments, school classes, research groups. Standard Duel contexts plus read-only student role. Placement in Education discovery feed available.
+
+- **FR-185** (**Org roles**): Every org has a role hierarchy. Universal roles (all org types):
+  - `member` — can file Duels, submit Analysis, and vote within the org workspace
+  - `moderator` — can close Duels, remove members, and resolve flags
+  - `admin` — full control: edit org settings, manage roles, manage subscription, issue API keys
+  - `guest` — read-only; can view Duels and Policy Documents but not participate
+  
+  Type-specific additional roles:
+  - `church` / `small_group`: `elder` — above `moderator`, below `admin`. May initiate Church Discipline, file Community Discernment Duels, and approve Accountability Partnerships.
+  - `neighbourhood`: `convenor` — equivalent to `admin` for neighbourhood orgs; elected by `member` vote after initial creator tenure.
+  - `legal`: `counsel` — above `member`, can file Cases on behalf of org; may invite external parties as non-member participants in a specific Duel.
+
+- **FR-186** (**Org membership lifecycle**): A Person joins an org via: (a) direct invite link with a `join_token`, (b) QR code scan (neighbourhood type), (c) admin-issued invitation by email or handle, or (d) a public join page if `is_private = false`. When a Person leaves or is removed from an org, their past Duel contributions within the org workspace remain visible to remaining members but are attributed to a `[Former Member]` label. An admin MAY permanently redact a removed member's contributions by explicit action (not automatic). A Person MAY belong to any number of orgs simultaneously.
+
+- **FR-187** (**Org workspace**): Each org has a private workspace at `/orgs/:slug/workspace`. The workspace contains: (1) an Org Feed of all active and resolved Duels scoped to the org, (2) a Members list with roles and join dates, (3) a Policy Documents archive (neighbourhood type), (4) a Duel Templates library (org-specific templates in addition to global templates), (5) an Org Stats panel (total Duels, resolution rate, most active members), and (6) an Org Settings page (admin-only). All workspace content is visible only to org members except where the specific Duel has been explicitly made public by its author.
+
+- **FR-188** (**Org-scoped Duel filing**): A Person who is a member of an org MAY file a Duel scoped to that org. Org-scoped Duels: appear in the org workspace feed, are private to org members by default, may be made public by the filer (subject to org settings — admin can restrict this), inherit the org's available Duel contexts, and may be Judge-panelled from org members only. Standard (non-scoped) Duels filed by org members are not visible in the org workspace unless explicitly cross-posted.
+
+- **FR-189** (**Org Duel templates**): An org admin MAY create custom Duel templates scoped to the org. Custom templates appear first in the template picker for org members. A custom template has: `title`, `description`, `default_claim_text`, `default_counterposition_text`, `suggested_context`, and `tags`. Templates are versioned — an updated template does not alter existing Duels created from it. Global (platform-wide) templates are always available to all org members regardless of org type.
+
+- **FR-190** (**Org moderation**): Within an org workspace, a `moderator`, `elder`, or `admin` MAY: close an active Duel (creating a `moderator_closed` Disposition), flag a Duel for admin review, warn a member, temporarily suspend a member from filing (up to 30 days), or permanently remove a member. All moderation actions are logged in an org-only audit trail visible to admins. The platform's global moderation layer sits above org moderation — a globally suspended user cannot participate in any org regardless of role.
+
+- **FR-191** (**Org subscription tiers**): Every org has a subscription tier governing feature access and limits:
+
+  | Feature | Free | Standard ($29/mo) | Pro ($79/mo) |
+  |---|---|---|---|
+  | Members | Up to 15 | Up to 100 | Unlimited |
+  | Active Duels | 5 | 50 | Unlimited |
+  | Custom templates | 0 | 10 | Unlimited |
+  | Org API key | No | Yes (read-only) | Yes (read-write) |
+  | Org analytics | Basic | Full | Full + export |
+  | Guest access | No | Yes | Yes |
+  | QR flyer (neighbourhood) | Yes | Yes | Yes (custom branded) |
+  | Policy Documents (neighbourhood) | 3 | Unlimited | Unlimited |
+  | Placement-eligible | No | Yes (opt-in) | Yes (opt-in) |
+  | Church/small_group type | Free forever | — | — |
+
+  **Church and small_group orgs are free forever at all member counts.** The subscription model does not apply to them — they access all features (unlimited members, unlimited Duels, custom templates, full analytics, Org API key) at no cost. This is a constitutional commitment (Principle VII).
+
+- **FR-192** (**Org billing**): Non-church orgs are billed monthly. Subscription is managed at `/orgs/:slug/settings/billing`. Payment is handled via Stripe. Orgs on the free tier may upgrade at any time. Downgrade takes effect at the end of the current billing period. A `lapsed` subscription reverts the org to free-tier limits without deleting data — existing Duels and Policy Documents remain accessible in read-only mode above the free-tier limit until a member manually archives them or the subscription is renewed. Trial period: 30 days at Standard for all new non-church orgs.
+
+- **FR-193** (**Org API keys**): An org on Standard or Pro tier MAY generate an Org API key. Org API keys are scoped to the org's data only — they cannot read or write other orgs' Duels. A read-only Org API key allows: `GET /api/orgs/:id/duels`, `GET /api/orgs/:id/members`, `GET /api/orgs/:id/policies`. A read-write key additionally allows filing Duels and creating Policy Documents via API. Keys are displayed once at creation, stored as bcrypt hashes server-side, and revocable from the settings page. Rate limit: 1,200 req/min per Org API key.
+
+- **FR-194** (**Org analytics**): Every org has an analytics panel at `/orgs/:slug/analytics`. Basic (free): total Duels, total Dispositions, resolution rate, member activity bar chart. Full (Standard/Pro): breakdown by Duel context, average turns to resolution, most active members ranked, most-disputed topics by tag, monthly trend line, Judge consistency scores for org-panelled Duels. Export (Pro only): all analytics data as CSV or JSON. Church orgs receive the Full tier analytics at no cost.
+
+- **FR-195** (**Org placement — non-church only**): Orgs of type `team`, `debate_club`, and `education` on Standard or Pro tier MAY opt into **Org Placement** — paid feed visibility in the relevant discovery feed. Placement is **not available** to `church`, `small_group`, `legal`, or `neighbourhood` org types.
+
+  Placement mechanics:
+  - A placed org appears in the **Orgs** discovery section at `/discover/orgs`, surfaced to users whose topic interests or Duel history overlap with the org's focus tags.
+  - Placement is **topical, not ranking-based** — orgs are matched to users by tag overlap, not by payment amount. Higher payment does not buy a better position; it buys time in the rotation.
+  - Placement is sold as a time slot: $19.99/month for the Standard discovery rotation (shown to ~500–2,000 relevant users/month based on tag match), $49.99/month for the Pro rotation (shown to the full relevant audience).
+  - Placed orgs MUST have a minimum of 5 completed public Duels visible on their org profile to be eligible. This prevents empty-window placement.
+  - Org placement copy is subject to the same anti-argumentation review as all platform copy (Principle I). An org cannot place with copy that frames membership as "sharpen your argument" — only "share what you believe."
+  - **Church and small_group orgs are explicitly excluded from placement**. Their community growth happens through pastoral recommendation, not commercial feed visibility.
+
+- **FR-196** (**Org public profile**): Every org has a public profile page at `/orgs/:slug` showing: org name, type badge, description, member count, number of completed Duels, most recent public Duels (if any), and a "Request to join" or "Join" button (depending on `is_private`). Private orgs show only name, type, and member count on their public profile — no Duels visible. Church orgs may optionally display their `tradition` tag on their public profile.
+
+- **FR-197** (**Org discovery feed**): A public **Orgs** discovery section at `/discover/orgs` lists placement-eligible orgs that have opted in, filtered by topic tags and org type. Browsable by type: Teams, Debate Clubs, Education. Neighbourhood and Church orgs are NOT listed here — they have their own dedicated feeds (Neighbourhood feed at FR-181; Christian community is word-of-mouth only). A user may submit a join request directly from the discovery feed entry.
+
+- **FR-198** (**Org Duel context restrictions by type**): Org admins MAY restrict which Duel contexts are available to members within the org workspace. This allows, for example, a debate club to restrict to `standard` context only, or a legal org to restrict to `apology` and `standard`. Restriction is set in Org Settings and enforced server-side — a member filing a Duel via API with a disallowed context receives `403 Forbidden` with a descriptive error.
+
+- **FR-199** (**Org transfer and succession**): An org `admin` MAY transfer admin ownership to another member. Transfer requires the recipient to explicitly accept. The outgoing admin is downgraded to `moderator` unless they remove themselves. For `neighbourhood` orgs, the `convenor` role MAY be put to a member vote — a vote opened by the current convenor or by a petition of ≥30% of members. Vote uses the `context=community_vote` Duel mechanic. For `church` orgs, succession is managed by the existing `elder` panel — any elder with `admin` access may promote another elder to admin.
+
+- **FR-200** (**Org deletion and data retention**): An `admin` MAY delete an org. Deletion is a two-step process: (1) admin triggers deletion, (2) a 30-day cooling-off period begins during which the org is locked (no new Duels, no new members) but fully readable by all current members. After 30 days the org is permanently deleted. Policy Documents and completed Duel records are offered as a ZIP export to the admin before deletion completes. If the org has any Duel with `is_public = true`, those public Duels are detached from the org and remain as standalone public records attributed to `[Deleted Org]`.
+
+
 - **FR-114**: All read endpoints (Claims, Cases, Duels, Dispositions, Persons, Analytics views) MUST be accessible to authenticated API-key holders with no rate-limit tier above Researcher.
 - **FR-115**: Write endpoints (create Claim, open Case, submit Analysis) MUST require an active org-tier subscription or a dedicated API key issued by an admin.
 - **FR-116**: API keys MUST be scoped (read-only, read-write) and revocable from the user settings page. Keys MUST be stored as bcrypt hashes server-side; the plaintext is shown only once at creation.

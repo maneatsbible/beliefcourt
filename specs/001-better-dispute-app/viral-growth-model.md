@@ -84,9 +84,11 @@ Building/Dorm Block tier ($19.99/month): Up to 5 orgs under one account (for a p
 | Dating Unlock (full compatibility reveal) | $1,000–$3,000 |
 | Parenting+ subscriptions | $1,000–$4,000 |
 | Neighbourhood+ / Building tier | $1,000–$4,000 |
+| Non-church Org subscriptions (Standard/Pro) | $600–$1,500 |
+| Non-church Org placement (team/debate/education) | $400–$1,200 |
 | Verdict Data API | $500–$2,000 |
 | Duel Coach AI add-on | $500–$2,000 |
-| **Total** | **$17,500–$40,000/month** |
+| **Total** | **$18,000–$42,700/month** |
 
 ---
 
@@ -135,6 +137,25 @@ When two users complete a dating Duel, by default both see a **summary compatibi
 **Target users**: Co-parents navigating shared custody, married couples with recurring parenting disputes, Christian parents who want a faith-informed resolution record.
 
 **Projected MRR at 5,000 parenting users (10% conversion)**: ~$4,000/month.
+
+---
+
+### RS-3 — Church Org Subscription (Free) + Non-Church Org Subscriptions
+
+**Church and small_group orgs are free forever.** No subscription, no placement, no badge-for-hire. Their community growth is pastoral and word-of-mouth only. The Church Discipline process, Community Discernment, and Accountability Partnership contexts are available to them at no cost as a constitutional commitment.
+
+**Non-church orgs** (teams, debate clubs, education, legal) subscribe at Standard ($29/month) or Pro ($79/month). These orgs get: unlimited members (Pro), custom templates, full analytics, read-write Org API keys, and placement eligibility.
+
+**Org Placement** — available to `team`, `debate_club`, and `education` org types only:
+- Standard rotation: $19.99/month — shown to 500–2,000 topically matched users/month
+- Pro rotation: $49.99/month — full relevant audience
+- Placement is tag-matched, not rank-bought. Must have 5+ completed public Duels to be eligible.
+- Church and neighbourhood orgs are **explicitly excluded** from placement.
+
+**Projected MRR**:
+- 20 Standard non-church orgs: ~$600/month subscriptions + ~$200/month placement = ~$800/month
+- 5 Pro non-church orgs: ~$400/month subscriptions + ~$250/month placement = ~$650/month
+- 20 church orgs: $0 (free, by design) — but generate high-retention users who convert to individual paid tiers
 
 ---
 
@@ -235,12 +256,12 @@ The faith engine is seeded privately before public launch. These are endorsers w
 
 **Dating engine in Month 3**:
 - Duel Coach AI add-on launches. Power users subscribe immediately.
-- Score Card Keepsakes first sold — couples post them to Instagram.
+- Duel Coach AI add-on launches — power users subscribe immediately.
 - Estimated K-factor climbs to **0.8–1.1**
 
 **Faith engine in Month 3**:
 - First Church Org subscription sold ($49/month). Church posts verified badge on members' profiles in Christian Dating feed.
-- Second and third church contacts activated.
+- Second and third church contacts activated through word-of-mouth from Month 2 adopter.
 - Parenting template library expands through community contribution.
 
 **Estimated MRR end of Month 3**: ~$1,500–$4,000  
@@ -272,7 +293,7 @@ One of the following triggers the first organic spike:
 > A well-known Christian content creator (podcast, 20k–100k audience) discovers the Christian Dating feed, uses it personally, mentions it.  
 > → 500–3,000 new signups over 2–4 weeks.  
 > → These users have the highest retention rate of any cohort.  
-> → 3–5 new church org subscriptions triggered by the creator mention.
+> → Duel Coach and Christian Match subscriptions convert strongly from this cohort.
 
 > The Church Discipline process is used for the first time in a church of record.  
 > → Not publicised. No viral event. But the pastor tells other pastors.  
@@ -333,7 +354,7 @@ By Month 6, all revenue streams are active. See Full Summary table above. Neighb
 > At Stage 3 (Community Review), the member acknowledges the wrong. The Disposition is Reconciliation.  
 > No one posts it. No Score Card. No share.  
 > But the elder tells two other pastors what happened: "the platform held the process dignified."  
-> 2 church org subscriptions follow within 30 days.
+> Both pastors create accounts and begin using Accountability Partnerships within a week.
 
 ---
 
