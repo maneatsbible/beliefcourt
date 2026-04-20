@@ -11,18 +11,23 @@ judgmental.io is designed to spread through two distinct communities with differ
 ### Engine 1 — Christian Faith
 
 **Emotional trigger**: *The desire to be genuinely known, genuinely challenged, and actually reconciled.*  
-**Social context**: Church community, accountability relationships, Bible study groups, Christian dating, parenting disagreements, church discipline.  
-**Sharing trigger**: Resolution. Someone shares a Duel because it went *somewhere real* — repentance happened, reconciliation was reached, a hard position was defended with scripture-grounded honesty.
+**Social context**: Church community, accountability relationships, Bible study groups, Christian dating, parenting, church discipline.  
+**Sharing trigger**: Resolution and discovery. Someone shares a Duel because it went *somewhere real* — repentance happened, reconciliation was reached, a hard position was defended with scripture-grounded honesty. Or because exploring a passage of Scripture together was itself a blessing worth sharing.
 
-This is not a general faith mode. It is not interfaith dialogue. It is for Bible-following Christians who take dispute, repentance, and reconciliation seriously as practices — not metaphors. The emotional hook is depth of resolution, not entertainment.
+This is not a general faith mode. It is not interfaith dialogue. It is for Bible-following Christians who take Scripture, repentance, and reconciliation seriously as practices — not metaphors. The front door is the Exploring Our Faith context — the Duel as catechism, a way to discover where two people actually stand on what they believe. The emotional hook is both depth of resolution and the joy of exploring faith together.
+
+The viral mechanic for the Christian engine is not conflict — it is blessing. When two Christians work through a passage of Scripture, a doctrinal question, or a faith commitment together in a structured Duel, and it ends well, they want others to experience that. The platform spreads because the process itself is spiritually enriching.
+
+At the close of any Christian context Duel, participants are invited to pray for one another — including for the person they disagreed with. This is not a feature. It is a practice. And it is the most distinctive thing about the platform in this channel.
 
 The Christian community shares through:
 - Personal testimony ("This helped us resolve something we'd been avoiding for years")
+- "We explored this passage together — you should try it" — shared with a small group or Bible study partner
 - Pastor/elder recommendation for accountability and discipline contexts
-- Small group leader introduction for Bible Study Duels
+- Small group leader introduction for Bible Study and Exploring Our Faith Duels
 - Church bulletin / group WhatsApp for Doctrinal Claims and Community Discernment
 - Christian dating match invitation — "Duel me on this before we go further"
-- Parenting co-decision share with a co-parent or trusted third party
+- Parent sharing the Duel record with a trusted elder, counsellor, or spouse
 
 Growth in this channel is slower per share but extremely high in trust and retention. Once a pastor uses the Church Discipline process for a real case, the platform's credibility with church leadership is established permanently.
 
@@ -88,8 +93,7 @@ Building/Dorm Block tier ($19.99/month): Up to 5 orgs under one account (for a p
 | Non-church Org placement | $400–$1,200 |
 | Brand Claim placement (Standard/Pro) | $1,500–$5,000 |
 | Verdict Data API | $500–$2,000 |
-| Duel Coach AI add-on | $500–$2,000 |
-| **Total** | **$19,500–$47,700/month** |
+| **Total** | **$19,000–$45,700/month** |
 
 ---
 
@@ -133,9 +137,9 @@ When two users complete a dating Duel, by default both see a **summary compatibi
 
 ### RS-4 — Parenting Concierge (Premium Parenting)
 
-**Parenting+** ($7.99/month): Unlocks the full Christian parenting template library, elder/counsellor access grants for parenting Duels, private parenting history archive, and AI-assisted turn drafting in `context=parenting` contexts.
+**Parenting+** ($7.99/month): Unlocks the full Christian parenting template library, elder/counsellor access grants for parenting Duels, and private parenting history archive.
 
-**Target users**: Co-parents navigating shared custody, married couples with recurring parenting disputes, Christian parents who want a faith-informed resolution record.
+**Target users**: Parents working through recurring disputes with their children, married couples navigating child-rearing decisions, Christian parents who want a faith-informed resolution record. Co-parenting disputes (between separated parents) are supported as a distinct sub-case.
 
 **Projected MRR at 5,000 parenting users (10% conversion)**: ~$4,000/month.
 
@@ -170,16 +174,6 @@ An anonymized, segmented dataset of Dating Duel outcomes — compatibility distr
 - Research Institutional ($499/month): full dataset access
 
 **Target customers**: Dating apps, relationship researchers, Christian counselling researchers.
-
----
-
-### RS-6 — "Duel Coach" AI Add-on ($4.99/month)
-
-An AI assistant that reviews your Duel turns before submission and gives feedback on whether you're defending your position clearly, not just constructing an argument. It flags if your turn sounds like proof-texting, asks if you've said what you actually believe, and helps you articulate your position without rhetorical construction.
-
-Not a "make your argument stronger" tool. A "say what you actually mean" tool. This distinction matters in the copy.
-
-**Virality mechanic**: Users who use Duel Coach produce noticeably better, more genuine Duel records — which generates better Score Cards — which get shared more.
 
 ---
 
@@ -256,8 +250,7 @@ The faith engine is seeded privately before public launch. These are endorsers w
 > → 60–120 new signups over 2 weeks from a single sermon mention.
 
 **Dating engine in Month 3**:
-- Duel Coach AI add-on launches. Power users subscribe immediately.
-- Duel Coach AI add-on launches — power users subscribe immediately.
+
 - Estimated K-factor climbs to **0.8–1.1**
 
 **Faith engine in Month 3**:
