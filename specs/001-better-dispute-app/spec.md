@@ -200,6 +200,146 @@ Users receive notifications when a Record they own or hold a ClaimAccord on is c
 
 ---
 
+### User Story 9 — New User Onboarding (Priority: P1)
+
+A brand-new user arrives at judgmental.io for the first time. They see the public Home feed unauthenticated, choose a social platform to sign in with, complete OAuth, and land back at the Home feed authenticated. The Miranda acknowledgement card is shown above the composer. They acknowledge it once — it does not reappear.
+
+**Why this priority**: First-time auth state and persistent card are foundational UX that every user encounters. Getting this wrong breaks trust immediately.
+
+**Independent Test**: Fresh browser (no localStorage), sign in via GitHub OAuth → JWT stored → Home feed renders authenticated → Miranda card visible above composer → user acknowledges → card gone → refresh → card still gone.
+
+**Acceptance Scenarios**:
+
+1. **Given** an unauthenticated visitor, **When** they click "Sign in" and select GitHub, **Then** they are redirected to GitHub OAuth, then back to judgmental.io with a valid JWT stored in `localStorage`.
+2. **Given** a newly authenticated user has never acknowledged the Miranda notice, **When** the composer is visible, **Then** the Miranda acknowledgement card is shown above it.
+3. **Given** the user clicks "I understand" on the Miranda card, **Then** `localStorage['jdg:miranda_ack']` is set to `1` and the card is removed from the DOM.
+4. **Given** the user refreshes or reopens the app, **When** `jdg:miranda_ack` is already set, **Then** the Miranda card is NOT shown.
+5. **Given** a returning user with an expired JWT, **When** they reload the app, **Then** they see the unauthenticated Home feed and a "Your session expired — sign in again" notice.
+6. **Given** the user's handle on their chosen platform is already taken by another Person on judgmental.io, **When** they complete OAuth, **Then** the server appends a short unique suffix to disambiguate and returns the resolved `@handle` in the JWT response.
+
+---
+
+### User Story 10 — Rescission (Priority: P3)
+
+An authenticated user wants to publicly withdraw a position they previously posted. They open the Record's overflow menu and choose "Rescind". The Record is immediately marked RESCINDED; the user's defender obligation for that Record ends going forward. Existing Duels continue. The Rescission is itself challengeable.
+
+**Why this priority**: Rescission is a virtue mechanic. It demonstrates intellectual honesty. It must be technically sound to preserve knowledge graph integrity.
+
+**Independent Test**: Person A has a STANDING Claim. Person A rescinds it. The Claim card shows `[RESCINDED]` badge. A pending Duel that was open against it continues. The profile shows a `[Rescinded STANDING]` virtue marker.
+
+**Acceptance Scenarios**:
+
+1. **Given** a Record authored by the current user, **When** they open the overflow menu, **Then** a "Rescind this Record" option is visible (disabled if already rescinded).
+2. **Given** they confirm rescission, **Then** a `rescissions` row is created; the Record card badge changes to `[RESCINDED]`.
+3. **Given** an open Duel exists against the rescinded Record, **Then** the Duel remains open; the defender is no longer obligated to answer new Challenges after the rescission date.
+4. **Given** the rescinded Claim was in STANDING state, **Then** the Person's profile shows a `[Rescinded STANDING]` badge and the Velocity analytics view surfaces the event.
+5. **Given** another user views the rescinded Record, **When** they disagree with the rescission's sincerity, **Then** they can challenge the Rescission itself, opening a nested Case.
+
+---
+
+### User Story 11 — Person Profile and On-the-Record Search (Priority: P3)
+
+Any authenticated user can look up the full public record of any other Person: every Claim, Challenge, Answer, ClaimAccord, Judgment rendered, and Rescission — all filterable.
+
+**Why this priority**: The Miranda principle requires that this information be accessible. It is also the primary research tool before entering a Duel.
+
+**Independent Test**: User A clicks on User B's handle → Person profile opens → tabs: Records, Agreements, Judgments, Rescissions; filter by `type=claim` → only Claims shown.
+
+**Acceptance Scenarios**:
+
+1. **Given** any post card, **When** the user clicks the author handle `@name`, **Then** the Person profile view opens for that author.
+2. **Given** the Person profile is open, **Then** four tabs are shown: All Records, Agreements (ClaimAccords), Judgments Rendered, Rescissions.
+3. **Given** the Records tab, **When** the user applies a type filter, **Then** only Records of that type are shown.
+4. **Given** the Records tab, **When** the user types in the topic search field, **Then** Records containing that text are shown (full-text search).
+5. **Given** the user is unauthenticated, **Then** the Person profile is visible but all "Challenge" and "Agree" interactions are disabled with "Sign in" tooltips.
+
+---
+
+### User Story 12 — Tipping (Priority: P3)
+
+Any authenticated user can send a voluntary tip to any other Person via Stripe. The tip may be attached to a specific Record. The platform takes 0%.
+
+**Why this priority**: Creator support is a documented feature and Stripe integration is a real dependency that blocks verification.
+
+**Independent Test**: Person A clicks Tip on Person B's Claim → Stripe checkout opens → on success `tips` row created → Person B's profile shows tip count.
+
+**Acceptance Scenarios**:
+
+1. **Given** a Record authored by another person, **When** the current user clicks the tip `💰` icon, **Then** a Stripe Checkout session is created and the user is redirected to Stripe.
+2. **Given** the Stripe payment succeeds, **When** the Stripe webhook fires, **Then** a `tips` row is created with `amount_cents`, linking tipper, recipient, and optionally the Record.
+3. **Given** a user attempts to tip their own Record, **Then** the tip button is disabled with tooltip "You can't tip yourself."
+4. **Given** a Stripe webhook is received with an invalid signature, **Then** the server returns 400 and writes nothing.
+5. **Given** a Person's profile is viewed, **Then** a total tip count and amount are visible to the profile owner (authenticated, own profile only).
+
+---
+
+### User Story 13 — Analytics Views (Priority: P3)
+
+Any visitor can browse the 10 public auto-analytics views — Contested Ground, Consensus Clusters, Undefeated Claims, Serial Challengers, Judgment Consistency, Precedent Chains, Graveyard, Velocity, Flip Rate — with no sign-in required.
+
+**Independent Test**: Unauthenticated user navigates to `/analytics/velocity` → sees fastest-growing Claims in last 7 days, no sign-in required, page renders in < 3 s.
+
+**Acceptance Scenarios**:
+
+1. **Given** any visitor, **When** they visit `/analytics`, **Then** they see a navigation list of all 10 views.
+2. **Given** the Undefeated Claims leaderboard, **When** rendered, **Then** Claims are ordered by `ClaimAccords × survived Duels` with the formula shown as a tooltip.
+3. **Given** the "You disagree with N%" hook, **When** an authenticated user views the Home feed, **Then** each Claim card shows the percentage of Persons who hold that ClaimAccord against whom the current user has no ClaimAccord (approximated from the agreeers set).
+4. **Given** the Velocity view, **When** a STANDING Claim is rescinded, **Then** the event appears in the Velocity feed with a `[Rescinded STANDING]` marker.
+
+---
+
+### User Story 14 — Moderation (Priority: P2)
+
+An authenticated moderator or admin can view the moderation flag queue, review flagged Records, and resolve flags. Only admins can ban a Person.
+
+**Independent Test**: Moderator visits `/admin/flags` → sees unresolved flag list → resolves a flag → flag disappears from queue. Non-moderator visits `/admin` → 403.
+
+**Acceptance Scenarios**:
+
+1. **Given** an authenticated user sees a harmful Record, **When** they select "Flag" in the overflow menu and submit a reason, **Then** a `moderation_flags` row is created.
+2. **Given** a moderator views `/admin/flags`, **Then** they see Record preview, flagger handle, reason, and timestamp for each unresolved flag.
+3. **Given** the moderator clicks Resolve, **Then** the flag is marked resolved and removed from the queue.
+4. **Given** an admin resolves a flag with "Ban author" action, **Then** `persons.banned_at` is set and subsequent write attempts by that person return `403 {"error":"banned"}`.
+5. **Given** a banned user attempts to submit a Claim, **Then** the API returns `403 {"error":"banned"}` and the client shows a clear "Your account has been suspended" message.
+6. **Given** a non-admin, non-moderator accesses `/admin`, **Then** they receive a `403` response page.
+
+---
+
+### User Story 15 — Deployment and Migration (Priority: P1 — Operator)
+
+The operator needs repeatable, safe deployment: run migrations before traffic, toggle maintenance mode during schema changes, and restore from Litestream backup if the volume is lost.
+
+**Why this priority**: This is an operational blocker. Without a safe deploy path, every schema change is a risk.
+
+**Independent Test**: `fly deploy` → container starts → `db/migrate.js` runs → `/health` returns 200 → traffic resumes. Run `fly deploy` twice → migrations are idempotent, no duplicate runs.
+
+**Acceptance Scenarios**:
+
+1. **Given** a new `*.sql` migration file is added, **When** `fly deploy` completes, **Then** `db/migrate.js` runs it exactly once and records it in `schema_migrations`.
+2. **Given** `fly deploy` is run with no new migrations, **Then** `migrate.js` completes immediately with no writes.
+3. **Given** `MAINTENANCE_MODE=true` is set via `fly secrets set`, **Then** all API and HTML routes except `/health` return 503; `/maintenance.html` is served for browser requests.
+4. **Given** the Fly.io volume is lost and must be restored, **When** the operator runs the Litestream restore procedure, **Then** the database is recovered to within 5 minutes of the last write.
+5. **Given** the operator runs `npm run migrate` locally against `DB_PATH=/tmp/test.db`, **Then** all migrations run against the local DB, enabling local dev without a live Fly.io instance.
+
+---
+
+### User Story 16 — Admin Operations (Priority: P2 — Operator)
+
+An admin user manages Persons (role changes, bans), monitors cron job health, and views system health metrics — all from the `/admin` interface without needing a terminal.
+
+**Independent Test**: Admin user visits `/admin/cron` → sees all 7 jobs with last-run status → clicks "Run now" on `analytics_rollup` → new `cron_runs` row created → panel refreshes showing new last-run entry.
+
+**Acceptance Scenarios**:
+
+1. **Given** the admin visits `/admin/users`, **Then** they see a paginated list of Persons with handle, platform, joined date, role, and ban status.
+2. **Given** the admin changes a user's role from `member` to `moderator`, **Then** the `persons.role` is updated and the change is reflected on the next page load.
+3. **Given** the admin bans a user, **Then** `persons.banned_at` is set and the user list shows them as banned immediately.
+4. **Given** the admin visits `/admin/cron`, **Then** each of the 7 jobs shows its last run timestamp and outcome (OK / ERROR with message).
+5. **Given** the admin clicks "Run now" on any job, **Then** the job executes synchronously and the result is shown inline within 10 seconds.
+6. **Given** the admin visits `/admin/health`, **Then** they see DB file size, WAL size, server uptime, memory usage, Litestream last-replicated-at, and rate-limit hit count — all live.
+
+---
+
 ## Platform Philosophy
 
 ### On Truth and Judgment
@@ -519,6 +659,42 @@ The following views are computed from the live database at query time, not store
 - **Storage scalability**: SQLite single-instance handles ~500 concurrent users and ~10k writes/day comfortably. Migration path to Postgres is documented in plan.md.
 - Stripe is the primary tipping provider; Ko-fi link is the fallback. Stripe keys are stored in Fly.io secrets.
 - Plausible Analytics (primary, privacy-first) and Google Analytics 4 (secondary, for ads) are both integrated via `<script>` tag — no build step required.
+
+---
+
+## Implementation Blockers
+
+The following items are known pre-conditions or risks that could block implementation if not resolved before the relevant phase. Each has been assigned a Phase reference.
+
+### B-001 — `better-sqlite3` native addon (blocks Phase 2)
+`better-sqlite3` is a compiled native Node.js addon. The `node:22-alpine` Docker base image does not include build tools (`python3`, `make`, `g++`). **Resolution**: Add `RUN apk add --no-cache python3 make g++` to the Dockerfile before `npm ci`, or switch to `node:22` (Debian-based) as the build stage and use a slim runtime stage. A pre-built binary via `@db0/better-sqlite3-legacy` is an alternative if build toolchain is unwanted.
+
+### B-002 — OAuth redirect URIs must be pre-registered (blocks Phase 4)
+All four OAuth providers (X, Threads, Bluesky, GitHub) require a redirect URI to be registered in their developer consoles before the callback routes will work. X (Twitter) and Threads require app review for production scopes. **Resolution**: Register `https://judgmental.io/auth/<provider>/callback` on each platform before beginning Phase 4. Budget time for X and Threads review processes (can take days). Bluesky ATProto OAuth is currently unstable — may need to use Bluesky App Passwords as a fallback for v1.
+
+### B-003 — Tigris bucket must pre-exist before first deploy (blocks Phase 1)
+Litestream will fail to start if the S3 bucket does not exist. **Resolution**: Create the Tigris bucket via the Fly.io dashboard or `fly storage create` before running `fly deploy`. Document this as step zero in the quickstart runbook.
+
+### B-004 — Fly.io persistent volume must be pre-created (blocks Phase 1)
+`fly.toml` references a volume `jdg_data` but volumes must be created separately via `fly volumes create jdg_data --size 1`. **Resolution**: Add this to the quickstart as a mandatory pre-deploy step. Size should be 3 GB minimum to allow headroom.
+
+### B-005 — Stripe webhook endpoint must be publicly reachable (blocks Phase 16)
+Stripe webhooks cannot be tested against `localhost`. **Resolution**: Use `stripe listen --forward-to localhost:3000/api/tips/webhook` for local dev. In production the `fly deploy` domain must be registered in Stripe's webhook dashboard.
+
+### B-006 — JWT refresh not specced (blocks Phase 4)
+JWTs are issued with 24h expiry. There is no refresh token mechanism. When a JWT expires the user is silently logged out on the next API call. **Resolution**: The auth middleware returns `401` with `{"error":"token_expired"}`. The client intercepts this specific error code and shows a non-blocking "Session expired — tap to sign in again" banner (not a full redirect), preserving compositor state. This must be specced as FR-001a and implemented in Phase 4.
+
+### B-007 — JWT secret rotation procedure not documented (operational risk)
+Rotating `JWT_SECRET` immediately invalidates all active sessions. **Resolution**: Add a `JWT_SECRET_PREV` env var that the auth middleware also accepts during a rotation window. Procedure: set new `JWT_SECRET`, set old value in `JWT_SECRET_PREV`, deploy, wait 25h, clear `JWT_SECRET_PREV`. Document in plan.md runbook.
+
+### B-008 — `node-cron` has no watchdog (operational risk, blocks Phase 27)
+If the Hono server process crashes and is restarted by Fly.io, `node-cron` jobs resume — but any deadline that expired during the downtime will be caught on the next 1-minute tick. For longer downtime (> 30 min) the gap is still acceptable. **Resolution**: The stale-duel reaper partially mitigates this. Add a `cron_runs` integrity check: on server startup, query for any `deadline_conditions` with `deadline_at < now` and no Disposition — process them immediately before the first cron tick.
+
+### B-009 — Bluesky ATProto OAuth complexity (high effort, blocks Phase 4 for Bluesky)
+The Bluesky ATProto OAuth flow requires Dynamic Client Registration per PDS instance, which is significantly more complex than standard OAuth 2.0. **Resolution**: Defer Bluesky OAuth to v1.1. Implement X, GitHub, and Threads for v1. Add a note in the UI that Bluesky sign-in is "coming soon". Tasks T027 should be marked deferred.
+
+### B-010 — `@system` pseudo-person for auto-flags not defined in DB (blocks Phase 27)
+`moderation_flags` has `flagged_by_person_id NOT NULL`. Cron auto-flags (from `db-integrity.js`) need a system actor. **Resolution**: Seed the database with a reserved `persons` row: `id=0, name='@system', is_strawman=false, is_ai=false`. FK constraints must allow id=0 as a valid value. This must be inserted in migration 001 or as a seed step before migration 002.
 
 ---
 

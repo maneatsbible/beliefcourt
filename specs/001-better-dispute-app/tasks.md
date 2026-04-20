@@ -544,6 +544,68 @@
 
 **Checkpoint**: All 7 cron jobs registered and running. Admin interface live at `/admin`. User management, moderation queue, and cron panel all functional.
 
+---
+
+## Phase 28: Blocker Resolution and Gap Closure
+
+**Goal**: Resolve all Implementation Blockers (B-001 through B-010). Close data model and build/deploy gaps identified in the full spec review. Harden the deploy pipeline and add missing `package.json` scripts.
+
+**Independent Test**: `fly deploy` completes cleanly with `better-sqlite3` built; `/health` 200; migrations run once, idempotently; Litestream replicates to Tigris; `npm run migrate` works locally; all 4 OAuth providers have registered redirect URIs (Bluesky deferred per B-009).
+
+### B-001 — Docker build toolchain for `better-sqlite3`
+
+- [ ] T215 Update `Dockerfile`: add `RUN apk add --no-cache python3 make g++ && npm ci --omit=dev` in the build layer; use multi-stage build (`node:22-alpine` builder → `node:22-alpine` runtime) to keep final image small; verify `better-sqlite3` compiles without error on `fly deploy`
+
+### B-002 — OAuth redirect URI registration
+
+- [ ] T216 Register `https://judgmental.io/auth/github/callback` in GitHub OAuth App settings; register X/Twitter OAuth 2.0 app with PKCE; register Threads App with Instagram Graph API; document all four client IDs/secrets as Fly.io secrets in plan.md runbook
+- [ ] T217 Mark T027 (Bluesky OAuth) as deferred per B-009; add "Bluesky — coming soon" label to sign-in options in the UI
+
+### B-003 / B-004 — Pre-deploy infrastructure
+
+- [ ] T218 Add `fly volumes create jdg_data --size 3` and `fly storage create` (Tigris bucket) as documented Step 0 in `quickstart.md`; add a pre-flight check script `scripts/preflight.sh` that verifies `FLY_API_TOKEN`, `JWT_SECRET`, `DB_PATH`, `TIGRIS_BUCKET`, `STRIPE_SECRET_KEY` are all set before deploy
+
+### B-005 — Stripe webhook local dev
+
+- [ ] T219 Add `npm run stripe:listen` script to `package.json` (`stripe listen --forward-to localhost:3000/api/tips/webhook`); document in quickstart under "Tipping setup"; register production webhook URL in Stripe dashboard post-deploy
+
+### B-006 — JWT session expiry UX
+
+- [ ] T220 Add FR-001a to spec.md: auth middleware returns `{"error":"token_expired"}` on JWT expiry (distinct from `"invalid_token"`); client `apiFetch` intercepts this specific code and shows a non-blocking persistent banner "Your session expired — tap to sign in again"; banner appears at bottom of screen above ad strip position; composer draft is NOT cleared
+
+### B-007 — JWT secret rotation procedure
+
+- [ ] T221 Add `JWT_SECRET_PREV` support to `src/server/auth/jwt.js` — `verifyJwt` tries `JWT_SECRET` first, falls back to `JWT_SECRET_PREV`; add rotation procedure to plan.md runbook: (1) set new secret, (2) move old value to `JWT_SECRET_PREV`, (3) deploy, (4) wait 25h, (5) clear `JWT_SECRET_PREV`
+
+### B-008 — On-startup deadline catch-up
+
+- [ ] T222 In `src/server/index.js`, after `registerAll(db)` is called, run a one-time startup sweep: query `deadline_conditions` where `deadline_at < now` and no Disposition exists; call `deadline-checker` logic for each; log count of caught-up deadlines
+
+### B-009 — Bluesky deferred
+
+- [ ] T223 In sign-in UI, show Bluesky option as disabled button with tooltip "Bluesky sign-in — coming soon"; remove T027 from active phase and log it in a `## Deferred` section at the bottom of tasks.md
+
+### B-010 — @system person seed
+
+- [ ] T224 Update migration 001 to insert `@strawman` (id=1) and `@system` (id=2) as the first two rows in the `persons` table immediately after schema creation; both rows have `is_strawman=false`, `is_ai=false`, `role='member'`, `banned_at=NULL`; note that `@strawman`'s semantics are described in the spec — it is a beacon, not a bot
+
+### Data Model Gaps
+
+- [ ] T225 Add `notifications` table to migration 001 (or 002): `id INTEGER PK, person_id INTEGER FK, type TEXT CHECK(type IN ('turn_pending','challenged','accord_reached','stale_duel_nudge')), subject_record_id INTEGER NULL, duel_id INTEGER NULL, read_at DATETIME NULL, created_at DATETIME DEFAULT CURRENT_TIMESTAMP`
+- [ ] T226 Add `maintenance_submissions` table to migration 001: `id INTEGER PK, email TEXT, message TEXT, submitted_at DATETIME DEFAULT CURRENT_TIMESTAMP`
+- [ ] T227 Add `type TEXT DEFAULT 'annotation' CHECK(type IN ('annotation','stale_notice'))` column to `moments` table in migration 001; update stale-duel cron (T200) to set `type='stale_notice'` when creating system moments; update Analysis query to exclude `stale_notice` moments from analyst-facing moment picker
+- [ ] T228 Add `platform_handle TEXT` column to `linked_identities` in migration 001; populate during OAuth upsert with the raw handle from the platform; use this for display in admin user list and Person profile
+- [ ] T229 Update `GET /api/notifications` (T137) to read from `notifications` table with `WHERE person_id=? AND read_at IS NULL`; mark as read by setting `read_at=now` on fetch with `?mark_read=true`; cron jobs and route handlers INSERT notification rows when turns are created or stale duels detected
+
+### Build and Deploy Infrastructure
+
+- [ ] T230 Add `package.json` scripts: `"migrate": "node db/migrate.js"`, `"seed": "node scripts/seed-mock-data.js"`, `"test": "node tests/run-all.js"`, `"stripe:listen": "stripe listen --forward-to localhost:3000/api/tips/webhook"`, `"generate:branding": "node scripts/generate-branding.js"`
+- [ ] T231 Add deploy health-check assertion to `start.sh`: after `db/migrate.js` runs, `curl -sf http://localhost:3000/health` once before allowing Fly.io to route traffic; if it fails, exit 1 (Fly.io will block the deploy and roll back)
+- [ ] T232 Document migration rollback strategy in plan.md: since content tables are append-only, rollback is always a forward patch (migration 004 that undoes structural changes introduced in 003). No `DOWN` migrations. If a bad migration ships, it is fixed by deploying migration `N+1`.
+- [ ] T233 Add `PRAGMA foreign_keys=ON` assertion at DB open time in `db/sqlite.js` to ensure FK constraints are enforced at runtime (SQLite disables them by default)
+
+**Checkpoint**: All 10 blockers resolved or formally deferred. `notifications` table live. `moments.type` discriminated. Deploy pipeline has preflight, health-check gate, and rollback strategy documented. `package.json` scripts in place.
+
 
 
 
