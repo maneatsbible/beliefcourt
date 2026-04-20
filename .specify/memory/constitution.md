@@ -24,6 +24,8 @@ Follow-up TODOs:
 
 ## Founding Declaration
 
+*Where worldviews collide, people open cases to confront the differences, seeking harmony.*
+
 judgmental.io exists because of a conviction drawn directly from biblical faith in Jesus Christ.
 
 The platform is built on the belief that truth is real, that it can be known, and that people made in the image of God are capable of holding and defending genuine convictions — not merely constructing plausible-sounding arguments.

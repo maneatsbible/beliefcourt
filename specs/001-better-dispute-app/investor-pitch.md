@@ -2,6 +2,8 @@
 
 **The structured judgment engine for every domain where people need to reach a real decision — and the game everyone wants to play when the stakes involve love.**
 
+*Where worldviews collide, people open cases to confront the differences, seeking harmony.*
+
 ---
 
 ## What This Is
