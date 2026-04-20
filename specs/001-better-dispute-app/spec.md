@@ -55,6 +55,28 @@
 
 ---
 
+## The Worldview Explorer
+
+judgmental.io is a **Worldview Explorer**. A Person's worldview is not a profile field, a survey result, or an AI-generated summary. It is the composition of all the Records they have produced and all the Accords they have reached — every Claim filed, every Challenge issued, every Answer given, every Offer made, every Rescission posted. The Worldview Explorer is the complete architecture through which those records are stored, structured, and presented.
+
+The architecture maps exactly onto MVC, and the correspondence is not incidental — it is the design:
+
+- **Belief Ledger (Model)** — The SQLite database. Append-only record of every epistemic act: Claims, Challenges, Answers, Offers, Responses, Accords, ClaimAccords, Rescissions, Dispositions, Judgments, Evidence. The Ledger contains only what happened — what a Person actually filed, contested, agreed to, or withdrew. There is no inference layer. There are no implied beliefs. The Ledger is authoritative; it cannot be reconstructed from any other source.
+
+- **Worldview Engine (Controller)** — Derives structure from the Belief Ledger deterministically, without AI. This is where Tradition Map computation lives (Jaccard similarity over `faith_relevant` ClaimAccords), where Compatibility Scores are computed, where the Personal Faith Profile is assembled, where Accord chains are traced, where the Base of Truth is derived. The Engine asks: *given all the Records this Person has produced, what structure emerges?* That structure is not inferred. It is computed. A Tradition Map produced by the Worldview Engine is a faithful derivation of what a Person has actually argued and agreed to — nothing else.
+
+- **Worldview Renderer (View)** — Presents the derived worldview: the public profile, the Tradition Map, the Match Profile, the Exploring Our Faith view, Score Cards, the Personal Faith Profile. The Renderer has no opinions. It shows what the Engine derived from what the Ledger contains.
+
+- **Worldview Explorer (the whole)** — The name for the complete stack taken together as a product concept. Not a feature. Not a section of the app. The architecture *is* the product. Every Duel filed is a Worldview Explorer interaction in whatever domain it occurs — dating, faith, family, neighborhood, workplace, history. The same engine processes all of it.
+
+**Analytics** sits within the Controller layer but is conceptually outside the Worldview Engine. Analytics queries the Belief Ledger directly (SQLite read-only) and may use AI for clustering, pattern detection, and trend analysis across cohorts. It operates at the platform level, not the Person level — it observes population-wide patterns in records that individuals have already made. Analytics MUST NOT write back to the Belief Ledger. The flow is strictly one-way: Belief Ledger → Analytics. Analytics outputs are never written as Records into any Person's Ledger, and no inferred belief is ever attributed to a Person based on analytics.
+
+**Challenges are Belief Ledger entries.** Filing a Challenge is an epistemic act: it asserts that a Record is wrong, unclear, or undefended. That act is attributed to the challenger, stored as a Record in the Belief Ledger, and contributes to their worldview exactly as a Claim or Accord does. A Challenge that is itself challenged produces a nested Record — also in the Ledger, also attributed, also challengeable. This recursion has no floor. Each layer of challenge and answer in a nested Duel is a Record. All of them are in the Belief Ledger. All of them constitute worldview.
+
+**Turn prompts are not Records.** A turn prompt is a question surfaced in the Composer UI to help a party articulate their position before submitting a turn. It is a View-layer element. It produces no Record, has no Ledger entry, is not challengeable, and contributes nothing to anyone's worldview. The text a person *writes in response to* a turn prompt — and submits as a Challenge, Answer, or Offer — is a Record. The prompt itself is not.
+
+---
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 — View Claims and Make a Claim (Priority: P1)

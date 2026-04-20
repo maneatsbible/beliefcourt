@@ -176,6 +176,22 @@ Christian Mode is a first-release feature set built specifically for Bible-follo
 
 **Rationale**: This platform was built by someone with a specific biblical faith. Christian Mode is the most direct expression of that. It should be built with the integrity that conviction requires — seriously, robustly, and without hedging.
 
+### IX. No AI in the Worldview Engine Stack
+
+judgmental.io is a **Worldview Explorer**. A Person's worldview on this platform is the composition of all the Records they have produced and all the Accords they have reached. The architecture that stores, structures, and presents those records is the **Worldview Explorer**, which maps exactly onto MVC: the **Belief Ledger** (Model — SQLite), the **Worldview Engine** (Controller — deterministic derivation), and the **Worldview Renderer** (View — presentation).
+
+No AI system MAY participate in the Worldview Engine stack in any way that creates, modifies, implies, or attributes a Record to a Person.
+
+**Specific prohibitions:**
+
+- AI MUST NOT write to the Belief Ledger. No Record — Claim, Challenge, Answer, Offer, Response, Accord, ClaimAccord, Rescission, Disposition, Judgment — may be authored by an AI system and attributed as the Person's worldview entry.
+- AI MUST NOT read from the Belief Ledger in order to generate a summary, inference, or characterization of a Person's beliefs and present that output as if it were derived from their Records. The Worldview Engine is deterministic and rule-based; it does not use AI.
+- AI MUST NOT generate Tradition Map entries, Faith Profile content, Compatibility Scores, or any other Worldview Renderer output on behalf of a Person.
+- **Turn prompts are the permitted boundary.** A turn prompt is a View-layer question surfaced in the Composer UI to help a party articulate their position. It produces no Record. AI MAY assist in generating turn prompts because a turn prompt is not a Ledger entry — it is a question, not a statement. The distinction is absolute: the prompt is not a worldview act. The turn the Person submits in response to it is.
+- **Analytics is the permitted read path.** Analytics queries the Belief Ledger for population-level pattern analysis and MAY use AI (clustering, trend detection, anomaly detection). Analytics MUST NOT write inferred beliefs back to any Person's Ledger. The flow is strictly one-way: Belief Ledger → Analytics. Never the reverse.
+
+**Rationale**: The Belief Ledger records what people actually believe, as demonstrated by what they have actually done — filed, contested, agreed to, withdrawn. If AI can write to it, or if AI-generated content can be attributed to a Person as their worldview, the Ledger no longer records what the Person believes. It records what a model thought they probably believe. That corrupts the foundational premise of the platform: that truth is real, that people are capable of holding and defending genuine convictions, and that the record of those convictions is worth keeping. This principle is non-negotiable and has no exceptions.
+
 ## Quality Gates
 
 The following gates MUST pass before any code may be merged to the main branch:

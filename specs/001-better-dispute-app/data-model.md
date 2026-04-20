@@ -28,6 +28,20 @@ Any Record (Claim, Challenge, Answer, Offer, Response, SimilarityLink) can itsel
 
 ---
 
+## The Belief Ledger and Worldview
+
+Every entity that extends **Record** is a **Belief Ledger entry**. The Belief Ledger is the append-only SQLite store of all epistemic acts on the platform. Filing a Claim, issuing a Challenge, giving an Answer, making an Offer, reaching an Accord, posting a Rescission — these are all acts attributed to a Person and stored permanently in the Ledger. Together they constitute that Person's **worldview** as it exists on the platform.
+
+**Challenges are first-class Belief Ledger entries.** Issuing a Challenge is not a procedural step in a turn sequence — it is an epistemic act asserting that a Record is wrong, unclear, or undefended. It is attributed to the challenger, stored as a Record, and contributes to their worldview. A Challenge may itself be challenged, opening a nested Case. That nested Challenge is also a Record, also attributed, also challengeable. The recursion is unbounded. Every layer of challenge and answer in any nested Duel is a Record in the Belief Ledger.
+
+**Turn prompts are not Records.** A turn prompt is a question surfaced in the Composer UI to help a party articulate their position. It is a View-layer element only. It produces no Record, has no Ledger entry, is not challengeable, and does not contribute to anyone's worldview. The turn a person submits is a Record. The prompt that preceded it is not.
+
+**Rescissions are append-only.** A Rescission does not delete the original Record. It appends a Rescission Record to the Ledger, releasing the author from the defender obligation on that Record going forward. The original Record is preserved permanently. A Person's worldview history — including positions they have since withdrawn — is always visible. Changing your mind is a worldview act; it belongs in the Ledger.
+
+**Analytics queries the Belief Ledger but never writes to it.** Analytics (AI-assisted or otherwise) reads the Ledger as a source of population-level pattern data. It MUST NOT write inferred beliefs, implied positions, or derived Records back into any Person's Ledger. The Belief Ledger contains only what a Person actually did.
+
+---
+
 ## Entities
 
 ### Person
