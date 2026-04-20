@@ -577,6 +577,12 @@ Home View
 | Exhibit | `exhibits` | `id`, `duel_id`, `evidence_id`, `submitted_by_person_id`, `exhibit_label` |
 | Rescission | `rescissions` | `id`, `record_id`, `author_id`, `reason` |
 | Tip | `tips` | `id`, `from_person_id`, `to_person_id`, `amount_cents`, `subject_record_id` |
+| PersonStats | `person_stats` | `person_id`, `judgment_track_record`, `updated_at` |
+| AnalyticsSnapshot | `analytics_snapshots` | `id`, `bucket_at`, `record_count`, `accord_count`, `duel_count`, `judgment_count`, `tip_volume_cents` |
+| SimilarityCluster | `similarity_clusters` | `record_id`, `cluster_id`, `updated_at` |
+| CronRun | `cron_runs` | `id`, `job_name`, `started_at`, `finished_at`, `status`, `message` |
+| ModerationFlag | `moderation_flags` | `id`, `record_id`, `flagged_by_person_id`, `reason`, `created_at`, `resolved_at`, `resolved_by_person_id` |
+| TipDigest | `tip_digests` | `id`, `person_id`, `date`, `total_cents`, `tip_count` |
 
 ---
 
@@ -584,7 +590,7 @@ Home View
 
 SQLite (WAL mode) on a Fly.io persistent volume is the canonical append-only ledger. All writes go through the Hono API server. Litestream continuously replicates every WAL frame to Tigris (S3-compatible object storage, free on Fly.io) for point-in-time restore.
 
-**Append-only enforcement**: SQLite triggers prevent UPDATE/DELETE on content tables (`records`, `cases`, `duels`, `dispositions`, `accords`, `claim_accords`, `moments`, `analyses`, `judgments`, `similarity_links`, `evidence`, `exhibits`, `rescissions`). Only operational tables (`deadline_conditions.active`, `maintenance_messages`) allow updates.
+**Append-only enforcement**: SQLite triggers prevent UPDATE/DELETE on content tables (`records`, `cases`, `duels`, `dispositions`, `accords`, `claim_accords`, `moments`, `analyses`, `judgments`, `similarity_links`, `evidence`, `exhibits`, `rescissions`). Only operational/cache tables (`deadline_conditions.active`, `maintenance_messages`, `person_stats`, `analytics_snapshots`, `similarity_clusters`, `cron_runs`, `moderation_flags`) allow updates or upserts.
 
 **Known constraints at scale**:
 - Single-writer SQLite means write throughput tops out at ~10k writes/day on a shared-cpu-1x machine.
@@ -616,6 +622,10 @@ These are implemented in the Controller layer. The View reads these — it never
 | `canDeclareDefault(duel)` | DeadlineConditions.active === true AND Date.now() > currentDeadlineIso AND no Disposition yet exists |
 | `canContestDisposition(person, disposition)` | Person is the party ruled against AND disposition.isContested === false |
 | `canLinkSimilarity(person, recordA, recordB)` | Person is authenticated AND recordA ≠ recordB AND no existing SimilarityLink between them by this person |
+| `canAccessAdmin(person)` | `person.role === 'admin'` |
+| `canModerate(person)` | `person.role` is `'admin'` or `'moderator'` |
+| `canChangeRole(person, target)` | `person.role === 'admin'` AND target role transition is `member ↔ moderator` only (admins may not self-promote or demote other admins) |
+| `canBan(person, target)` | `person.role === 'admin'` AND target is not an admin |
 
 ---
 

@@ -490,6 +490,60 @@
 
 **Checkpoint**: Quickstart validated. Phone-first UI confirmed. Project shippable.
 
+---
+
+## Phase 27: Admin, User Management, and Cron Infrastructure
+
+**Goal**: Admin interface at `/admin` (server-rendered, role-gated). User management (paginated list, role change `member↔moderator`, ban/un-ban). Moderation flag queue (user-submitted flags + auto-flags from cron). Cron control panel (last run, outcome, manual trigger). System health widgets. All 7 scheduled jobs implemented, registered in a central registry, and writing to `cron_runs`.
+
+**Independent Test**: Admin user visits `/admin` → user list, cron panel, health widgets render. Non-admin → 403. Manual "Run now" button fires job and updates `cron_runs` row. Banned user POSTs to any write route → `403 {"error":"banned"}`.
+
+### Migration 003 — Admin and Cron Tables
+
+- [ ] T186 Create `db/migrations/003_admin_cron.sql` — add `role TEXT NOT NULL DEFAULT 'member' CHECK(role IN ('member','moderator','admin'))` and `banned_at DATETIME NULL` to `persons`; create tables: `person_stats (person_id PK, judgment_track_record REAL, updated_at)`, `analytics_snapshots (id, bucket_at, record_count, accord_count, duel_count, judgment_count, tip_volume_cents)`, `similarity_clusters (record_id PK, cluster_id INTEGER, updated_at)`, `cron_runs (id, job_name, started_at, finished_at, status, message)`, `moderation_flags (id, record_id, flagged_by_person_id, reason, created_at, resolved_at, resolved_by_person_id)`, `tip_digests (id, person_id, date, total_cents, tip_count, UNIQUE(person_id, date))`
+- [ ] T187 Add indexes: `cron_runs(job_name, started_at DESC)`, `moderation_flags(resolved_at)`, `moderation_flags(record_id)`
+
+### Role and Ban Enforcement
+
+- [ ] T188 Expose `role` on `GET /api/persons/:id` for admin requests only (omit from public profile); add `banned_at` to internal Person model
+- [ ] T189 Create `src/server/middleware/require-admin.js` — checks JWT claims `role='admin'`; returns `403 {"error":"forbidden"}` otherwise
+- [ ] T190 Create `src/server/middleware/require-moderator.js` — checks JWT claims `role` in `['admin','moderator']`
+- [ ] T191 Add `banned` guard to the shared auth middleware — after JWT validation, if `persons.banned_at IS NOT NULL` return `403 {"error":"banned"}` for any non-GET route
+- [ ] T192 Add `PATCH /api/admin/persons/:id/role` (requireAdmin) — accepts `{ role: 'member'|'moderator' }`; validates `canChangeRole` gate; updates `persons.role`
+- [ ] T193 Add `PATCH /api/admin/persons/:id/ban` (requireAdmin) — accepts `{ banned: boolean }`; validates `canBan` gate; sets/clears `persons.banned_at`
+
+### Moderation Flags
+
+- [ ] T194 Add `POST /api/records/:id/flag` (auth required) — creates `moderation_flags` row; one flag per person per record (UNIQUE constraint); accepts `{ reason: string }`
+- [ ] T195 Add `GET /api/admin/flags` (requireModerator) — returns unresolved flags paginated, ordered by `created_at DESC`; each includes Record summary and flagger handle
+- [ ] T196 Add `PATCH /api/admin/flags/:id/resolve` (requireModerator) — sets `resolved_at` and `resolved_by_person_id`
+- [ ] T197 Add flag button to `post-card.js` — `⚑` icon in overflow menu; opens one-line reason input; calls `POST /api/records/:id/flag`; button changes to `⚑ Flagged` after submission
+
+### Cron Registry
+
+- [ ] T198 Create `src/server/cron/registry.js` — exports `JOBS` array (each entry: `{ name, schedule, fn }`); exports `registerAll(db)` which sets up `node-cron` schedules and wraps each `fn(db)` call in try/catch writing a `cron_runs` row (`status='ok'` or `status='error'` with message)
+- [ ] T199 Refactor existing `src/server/cron/deadline-checker.js` (T079) into registry format — `name='deadline_checker'`, `schedule='* * * * *'`; remove the old `setInterval` from `index.js`
+- [ ] T200 Create `src/server/cron/stale-duel-reaper.js` — `schedule='0 */6 * * *'`; queries Duels with `created_at < now-30d` and no Turn in last 7 days; creates stale `moments` annotation per Duel; inserts nudge notification rows for both parties
+- [ ] T201 Create `src/server/cron/judgment-track-record.js` — `schedule='0 * * * *'`; for each judge, compute `COUNT(aligned)/COUNT(total)` from `judgments` joined against resolved `accords`; upsert into `person_stats`; default 1.0 for zero history
+- [ ] T202 Create `src/server/cron/analytics-rollup.js` — `schedule='0 * * * *'`; inserts one `analytics_snapshots` row per hour with counts from `records`, `claim_accords`, `duels`, `judgments` and sum from `tips.amount_cents`
+- [ ] T203 Create `src/server/cron/similarity-cluster.js` — `schedule='0 2 * * *'`; BFS walk of `similarity_links` adjacency; upserts `similarity_clusters` with computed `cluster_id`; runs in a single transaction
+- [ ] T204 Create `src/server/cron/db-integrity.js` — `schedule='0 3 * * *'`; runs `PRAGMA integrity_check`; runs `PRAGMA wal_checkpoint(PASSIVE)`; if integrity check returns anything other than `"ok"`, inserts a `moderation_flags` row with `flagged_by_person_id` = @system person id
+- [ ] T205 Create `src/server/cron/tip-digest.js` — `schedule='0 0 * * *'`; aggregates prior day's `tips` by `to_person_id`; upserts into `tip_digests`
+- [ ] T206 Call `registerAll(db)` in `src/server/index.js` after all routes are mounted
+
+### Admin Interface
+
+- [ ] T207 Create `src/server/routes/admin.js` — registers all `/admin` GET routes and `/api/admin` API routes behind `requireAdmin`/`requireModerator`; mounted in `index.js`; all pages are server-rendered HTML via template strings
+- [ ] T208 `GET /admin` — admin shell: nav sidebar (Users, Flags, Cron, Health), main `<main>` area; minimal semantic HTML; no JS bundles
+- [ ] T209 `GET /admin/users` — paginated user list (20/page); handle, platform, joined, role, record count, ban status; role-change select + ban toggle button inline per row; `?search=` query param filters by handle
+- [ ] T210 `GET /admin/flags` — moderation queue: Record text preview, flagger handle, reason, flag date, Resolve button (posts to `/api/admin/flags/:id/resolve`)
+- [ ] T211 `GET /admin/cron` — cron panel: one row per job showing latest `cron_runs` entry (name, schedule, last started, status badge, message, next run estimate); "Run now" button per row
+- [ ] T212 `POST /api/admin/cron/:jobName/run` (requireAdmin) — looks up job by name in `JOBS`; calls `fn(db)`; returns `{ ok: true, duration_ms }` or `{ ok: false, error: string }`; never 500
+- [ ] T213 `GET /admin/health` — health panel: DB page count × page size, WAL file size, server uptime via `process.uptime()`, `process.memoryUsage().rss`, rate-limit hit counter for last hour, Litestream last-replicated-at (read from `cron_runs` where `job_name='db_integrity'`)
+- [ ] T214 Create `styles/admin.css` — dark sidebar layout, zebra-stripe tables, status badges (`ok` = green, `error` = red, `pending` = amber); no external CSS; imported only from admin pages
+
+**Checkpoint**: All 7 cron jobs registered and running. Admin interface live at `/admin`. User management, moderation queue, and cron panel all functional.
+
 
 
 

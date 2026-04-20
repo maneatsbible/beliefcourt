@@ -383,6 +383,26 @@ Sponsored content is prohibited. Any sponsored-in-intent Record would be require
 **Advertising**
 
 - **FR-074**: Advertising is shown ONLY to unauthenticated users as a fixed bottom strip (`<aside class="ad-strip">`).
+
+**Admin Interface**
+
+- **FR-094** (**Admin role**): A `role` field on Person MUST support values `member` (default), `moderator`, and `admin`. Role is set server-side only, never via user-facing flows. Only `admin` role holders may access the admin interface.
+- **FR-095**: The admin interface MUST be a server-rendered HTML page at `/admin` (authenticated, `role=admin` gate). It MUST NOT expose any sensitive keys or secrets in client HTML.
+- **FR-096** (**User Management**): Admin interface MUST provide a paginated user list with columns: Person handle, platform, joined date, role, record count, ban status. Admin MAY change a Person's role (`member` ↔ `moderator`) and MAY ban or un-ban a Person.
+- **FR-097** (**Ban enforcement**): A banned Person MUST receive `403 {"error":"banned"}` on all write routes. Banned Persons MAY still read public content — ban is a write-lock, not erasure. Banning MUST NOT delete any Records (append-only principle preserved).
+- **FR-098** (**Moderation queue**): Two types of reports flow into the moderation queue: (a) flagged Records — any authenticated Person may flag a Record as harmful; (b) automatic flags from the cron integrity check. Moderators and admins see the queue; only admins may resolve flags that result in bans.
+- **FR-099** (**Cron Control Panel**): Admin interface MUST show a Cron Control Panel listing every scheduled job with: name, schedule expression, last run timestamp, last run outcome (OK / ERROR + message), next scheduled run, and a manual "Run now" trigger. Jobs MUST NOT be startable/stoppable from the panel — only manually triggered for diagnostic use.
+- **FR-100** (**System health**): Admin interface MUST display: DB file size, WAL checkpoint lag, Litestream last-replicated timestamp, server uptime, memory usage, and rate-limit hit count in the last hour. All polled live on page load.
+
+**Scheduled Jobs (Cron)**
+
+- **FR-101** (**Default Disposition checker** — implements FR-026): `every 1 minute` — queries `deadline_conditions` where `deadline_at < now` and duel has no Disposition; writes Default Disposition record for each expired deadline.
+- **FR-102** (**Stale Duel reaper**): `every 6 hours` — queries Duels open > 30 days with no Turn activity in the last 7 days; creates a `moments` annotation flagging the Duel as stale; sends an in-app nudge notification to both parties. Does NOT force-close.
+- **FR-103** (**Judgment track-record recompute**): `every hour` — for each Person who has rendered Judgments, recompute `judgment_track_record` (fraction of prior Judgments aligned with eventual Accord outcomes) and upsert into `person_stats` cache table. This cached value is used by Judgment weight computation to avoid per-request aggregation.
+- **FR-104** (**Analytics rollup**): `every hour` — aggregate `records`, `claim_accords`, `duels`, `judgments` into `analytics_snapshots` table (hourly buckets). Powers auto-analytics views without full-table scans on every request.
+- **FR-105** (**SimilarityLink cluster recompute**): `every 24 hours` — walks the `similarity_links` graph and recomputes connected-component cluster ids, storing cluster membership in `similarity_clusters` table. Enables Precedent surfacing queries.
+- **FR-106** (**DB integrity check**): `every 24 hours` — runs `PRAGMA integrity_check`; runs `PRAGMA wal_checkpoint(PASSIVE)`; records Litestream replication lag; if integrity check fails or lag > 5 minutes, creates an auto-flag in the moderation queue and writes to `cron_runs` with `status=error`.
+- **FR-107** (**Tip settlement digest**): `every 24 hours at 00:00 UTC` — aggregates tip totals per recipient for the prior day; writes a row to `tip_digests`; exposes via `GET /api/persons/:id/tips/digest` for creator dashboard.
 - **FR-075**: Signing in MUST immediately remove all advertising for that session.
 - **FR-076**: An "Sign in to remove ads" label MUST appear above the ad strip for unauthenticated users.
 - **FR-077**: Google Ads MUST be the ad provider. Ad content MUST NOT appear in any authenticated view.
@@ -480,6 +500,8 @@ The following views are computed from the live database at query time, not store
 - **SC-008**: Every AI-authored or AI-assisted Record displays the correct disclosure badge in all views.
 - **SC-009**: Unauthenticated users see the ad strip; authenticated users never see ads in any view.
 - **SC-010**: All 10 auto-analytics views load and render in under 3 seconds.
+- **SC-011**: Admin interface loads and renders the user list (first page), cron panel, and system health widgets in under 2 seconds.
+- **SC-012**: All 7 cron jobs run to completion without error on a fresh database with seed data; each produces the correct output rows in its target table.
 
 ---
 
