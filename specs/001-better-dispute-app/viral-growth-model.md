@@ -80,13 +80,13 @@ Building/Dorm Block tier ($19.99/month): Up to 5 orgs under one account (for a p
 |---|---|
 | Dating+ subscriptions | $8,000–$15,000 |
 | Christian Match subscriptions | $3,000–$6,000 |
-| Church Org placement | $500–$2,000 |
-| Score Card Keepsakes | $500–$1,500 |
+| Dating Boost (feed visibility) | $1,500–$4,000 |
+| Dating Unlock (full compatibility reveal) | $1,000–$3,000 |
 | Parenting+ subscriptions | $1,000–$4,000 |
 | Neighbourhood+ / Building tier | $1,000–$4,000 |
 | Verdict Data API | $500–$2,000 |
 | Duel Coach AI add-on | $500–$2,000 |
-| **Total** | **$15,000–$36,500/month** |
+| **Total** | **$17,500–$40,000/month** |
 
 ---
 
@@ -102,27 +102,29 @@ Dating mode is the primary commercial engine. Every mechanic has a monetisation 
 
 ---
 
-### RS-2 — Score Card NFT / Digital Keepsake
+### RS-2 — Dating Boost
 
-When a couple's Duel reaches a meaningful Verdict (Reconciliation, or a high-alignment Score Card), they may purchase a **Permanent Score Card** — a designed, watermarked digital artefact of their Duel outcome. One-time payment: $4.99–$9.99.
+Any user MAY purchase a **Boost** — a 24-hour window of elevated placement in the Open Challenges feed and the Christian Dating feed. During a Boost, the user's open Duels and public faith statements surface first for all browsing users.
 
-Use cases:
-- "This is the Duel where we agreed on everything that matters"
-- "Our first proper disagreement, resolved"
-- Frame it. Print it. Send it to your pastor as part of pre-marital documentation.
+**Price**: $2.99 per Boost, or 5 for $9.99 (no subscription required — any authenticated user).
 
-**Virality mechanic**: Every purchased Score Card is a watermarked advertisement shared organically to social media by the couple.
+**Why this works**: Boosts are impulse purchases made at the moment of highest motivation — just posted a new Open Challenge, want responses quickly. No subscription required, low friction, immediate gratification.
 
-**Projected revenue at 1% of active dating pairs purchasing**: Medium-low volume, high margin, near-zero cost.
+**Revenue model**: At 10,000 active dating users, 3% purchasing one Boost/month: ~$900–$1,200/month. Power users purchase multiple per month: projected blended average $1.50–$4.00/active user/month.
 
 ---
 
-### RS-3 — Christian Dating Placement (Church-Tier)
+### RS-3 — Dating Unlock (Full Compatibility Reveal)
 
-Churches and Christian organisations may pay for **Verified Org Placement** — their church or group appears as a verified badge on member profiles in the Christian Dating feed. Couples who meet through a church-org-verified profile generate a referral attribution back to the church.
+When two users complete a dating Duel, by default both see a **summary compatibility score** (e.g. "67% aligned"). The full breakdown — which specific positions matched, which diverged, and the combined Faith Alignment Score — is locked behind a one-time **Unlock** for that pair.
 
-**Price**: $49–$99/month per church org.  
-**Virality mechanic**: Church orgs are incentivised to promote the platform to their singles communities to justify the subscription. Pastor promotion → new signups → new subscriptions.
+**Price**: $1.99 per pair unlock, or 3 for $3.99.
+
+**Why this works**: "67% — but *which* 67%?" is a strong pull at the moment of highest emotional engagement. The unlock is per-pair — both parties pay or one pays for both.
+
+**Virality mechanic**: Couples who unlock share the full breakdown publicly because the details are more shareable than the headline score. The unlock is the content.
+
+**Revenue model**: At 5,000 active dating pairs/month, 8% purchasing an unlock: ~$800–$1,600/month, growing with user base.
 
 ---
 

@@ -1,85 +1,104 @@
 # judgmental.io — Investor Brief
 
-**The internet has a truth problem. We built the courthouse.**
+**Two communities. One platform. A blitz launch.**
 
 ---
 
-## The Opportunity
+## What This Is
 
-Every day, millions of arguments happen in public on social media — and they go nowhere. No receipts. No resolution. No record. The person who shouts loudest wins, not the person who's right.
+judgmental.io is a structured dispute engine — Claims, Evidence, Duels, Verdicts. Everything on the record. But the launch strategy isn't "debate platform." It's a simultaneous blitz across two high-intent communities that have never had a tool like this:
 
-**judgmental.io is the first platform where claims are filed, evidence is entered, and verdicts are rendered — permanently, on the record.**
+1. **Dating** — "Duel me before you date me." Compatibility through honest disagreement, shareable Score Cards, viral invite links, a Faith Alignment Score for Christians. The mechanic generates content every time two people use it.
 
-Not another forum. Not comments. A structured dispute engine with real mechanics: Claims, Cases, Duels. Evidence attached. Crowds judging. History written.
+2. **Christian faith** — Repentance, reconciliation, accountability, doctrine, and Christian courtship, built with the integrity those practices require. Not a general faith mode. Not Patheos. Built specifically for Bible-following Christians who take truth seriously.
 
----
-
-## Why Now
-
-- Social media trust is at an all-time low. Misinformation is the defining cultural anxiety of this decade.
-- There is no neutral public record for online disputes. We are building it.
-- The tooling to build this cheaply and at scale didn't exist five years ago. It does now.
+These are not two separate products. They are two acquisition channels for the same platform, feeding each other. A Christian who uses the accountability feature discovers the dating feed. A dating user who gets serious reaches the Marriage features. The funnel is the product.
 
 ---
 
-## Traction Model: Built for Virality
+## Why This, Why Now
 
-Disputes are inherently shareable. One high-profile Duel between known figures — a politician, a CEO, an influencer — gets clipped, screenshot, posted. Every share is an acquisition. The product markets itself every time someone wants to say *"actually, here's the record."*
-
-**Month 1 viral scenario: 80,000 registered users, ~$700 revenue, ~$50 cost.**
-
-The cost floor is structurally protected. The revenue ceiling is not.
+- Dating apps are broken in a specific way: they optimise for matches, not compatibility. "Swipe right" selects for photos. judgmental.io selects for positions. How someone argues what they believe is a far stronger compatibility signal than any profile photo or questionnaire.
+- The Christian dating market is large, underserved, and enormously word-of-mouth driven. A platform that treats Christian courtship with actual theological seriousness — not just a "faith" checkbox — has no direct competitor.
+- Every Duel is shareable content. Every Score Card is a watermarked referral. The product markets itself every time two people use it.
 
 ---
 
-## The Business
+## The Two-Engine Launch
 
-Three compounding revenue streams:
+### Engine 1 — Dating (General)
 
-**1. Consumer Pro — $5/month**
-Power users who dispute publicly and want advanced analytics, priority visibility, and status. 1% of MAU converts. By Year 3 that's 2,500 subscribers.
+**Hook**: "Duel me on this before we go further."  
+**Viral mechanic**: Single-URL invite link sent to any match on any platform. No account to read; account to respond. Score Card shared publicly after every Duel.  
+**Revenue**: Dating+ ($9.99/month), Dating Boost ($2.99 per use), Compatibility Unlock ($1.99 per pair).  
+**K-factor target by Month 4**: 1.0–1.4 (viral)
 
-**2. Google Ads — passive, scales with traffic**
-Unauthenticated users see ads. The ad network approves at ~6 months. From that point, 50% of pageviews monetise automatically.
+### Engine 2 — Christian Faith
 
-**3. Org Deployments — $199 to $2,500/month**
-This is the multiplier. Legal teams. HR departments. Policy committees. Product orgs. University debate clubs. Any group that needs *structured, documented disagreement* pays for a private workspace. Team tier at $199, Enterprise at $2,500. Near-100% margin per seat.
+**Hook**: Church accountability → Christian dating → parenting disputes → church discipline.  
+**Viral mechanic**: Pastoral recommendation, Bible study group adoption, Christian Dating Open Challenges. Seeded pre-launch with 5–10 pastors and group leaders.  
+**Revenue**: Christian Match ($12.99/month), Duel Coach AI ($4.99/month).  
+**K-factor target by Month 6**: 0.7–1.0 (compounding through institutional referrals, not algorithm)
+
+### The Crossover
+
+A dating user encounters the depth of a Christian's Doctrinal Claim and realises the platform is serious. A Christian singles user shares their Faith Alignment Score Card on Instagram. A couple who met through a Dating Duel activates the Pre-marital Track. The two engines are designed to cross-pollinate.
 
 ---
 
-## The Numbers
+## Revenue Model
 
-| Year | Revenue | Cost | **Profit** |
+All revenue is subscription and micro-transaction. No advertising. No org placement. No content monetisation. Every dollar comes from users paying for access to features that make the product work better for them.
+
+| Stream | Month 6 MRR |
+|---|---|
+| Dating+ ($9.99/mo) | $8,000–$15,000 |
+| Christian Match ($12.99/mo) | $3,000–$6,000 |
+| Dating Boost ($2.99/use) | $1,500–$4,000 |
+| Compatibility Unlock ($1.99/pair) | $1,000–$3,000 |
+| Parenting+ ($7.99/mo) | $1,000–$4,000 |
+| Neighbourhood+ ($6.99/mo) | $1,000–$4,000 |
+| Verdict Data API | $500–$2,000 |
+| Duel Coach AI ($4.99/mo) | $500–$2,000 |
+| **Total** | **$17,500–$40,000/month** |
+
+**Assumptions**: 10,000–25,000 active users by Month 6. 12–18% conversion to any paid tier. Micro-transaction layer (Boosts and Unlocks) adds revenue without requiring subscription commitment.
+
+---
+
+## Projected Growth
+
+| Year | Est. MAU | MRR | ARR |
 |---|---|---|---|
-| Y1 | $28k | $420 | **$27.5k** |
-| Y2 | $160k | $1,800 | **$158k** |
-| Y3 | $520k | $4,800 | **$515k** |
-| Y4 | $1.4M | $12k | **$1.39M** |
-| Y5 | $3.2M | $24k | **$3.18M** |
+| Y1 | 25,000 | $35,000 | $420,000 |
+| Y2 | 80,000 | $110,000 | $1.3M |
+| Y3 | 200,000 | $280,000 | $3.4M |
+| Y4 | 450,000 | $620,000 | $7.4M |
+| Y5 | 900,000 | $1.2M | $14.4M |
 
-**99%+ net margin at scale.** Not a typo. The architecture — SQLite + Litestream on Fly.io — means no database bill, no CDN bill, no per-seat infrastructure cost. Competitors on Postgres + cloud RDS are paying $500–2,000/month in infrastructure at the same user counts. We are not.
+These are conservative. The Christian dating market alone (estimated 30M+ US Christian singles) represents a TAM that makes the Y3–Y5 numbers modest. The neighbourhood channel (every apartment block in every city) is an acquisition surface with no digital equivalent.
+
+---
+
+## The Cost Structure
+
+Infrastructure: SQLite + Litestream on Fly.io. No database bill. No CDN bill. No per-seat infrastructure cost. The architecture scales to 500,000 MAU on approximately $300–500/month of server costs. Competitors on Postgres + cloud RDS are paying $500–$2,000/month at the same user counts. This is a structural advantage, not an operational choice.
+
+**Net margin at scale: 90%+.**
 
 ---
 
 ## The Moat
 
-1. **The record is the product.** Every resolved Dispute is a permanent public artifact. The more Duels exist, the more valuable the platform. Network effects compound.
-2. **Switching cost is identity.** Your dispute history, your win rate, your reputation — it lives here. You don't leave.
-3. **Org data gravity.** Once a legal team files their first internal dispute, the audit log, the precedents, the templates — they're not migrating that.
-4. **Infrastructure arbitrage.** We scale to 500k MAU on $300/month of servers. No VC-subsidised infrastructure bill. Every dollar of revenue is nearly a dollar of profit.
+1. **The record is the product.** Every resolved Duel is a permanent public artefact. The more Duels exist, the more valuable the network. Data compounds.
+2. **Switching cost is identity.** Your Duel history, your compatibility scores, your faith positions on record — they live here. You don't leave.
+3. **The Christian community does not switch tools.** Once a church uses the Discipline process or a pastor uses Accountability, the relationship history, the precedents, the records — they stay forever.
+4. **The physical channel.** The neighbourhood QR flyer acquires users with no algorithm, no ad spend, and no decay. A flyer on a noticeboard keeps converting for months.
 
 ---
 
-## The Ask
+## The Foundation
 
-We are not selling vaporware. The spec is written. The architecture is proven. The implementation plan has 230 tasks across 28 phases. The branding is done. The data model is done.
+This platform was built because of a conviction drawn from biblical faith in Jesus Christ — that truth is real and knowable, and that people are capable of defending what they actually believe. The Christian Mode, the repentance and reconciliation mechanics, the anti-proof-texting principle: these are not features layered on a debate app. They are the reason the platform was built. The dating engine and the neighbourhood features are downstream of the same conviction: honest disagreement, pursued with integrity, produces something worth building for.
 
-**We are building. We need someone who sees what this becomes.**
-
-A platform where the truth has a home. Where being right means something. Where organisations run on structured reason instead of whoever talked last in the meeting.
-
-**The internet needs a courthouse. We're opening the doors.**
-
----
-
-*judgmental.io — On the record.*
+**judgmental.io — On the record.**
