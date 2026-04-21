@@ -51,6 +51,7 @@ function _buildHtml(err, context, entries) {
           <h2 class="err-panel__title">Something went wrong</h2>
           <p class="err-panel__context">Context: <code>${_escape(context)}</code></p>
         </div>
+        <button class="err-panel__copy-link" id="err-copy-link" aria-label="Copy debug bundle to clipboard" title="Copy debug bundle">⎘ Copy</button>
       </div>
       <p class="err-panel__summary">${_escape(err.message)}</p>
       <details class="err-panel__details">
@@ -84,7 +85,7 @@ function _buildHtml(err, context, entries) {
 function _wireInteractions(root, err, context, entries) {
   root.querySelector('#err-retry-btn')?.addEventListener('click', () => window.location.reload());
 
-  root.querySelector('#err-copy-btn')?.addEventListener('click', async () => {
+  async function _copyBundle(btn, resetLabel) {
     const bundle = JSON.stringify({
       timestamp: new Date().toISOString(),
       url: window.location.href,
@@ -95,8 +96,7 @@ function _wireInteractions(root, err, context, entries) {
     }, null, 2);
     try {
       await navigator.clipboard.writeText(bundle);
-      const btn = root.querySelector('#err-copy-btn');
-      if (btn) { btn.textContent = 'Copied!'; setTimeout(() => { btn.textContent = 'Copy debug bundle'; }, 2000); }
+      if (btn) { btn.textContent = '✓ Copied!'; setTimeout(() => { btn.textContent = resetLabel; }, 2000); }
     } catch {
       const ta = document.createElement('textarea');
       ta.value = bundle;
@@ -105,7 +105,18 @@ function _wireInteractions(root, err, context, entries) {
       ta.select();
       document.execCommand('copy');
       document.body.removeChild(ta);
+      if (btn) { btn.textContent = '✓ Copied!'; setTimeout(() => { btn.textContent = resetLabel; }, 2000); }
     }
+  }
+
+  root.querySelector('#err-copy-link')?.addEventListener('click', async () => {
+    const btn = root.querySelector('#err-copy-link');
+    await _copyBundle(btn, '⎘ Copy');
+  });
+
+  root.querySelector('#err-copy-btn')?.addEventListener('click', async () => {
+    const btn = root.querySelector('#err-copy-btn');
+    await _copyBundle(btn, 'Copy debug bundle');
   });
 
   const table = root.querySelector('#err-log-table');

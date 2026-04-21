@@ -995,6 +995,24 @@ details > summary::marker { display: none; }
   margin-bottom: 12px;
 }
 
+.err-panel__copy-link {
+  margin-left: auto;
+  flex-shrink: 0;
+  background: none;
+  border: 1px solid var(--color-accent-red);
+  color: var(--color-accent-red);
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+.err-panel__copy-link:hover {
+  background: var(--color-accent-red);
+  color: #fff;
+}
+
 .err-panel__icon {
   font-size: 28px;
   line-height: 1;
