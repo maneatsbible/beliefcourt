@@ -1,5 +1,5 @@
 /**
- * Controller: Dispute (Case + Duel)
+ * Controller: Duel (Case + Duel)
  * Loads case and duel data from the API and manages permission gates.
  */
 
@@ -8,7 +8,7 @@ import { Case }   from '../model/case.js';
 import { Duel }   from '../model/duel.js';
 import { Record } from '../model/record.js';
 
-export class DisputeController {
+export class DuelController {
   /** @param {{ id: string, handle: string }|null} currentUser */
   constructor(currentUser) {
     this._user = currentUser;
@@ -80,3 +80,6 @@ export class DisputeController {
     return { allowed: true };
   }
 }
+
+// Backward-compatible export during BELIEF COURT refactor.
+export { DuelController as DisputeController };

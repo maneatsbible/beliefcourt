@@ -1,5 +1,5 @@
 /**
- * View: Dispute (Case)
+ * View: Case Court
  * Renders a case with its claim, duels, and duel records.
  * Two-lane layout: Challenger vs Defender.
  */
@@ -181,3 +181,6 @@ export class CaseView {
     return wrap;
   }
 }
+
+// Backward-compatible alias for BELIEF COURT naming.
+export { CaseView as CaseCourtView };

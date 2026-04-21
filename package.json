@@ -1,7 +1,7 @@
 {
-  "name": "judgmental.io",
-  "version": "0.1.0",
-  "description": "judgmental.io - on the record",
+  "name": "belief-court",
+  "version": "1.0.0-alpha",
+  "description": "BELIEF COURT - A peer-to-peer constitutional platform for defended belief. On the record. Light it up.",
   "type": "module",
   "private": true,
   "scripts": {

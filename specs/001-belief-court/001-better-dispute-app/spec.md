@@ -708,6 +708,21 @@ Sponsored content is prohibited. Any sponsored-in-intent Record would be require
   - **Deposition**: A structured pre-Case Q&A chain (Interrogatory Challenge sequence) before a formal Case is opened.
   - **Burden of proof**: A Duel-level flag indicating which party must prove their position.
 
+**Formal Logic Annex (Adversary Embrace)**
+
+- **FR-068a**: The platform MUST support a `logic_annex` Record type that allows formal philosophical argument (including syllogisms) as an attached analysis lane on Claims, Challenges, Answers, and Judgments.
+- **FR-068b**: A `logic_annex` MUST include: `form`, ordered `premises`, `inference`, and `conclusion` fields. It is challengeable like any other Record.
+- **FR-068c**: Core Duel outcomes MUST NOT be determined by formal validity alone. Logic Annex output is advisory analysis, interpreted through worldview, evidence, and cross-examination.
+- **FR-068d**: Scripture Evidence MUST NOT be transformed into coercive logical premises in `logic_annex` outputs; scripture remains testimony to Base of Truth.
+
+**Widget Commonwealth and Mobile-First Richness**
+
+- **FR-068e**: The planned widget set MUST be implemented as first-class, versioned analyzers: Bible, Precedent, Logic, Consensus, Timeline, Impact, Evidence Graph, Worldview Intersections, Translation, Bot Provenance.
+- **FR-068f**: Every widget MUST expose provenance metadata (`input_refs`, `version`, `computed_at`) and a user-visible "how this was computed" view.
+- **FR-068g**: Widgets MUST be mobile-first: touch-first controls, thumb-reachable primary actions, readable compact state, expanded detail state, and fullscreen inspector state.
+- **FR-068h**: No critical widget function may rely on hover-only interactions. Small-view fallback views (list/table) are required when complex charts are not legible.
+- **FR-068i**: Widget outputs MUST render with loading skeletons and graceful degradation for poor networks.
+
 **Tipping and Creator Support**
 
 - **FR-069**: Any authenticated Person MAY send a tip to any other Person via Stripe or a Ko-fi link fallback.
