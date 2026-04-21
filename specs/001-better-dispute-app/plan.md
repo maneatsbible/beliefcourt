@@ -29,6 +29,22 @@
 
 ---
 
+## Table of Contents
+
+- [Summary](#summary)
+- [Technical Context](#technical-context)
+- [Infrastructure: Fly.io Deployment](#infrastructure-flyio-deployment)
+- [Maintenance Mode](#maintenance-mode)
+- [Database Schema](#database-schema)
+- [Scaling and Migration Planning](#scaling-and-migration-planning)
+- [Known Risks and Mitigations](#known-risks-and-mitigations)
+- [Constitution Check](#constitution-check)
+- [Analytics Integration](#analytics-integration)
+- [Project Structure](#project-structure)
+- [Complexity Tracking](#complexity-tracking)
+
+---
+
 ## Summary
 
 judgmental.io is a browser-only, plain vanilla JavaScript SPA backed by a lightweight Hono API server running on Fly.io, with SQLite (WAL mode) as the primary database streamed to S3-compatible storage via Litestream. Identity is established through social media OAuth (X, Threads, Bluesky, GitHub) — no GitHub API calls are made for data storage. All content records are stored in the application's own database. The architecture is strict MVC: all permission logic in the Controller, dumb rendering in the View, DB entities mapped directly in the Model.

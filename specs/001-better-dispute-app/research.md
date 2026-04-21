@@ -29,6 +29,18 @@
 
 ---
 
+## Table of Contents
+
+- [1. GitHub Device Flow — Feasibility in Pure Browser JS](#1-github-device-flow--feasibility-in-pure-browser-js)
+- [2. GitHub Issues as Append-Only Database — Schema Design](#2-github-issues-as-append-only-database--schema-design)
+- [3. ETag Caching Strategy](#3-etag-caching-strategy)
+- [4. MVC in Plain Vanilla JS — Pattern](#4-mvc-in-plain-vanilla-js--pattern)
+- [5. Crickets Countdown — Client-Triggered Write](#5-crickets-countdown--client-triggered-write)
+- [6. Testing Without External Libraries](#6-testing-without-external-libraries)
+- [7. Dark Theme Design System (CSS Custom Properties)](#7-dark-theme-design-system-css-custom-properties)
+
+---
+
 ## 1. GitHub Device Flow — Feasibility in Pure Browser JS
 
 **Decision**: Use GitHub Device Flow (OAuth 2.0 Device Authorization Grant) for v1.

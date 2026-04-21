@@ -31,6 +31,19 @@
 
 ---
 
+## Table of Contents
+
+- [Entity Hierarchy](#entity-hierarchy)
+- [The Belief Ledger and Worldview](#the-belief-ledger-and-worldview)
+- [Entities](#entities)
+- [Disposition State Transitions](#disposition-state-transitions)
+- [Record Type Icons (UI mapping)](#record-type-icons-ui-mapping)
+- [Entity → Database Table Mapping](#entity--database-table-mapping)
+- [Storage Architecture Notes](#storage-architecture-notes)
+- [Controller Permission Gates](#controller-permission-gates)
+
+---
+
 ## Entity Hierarchy
 
 ```
@@ -674,29 +687,3 @@ SQLite (WAL mode) on a Fly.io persistent volume is the canonical append-only led
 ---
 
 ## Controller Permission Gates
-
-These are implemented in the Controller layer. The View reads these — it never decides them.
-
-| Method | Rule |
-|--------|------|
-| `canChallenge(person, record)` | Person is authenticated AND person ≠ record.authorId AND no existing Challenge by person on this record AND (if Claim) person has no ClaimAccord on it |
-| `canAnswer(person, challenge)` | Person is the current-turn player in the Duel AND challenge is unanswered |
-| `canOffer(person, duel)` | Person is a party in the Duel AND duel has no Disposition |
-| `canRespond(person, offer)` | Person is the OTHER party from the offer author AND duel has no Disposition |
-| `canAgree(person, claim)` | Person is authenticated AND person ≠ claim.authorId AND no existing ClaimAccord by person on this claim AND person has not challenged this claim |
-| `canRescind(person, record)` | Person is the `authorId` of the Record AND no Rescission already exists for that Record |
-| `canJudge(person, duel)` | Person is NOT a party in the Duel AND duel has a Disposition AND a qualifying Analysis exists AND person has a declared BaseOfTruth with a STANDING anchor Claim. Weight of resulting Judgment is computed as `strength(anchor_claim) × judgment_track_record(person)` — see Judgment entity. |
-| `canAnalyze(person, duel)` | Person is authenticated AND duel has a Disposition |
-| `canDeclareDefault(duel)` | DeadlineConditions.active === true AND Date.now() > currentDeadlineIso AND no Disposition yet exists |
-| `canContestDisposition(person, disposition)` | Person is the party ruled against AND disposition.isContested === false |
-| `canLinkSimilarity(person, recordA, recordB)` | Person is authenticated AND recordA ≠ recordB AND no existing SimilarityLink between them by this person |
-| `canAccessAdmin(person)` | `person.role === 'admin'` |
-| `canModerate(person)` | `person.role` is `'admin'` or `'moderator'` |
-| `canChangeRole(person, target)` | `person.role === 'admin'` AND target role transition is `member ↔ moderator` only (admins may not self-promote or demote other admins) |
-| `canBan(person, target)` | `person.role === 'admin'` AND target is not an admin |
-
----
-
-## Storage Architecture Notes
-
-*(This section is superseded by the more detailed version in the Entity → Database Table Mapping section above. See plan.md for the full SQL schema and migration strategy.)*

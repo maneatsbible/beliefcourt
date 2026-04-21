@@ -28,6 +28,21 @@
 
 ---
 
+## Table of Contents
+
+- [Prerequisites](#prerequisites)
+- [Step 1 — Create a GitHub OAuth App](#step-1--create-a-github-oauth-app)
+- [Step 2 — Create the Data Repository](#step-2--create-the-data-repository)
+- [Step 3 — Configure the App](#step-3--configure-the-app)
+- [Step 4 — Run Locally](#step-4--run-locally)
+- [Step 5 — Authenticate](#step-5--authenticate)
+- [Step 6 — Run Tests](#step-6--run-tests)
+- [@herald Setup](#herald-setup)
+- [Project Structure Reference](#project-structure-reference)
+- [Common Development Patterns](#common-development-patterns)
+
+---
+
 ## Prerequisites
 
 - A GitHub account (your personal account is fine for local dev)

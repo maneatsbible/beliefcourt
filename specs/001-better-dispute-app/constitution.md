@@ -1,5 +1,59 @@
 # disputable.io Constitution
 
+| Field | Value |
+|---|---|
+| **Version** | `3.0.0` |
+| **Status** | 🔴 Pre-Alpha — not production-ready |
+| **Feature branch** | `001-better-dispute-app` |
+| **Ratified** | 2026-04-18 |
+| **Last amended** | 2026-04-21 |
+| **AI assistant** | GitHub Copilot · Claude Sonnet 4.6 |
+| **Authority** | Governing document — supersedes all other spec documents |
+
+---
+
+## Spec Index
+
+| Document | Role |
+|---|---|
+| [spec.md](spec.md) | Functional requirements |
+| [plan.md](plan.md) | Implementation architecture and deployment |
+| [data-model.md](data-model.md) | Database schema and entity definitions |
+| [tasks.md](tasks.md) | Implementation tasks (SDLC) |
+| [quickstart.md](quickstart.md) | Development environment setup |
+| [research.md](research.md) | Pre-design unknowns and resolved decisions |
+| [stakeholder-briefing.md](stakeholder-briefing.md) | Public financial projections and constitutional crowdfunding |
+| [viral-growth-model.md](viral-growth-model.md) | Growth flywheels and acquisition model |
+| **[constitution.md](constitution.md)** | **Governing document — supersedes all others — you are here** |
+
+---
+
+## Table of Contents
+
+- [Founding Declaration](#founding-declaration)
+- [Principle I — No Argumentation — Defended Belief Only](#principle-i--no-argumentation--defended-belief-only-non-negotiable--priority-one)
+- [Principle II — Code Quality](#principle-ii--code-quality-non-negotiable)
+- [Principle III — Testing Standards](#principle-iii--testing-standards-non-negotiable)
+- [Principle IV — User Experience Consistency](#principle-iv--user-experience-consistency-non-negotiable)
+- [Principle V — Performance Requirements](#principle-v--performance-requirements)
+- [Principle VI — Free-First Tool Selection](#principle-vi--free-first-tool-selection)
+- [Principle VII — American English Only](#principle-vii--american-english-only)
+- [Principle VIII — Christian Mode is Not a General Faith Platform](#principle-viii--christian-mode-is-not-a-general-faith-platform)
+- [Principle IX — No AI in the Worldview Engine Stack](#principle-ix--no-ai-in-the-worldview-engine-stack)
+- [Principle X — Bot Namespace and Disclosure](#principle-x--bot-namespace-and-disclosure)
+- [Principle XI — Youth Zone and the Guardian Relation](#principle-xi--youth-zone-and-the-guardian-relation)
+- [Principle XII — Open Governance and the Constitutional Duel](#principle-xii--open-governance-and-the-constitutional-duel)
+- [Principle XIII — URL Parameter Minimization and Mock Mode](#principle-xiii--url-parameter-minimization-and-mock-mode)
+- [Principle XIV — Worldview Reconciliation Process as Governance Engine](#principle-xiv--worldview-reconciliation-process-as-governance-engine)
+- [Principle XV — Keyholder Program and the Federation Moat](#principle-xv--keyholder-program-and-the-federation-moat)
+- [Principle XVI — No Cryptocurrency Until Constitutional Approval](#principle-xvi--no-cryptocurrency-until-constitutional-approval)
+- [Principle XVII — Financial Transparency as Constitutional Obligation](#principle-xvii--financial-transparency-as-constitutional-obligation)
+- [Principle XVIII — The Constitution as Belief Ledger Foundation](#principle-xviii--the-constitution-as-belief-ledger-foundation)
+- [Development Workflow](#development-workflow)
+- [Governance](#governance)
+
+---
+
 ## Founding Declaration
 
 *Where worldviews collide, people open cases to confront the differences, seeking harmony.*
@@ -21,9 +75,7 @@ The dating features, the viral mechanics, the Christian Mode, the Church Discipl
 
 ---
 
-## Core Principles
-
-### I. No Argumentation — Defended Belief Only (NON-NEGOTIABLE — PRIORITY ONE)
+## Principle I — No Argumentation — Defended Belief Only (NON-NEGOTIABLE — PRIORITY ONE)
 
 This is the foundational product principle. It governs every design decision, every line of UI copy, every AI behavior, every feature, and every code review. It supersedes all other principles when in conflict.
 
@@ -54,7 +106,7 @@ judgmental.io is a platform for *defended belief*, not for *constructed argument
 
 **Rationale**: Argumentation rewards rhetorical skill over substantive truth. It is a game that can be won without being right. Proof-texting makes any position appear scriptually grounded through selective citation. This platform is built on the conviction that truth is knowable and defensible by real people holding real convictions — not by those most skilled at logical construction. The burden of proof is on lived, grounded belief.
 
-### II. Code Quality (NON-NEGOTIABLE)
+## Principle II — Code Quality (NON-NEGOTIABLE)
 
 All production code MUST meet the following standards before merging:
 
@@ -67,7 +119,7 @@ All production code MUST meet the following standards before merging:
 
 **Rationale**: Consistent, clean code reduces onboarding friction, lowers defect rates, and makes the system maintainable as the team and codebase grow.
 
-### III. Testing Standards (NON-NEGOTIABLE)
+## Principle III — Testing Standards (NON-NEGOTIABLE)
 
 Automated testing is a first-class deliverable, not an afterthought:
 
@@ -81,7 +133,7 @@ Automated testing is a first-class deliverable, not an afterthought:
 
 **Rationale**: Comprehensive, reliable tests are the primary mechanism for safe iteration and confident deployment.
 
-### IV. User Experience Consistency (NON-NEGOTIABLE)
+## Principle IV — User Experience Consistency (NON-NEGOTIABLE)
 
 All user-facing surfaces MUST present a coherent, predictable experience:
 
@@ -96,7 +148,7 @@ All user-facing surfaces MUST present a coherent, predictable experience:
 
 **Rationale**: Inconsistent UX erodes user trust and increases support burden. Predictability and accessibility are non-negotiable qualities for a dispute-resolution product.
 
-### V. Performance Requirements
+## Principle V — Performance Requirements
 
 Performance is a feature and MUST be validated continuously:
 
@@ -108,7 +160,7 @@ Performance is a feature and MUST be validated continuously:
 
 **Rationale**: A dispute-resolution platform handles time-sensitive interactions. Slow or unpredictable performance degrades user trust and can affect legal or contractual outcomes.
 
-### VI. Free-First Tool Selection
+## Principle VI — Free-First Tool Selection
 
 When evaluating third-party tools, services, libraries, or APIs, the zero-cost option MUST be chosen if it meets requirements:
 
@@ -120,7 +172,7 @@ When evaluating third-party tools, services, libraries, or APIs, the zero-cost o
 
 **Rationale**: Minimizing operating costs preserves runway, reduces vendor lock-in, and forces deliberate decisions about every paid dependency. The burden of proof lies with paid tooling.
 
-### VII. American English Only
+## Principle VII — American English Only
 
 All copy, documentation, code comments, UI text, help text, template text, AI-generated output, and any human-readable string produced by or for this project MUST be written in American English. British English spellings, idioms, and conventions are prohibited.
 
@@ -133,7 +185,7 @@ All copy, documentation, code comments, UI text, help text, template text, AI-ge
 
 **Rationale**: Inconsistent spelling erodes copy quality and creates a fractured voice. American English is the declared standard for this project. Consistency is non-negotiable.
 
-### VIII. Christian Mode is Not a General Faith Platform
+## Principle VIII — Christian Mode is Not a General Faith Platform
 
 Christian Mode is a first-release feature set built specifically for Bible-following Christians. It is not a generic spirituality layer, not an interfaith dialogue tool, and not a platform for comparative religion. It is built for people who hold scripture as their highest authority and who pursue repentance, reconciliation, and accountability as genuine practices of the faith — not as metaphors.
 
@@ -158,7 +210,7 @@ Christian Mode is a first-release feature set built specifically for Bible-follo
 
 **Rationale**: This platform was built by someone with a specific biblical faith. Christian Mode is the most direct expression of that. It should be built with the integrity that conviction requires — seriously, robustly, and without hedging.
 
-### IX. No AI in the Worldview Engine Stack
+## Principle IX — No AI in the Worldview Engine Stack
 
 judgmental.io is a **Worldview Explorer**. A Person's worldview on this platform is the composition of all the Records they have produced and all the Accords they have reached. The architecture that stores, structures, and presents those records is the **Worldview Explorer**, which maps exactly onto MVC: the **Belief Ledger** (Model — SQLite), the **Worldview Engine** (Controller — deterministic derivation), and the **Worldview Renderer** (View — presentation).
 

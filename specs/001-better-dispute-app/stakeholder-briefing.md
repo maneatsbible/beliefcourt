@@ -36,6 +36,23 @@
 
 ---
 
+## Table of Contents
+
+- [The Bootstrapping Claim](#the-bootstrapping-claim)
+- [What This Is](#what-this-is)
+- [Why Judgment? Why Now?](#why-judgment-why-now)
+- [Why This, Why Now](#why-this-why-now)
+- [The Content Acquisition Strategy: Worldview Sync + Auto-Claim Anywhere](#the-content-acquisition-strategy-worldview-sync--auto-claim-anywhere)
+- [Keyholder Program — Federation and Rewards](#keyholder-program--federation-and-rewards)
+- [The Launch Flywheels](#the-launch-flywheels)
+- [Revenue Model](#revenue-model)
+- [Projected Growth](#projected-growth)
+- [The Cost Structure](#the-cost-structure)
+- [The Moat](#the-moat)
+- [The Foundation](#the-foundation)
+
+---
+
 ## The Bootstrapping Claim
 
 > **This document is primary evidence in the following live Claim on the platform:**

@@ -29,6 +29,47 @@
 
 ---
 
+## Table of Contents
+
+- [Phase 1: Infrastructure Setup](#phase-1-infrastructure-setup)
+- [Phase 2: Database — Migration 001](#phase-2-database--migration-001-initial-schema)
+- [Phase 3: DB Adapter + Hono Server Foundation](#phase-3-db-adapter--hono-server-foundation)
+- [Phase 4: SM OAuth + JWT Authentication](#phase-4-sm-oauth--jwt-authentication)
+- [Phase 5: Maintenance Mode](#phase-5-maintenance-mode)
+- [Phase 6: Client Foundation](#phase-6-client-foundation)
+- [Phase 7: Server-Side Models + Routes](#phase-7-server-side-models--routes-recordspersons)
+- [Phase 8: Home View — Claim Feed (US1)](#phase-8-home-view--claim-feed-us1)
+- [Phase 9: Case + Challenge (US2)](#phase-9-case--challenge-us2)
+- [Phase 10: Answer + Duel View (US3)](#phase-10-answer--duel-view-us3)
+- [Phase 11: Offer / Response / Accord (US4)](#phase-11-offer--response--accord-us4)
+- [Phase 12: ClaimAccord + BaseOfTruth (US5)](#phase-12-claimaccord--baseoftruth-us5)
+- [Phase 13: Judgment (US6)](#phase-13-judgment-us6)
+- [Phase 14: Evidence + Exhibits](#phase-14-evidence--exhibits)
+- [Phase 15: AI Persona Disclosure](#phase-15-ai-persona-disclosure)
+- [Phase 16: Tipping](#phase-16-tipping)
+- [Phase 17: Analytics](#phase-17-analytics)
+- [Phase 18: Ads](#phase-18-ads)
+- [Phase 19: BibleWidget and Bible Reader](#phase-19-biblewidget-and-bible-reader-fr-210-fr-211)
+- [Phase 20: Tooltips](#phase-20-tooltips)
+- [Phase 21: Notifications (US8)](#phase-21-notifications-us8)
+- [Phase 22: Nested Cases / Lineage (US7)](#phase-22-nested-cases--lineage-us7)
+- [Phase 23: Security Hardening](#phase-23-security-hardening)
+- [Phase 24: Test Coverage](#phase-24-test-coverage)
+- [Phase 25: Final Polish + Quickstart Validation](#phase-25-final-polish--quickstart-validation)
+- [Phase 26: Miranda, Rescission, Judgment Weight, and On-the-Record Search](#phase-26-miranda-rescission-judgment-weight-and-on-the-record-search)
+- [Phase 27: Admin, User Management, and Cron Infrastructure](#phase-27-admin-user-management-and-cron-infrastructure)
+- [Phase 28: Blocker Resolution and Gap Closure](#phase-28-blocker-resolution-and-gap-closure)
+- [Phase 29: CI / CD Pipeline](#phase-29-ci--cd-pipeline-fr-232--fr-241)
+- [Phase 30: Judgy Blog](#phase-30-judgy-blog-fr-242--fr-245)
+- [Phase 31: Open-Spec Public Surface](#phase-31-open-spec-public-surface-fr-247--fr-250)
+- [Phase 32: Milestone 1 — mockMode MVP](#phase-32-milestone-1--mockmode-mvp)
+- [Phase 33: Milestone 2 — Worldview Explorer](#phase-33-milestone-2--worldview-explorer-mockmode)
+- [Phase 34: Milestone 3 — Worldview Sync + Auto-Claim Anywhere](#phase-34-milestone-3--worldview-sync--auto-claim-anywhere-spec--stubs)
+- [GitHub PoC — Rate Limit Handling](#github-poc--rate-limit-handling-fr-275--fr-278)
+- [Constitutional Governance, Crowdfunding, and Federation](#constitutional-governance-crowdfunding-and-federation-fr-279--fr-287)
+
+---
+
 ## Phase 1: Infrastructure Setup
 
 **Goal**: Fly.io app provisioned; Docker image builds and deploys; persistent SQLite volume mounted; Litestream replicates to Tigris S3; `fly.toml`, `Dockerfile`, and `start.sh` in place.
