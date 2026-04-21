@@ -1,0 +1,89 @@
+/**
+ * Server model: Record (Claim, Challenge, Answer, Offer, Response)
+ */
+
+import { v4 as uuid }    from 'uuid';
+import { createHash }    from 'crypto';
+import { getDb }         from '../../../db/db.js';
+
+export function getRecordById(id) {
+  const db = getDb();
+  return db.get('SELECT * FROM records WHERE id = ?', [id]);
+}
+
+export function getRecordsByCase(caseId) {
+  const db = getDb();
+  return db.query(
+    'SELECT * FROM records WHERE case_id = ? ORDER BY created_at ASC',
+    [caseId]
+  );
+}
+
+/**
+ * Returns all Claims (paginated) for the home feed.
+ * Uses sequential simple queries for MockAdapter compatibility —
+ * avoids JOINs and subqueries which only work in SqliteAdapter.
+ */
+export function getClaims({ limit = 30, offset = 0 } = {}) {
+  const db = getDb();
+
+  const claims = db.query(
+    `SELECT * FROM records WHERE type = 'claim' ORDER BY created_at DESC LIMIT ? OFFSET ?`,
+    [limit, offset]
+  );
+
+  // Augment each claim with author info + case/accord counts.
+  return claims.map(r => {
+    // Author identity
+    const identity = db.get(
+      `SELECT * FROM linked_identities WHERE person_id = ? LIMIT 1`,
+      [r.author_id]
+    );
+    r.author_handle          = identity?.handle          ?? null;
+    r.author_platform        = identity?.platform        ?? null;
+    r.author_profile_pic_url = identity?.profile_pic_url ?? '';
+
+    // Open case count
+    const openCases = db.query(
+      `SELECT * FROM cases WHERE claim_id = ? AND status = 'open'`,
+      [r.id]
+    );
+    r.open_case_count = openCases.length;
+
+    // Accord count (claim_accords rows)
+    const accords = db.query(
+      `SELECT * FROM claim_accords WHERE claim_id = ?`,
+      [r.id]
+    );
+    r.accord_count = accords.length;
+
+    return r;
+  });
+}
+
+export function createRecord({ type, authorId, parentId = null, caseId = null, text, imageUrl, sourceUrl, attributedHandle, attributedPlatform, challengeType, yesNo }) {
+  const db = getDb();
+  const id   = uuid();
+  const hash = _integrityHash({ id, type, authorId, text, createdAt: new Date().toISOString() });
+
+  db.run(
+    `INSERT INTO records
+       (id, type, author_id, parent_id, case_id, challenge_type, yes_no,
+        text, image_url, source_url, attributed_handle, attributed_platform, integrity_hash)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    [
+      id, type, authorId, parentId ?? null, caseId ?? null,
+      challengeType ?? null, yesNo ?? null,
+      text ?? null, imageUrl ?? null, sourceUrl ?? null,
+      attributedHandle ?? null, attributedPlatform ?? null,
+      hash,
+    ]
+  );
+
+  return getRecordById(id);
+}
+
+function _integrityHash(fields) {
+  const canonical = JSON.stringify(fields, Object.keys(fields).sort());
+  return createHash('sha256').update(canonical).digest('hex');
+}

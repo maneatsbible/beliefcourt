@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>judgmental.io — Maintenance</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0e0e10;
+      color: #e2dbcf;
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+    }
+    .card {
+      max-width: 480px;
+      background: #1a1a1e;
+      border: 1px solid #2e2e36;
+      border-radius: 12px;
+      padding: 3rem 2.5rem;
+    }
+    .icon { font-size: 3rem; margin-bottom: 1.5rem; }
+    h1 { font-size: 1.6rem; margin-bottom: 0.75rem; }
+    p  { color: #888; line-height: 1.6; margin-bottom: 1.5rem; }
+    form { display: flex; flex-direction: column; gap: 0.75rem; }
+    input, textarea {
+      background: #0e0e10;
+      border: 1px solid #2e2e36;
+      border-radius: 6px;
+      color: #e2dbcf;
+      padding: 0.6rem 0.8rem;
+      font-size: 0.9rem;
+      width: 100%;
+    }
+    textarea { resize: vertical; min-height: 80px; }
+    button {
+      background: #6a5acd;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:hover { background: #7b6bde; }
+    .success { color: #4caf50; margin-top: 0.5rem; font-size: 0.9rem; }
+    .error   { color: #f44336; margin-top: 0.5rem; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon" aria-hidden="true">⚖</div>
+    <h1>Maintenance in progress</h1>
+    <p>judgmental.io is undergoing scheduled maintenance. We'll be back shortly.</p>
+    <p>If you have an urgent issue, send us a note below and we'll follow up.</p>
+    <form id="contact-form" novalidate>
+      <input type="email" id="email" placeholder="your@email.com" required autocomplete="email" />
+      <textarea id="message" placeholder="Your message…" required></textarea>
+      <button type="submit">Send</button>
+      <div id="form-status" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+  <script>
+    document.getElementById('contact-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const status  = document.getElementById('form-status');
+      const email   = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
+      if (!email || !message) { status.className = 'error'; status.textContent = 'Please fill in both fields.'; return; }
+      status.className = ''; status.textContent = 'Sending…';
+      try {
+        const res = await fetch('/maintenance/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, message }),
+        });
+        if (res.ok) {
+          status.className = 'success';
+          status.textContent = 'Received — thank you!';
+          e.target.reset();
+        } else {
+          throw new Error('Server error');
+        }
+      } catch {
+        status.className = 'error';
+        status.textContent = 'Failed to send. Please try again.';
+      }
+    });
+  </script>
+</body>
+</html>

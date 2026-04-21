@@ -1,14 +1,25 @@
 {
   "name": "judgmental.io",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "judgmental.io - on the record",
   "type": "module",
   "private": true,
   "scripts": {
+    "dev": "USE_MOCK_DB=true node src/server/index.js",
+    "start": "node src/server/index.js",
     "test": "node --experimental-vm-modules tests/run-all.js",
     "test:coverage": "npx c8 --reporter=text --reporter=lcov node --experimental-vm-modules tests/run-all.js",
     "test:check": "npx c8 check-coverage --lines 85 --functions 85 --branches 80 node --experimental-vm-modules tests/run-all.js",
-    "serve": "npx serve . -p 3000"
+    "db:migrate": "node db/migrate.js",
+    "seed": "node src/mock/seed-data.js"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.13.7",
+    "better-sqlite3": "^11.9.1",
+    "hono": "^4.7.7",
+    "jose": "^5.10.0",
+    "node-cron": "^3.0.3",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "c8": "^10.1.2"
