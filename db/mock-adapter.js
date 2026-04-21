@@ -49,27 +49,61 @@ export class MockAdapter extends DbAdapter {
     return this._tables.get(name);
   }
 
-  /** Parse a minimal WHERE clause: col = ? [AND col2 = ?]* */
+  /** Parse a minimal WHERE clause: col = 'val', col = 42, col = ? */
   _parseWhere(where, params) {
-    if (!where) return () => true;
-    const conditions = [];
-    let paramIdx = 0;
+    if (!where) return [() => true, 0];
+    const conditions  = [];
+    let   paramIdx    = 0;
     for (const part of where.split(/\s+AND\s+/i)) {
-      const m = part.trim().match(/^(\w+)\s*=\s*\?$/i);
-      if (!m) continue;
-      const col = m[1];
-      const val = params[paramIdx++];
-      conditions.push(row => String(row[col]) === String(val));
+      const t = part.trim();
+      // col = ?  (placeholder)
+      let m = t.match(/^(\w+)\s*=\s*\?$/i);
+      if (m) {
+        const col = m[1];
+        const val = params[paramIdx++];
+        conditions.push(row => String(row[col]) === String(val ?? ''));
+        continue;
+      }
+      // col = 'string literal'
+      m = t.match(/^(\w+)\s*=\s*'([^']*)'$/i);
+      if (m) {
+        const col = m[1], val = m[2];
+        conditions.push(row => String(row[col] ?? '') === val);
+        continue;
+      }
+      // col = numeric literal
+      m = t.match(/^(\w+)\s*=\s*(\d+)$/i);
+      if (m) {
+        const col = m[1], val = m[2];
+        conditions.push(row => String(row[col] ?? '') === val);
+        continue;
+      }
     }
-    return row => conditions.every(fn => fn(row));
+    const filter = row => conditions.every(fn => fn(row));
+    return [filter, paramIdx];
   }
 
   query(sql, params = []) {
-    const m = sql.match(/FROM\s+(\w+)(?:\s+WHERE\s+(.+?))?(?:\s+ORDER\s+BY\s+(.+?))?(?:\s+LIMIT\s+(\d+))?(?:\s+OFFSET\s+(\d+))?\s*$/is);
+    // Accept both literal ints and ? placeholders for LIMIT/OFFSET.
+    const m = sql.match(
+      /FROM\s+(\w+)(?:\s+WHERE\s+(.+?))?(?:\s+ORDER\s+BY\s+(.+?))?(?:\s+LIMIT\s+(\d+|\?))?(?:\s+OFFSET\s+(\d+|\?))?\s*$/is
+    );
     if (!m) return [];
-    const [, table, where, orderBy, limit, offset] = m;
+    const [, table, where, orderBy, limitRaw, offsetRaw] = m;
+
+    const [filter, whereParamCount] = this._parseWhere(where, params);
+    const restParams = params.slice(whereParamCount); // params after WHERE ones
+
+    // Resolve LIMIT / OFFSET — either literal digit or ? from restParams
+    let limitN  = undefined;
+    let offsetN = undefined;
+    let restIdx = 0;
+    if (limitRaw  !== undefined) { limitN  = limitRaw  === '?' ? restParams[restIdx++] : Number(limitRaw);  }
+    if (offsetRaw !== undefined) { offsetN = offsetRaw === '?' ? restParams[restIdx++] : Number(offsetRaw); }
+
     const tbl = this._getTable(table);
-    let rows = [...tbl.values()].filter(this._parseWhere(where, params));
+    let rows = [...tbl.values()].filter(filter);
+
     if (orderBy) {
       const [col, dir] = orderBy.trim().split(/\s+/);
       rows.sort((a, b) => {
@@ -79,8 +113,8 @@ export class MockAdapter extends DbAdapter {
         return dir?.toUpperCase() === 'DESC' ? -cmp : cmp;
       });
     }
-    if (offset) rows = rows.slice(Number(offset));
-    if (limit)  rows = rows.slice(0, Number(limit));
+    if (offsetN !== undefined) rows = rows.slice(Number(offsetN));
+    if (limitN  !== undefined) rows = rows.slice(0, Number(limitN));
     return rows;
   }
 

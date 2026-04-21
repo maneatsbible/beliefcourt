@@ -28,8 +28,8 @@ export function getClaims({ limit = 30, offset = 0 } = {}) {
   const db = getDb();
 
   const claims = db.query(
-    `SELECT * FROM records WHERE type = 'claim' ORDER BY created_at DESC LIMIT ? OFFSET ?`,
-    [limit, offset]
+    `SELECT * FROM records WHERE type = ? ORDER BY created_at DESC LIMIT ? OFFSET ?`,
+    ['claim', limit, offset]
   );
 
   // Augment each claim with author info + case/accord counts.
@@ -45,8 +45,8 @@ export function getClaims({ limit = 30, offset = 0 } = {}) {
 
     // Open case count
     const openCases = db.query(
-      `SELECT * FROM cases WHERE claim_id = ? AND status = 'open'`,
-      [r.id]
+      `SELECT * FROM cases WHERE claim_id = ? AND status = ?`,
+      [r.id, 'open']
     );
     r.open_case_count = openCases.length;
 
@@ -64,19 +64,20 @@ export function getClaims({ limit = 30, offset = 0 } = {}) {
 export function createRecord({ type, authorId, parentId = null, caseId = null, text, imageUrl, sourceUrl, attributedHandle, attributedPlatform, challengeType, yesNo }) {
   const db = getDb();
   const id   = uuid();
-  const hash = _integrityHash({ id, type, authorId, text, createdAt: new Date().toISOString() });
+  const now  = new Date().toISOString();
+  const hash = _integrityHash({ id, type, authorId, text, createdAt: now });
 
   db.run(
     `INSERT INTO records
        (id, type, author_id, parent_id, case_id, challenge_type, yes_no,
-        text, image_url, source_url, attributed_handle, attributed_platform, integrity_hash)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        text, image_url, source_url, attributed_handle, attributed_platform, integrity_hash, created_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [
       id, type, authorId, parentId ?? null, caseId ?? null,
       challengeType ?? null, yesNo ?? null,
       text ?? null, imageUrl ?? null, sourceUrl ?? null,
       attributedHandle ?? null, attributedPlatform ?? null,
-      hash,
+      hash, now,
     ]
   );
 
