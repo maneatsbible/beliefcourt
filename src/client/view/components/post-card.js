@@ -171,51 +171,6 @@ function _relTime(isoString) {
  * }} permissions
  * @returns {HTMLElement}
  */
-export function renderPostCard(record, permissions, _currentUser) {
-  const {
-    canChallenge = { allowed: false },
-    canAgree     = null,
-    isYourTurn   = false,
-  } = permissions;
-
-  const card = document.createElement('div');
-  card.className = `card post-card post-card--${record.type}`;
-  card.dataset.recordId = record.id;
-
-  card.innerHTML = `
-    <div class="card__header">
-      <span class="post-type-icon" aria-label="${_esc(record.type)}">${_typeIcon(record.type)}</span>
-      <span class="post-author">@${_esc(record.authorHandle ?? '?')}</span>
-      <time class="post-time" datetime="${_esc(record.createdAt)}">${_relTime(record.createdAt)}</time>
-      ${isYourTurn ? '<span class="badge badge--your-turn">Your turn</span>' : ''}
-      ${record.openCaseCount > 0
-        ? `<span class="badge badge--cases" title="${record.openCaseCount} open case(s)">${_esc(String(record.openCaseCount))} ⚔</span>`
-        : ''}
-      ${record.accordCount > 0
-        ? `<span class="badge badge--accords" title="${record.accordCount} accord(s)">⇌ ${_esc(String(record.accordCount))}</span>`
-        : ''}
-    </div>
-    <div class="card__body">
-      <p class="post-text">${_esc(record.text)}</p>
-    </div>
-    <div class="card__actions">
-      ${_challengeBtn(canChallenge)}
-      ${canAgree !== null ? _agreeBtn(canAgree) : ''}
-      <button class="icon-btn btn--copy" data-action="copy-url" aria-label="Copy link">
-        ${ICON_COPY}
-      </button>
-    </div>
-  `.trim();
-
-  card.querySelector('[data-action="copy-url"]')?.addEventListener('click', e => {
-    e.stopPropagation();
-    navigator.clipboard.writeText(buildCanonicalUrl({ claimId: record.id }))
-      .then(() => showNotification('Link copied!', 'success'))
-      .catch(() => showNotification('Could not copy link.', 'error'));
-  });
-
-  return card;
-}
 
 function _typeIcon(type) {
   switch (type) {
