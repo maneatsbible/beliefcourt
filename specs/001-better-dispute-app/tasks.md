@@ -2,7 +2,24 @@
 
 **Format**: `[ ]` not started · `[~]` in progress · `[X]` done  
 **Prerequisite reading**: `plan.md`, `spec.md`, `data-model.md`  
-**Source structure**: `src/client/` (browser), `src/server/` (Hono/Node), `db/` (migrations + adapter)
+**Source structure**: `src/client/` (browser), `src/server/` (Hono/Node), `db/` (migrations + adapter)  
+**Governed by**: [constitution.md](../../.specify/memory/constitution.md) — supersedes all other documents
+
+---
+
+## Spec Index
+
+| Document | Role |
+|---|---|
+| [spec.md](spec.md) | Functional requirements |
+| [plan.md](plan.md) | Implementation architecture and deployment |
+| [data-model.md](data-model.md) | Database schema and entity definitions |
+| **[tasks.md](tasks.md)** | Implementation tasks (SDLC) — you are here |
+| [quickstart.md](quickstart.md) | Development environment setup |
+| [research.md](research.md) | Pre-design unknowns and resolved decisions |
+| [stakeholder-briefing.md](stakeholder-briefing.md) | Public financial projections and constitutional crowdfunding |
+| [viral-growth-model.md](viral-growth-model.md) | Growth flywheels and acquisition model |
+| [constitution.md](../../.specify/memory/constitution.md) | **Governing document — supersedes all others** |
 
 ---
 
@@ -760,5 +777,39 @@
 - [ ] T296 In `src/controller/home-controller.js` and `src/controller/dispute-controller.js` — wrap all `get()` calls in try/catch; on `isRateLimit(err)`: call `showRateLimitBanner(getRateLimitResetDate(), !!this._user)`; fall through to cached data if available (already returned by `get()` via ETag); add `[cached]` text to any rendered content that was served from cache during a rate-limit state (pass a `fromCache` flag through the render path or check `cache.get(url)?.data` directly)
 - [ ] T297 In `src/view/components/composer.js` — when a submit action throws an `ApiError` that `isRateLimit()`: (1) do NOT clear the textarea or image URL field; (2) hide the spinner; (3) show an inline error message below the submit button: "Couldn't save — GitHub rate limit reached. Try again after [reset time] or sign in."; (4) render a "Retry" button that re-attempts the submit after a 3-second delay (single retry; on second failure show generic error)
 - [ ] T298 In `src/controller/app-controller.js` — listen for `data-action="signin"` on the rate-limit banner; trigger the existing GitHub Device Auth sign-in flow; on successful auth, call `dismissRateLimitBanner()` and re-run the current view's load method to retry failed reads with the new token
+
+---
+
+## Constitutional Governance, Crowdfunding, and Federation (FR-279 – FR-287)
+
+**Goal**: The MVP is a live, real product. The bootstrapping Claim is an on-platform Duel. P2P giving is wired to Stripe. Keyholders can register. Quorum gates are enforced. No crypto exists in the codebase. Financial projections are publicly challengeable at `/open-spec/stakeholder-briefing`.
+
+**Independent Test**: File bootstrapping Claim as `super_admin`; verify pinned with live giving total. Challenge it as another user; verify Duel flow proceeds. Verify PENDING_QUORUM disposition fires when < quorum Judgments exist. Verify `/api/keyholders` registry endpoint returns 200. `grep -r "blockchain\|ethereum\|solana\|token\|wallet" src/` returns zero results.
+
+- [ ] T299 Add `constitutional_records` table to migration 001: `id INTEGER PK, principle_number INTEGER NOT NULL, title TEXT NOT NULL, body TEXT NOT NULL, version TEXT NOT NULL, ratified_at DATETIME NOT NULL, amended_at DATETIME`; append-only trigger (no UPDATE/DELETE); this table is empty at launch — it is the landing pad for the constitution-to-Ledger migration (FR-287)
+- [ ] T300 Add `quorum_rules` table to migration 001: `id INTEGER PK, duel_type TEXT NOT NULL CHECK(duel_type IN ('standard','organizational','constitutional')), min_judgments INTEGER NOT NULL, min_verified_judges INTEGER NOT NULL DEFAULT 0`; seed with initial quorum values from FR-280: standard=3, organizational=5/3, constitutional=7/7; append-only
+- [ ] T301 Update `POST /api/duels/:id/judgments` route — after inserting the Judgment, query count of Judgments for this Duel against `quorum_rules` for this duel's type; if count < `min_judgments`, set `duels.disposition = 'PENDING_QUORUM'`; only advance to verdict computation when quorum is met
+- [ ] T302 Update `GET /api/duels/:id` response — include `quorum: { required: N, current: M, met: bool }` in response body; include `disposition: "PENDING_QUORUM"` when appropriate
+- [ ] T303 Update `duel-view.js` Judgment section — when `quorum.met === false`, show a `[Awaiting Quorum — N of M Judgments needed]` notice above the Judgment list instead of a verdict; Judgment form remains open and functional; the notice disappears automatically when quorum is met and page is refreshed
+- [ ] T304 Add `pinned_claims` table to migration 001: `id INTEGER PK, record_id INTEGER NOT NULL REFERENCES records(id), pinned_by INTEGER NOT NULL REFERENCES persons(id), pinned_at DATETIME NOT NULL, is_active BOOLEAN DEFAULT 1, activation_claim_id INTEGER REFERENCES records(id)`; max 3 active pins enforced at application layer; append-only
+- [ ] T305 Add `POST /api/admin/pins` route (requireAdmin) — creates a pin request Claim attributed to `super_admin` (plain text: "Pinning Claim #N to the public feed for [reason]"), schedule `is_active = true` after 7 days if no Challenge blocks it; returns the pin record and the activation-gate Claim; max 3 active pins enforced
+- [ ] T306 Add `GET /api/feed/pinned` route (public) — returns active pinned Claims in pin order, with full Record payload including giving widget totals; called by `home-controller.js` before the standard feed fetch and rendered above it
+- [ ] T307 Render pinned Claims in `home-view.js`: above the standard feed, for each result from `GET /api/feed/pinned`, render a post card with `[PINNED]` badge (amber, top-right corner of card); non-dismissible for unauthenticated users (no × button); dismissible per-session for authenticated users (stored in `localStorage` keyed by pin ID)
+- [ ] T308 Add `stripe_connect_accounts` table to migration 001: `id INTEGER PK, person_id INTEGER UNIQUE NOT NULL FK, stripe_account_id TEXT NOT NULL, onboarded_at DATETIME, is_active BOOLEAN DEFAULT 0`; one Connected Account per Person
+- [ ] T309 Add `giving_widgets` table to migration 001: `id INTEGER PK, record_id INTEGER UNIQUE NOT NULL FK, enabled_by INTEGER NOT NULL FK, enabled_at DATETIME NOT NULL, total_raised_cents INTEGER NOT NULL DEFAULT 0, contributor_count INTEGER NOT NULL DEFAULT 0`; `total_raised_cents` updated by Stripe webhook
+- [ ] T310 Add `GET /api/auth/stripe/connect` route (auth required) — redirects to Stripe Connect Express onboarding URL for the authenticated user; on return, verifies onboarding completion and sets `is_active = true` in `stripe_connect_accounts`
+- [ ] T311 Add `POST /api/records/:id/giving-widget` route (auth required, author only OR super_admin) — enables the giving widget on a Record; creates `giving_widgets` row; validates the author has a connected Stripe account (`is_active = true`); returns `{ paymentLink: <Stripe Payment Link URL> }`
+- [ ] T312 Add `POST /api/giving/webhook` route — receives Stripe `payment_intent.succeeded` webhook; validates Stripe signature; increments `giving_widgets.total_raised_cents` and `contributor_count`; inserts a public contributor row in `giving_contributions` table (person_id or NULL for anonymous, amount_cents, created_at)
+- [ ] T313 Add `giving_contributions` table to migration 001: `id INTEGER PK, widget_id INTEGER NOT NULL FK, person_id INTEGER NULL FK, amount_cents INTEGER NOT NULL, anonymous BOOLEAN DEFAULT 0, created_at DATETIME NOT NULL`; NOT append-restricted (no correction needed — read-only after insert is sufficient)
+- [ ] T314 Render giving widget in `post-card.js`: when `record.givingWidget` is present, render below the post text — running total (e.g. "$1,240 raised"), contributor count, "Give" button (opens Stripe Payment Link in new tab), and collapsible contributor list (most recent 5, with "See all" link); total and count refresh after each page load; "Give" button hidden when unauthenticated with tooltip "Sign in to give" — wait, actually allow giving without sign-in since Stripe Payment Link requires no account: show Give button always, tooltip only when payment link is not yet set up
+- [ ] T315 Add `POST /api/admin/bootstrapping-claim` route (requireAdmin, idempotent) — creates the bootstrapping Claim Record if it does not already exist: `{ title: "judgmental.io is viable, worth funding, and can reach constitutional self-governance within 18 months of launch.", body: <content from stakeholder-briefing.md summary>, labels: ["bootstrapping", "constitutional", "pinned"] }`; enables the giving widget automatically; pins it; attaches spec documents as Evidence links
+- [ ] T316 Add `keyholders` table to migration 001: `id INTEGER PK, person_id INTEGER NOT NULL FK, node_url TEXT NOT NULL, node_type TEXT NOT NULL CHECK(node_type IN ('seedling','steward','keeper')), registered_at DATETIME NOT NULL, last_ping_at DATETIME, is_active BOOLEAN DEFAULT 1, governance_weight REAL NOT NULL DEFAULT 0.0`
+- [ ] T317 Add `keyholder_rewards` table to migration 001: `id INTEGER PK, keyholder_id INTEGER NOT NULL FK, period_start DATETIME NOT NULL, period_end DATETIME NOT NULL, queries_served INTEGER DEFAULT 0, writes_relayed INTEGER DEFAULT 0, records_confirmed INTEGER DEFAULT 0, reward_usd_cents INTEGER DEFAULT 0, paid_at DATETIME NULL`; append-only
+- [ ] T318 Add `GET /api/keyholders` route (public) — returns all active Keyholder nodes with `id`, `node_type`, `node_url`, `registered_at`, `last_ping_at`, `governance_weight`; no personal data exposed
+- [ ] T319 Add `POST /api/keyholders` route (auth required) — registers a new Keyholder node for the authenticated user; validates URL is reachable (`GET <url>/health` returns 200); creates `keyholders` row; returns registration record; limited to one registration per Person in MVP
+- [ ] T320 Add `GET /api/keyholders/:id/rewards` route (auth required, own node only OR admin) — returns full reward history for the node; add `GET /settings/keyholder` client-side route rendering the Keyholder Settings page: node status, uptime, reward history, governance weight, and a "Deregister" button
+- [ ] T321 Add no-crypto assertion to CI: add a step to `ci/security-scan` job (T241) that runs `grep -r "blockchain\|ethereum\|solana\|wallet\|token\b" src/` and fails if any match is found; this enforces FR-285 at the build level; legitimate uses of "token" (JWT token, auth token) must use variable names that don't trigger the raw-word match — use `grep -rP "\bblockchain\b|\bethereum\b|\bsolana\b|\bcrypto\b|\bwallet\b" src/` with word-boundary regex to avoid false positives on `authToken`
+- [ ] T322 Add bootstrapping Claim to `src/mock/seed-data.js` — mock assertion with `{ number: 9999, title: "judgmental.io is viable, worth funding…", labels: ["bootstrapping","constitutional","pinned"], giving_widget: { total_raised_cents: 412500, contributor_count: 247 } }` so the pinned Claim renders correctly in mock mode with a realistic giving total
+
 
 

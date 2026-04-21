@@ -1,6 +1,23 @@
-# Quickstart: disputable.io — Development Setup
+# Quickstart: judgmental.io — Development Setup
 
-**Date**: 2026-04-18 | **Plan**: [plan.md](plan.md)
+**Date**: 2026-04-18 (revised 2026-04-21) | **Plan**: [plan.md](plan.md)  
+**Governed by**: [constitution.md](../../.specify/memory/constitution.md) — supersedes all other documents
+
+---
+
+## Spec Index
+
+| Document | Role |
+|---|---|
+| [spec.md](spec.md) | Functional requirements |
+| [plan.md](plan.md) | Implementation architecture and deployment |
+| [data-model.md](data-model.md) | Database schema and entity definitions |
+| [tasks.md](tasks.md) | Implementation tasks (SDLC) |
+| **[quickstart.md](quickstart.md)** | Development environment setup — you are here |
+| [research.md](research.md) | Pre-design unknowns and resolved decisions |
+| [stakeholder-briefing.md](stakeholder-briefing.md) | Public financial projections and constitutional crowdfunding |
+| [viral-growth-model.md](viral-growth-model.md) | Growth flywheels and acquisition model |
+| [constitution.md](../../.specify/memory/constitution.md) | **Governing document — supersedes all others** |
 
 ---
 

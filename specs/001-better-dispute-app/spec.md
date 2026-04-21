@@ -1,9 +1,25 @@
 # Feature Specification: judgmental.io
 
 **Feature Branch**: `001-better-dispute-app`
-**Created**: 2026-04-18 (revised 2026-04-19)
+**Created**: 2026-04-18 (revised 2026-04-21)
 **Status**: Draft
-**Input**: User description: "I want to build an app called judgmental.io — plain vanilla JavaScript, runs in browser, GitHub back-end for users/repos/issues. No external frameworks or libraries. The system helps and encourages people to dispute and then judge according to their own standard of truth."
+**Governed by**: [constitution.md](../../.specify/memory/constitution.md) — supersedes all other documents
+
+---
+
+## Spec Index
+
+| Document | Role |
+|---|---|
+| **[spec.md](spec.md)** | Functional requirements — you are here |
+| [plan.md](plan.md) | Implementation architecture and deployment |
+| [data-model.md](data-model.md) | Database schema and entity definitions |
+| [tasks.md](tasks.md) | Implementation tasks (SDLC) |
+| [quickstart.md](quickstart.md) | Development environment setup |
+| [research.md](research.md) | Pre-design unknowns and resolved decisions |
+| [stakeholder-briefing.md](stakeholder-briefing.md) | Public financial projections and constitutional crowdfunding |
+| [viral-growth-model.md](viral-growth-model.md) | Growth flywheels and acquisition model |
+| [constitution.md](../../.specify/memory/constitution.md) | **Governing document — supersedes all others** |
 
 ---
 
@@ -1266,6 +1282,32 @@ The current disputable.io SPA communicates directly with the GitHub Issues API (
 - **FR-278** (**Sign-in upsell on rate limit**): The rate-limit banner (FR-275) MUST include a brief explanation: "Signed-in users get 5,000 GitHub API requests per hour vs 60 for anonymous visitors." The "Sign In" CTA navigates to the GitHub Device Auth flow. On successful authentication the banner MUST dismiss automatically and the pending read request MUST be retried with the new token.
 
 **Independent Test**: Load the app without a token; exhaust the rate limit; verify the banner appears and content still renders from cache. Attempt to submit a Challenge; verify the draft is preserved and the inline error is shown. Activate mock mode; verify no rate-limit UI appears at all.
+
+---
+
+**Constitutional Governance, Crowdfunding, and Federation**
+
+> All requirements in this section are **constitutional** — they may only be changed through a Constitutional Duel (Principle XII). The SDLC documents (spec, plan, tasks) are governed by and subordinate to [constitution.md](../../.specify/memory/constitution.md). Where any FR in this spec conflicts with a constitutional Principle, the constitution supersedes.
+
+- **FR-279** (**Worldview Reconciliation Process as governance engine**): The platform MUST govern all non-SDLC operational decisions — including fee rates, reward rates, feature prioritization, constitutional amendments, moderation policy, and platform financial projections — through the **Worldview Reconciliation Process (WRP)**. WRP is the platform's operating equivalent of Robert's Rules of Order, replacing procedural formalism with structured truth-seeking: every motion is a Claim, every amendment a Counter-challenge, every vote a weighted Judgment. No platform-level policy decision that affects Stakeholders may be enacted by `super_admin` unilaterally without first being either (a) unopposed as a Claim for 30 days, or (b) resolved via a Constitutional Duel. This applies to the `super_admin` equally. The `super_admin` role is a bootstrapping necessity, not a permanent authority above the constitution.
+
+- **FR-280** (**Quorum requirement for binding Judgment**): No Judgment rendered on any Duel is constitutionally binding unless a **quorum** of qualified Judges has participated. Quorum rules: (1) Standard Duels: minimum 3 Judgments required; (2) Organizational Duels: minimum 5 Judgments, at least 3 from non-parties; (3) Constitutional Duels: minimum 7 Judgments from `verified_judge`-role Persons who have each completed ≥ 10 prior Judgments. A Judgment count below quorum produces a `PENDING_QUORUM` disposition rather than a verdict — the Duel remains open for further Judgment. Quorum thresholds are themselves constitutional and may only be changed by Constitutional Duel. Keyholder Governance Weight (see FR-284) is additive to track-record weight in Constitutional Duels only.
+
+- **FR-281** (**Pinned Claims**): The `super_admin` MAY pin up to 3 Claims to the top of the public feed at any time. A pinned Claim: (a) is rendered above all other feed content for unauthenticated and authenticated users alike; (b) carries a `[PINNED]` badge; (c) shows the live total of P2P contributions received via its giving widget (FR-282); (d) is non-dismissible for guest users; (e) may be challenged and judged like any other Claim. Pinning is a `super_admin` action that must itself be filed as a Claim and left open for 7 days before taking effect, giving any Person the opportunity to Challenge before the pin activates. The first pinned Claim MUST be the bootstrapping Claim (FR-283).
+
+- **FR-282** (**P2P giving widget on Claims**): Any Claim MAY display a **P2P giving widget** that allows any visitor — authenticated or not — to make a direct financial contribution to the Claim author. The widget is rendered below the Claim text and above any responses. It shows: (1) a live running total of all contributions received on this Claim; (2) a count of unique contributors; (3) a "Give" button that opens a Stripe Payment Link in a new tab (no account required for the guest to contribute); (4) a public list of the most recent contributors (handle or "Anonymous") with amount. All contributions are made directly to the Claim author's Stripe Connected Account — the platform takes 0% platform fee. Stripe's standard interchange applies (≈2.9% + $0.30). The giving widget is enabled per-Claim by the author via the Claim composer. The live total and contributor list are first-class public records on the Claim — permanently visible, permanently on the Belief Ledger. `super_admin` may enable the giving widget on any Claim when acting in the bootstrapping-campaign capacity (FR-283).
+
+- **FR-283** (**Bootstrapping Claim and constitutional crowdfunding**): The MVP MUST include a live, real, on-platform Claim filed by the `super_admin` / platform founder with the text: *"judgmental.io is viable, worth funding, and can reach constitutional self-governance within 18 months of launch."* This Claim: (a) is pinned as the first Pinned Claim per FR-281; (b) has the P2P giving widget (FR-282) enabled, serving as the platform's primary crowdfunding mechanism; (c) is filed with all documents in `specs/001-better-dispute-app/` attached as Evidence — the Stakeholder Briefing, viral growth model, data model, and plan are the evidentiary record; (d) is open to Challenge by any authenticated Person from the moment of launch; (e) is publicly readable without authentication so guests can read the evidence and contribute before signing in. The running total raised through this Claim is shown on the Claim card. This is not a widget embedded in a mockup — it is the live product's first real Duel. The crowdfunding campaign's existence as an active on-platform Claim is itself primary evidence that the platform's governance model works.
+
+- **FR-284** (**Keyholder program — federation and constitutional stake**): A **Keyholder** is any authenticated Person or registered organization that hosts a judgmental.io node and has registered it through the Keyholder Registry. Keyholders are a constitutional class of Stakeholder. The platform MUST provide: (1) a Keyholder Registry (`GET /keyholders`, accessible to all authenticated users) listing all registered nodes with tier, uptime, and reward history; (2) a Keyholder registration flow (`POST /api/keyholders`) allowing any authenticated Person to register a node by providing its URL, node type, and API key; (3) a reward calculation endpoint (`GET /api/keyholders/:id/rewards`) returning earned rewards based on verifiable compute contribution; (4) a Keyholder Settings page at `/settings/keyholder`. Keyholder tiers are filed as a Claim by `super_admin` and governed by constitutional Duel. **Initial tiers (subject to Constitutional Duel)**: *Seedling* (read replica — per-query credit toward platform fees); *Steward* (write relay — per-write credit + monthly reward share); *Keeper* (full peer — per-record confirmation reward + Governance Weight in Constitutional Duels). No crypto or blockchain is used in reward distribution — all rewards are denominated in USD equivalent and distributed via Stripe or platform fee credit. Crypto distribution is prohibited until approved by Constitutional Duel (FR-285).
+
+- **FR-285** (**No cryptocurrency or blockchain until constitutional approval**): No feature, reward mechanism, payment flow, or data structure on the platform MAY use cryptocurrency, blockchain, distributed ledger technology, or token-based economics of any kind until a Constitutional Duel specifically proposing the use case has been filed, reached quorum, and produced an Accord. This prohibition is absolute and has no exceptions. It applies to: Keyholder rewards, P2P giving, tipping, subscription payments, data marketplace transactions, and any future feature. The constitutional requirement for crypto adoption is: (a) a specific, documented use case filed as a Claim; (b) a Constitutional Duel with ≥ 7 Judge panel; (c) an Accord (not a split verdict). A CONTESTED verdict is inadequate — the bar is Accord. This FR is constitutional and may only be changed by Constitutional Duel.
+
+- **FR-286** (**Financial projections as public constitutional record**): All financial projections, revenue model assumptions, crowdfunding targets, and cost structures published in [stakeholder-briefing.md](stakeholder-briefing.md) are first-class constitutional evidence. They MUST be: (a) published at `/open-spec/stakeholder-briefing` alongside all other spec documents; (b) challengeable by any authenticated Person via the standard Claim/Challenge mechanic; (c) updated only via a Claim filed by `super_admin` and left open for 7 days before the document update is committed — the filed Claim is the amendment record. Revised projections supersede prior ones via Accord, not editorial discretion. The running history of projection revisions and their associated Duels is permanently on the Belief Ledger. There is no private version of this document.
+
+- **FR-287** (**Constitution as Belief Ledger foundation**): The [constitution.md](../../.specify/memory/constitution.md) is the primitive record from which all Belief Ledger structure is derived. In the MVP, the constitution exists as a file. The constitutional vision is that it grows into the first and foundational set of Records in the Belief Ledger itself — each Principle is a Claim, each amendment is a Duel outcome, and the Ledger's own history is the constitution's provenance chain. This migration (file → Ledger) is the first Constitutional Duel after launch: *"The constitution should be migrated to the Belief Ledger as its founding Records."* The MVP MUST be built in a way that makes this migration structurally possible without data loss — meaning the DB schema for constitutional Records (Principle type, amendment history, quorum metadata) MUST be included in the initial migration even if that table is empty at launch.
+
+**Independent Test (FR-279–FR-287)**: File the bootstrapping Claim as `super_admin`; verify it is pinnable and the giving widget is live and shows real total. Challenge the bootstrapping Claim as a different user; verify standard Duel flow proceeds. Verify quorum gate on Judgment: with 2 Judgments on any Duel, `GET /api/duels/:id` returns `disposition: "PENDING_QUORUM"`. Verify `/keyholders` registry endpoint returns registered nodes. Verify no crypto-related code paths exist in the codebase (`grep -r "blockchain\|ethereum\|solana\|token\|wallet" src/` returns zero results).
 
 ---
 

@@ -1,5 +1,25 @@
 # judgmental.io — Viral Growth Model
 
+**Governed by**: [constitution.md](../../.specify/memory/constitution.md) — supersedes all other documents
+
+---
+
+## Spec Index
+
+| Document | Role |
+|---|---|
+| [spec.md](spec.md) | Functional requirements |
+| [plan.md](plan.md) | Implementation architecture and deployment |
+| [data-model.md](data-model.md) | Database schema and entity definitions |
+| [tasks.md](tasks.md) | Implementation tasks (SDLC) |
+| [quickstart.md](quickstart.md) | Development environment setup |
+| [research.md](research.md) | Pre-design unknowns and resolved decisions |
+| [stakeholder-briefing.md](stakeholder-briefing.md) | Public financial projections and constitutional crowdfunding |
+| **[viral-growth-model.md](viral-growth-model.md)** | Growth flywheels and acquisition model — you are here |
+| [constitution.md](../../.specify/memory/constitution.md) | **Governing document — supersedes all others** |
+
+---
+
 **Five flywheels. One platform. One physical-world channel.**
 
 judgmental.io is designed to spread through five distinct channels — two primary community flywheels, one physical-world acquisition channel, one institutional/parental flywheel, and one platform-level public-record virality flywheel — each with different sharing mechanics, different emotional triggers, and different retention loops.

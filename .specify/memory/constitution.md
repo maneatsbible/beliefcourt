@@ -354,7 +354,93 @@ Mock mode is activated by the presence of `?m=` in the URL. It is NOT controlled
 
 **Mock user switching** is handled by changing `?u=` in the URL and reloading. Session and auth state are cleanly reset from seed on every page load in mock mode. There is no in-page state mutation between mock users — this is a deliberate design choice to prevent bleed between mock sessions.
 
-## Quality Gates
+## Principle XIV — Worldview Reconciliation Process as Governance Engine
+
+**The platform governs itself through its own Worldview Reconciliation Process (WRP).** WRP is the constitutional replacement for Robert's Rules of Order for all non-SDLC platform decisions. Every governance motion is a Claim. Every proposed policy change is a Counter-challenge. Every binding outcome is a weighted Judgment reaching Accord.
+
+**What is governed by WRP (not by unilateral `super_admin` discretion):**
+- All fee rates and subscription prices
+- Keyholder reward rates and tier definitions
+- Moderator appointment and removal
+- Constitutional amendments (via Constitutional Duel — Principle XII)
+- Platform financial projections (FR-286)
+- Any feature or policy decision that materially affects Stakeholders
+
+**What is governed by SDLC (spec/plan/tasks — not by WRP):**
+- Engineering implementation details
+- Bug fixes and non-constitutional feature additions
+- CI/CD pipeline configuration
+- Infrastructure choices that have no policy impact
+
+**The `super_admin` bootstrapping exception**: During the MVP period (before the platform has sufficient active users to reach quorum on Constitutional Duels), the `super_admin` may file Claims and leave them open for 7 days before acting on them. If no Challenge is filed within 7 days, the Claim is treated as having reached Accord by non-contestation. Once the platform reaches the quorum threshold for Constitutional Duels (≥ 7 `verified_judge`-role Persons with ≥ 10 completed Judgments each), this exception expires and full WRP applies to all governance decisions.
+
+**Rationale**: A platform that claims to replace procedural formalism with structured truth-seeking is obligated to govern itself the same way. The `super_admin` role is a bootstrapping necessity, not a permanent hierarchy above the process. The process is the governance.
+
+## Principle XV — Keyholder Program and the Federation Moat
+
+Keyholders are a constitutional class of Stakeholder — not customers, not employees, but infrastructure contributors with a formal place in the platform's governance and economic structure. The Keyholder program exists to solve the open-source fork problem by making federation more attractive than forking.
+
+**Constitutional protections for Keyholders:**
+- Keyholder reward rates MUST be set by Constitutional Duel, not by `super_admin` unilateral decision
+- Keyholders MUST have a published, machine-readable performance and reward history accessible via `GET /api/keyholders/:id/rewards`
+- No Keyholder node may be delisted from the registry without a 30-day notice Claim, open to Challenge
+- Keyholders above Seedling tier earn non-transferable **Governance Weight** that contributes additively to their quorum weight in Constitutional Duels (FR-280)
+
+**What Keyholders are not:**
+- Keyholders are not shareholders. They hold no equity.
+- Keyholders are not custodians of user data. They serve infrastructure; they do not own records.
+- Keyholders are not exempt from the platform's constitutional Principles. All Principles apply equally to Keyholders.
+
+**Rationale**: The open-source moat is not legal protection — it is a better offer. Someone who wants to fork the platform and start their own instance faces a dead network. A Keyholder gets immediate network-effect inheritance, a reward stream, and a constitutional stake. This is the same pattern the platform applies to all adversarial actors: make the cooperative path easier than the hostile one.
+
+## Principle XVI — No Cryptocurrency Until Constitutional Approval
+
+No feature, payment flow, reward mechanism, or data structure on this platform may use cryptocurrency, blockchain, distributed ledger technology, or token-based economics of any kind until a Constitutional Duel specifically proposing the use case has been filed, reached quorum, and produced an **Accord** (not merely a non-CONTESTED verdict).
+
+This prohibition applies without exception to:
+- Keyholder rewards
+- P2P giving and tipping
+- Subscription and micro-transaction payments
+- Data marketplace transactions
+- Any future monetization or governance mechanism
+
+The bar for constitutional crypto adoption is deliberately high: Accord (not split verdict) from a ≥ 7 Judge panel on a Constitutional Duel with a specific, documented use case. Crypto proposals that fail to reach Accord are closed for 12 months before a new proposal may be filed on the same use case.
+
+**Why this is constitutional and not just operational policy**: Cryptocurrency architecturally changes the platform's threat model (regulatory, legal, and ethical dimensions) and its stakeholder relationships. It is not an implementation detail. It is a values decision that belongs to the People of the platform, not to the engineering team or the `super_admin`.
+
+**Rationale**: The platform's design already resembles crypto ventures in structure (ledger, governance, node federation, stakeholder rewards). The resemblance is incidental — the underlying mechanics are simpler, more accessible, and more constitutionally accountable without crypto rails. When a genuinely defensible use case exists — one that cannot be served by USD-denominated Stripe payments or platform fee credits — the People will recognize it and file it as a Claim. Until then, the prohibition holds.
+
+## Principle XVII — Financial Transparency as Constitutional Obligation
+
+All platform financial projections, revenue models, cost structures, crowdfunding targets, and Keyholder reward economics are **public constitutional evidence**. They are not internal business documents. They are challengeable by any authenticated Person. They are governed by WRP (Principle XIV). They are permanently archived on the Belief Ledger.
+
+**Specific obligations:**
+- The Stakeholder Briefing MUST be published at `/open-spec/stakeholder-briefing` alongside all other spec documents
+- Any revision to financial projections MUST be filed as a Claim by `super_admin` and left open for 7 days before the document is updated
+- The running history of all projection revisions and their associated Duels is permanently on the Belief Ledger
+- There is no private version of the Stakeholder Briefing — the document seen by the public is the document used internally
+
+**The bootstrapping Claim as primary evidence**: The platform's crowdfunding campaign is conducted via a live Claim filed on the platform itself — *"judgmental.io is viable, worth funding, and can reach constitutional self-governance within 18 months of launch."* The running total raised through the P2P giving widget on that Claim is public evidence that the platform's governance model works. The existence of the campaign as a live Duel is the proof of concept.
+
+**Rationale**: A platform that asks people to put their beliefs on the public record is obligated to put its own business case on the same record. Financial opacity in a platform built on epistemic accountability is a constitutional contradiction.
+
+## Principle XVIII — The Constitution as Belief Ledger Foundation
+
+In its primitive form, this constitution is a file. Its constitutional vision is to become the founding Records of the Belief Ledger itself: each Principle a Claim, each amendment a Duel outcome, the Ledger's own history the constitution's provenance chain.
+
+**Structural requirement**: The database schema MUST include a `constitutional_records` table (or equivalent) from the initial migration, even if empty at launch. This table is the landing pad for the constitution-to-Ledger migration. Its existence ensures the migration can be performed without schema changes.
+
+**The migration itself is the first post-launch Constitutional Duel**: *"The constitution should be migrated to the Belief Ledger as its founding Records."* That Duel is the first governance act of the living platform. Its outcome — Accord or sustained Challenge — is itself the first entry in the constitutional record.
+
+**What this means in practice**:
+- SDLC documents (spec, plan, tasks) are and remain engineering documents, governed by SpecKit
+- The constitution is and becomes the platform's living governance record, governed by WRP
+- The Belief Ledger, once the migration is complete, is the authoritative source for all constitutional Principles
+- No external document (not GitHub, not a PDF, not this file) supersedes the Ledger once the migration Accord is reached
+
+**Rationale**: The simplest possible architecture for a self-governing platform is one where the governance record and the dispute record are the same data structure. Right now they are separate. The constitutional vision closes that gap. And the act of closing it — filed as a Duel, resolved by Judgment — is the platform demonstrating its own mechanic at the highest possible stakes.
+
+---
 
 The following gates MUST pass before any code may be merged to the main branch:
 
@@ -388,4 +474,4 @@ This constitution supersedes all other development guidelines and practices with
 
 **Compliance review**: Adherence to this constitution MUST be verified during each sprint retrospective and whenever a new team member joins.
 
-**Version**: 2.7.0 | **Ratified**: 2026-04-18 | **Last Amended**: 2026-04-20
+**Version**: 3.0.0 | **Ratified**: 2026-04-18 | **Last Amended**: 2026-04-21
