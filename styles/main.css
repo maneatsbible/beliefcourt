@@ -157,8 +157,8 @@ body.has-mock-toolbar #app-main { padding-top: 44px; }
 .header-title { display: none; }
 .header-version { display: none; }
 
-/* ── Post cards ─────────────────────────────────────────── */
-.post-card {
+/* ── Record cards ───────────────────────────────────────── */
+.record-card {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
@@ -168,37 +168,37 @@ body.has-mock-toolbar #app-main { padding-top: 44px; }
   transition: border-color var(--transition-fast), background var(--transition-fast);
   position: relative;
 }
-.post-card:hover { border-color: var(--color-accent-blue); }
+.record-card:hover { border-color: var(--color-accent-blue); }
 
-.post-card--depth-1 { box-shadow: var(--shadow-stack-1); }
-.post-card--depth-2 { box-shadow: var(--shadow-stack-2); }
+.record-card--depth-1 { box-shadow: var(--shadow-stack-1); }
+.record-card--depth-2 { box-shadow: var(--shadow-stack-2); }
 
-.post-card--terminal {
+.record-card--terminal {
   opacity: 0.55;
   cursor: default;
   pointer-events: none;
 }
-.post-card--terminal:hover { border-color: var(--color-border); }
+.record-card--terminal:hover { border-color: var(--color-border); }
 
-.post-card--resolved {
+.record-card--resolved {
   opacity: 0.6;
   pointer-events: none;
 }
 
-.post-card--latest-action {
+.record-card--latest-action {
   border-color: var(--color-accent-yellow);
   box-shadow: 0 0 0 1px var(--color-accent-yellow);
 }
 
 /* Card header row */
-.post-card__header {
+.record-card__header {
   display: flex;
   align-items: center;
   gap: 8px;
   margin-bottom: 8px;
 }
 
-.post-card__type-icon {
+.record-card__type-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -209,39 +209,39 @@ body.has-mock-toolbar #app-main { padding-top: 44px; }
   font-weight: 700;
   flex-shrink: 0;
 }
-.post-card__type-icon--assertion {
+.record-card__type-icon--claim {
   background: rgba(227,179,65,0.15);
   color: var(--color-accent-yellow);
 }
-.post-card__type-icon--challenge {
+.record-card__type-icon--challenge {
   background: rgba(188,140,255,0.15);
   color: var(--color-accent-purple);
 }
-.post-card__type-icon--answer {
+.record-card__type-icon--answer {
   background: rgba(63,185,80,0.15);
   color: var(--color-accent-green);
 }
 
-.post-card__author {
+.record-card__author {
   font-size: 13px;
   font-weight: 600;
   color: var(--color-accent-blue);
 }
 
-.post-card__timestamp {
+.record-card__timestamp {
   font-size: 11px;
   color: var(--color-text-muted);
   margin-left: auto;
 }
 
-.post-card__body {
+.record-card__body {
   font-size: 14px;
   color: var(--color-text);
   line-height: 1.55;
   margin-bottom: 10px;
   word-break: break-word;
 }
-.post-card__body img {
+.record-card__body img {
   margin-top: 8px;
   border-radius: 6px;
   max-height: 300px;
@@ -249,15 +249,15 @@ body.has-mock-toolbar #app-main { padding-top: 44px; }
 }
 
 /* Actions row */
-.post-card__actions {
+.record-card__actions {
   display: flex;
   align-items: center;
   gap: 6px;
   flex-wrap: wrap;
 }
 
-/* ── Post card template class aliases ───────────────────── */
-/* post-card.js uses these classes; CSS definitions live here */
+/* ── Record card class aliases ──────────────────────────── */
+/* record-card.js uses these classes; CSS definitions live here */
 .card__header {
   display: flex;
   align-items: center;
@@ -279,7 +279,7 @@ body.has-mock-toolbar #app-main { padding-top: 44px; }
 }
 
 /* Type icon pill */
-.post-type-icon {
+.record-type-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -304,20 +304,20 @@ body.has-mock-toolbar #app-main { padding-top: 44px; }
 }
 
 /* Author + timestamp in card header */
-.post-author {
+.record-author {
   font-size: 13px;
   font-weight: 700;
   color: var(--color-text);
 }
-.post-time {
+.record-time {
   font-size: 11px;
   font-style: italic;
   color: var(--color-text-muted);
   margin-left: auto;
 }
 
-/* Post content */
-.post-text {
+/* Record content */
+.record-text {
   font-size: 14px;
   color: var(--color-text);
   line-height: 1.55;

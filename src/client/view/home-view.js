@@ -3,7 +3,7 @@
  * Displays paginated claims feed with composing + challenging.
  */
 
-import { renderPostCard }   from './components/post-card.js';
+import { renderRecordCard } from './components/record-card.js';
 import { renderComposer }   from './components/composer.js';
 import { showNotification } from './components/notification.js';
 import { setUrlParams }     from '../utils/url.js';
@@ -90,7 +90,7 @@ export class HomeView {
           canAgree:     this._ctrl.canAgree(this._user, record),
           isYourTurn:   false,
         };
-        const card = renderPostCard(record, perms, this._user, {
+        const card = renderRecordCard(record, perms, this._user, {
           onOpen: r => this._openRecord(r),
         });
         this._recordMap.set(record.id, record);
