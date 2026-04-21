@@ -6,9 +6,7 @@
  * controller permission gates — never hidden.
  */
 
-import { ICON_ASSERTION, ICON_CHALLENGE, ICON_ANSWER, ICON_COPY, ICON_AGREE,
-         DUEL_ICON_ACTIVE, DUEL_ICON_ACCORD, DUEL_ICON_CRICKETS,
-         DUEL_ICON_DEFENDED, DUEL_ICON_CONTESTED } from '../../utils/icons.js';
+import { ICON_ASSERTION, ICON_CHALLENGE, ICON_ANSWER, ICON_COPY, ICON_AGREE } from '../../utils/icons.js';
 import { buildCanonicalUrl } from '../../utils/url.js';
 import { showNotification }  from './notification.js';
 
@@ -39,9 +37,7 @@ export function renderPostCard(post, permissions, currentUser) {
 
   const typeIcon   = _typeIcon(post.type);
   const cardClass  = _cardClass(post);
-  const statusBadge = (post.type === 'assertion')
-    ? _duelsStatusBadge(post, duels)
-    : '';
+  const statusBadge = '';
 
   const card = document.createElement('div');
   card.className   = `card post-card ${cardClass}`;
@@ -101,32 +97,6 @@ function _cardClass(post) {
   const classes = [];
   if (post.type === 'assertion' && post.isOffer) classes.push('card--offer');
   return classes.join(' ');
-}
-
-/**
- * Derive an aggregate status icon for all Duels rooted at this assertion.
- * Priority: contested > defended > active > crickets > accord > none.
- */
-function _duelsStatusBadge(post, duels) {
-  const related = duels.filter(
-    d => d.rootPostId === post.id || d.rootPostId === post.meta?.rootId
-  );
-  if (related.length === 0) return '';
-
-  let icon, label;
-  if (related.some(d => d.isContested)) {
-    icon = DUEL_ICON_CONTESTED; label = 'Verdict contested';
-  } else if (related.some(d => d.isDefended)) {
-    icon = DUEL_ICON_DEFENDED;  label = 'Assertion defended — challenger conceded';
-  } else if (related.some(d => d.isActive)) {
-    icon = DUEL_ICON_ACTIVE;    label = 'Duel in progress';
-  } else if (related.some(d => d.isCrickets)) {
-    icon = DUEL_ICON_CRICKETS;  label = 'No response — crickets';
-  } else {
-    icon = DUEL_ICON_ACCORD;    label = 'Resolved by accord';
-  }
-
-  return `<span class="duel-status-icon" aria-label="${label}" title="${label}">${icon}</span>`;
 }
 
 function _renderContent(post) {

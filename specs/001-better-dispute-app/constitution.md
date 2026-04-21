@@ -1,10 +1,4 @@
-<!--
-This file has moved to specs/001-better-dispute-app/constitution.md
-
-This stub is retained for speckit agent compatibility.
-The speckit agents in .github/agents/ are hardwired to this path and must not be broken.
-Canonical location: specs/001-better-dispute-app/constitution.md
--->
+# disputable.io Constitution
 
 ## Founding Declaration
 

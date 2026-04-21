@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
-# scripts/setup-labels.sh
-# Creates all required dsp:* GitHub labels in the specified repository.
-# Usage: bash scripts/setup-labels.sh owner/repo
-# Requires: GitHub CLI (gh) authenticated with repo scope.
+# REMOVED — setup-labels.sh was for the disputable.io GitHub Issues PoC.
+# judgmental.io uses its own Hono/SQLite backend with no GitHub label schema.
+# Run: git rm scripts/setup-labels.sh
 
 set -e
 

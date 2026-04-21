@@ -1,9 +1,14 @@
 # Feature Specification: judgmental.io
 
-**Feature Branch**: `001-better-dispute-app`
-**Created**: 2026-04-18 (revised 2026-04-21)
-**Status**: Draft
-**Governed by**: [constitution.md](../../.specify/memory/constitution.md) — supersedes all other documents
+| Field | Value |
+|---|---|
+| **Version** | `v0.1.0-pre-alpha` |
+| **Status** | 🔴 Pre-Alpha — not production-ready |
+| **Feature branch** | `001-better-dispute-app` |
+| **Created** | 2026-04-18 |
+| **Last revised** | 2026-04-21 |
+| **AI assistant** | GitHub Copilot · Claude Sonnet 4.6 |
+| **Governed by** | [constitution.md](constitution.md) — supersedes all other documents |
 
 ---
 
@@ -19,7 +24,7 @@
 | [research.md](research.md) | Pre-design unknowns and resolved decisions |
 | [stakeholder-briefing.md](stakeholder-briefing.md) | Public financial projections and constitutional crowdfunding |
 | [viral-growth-model.md](viral-growth-model.md) | Growth flywheels and acquisition model |
-| [constitution.md](../../.specify/memory/constitution.md) | **Governing document — supersedes all others** |
+| [constitution.md](constitution.md) | **Governing document — supersedes all others** |
 
 ---
 
@@ -1287,7 +1292,7 @@ The current disputable.io SPA communicates directly with the GitHub Issues API (
 
 **Constitutional Governance, Crowdfunding, and Federation**
 
-> All requirements in this section are **constitutional** — they may only be changed through a Constitutional Duel (Principle XII). The SDLC documents (spec, plan, tasks) are governed by and subordinate to [constitution.md](../../.specify/memory/constitution.md). Where any FR in this spec conflicts with a constitutional Principle, the constitution supersedes.
+> All requirements in this section are **constitutional** — they may only be changed through a Constitutional Duel (Principle XII). The SDLC documents (spec, plan, tasks) are governed by and subordinate to [constitution.md](constitution.md). Where any FR in this spec conflicts with a constitutional Principle, the constitution supersedes.
 
 - **FR-279** (**Worldview Reconciliation Process as governance engine**): The platform MUST govern all non-SDLC operational decisions — including fee rates, reward rates, feature prioritization, constitutional amendments, moderation policy, and platform financial projections — through the **Worldview Reconciliation Process (WRP)**. WRP is the platform's operating equivalent of Robert's Rules of Order, replacing procedural formalism with structured truth-seeking: every motion is a Claim, every amendment a Counter-challenge, every vote a weighted Judgment. No platform-level policy decision that affects Stakeholders may be enacted by `super_admin` unilaterally without first being either (a) unopposed as a Claim for 30 days, or (b) resolved via a Constitutional Duel. This applies to the `super_admin` equally. The `super_admin` role is a bootstrapping necessity, not a permanent authority above the constitution.
 
@@ -1305,7 +1310,7 @@ The current disputable.io SPA communicates directly with the GitHub Issues API (
 
 - **FR-286** (**Financial projections as public constitutional record**): All financial projections, revenue model assumptions, crowdfunding targets, and cost structures published in [stakeholder-briefing.md](stakeholder-briefing.md) are first-class constitutional evidence. They MUST be: (a) published at `/open-spec/stakeholder-briefing` alongside all other spec documents; (b) challengeable by any authenticated Person via the standard Claim/Challenge mechanic; (c) updated only via a Claim filed by `super_admin` and left open for 7 days before the document update is committed — the filed Claim is the amendment record. Revised projections supersede prior ones via Accord, not editorial discretion. The running history of projection revisions and their associated Duels is permanently on the Belief Ledger. There is no private version of this document.
 
-- **FR-287** (**Constitution as Belief Ledger foundation**): The [constitution.md](../../.specify/memory/constitution.md) is the primitive record from which all Belief Ledger structure is derived. In the MVP, the constitution exists as a file. The constitutional vision is that it grows into the first and foundational set of Records in the Belief Ledger itself — each Principle is a Claim, each amendment is a Duel outcome, and the Ledger's own history is the constitution's provenance chain. This migration (file → Ledger) is the first Constitutional Duel after launch: *"The constitution should be migrated to the Belief Ledger as its founding Records."* The MVP MUST be built in a way that makes this migration structurally possible without data loss — meaning the DB schema for constitutional Records (Principle type, amendment history, quorum metadata) MUST be included in the initial migration even if that table is empty at launch.
+- **FR-287** (**Constitution as Belief Ledger foundation**): The [constitution.md](constitution.md) is the primitive record from which all Belief Ledger structure is derived. In the MVP, the constitution exists as a file. The constitutional vision is that it grows into the first and foundational set of Records in the Belief Ledger itself — each Principle is a Claim, each amendment is a Duel outcome, and the Ledger's own history is the constitution's provenance chain. This migration (file → Ledger) is the first Constitutional Duel after launch: *"The constitution should be migrated to the Belief Ledger as its founding Records."* The MVP MUST be built in a way that makes this migration structurally possible without data loss — meaning the DB schema for constitutional Records (Principle type, amendment history, quorum metadata) MUST be included in the initial migration even if that table is empty at launch.
 
 **Independent Test (FR-279–FR-287)**: File the bootstrapping Claim as `super_admin`; verify it is pinnable and the giving widget is live and shows real total. Challenge the bootstrapping Claim as a different user; verify standard Duel flow proceeds. Verify quorum gate on Judgment: with 2 Judgments on any Duel, `GET /api/duels/:id` returns `disposition: "PENDING_QUORUM"`. Verify `/keyholders` registry endpoint returns registered nodes. Verify no crypto-related code paths exist in the codebase (`grep -r "blockchain\|ethereum\|solana\|token\|wallet" src/` returns zero results).
 

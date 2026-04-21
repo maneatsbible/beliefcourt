@@ -1,8 +1,9 @@
-#!/usr/bin/env node
-/**
- * generate-branding.js
- *
- * Generates SVG branding assets for judgmental.io across all duel states.
+// REMOVED — judgmental.io uses emoji (⚖️ 🔥) for all UI states.
+// State-variant SVGs (icon-open, icon-challenger-ahead, etc.) are no longer part of the design.
+// This script has been superseded. Run: git rm scripts/generate-branding.js
+
+// generate-branding.js
+// (placeholder — can be deleted)
  *
  * Output:
  *   branding/icon-{state}.svg        512×512 app icons

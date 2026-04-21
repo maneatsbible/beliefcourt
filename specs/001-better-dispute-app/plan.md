@@ -1,7 +1,15 @@
 # Implementation Plan: judgmental.io
 
-**Branch**: `001-better-dispute-app` | **Date**: 2026-04-18 (revised 2026-04-21) | **Spec**: [spec.md](spec.md)
-**Governed by**: [constitution.md](../../.specify/memory/constitution.md) — supersedes all other documents
+| Field | Value |
+|---|---|
+| **Version** | `v0.1.0-pre-alpha` |
+| **Status** | 🔴 Pre-Alpha — not production-ready |
+| **Feature branch** | `001-better-dispute-app` |
+| **Created** | 2026-04-18 |
+| **Last revised** | 2026-04-21 |
+| **Spec** | [spec.md](spec.md) |
+| **AI assistant** | GitHub Copilot · Claude Sonnet 4.6 |
+| **Governed by** | [constitution.md](constitution.md) — supersedes all other documents |
 
 ---
 
@@ -17,7 +25,7 @@
 | [research.md](research.md) | Pre-design unknowns and resolved decisions |
 | [stakeholder-briefing.md](stakeholder-briefing.md) | Public financial projections and constitutional crowdfunding |
 | [viral-growth-model.md](viral-growth-model.md) | Growth flywheels and acquisition model |
-| [constitution.md](../../.specify/memory/constitution.md) | **Governing document — supersedes all others** |
+| [constitution.md](constitution.md) | **Governing document — supersedes all others** |
 
 ---
 

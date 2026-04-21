@@ -1,9 +1,9 @@
-#!/usr/bin/env node
-/**
- * scripts/seed-mock-data.js
- *
- * Populate browser localStorage with disputable.io mock seed data so the app
- * starts immediately in mock mode with a rich set of test disputes.
+// REMOVED — This script seeded localStorage for the disputable.io GitHub Issues PoC.
+// judgmental.io uses src/mock/seed-data.js and db/migrations/ for seeding.
+// Run: git rm scripts/seed-mock-data.js
+
+// seed-mock-data.js
+// (placeholder — can be deleted)
  *
  * USAGE
  * -----

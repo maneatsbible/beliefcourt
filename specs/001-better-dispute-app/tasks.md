@@ -1,9 +1,15 @@
 # Tasks: judgmental.io
 
-**Format**: `[ ]` not started · `[~]` in progress · `[X]` done  
-**Prerequisite reading**: `plan.md`, `spec.md`, `data-model.md`  
-**Source structure**: `src/client/` (browser), `src/server/` (Hono/Node), `db/` (migrations + adapter)  
-**Governed by**: [constitution.md](../../.specify/memory/constitution.md) — supersedes all other documents
+| Field | Value |
+|---|---|
+| **Version** | `v0.1.0-pre-alpha` |
+| **Status** | 🔴 Pre-Alpha — not production-ready |
+| **Task format** | `[ ]` not started · `[~]` in progress · `[X]` done |
+| **Prerequisite reading** | `plan.md`, `spec.md`, `data-model.md` |
+| **Source structure** | `src/client/` (browser), `src/server/` (Hono/Node), `db/` (migrations + adapter) |
+| **Last revised** | 2026-04-21 |
+| **AI assistant** | GitHub Copilot · Claude Sonnet 4.6 |
+| **Governed by** | [constitution.md](constitution.md) — supersedes all other documents |
 
 ---
 
@@ -19,7 +25,7 @@
 | [research.md](research.md) | Pre-design unknowns and resolved decisions |
 | [stakeholder-briefing.md](stakeholder-briefing.md) | Public financial projections and constitutional crowdfunding |
 | [viral-growth-model.md](viral-growth-model.md) | Growth flywheels and acquisition model |
-| [constitution.md](../../.specify/memory/constitution.md) | **Governing document — supersedes all others** |
+| [constitution.md](constitution.md) | **Governing document — supersedes all others** |
 
 ---
 
@@ -630,7 +636,7 @@
 
 ### Build and Deploy Infrastructure
 
-- [ ] T230 Add `package.json` scripts: `"migrate": "node db/migrate.js"`, `"seed": "node scripts/seed-mock-data.js"`, `"test": "node tests/run-all.js"`, `"stripe:listen": "stripe listen --forward-to localhost:3000/api/tips/webhook"`, `"generate:branding": "node scripts/generate-branding.js"`
+- [ ] T230 Add `package.json` scripts: `"migrate": "node db/migrate.js"`, `"seed": "node src/mock/seed-data.js"`, `"test": "node tests/run-all.js"`, `"stripe:listen": "stripe listen --forward-to localhost:3000/api/tips/webhook"`
 - [ ] T231 Add deploy health-check assertion to `start.sh`: after `db/migrate.js` runs, `curl -sf http://localhost:3000/health` once before allowing Fly.io to route traffic; if it fails, exit 1 (Fly.io will block the deploy and roll back)
 - [ ] T232 Document migration rollback strategy in plan.md: since content tables are append-only, rollback is always a forward patch (migration 004 that undoes structural changes introduced in 003). No `DOWN` migrations. If a bad migration ships, it is fixed by deploying migration `N+1`.
 - [ ] T233 Add `PRAGMA foreign_keys=ON` assertion at DB open time in `db/sqlite.js` to ensure FK constraints are enforced at runtime (SQLite disables them by default)
