@@ -5,6 +5,8 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "predev": "node scripts/version-bump.js",
+    "prestart": "node scripts/version-bump.js",
     "dev": "USE_MOCK_DB=true node src/server/index.js",
     "start": "node src/server/index.js",
     "test": "node --experimental-vm-modules tests/run-all.js",

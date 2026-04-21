@@ -8,11 +8,12 @@ import { handleCallback, isAuthenticated, getTokenPayload }    from './api/auth.
 import { renderHeader }     from './view/components/header.js';
 import { showErrorPanel }   from './view/components/error-panel.js';
 import { mountMockToolbar } from './view/components/mock-toolbar.js';
+import { MOCK_USERS }       from './mock/users.js';
+import { VERSION }          from './version.js';
 import { HomeView }         from './view/home-view.js';
 import { HomeController }   from './controller/home-controller.js';
 import { logger }           from './utils/logger.js';
 
-const VERSION = '0.1.0';
 
 async function bootstrap() {
   logger.info('app', 'bootstrap start', { mock: isMockMode() });
@@ -35,16 +36,9 @@ async function bootstrap() {
 
     // Mount mock toolbar
     if (isMockMode()) {
-      // Fetch mock users list for toolbar picker
-      try {
-        const { MOCK_USERS } = await import('/src/mock/seed-rows.js');
-        const activeHandle   = getMockUser() ?? 'alice';
-        const activeUser     = MOCK_USERS.find(u => u.handle === activeHandle) ?? { handle: activeHandle };
-        mountMockToolbar(MOCK_USERS, activeUser);
-      } catch {
-        // seed-rows.js is a server-side file; in production mock mode this path may fail
-        // gracefully ignore
-      }
+      const activeHandle = getMockUser() ?? 'alice';
+      const activeUser   = MOCK_USERS.find(u => u.handle === activeHandle) ?? { handle: activeHandle };
+      mountMockToolbar(MOCK_USERS, activeUser);
     }
 
     // Route to view based on ?v= param

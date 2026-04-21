@@ -11,6 +11,9 @@ yarn-error.log*
 dist/
 build/
 
+# Auto-generated
+src/client/version.js
+
 # OS
 .DS_Store
 Thumbs.db
