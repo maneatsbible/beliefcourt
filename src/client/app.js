@@ -12,7 +12,7 @@ import { MOCK_USERS }       from './mock/users.js';
 import { VERSION }          from './version.js';
 import { HomeView }         from './view/home-view.js';
 import { HomeController }   from './controller/home-controller.js';
-import { DisputeView }      from './view/dispute-view.js';
+import { CaseView }      from './view/case-view.js';
 import { DisputeController } from './controller/dispute-controller.js';
 import { PersonView }       from './view/person-view.js';
 import { PersonController } from './controller/person-controller.js';
@@ -97,7 +97,7 @@ async function mountHomeView(main, currentUser) {
 
 async function mountDisputeView(main, caseId, currentUser) {
   const ctrl = new DisputeController(currentUser);
-  const view = new DisputeView(main, ctrl, currentUser);
+  const view = new CaseView(main, ctrl, currentUser);
   await view.render(caseId);
 }
 

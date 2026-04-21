@@ -21,7 +21,7 @@ function _ago(iso) {
   return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
 }
 
-export class DisputeView {
+export class CaseView {
   /**
    * @param {HTMLElement}     container
    * @param {DisputeController} ctrl
@@ -39,7 +39,7 @@ export class DisputeView {
       const { case: caseObj, claim, duels } = await this._ctrl.loadCase(caseId);
       this._renderCase(caseObj, claim, duels);
     } catch (err) {
-      showErrorPanel(err, 'dispute-view');
+      showErrorPanel(err, 'case-view');
     }
   }
 
