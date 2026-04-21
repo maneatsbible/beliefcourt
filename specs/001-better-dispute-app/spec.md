@@ -1253,6 +1253,22 @@ The Youth Zone is a first-class supervised space for persons under 18. It is gov
 
 ---
 
+**GitHub PoC — Rate Limit Handling (disputable.io current client)**
+
+The current disputable.io SPA communicates directly with the GitHub Issues API (no backend proxy). Anonymous requests share GitHub's 60 req/hr unauthenticated quota; authenticated requests receive 5,000 req/hr. The following requirements govern client-side behaviour when that quota is exhausted.
+
+- **FR-275** (**Rate-limit detection — reads**): When any `GET` call to the GitHub API returns HTTP 403 or 429, the client MUST inspect the response body for `"API rate limit exceeded"` or a `X-RateLimit-Remaining: 0` header. On detection the client MUST: (1) surface a non-blocking banner — "GitHub rate limit reached. Reads may be stale. Sign in for a higher limit." with a "Sign In" CTA if the user is unauthenticated; (2) serve subsequent `GET` requests from the ETag cache where available, and render a `[cached]` indicator on stale content; (3) suppress further API calls until either the user signs in or `X-RateLimit-Reset` has elapsed.
+
+- **FR-276** (**Rate-limit detection — writes**): When any `POST` or `PATCH` call to the GitHub API returns HTTP 403 or 429 due to rate limiting, the client MUST not silently swallow the error. The composer or action button that triggered the write MUST display an inline error: "Couldn't save — GitHub rate limit reached. Try again after [time] or sign in for a higher limit." The composer MUST retain the user's draft text and not clear the input. A "Retry" button MUST be shown; pressing it re-attempts the request once after a 3-second delay.
+
+- **FR-277** (**Mock mode bypass**): When mock mode is active (`isMockMode() === true`), rate-limit detection MUST be fully bypassed. All reads and writes operate on the in-memory + localStorage store and are never rate-limited. This ensures development and demo workflows are unaffected.
+
+- **FR-278** (**Sign-in upsell on rate limit**): The rate-limit banner (FR-275) MUST include a brief explanation: "Signed-in users get 5,000 GitHub API requests per hour vs 60 for anonymous visitors." The "Sign In" CTA navigates to the GitHub Device Auth flow. On successful authentication the banner MUST dismiss automatically and the pending read request MUST be retried with the new token.
+
+**Independent Test**: Load the app without a token; exhaust the rate limit; verify the banner appears and content still renders from cache. Attempt to submit a Challenge; verify the draft is preserved and the inline error is shown. Activate mock mode; verify no rate-limit UI appears at all.
+
+---
+
 ## Analytics Views *(mandatory)*
 
 The following views are computed from the live database at query time, not stored as materialised scores:

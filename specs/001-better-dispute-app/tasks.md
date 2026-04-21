@@ -745,4 +745,20 @@
 - [ ] T290 Update `src/view/components/post-card.js` — render `[HERALD IMPORT]` badge and source URL link for herald-imported assertions; render `[PENDING]` badge for unconfirmed claims; show confidence indicator
 - [ ] T291 Update `src/mock/seed-data.js` — add `USERS['senator_j_hayes']` entry with `{ login: 'senator_j_hayes', id: 2001, unverified: true }`; add to `MOCK_USERS`
 
+---
+
+## GitHub PoC — Rate Limit Handling (FR-275 – FR-278)
+
+**Goal**: The current disputable.io SPA detects GitHub API rate-limit responses (HTTP 403/429) and surfaces clear, actionable UX instead of silent failures. Writes preserve draft content. Reads fall back to ETag cache. Mock mode is unaffected.
+
+**Independent Test**: Exhaust rate limit anonymously → banner appears, cached content renders with `[cached]` indicator, write attempt shows inline error with draft preserved and Retry button. Sign in via Device Auth → banner auto-dismisses, pending read retried. Enable mock mode → no rate-limit UI at any point.
+
+- [ ] T292 Add `isRateLimit(err)` helper to `src/api/github-client.js` — returns `true` when `err` is an `ApiError` with `status` 403 or 429 and `err.body?.message` includes `"rate limit"` (case-insensitive); export it alongside `ApiError`
+- [ ] T293 Add `getRateLimitReset(res)` helper in `src/api/github-client.js` — reads `X-RateLimit-Reset` header (Unix timestamp) from a `Response` and returns a `Date`; also store the value in module-level state so it can be queried without a `Response` reference; export `getRateLimitResetDate()` getter
+- [ ] T294 Update `get()`, `post()`, and `patch()` in `src/api/github-client.js` — on 403/429 responses, call `getRateLimitReset(res)` to cache the reset time before throwing `ApiError`; skip this when `_mockIssues !== null`
+- [ ] T295 Add rate-limit banner component to `src/view/components/notification.js` (or a new `src/view/components/rate-limit-banner.js`): renders a non-blocking persistent bar at the top of `#app-main`; message: "GitHub rate limit reached. Reads may be stale. Sign in for a higher limit." with sign-in CTA button (`data-action="signin"`); shows reset countdown if reset time is known; `dismissRateLimitBanner()` export to remove it; `showRateLimitBanner(resetDate, isAuthenticated)` export to display it
+- [ ] T296 In `src/controller/home-controller.js` and `src/controller/dispute-controller.js` — wrap all `get()` calls in try/catch; on `isRateLimit(err)`: call `showRateLimitBanner(getRateLimitResetDate(), !!this._user)`; fall through to cached data if available (already returned by `get()` via ETag); add `[cached]` text to any rendered content that was served from cache during a rate-limit state (pass a `fromCache` flag through the render path or check `cache.get(url)?.data` directly)
+- [ ] T297 In `src/view/components/composer.js` — when a submit action throws an `ApiError` that `isRateLimit()`: (1) do NOT clear the textarea or image URL field; (2) hide the spinner; (3) show an inline error message below the submit button: "Couldn't save — GitHub rate limit reached. Try again after [reset time] or sign in."; (4) render a "Retry" button that re-attempts the submit after a 3-second delay (single retry; on second failure show generic error)
+- [ ] T298 In `src/controller/app-controller.js` — listen for `data-action="signin"` on the rate-limit banner; trigger the existing GitHub Device Auth sign-in flow; on successful auth, call `dismissRateLimitBanner()` and re-run the current view's load method to retry failed reads with the new token
+
 
