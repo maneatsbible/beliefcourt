@@ -18,6 +18,7 @@ export class Record {
     id, type, author_id, case_id, text, url, integrity_hash,
     created_at, open_case_count, accord_count,
     author_handle, author_platform, author_profile_pic_url,
+    is_ai, ai_model, status,
   }) {
     this.id                  = id;
     this.type                = type;
@@ -32,6 +33,9 @@ export class Record {
     this.authorHandle        = author_handle ?? null;
     this.authorPlatform      = author_platform ?? null;
     this.authorProfilePicUrl = author_profile_pic_url ?? '';
+    this.isAi                = !!is_ai;
+    this.aiModel             = ai_model ?? null;
+    this.status              = status ?? null;
   }
 
   get isClaim()     { return this.type === RECORD_TYPES.CLAIM; }

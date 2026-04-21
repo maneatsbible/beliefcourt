@@ -24,6 +24,7 @@ export function mountMockToolbar(allUsers, activeUser) {
   `.trim();
 
   document.body.appendChild(bar);
+  document.body.classList.add('has-mock-toolbar');
 
   bar.querySelector('#mock-user-select').addEventListener('change', e => {
     const p = new URLSearchParams(window.location.search);

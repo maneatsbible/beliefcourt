@@ -3,10 +3,13 @@
  * Using Unicode + minimal inline SVG. No icon font dependencies.
  */
 
-export const ICON_CLAIM     = '⚖';
-export const ICON_CHALLENGE = '⚔';
-export const ICON_ANSWER    = '✓';
-export const ICON_OFFER     = '⇌';
+export const ICON_CLAIM            = '!';
+export const ICON_CHALLENGE        = '?';
+export const ICON_ANSWER           = '✓';
+export const ICON_OFFER            = '⇌';
+export const ICON_RESPONSE_ACCEPT  = '·';
+export const ICON_RESPONSE_REJECT  = '✗';
+export const ICON_AGREE            = '⇌';
 export const ICON_CASE      = '🏛';
 export const ICON_JUDGMENT  = '⚖';
 export const ICON_BADGE     = '🎖';

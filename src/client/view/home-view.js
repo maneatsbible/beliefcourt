@@ -49,8 +49,8 @@ export class HomeView {
     this._root.querySelector('#home-feed')
       ?.addEventListener('click', e => this._handleFeedClick(e));
 
-    // Header event delegation (sign-in buttons)
-    document.getElementById('app-header')
+    // Nav-bar event delegation (sign-in, home button)
+    document.getElementById('app-nav')
       ?.addEventListener('click', e => {
         const btn = e.target.closest('button[data-action]');
         if (!btn) return;
@@ -90,7 +90,9 @@ export class HomeView {
           canAgree:     this._ctrl.canAgree(this._user, record),
           isYourTurn:   false,
         };
-        const card = renderPostCard(record, perms, this._user);
+        const card = renderPostCard(record, perms, this._user, {
+          onOpen: r => this._openRecord(r),
+        });
         this._recordMap.set(record.id, record);
         feed.appendChild(card);
       });
@@ -181,6 +183,12 @@ export class HomeView {
 
     if (action === 'challenge' && record) this._openChallengeComposer(record, card);
     if (action === 'agree'     && record) this._submitAccord(record);
+  }
+
+  _openRecord(record) {
+    // Future: navigate to Case/Duel view via setUrlParams({ v: 'case', id: record.id })
+    // For now, show notification so the interaction is visible
+    showNotification(`Opened: ${record.text.slice(0, 60)}…`, 'info');
   }
 
   _openChallengeComposer(record, cardEl) {
