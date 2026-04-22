@@ -200,12 +200,28 @@ Each role is active during a phase of the Duel:
 
 ### Section 4.3 — Turn Structure Within a Phase
 
-Within each phase, parties exchange turns:
-- **Challenges** and **Answers** (testimony and cross-examination)
-- **Offers** and **Responses** (settlement proposals, running in parallel)
-- **Objections** (procedural challenges to admissibility or fairness)
+### The Modal Process: Turn-Based Double-Deposition
 
-Every turn is a Record, immutable, attributed to the author.
+The Duel operates as a Modal Process, governed by the JADEIC modes. At any moment, one and only one mode is active for each party "on the record." The current mode is always visible in the UI and on every Record Card.
+
+**Turn Structure:**
+
+1. **Challenge/Answer (Double-Deposition):**
+  - Each party, in their current JADEIC mode, submits a turn in sequence.
+  - The Challenger (Evangelist/Examiner) states their position or interrogates the Defender.
+  - The Defender (Testifier) responds with their own testimony or cross-examination.
+  - Both turns are on the record, immutable, and attributed to their authors.
+
+2. **Offer/Response (Negotiation):**
+  - Either party may propose a settlement (Offer) at any time.
+  - The other party may Respond (accept, reject, counter, or ignore).
+  - Offers and Responses are on the record and may run in parallel to Challenge/Answer turns.
+
+3. **Objection:**
+  - Either party may file an Objection (procedural challenge) at any turn.
+  - Objections are handled as nested Cases, with their own Modal Process.
+
+**Every turn is a Record, immutable and attributed to the author. The Modal Process ensures that the active JADEIC mode is always clear, and that all on-the-record actions are visible, auditable, and constitutional.**
 
 ### Section 4.4 — Deadline and Default
 
