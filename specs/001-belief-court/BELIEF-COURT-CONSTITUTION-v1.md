@@ -1,7 +1,6 @@
 # BELIEF COURT — Constitutional Charter
 
 | Field | Value |
-|---|---|
 | **Version** | `1.0.0` — Constitutional Charter |
 | **Status** | 🔥 Foundation |
 | **Ratified** | 2026-04-21 |
@@ -21,8 +20,14 @@ BELIEF COURT exists because of one conviction:
 This platform is not built around the belief that argumentation wins debates. It is built around the conviction that *defended belief, when tested against the sincere challenge of another, can produce understanding, reconciliation, and genuine growth.*
 
 Everything that follows — the constitutional structure, the duel process, the ledger architecture, the role system, the Gallery — flows from this conviction. When a design decision is hard to make, this is where the answer lives.
+## ARTICLE 0 — PRINCIPLES OF JUDGMENT AND LANGUAGE
 
-### Manifesto
+- The People do not decide what is true; the People Judge what is true.
+- Judgment is rendered according to each Person’s Worldview, which is based on their Affirmed Truth Statements.
+- The term “We” shall always refer to the People—never to the platform, its operators, or any AI.
+- No AI or platform communication shall state or imply that “We” (the platform or AI) are proud, honored, or possess feelings.
+- The term "Objection" refers only to process within Duels. For other conflicts, use terms such as "disagreement" or "conflict."
+
 
 **On the Record.** Every act is signed. Every claim is traced. Every challenge is recorded. No anonymous mob rule. No deleted arguments. No fake consensus. Every person stands in their name. Every voice leaves a mark in the People's ledger.
 
@@ -37,6 +42,23 @@ Everything that follows — the constitutional structure, the duel process, the 
 The **Belief Ledger** is the sole source of truth. It is append-only, immutable, and cryptographically signed. Every Record — Claim, Challenge, Answer, Offer, Response, Judgment — is stored as a signed entry owned by its author.
 
 The Ledger cannot be rewritten. It cannot be censored. It can be forked, but never falsified.
+
+
+---
+
+## ANNOUNCEMENT: TRUTHBOOK
+
+On Truthbook, the People Judge.
+
+Truthbook is a platform for the People. Here, anyone may file Claims, CounterClaims, and settle Cases by Summoning others to Duel in the open. Truth is not dictated by corporations or algorithms—it is Judged by the People, each according to their own Worldview and Affirmed Truth Statements.
+
+No company owns the words that define the pursuit of truth. Truthbook is a civic space, not a tool for profit or control. On this platform, Cases are brought, evidence is presented, and the People Judge what’s true.
+
+If there is a disagreement, file a Case. On Truthbook, the People Judge.
+
+Who would be sued? Truthbook belongs to the People. Justice is open, and every voice matters.
+
+Join. Litigate. Judge. Decide. Judgment is yours to decide.
 
 ### Section 1.2 — Power Flows From Below
 
