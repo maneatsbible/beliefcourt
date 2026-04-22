@@ -29,25 +29,6 @@
 
 ---
 
-## Table of Contents
-
-- [Phase 1: Infrastructure Setup](#phase-1-infrastructure-setup)
-- [Phase 2: Database — Migration 001](#phase-2-database--migration-001-initial-schema)
-- [Phase 3: DB Adapter + Hono Server Foundation](#phase-3-db-adapter--hono-server-foundation)
-- [Phase 4: SM OAuth + JWT Authentication](#phase-4-sm-oauth--jwt-authentication)
-- [Phase 5: Maintenance Mode](#phase-5-maintenance-mode)
-- [Phase 6: Client Foundation](#phase-6-client-foundation)
-- [Phase 7: Server-Side Models + Routes](#phase-7-server-side-models--routes-recordspersons)
-- [Phase 8: Home View — Claim Feed (US1)](#phase-8-home-view--claim-feed-us1)
-- [Phase 9: Case + Challenge (US2)](#phase-9-case--challenge-us2)
-- [Phase 10: Answer + Duel View (US3)](#phase-10-answer--duel-view-us3)
-- [Phase 11: Offer / Response / Accord (US4)](#phase-11-offer--response--accord-us4)
-- [Phase 12: ClaimAccord + BaseOfTruth (US5)](#phase-12-claimaccord--baseoftruth-us5)
-- [Phase 13: Judgment (US6)](#phase-13-judgment-us6)
-- [Phase 14: Evidence + Exhibits](#phase-14-evidence--exhibits)
-- [Phase 15: AI Persona Disclosure](#phase-15-ai-persona-disclosure)
-- [Phase 16: Tipping](#phase-16-tipping)
-- [Phase 17: Analytics](#phase-17-analytics)
 - [Phase 18: Ads](#phase-18-ads)
 - [Phase 19: BibleWidget and Bible Reader](#phase-19-biblewidget-and-bible-reader-fr-210-fr-211)
 - [Phase 20: Tooltips](#phase-20-tooltips)

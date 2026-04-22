@@ -13,17 +13,6 @@
 ---
 
 ## Spec Index
-
-| Document | Role |
-|---|---|
-| [spec.md](spec.md) | Functional requirements |
-| [plan.md](plan.md) | Implementation architecture and deployment |
-| [data-model.md](data-model.md) | Database schema and entity definitions |
-| [tasks.md](tasks.md) | Implementation tasks (SDLC) |
-| **[quickstart.md](quickstart.md)** | Development environment setup — you are here |
-| [research.md](research.md) | Pre-design unknowns and resolved decisions |
-| [stakeholder-briefing.md](stakeholder-briefing.md) | Public financial projections and constitutional crowdfunding |
-| [viral-growth-model.md](viral-growth-model.md) | Growth flywheels and acquisition model |
 | [constitution.md](constitution.md) | **Governing document — supersedes all others** |
 
 ---

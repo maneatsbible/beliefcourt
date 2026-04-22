@@ -29,19 +29,6 @@
 
 ---
 
-## Table of Contents
-
-- [Clarifications](#clarifications)
-- [The Worldview Explorer](#the-worldview-explorer)
-- [User Scenarios & Testing](#user-scenarios--testing-mandatory)
-- [Requirements](#requirements-mandatory)
-- [Analytics Views](#analytics-views-mandatory)
-- [Assumptions](#assumptions)
-- [Implementation Blockers](#implementation-blockers)
-- [Marketing Taglines](#marketing-taglines)
-- [Product Modes](#product-modes)
-
----
 
 ## Clarifications
 

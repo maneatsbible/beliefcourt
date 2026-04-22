@@ -31,21 +31,6 @@ The GitHub Issues PoC (truthbook.io, formerly disputable.io) proved the domain m
 | [constitution.md](constitution.md) | **Governing document — supersedes all others** |
 | [distributed-architecture.md](distributed-architecture.md) | Keyholder program, Truth Statements, cryptographic hardening, and fork mechanism |
 
----
-
-## Table of Contents
-
-- [Summary](#summary)
-- [Technical Context](#technical-context)
-- [Infrastructure: Fly.io Deployment](#infrastructure-flyio-deployment)
-- [Maintenance Mode](#maintenance-mode)
-- [Database Schema](#database-schema)
-- [Scaling and Migration Planning](#scaling-and-migration-planning)
-- [Known Risks and Mitigations](#known-risks-and-mitigations)
-- [Constitution Check](#constitution-check)
-- [Analytics Integration](#analytics-integration)
-- [Project Structure](#project-structure)
-- [Complexity Tracking](#complexity-tracking)
 
 ---
 

@@ -32,12 +32,6 @@ Truthbook is designed to spread through five distinct channels — two primary c
 
 ---
 
-## Table of Contents
-
-- [The Growth Flywheels](#the-growth-flywheels)
-- [Revenue Streams — Full Summary](#revenue-streams--full-summary)
-- [Month-by-Month Viral Arc](#month-by-month-viral-arc)
-- [Sample Share Scenarios](#sample-share-scenarios)
 - [Why These Channels Work Together](#why-these-channels-work-together)
 
 ---

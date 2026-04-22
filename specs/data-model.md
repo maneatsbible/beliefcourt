@@ -11,9 +11,7 @@
 | **AI assistant** | GitHub Copilot · Claude Sonnet 4.6 |
 | **Governed by** | [constitution.md](constitution.md) — supersedes all other documents |
 
----
-
-## Spec Index
+ 
 
 | Document | Role |
 |---|---|
@@ -29,19 +27,6 @@
 
 > **Revision note**: This document supersedes the original disputable.io data model. Entities have been renamed and extended to reflect the full Truthbook vision. The implementation target is **Fly.io + SQLite + Hono** (not GitHub Issues). See plan.md for the full SQL schema.
 
----
-
-## Table of Contents
-
-- [Entity Hierarchy](#entity-hierarchy)
-- [The Belief Ledger and Worldview](#the-belief-ledger-and-worldview)
-- [Entities](#entities)
-- [Record Card Controls](#record-card-controls)
-- [Disposition State Transitions](#disposition-state-transitions)
-- [Record Card Control Mapping (UI)](#record-card-control-mapping-ui)
-- [Entity → Database Table Mapping](#entity--database-table-mapping)
-- [Storage Architecture Notes](#storage-architecture-notes)
-- [Controller Permission Gates](#controller-permission-gates)
 
 ---
 
@@ -738,7 +723,6 @@ Control meaning is context-sensitive but layout is invariant.
 - If a neutral posture is disputed and becomes a filed claim, the resulting claim direction (affirm/disagree) takes fire and the filer is the defender of that claim.
 
 ----
-
 ## Record Card Control Mapping (UI)
 
 | Context | Affirm (❤️) | Neutral | Disagree (🔥) | Fire Overlay Rule |

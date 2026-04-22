@@ -9,15 +9,7 @@
 
 ---
 
-## Table of Contents
 
-- [The Complete Flow: Records → Ledger → Worldview → Case → Duel → Gallery → Judgment → Updated Ledger](#the-complete-flow)
-- [Entity Definitions](#entity-definitions)
-- [State Machines](#state-machines)
-- [Core Invariants](#core-invariants)
-- [Entity Dependency Graph](#entity-dependency-graph)
-
----
 
 ## The Complete Flow: Records → Ledger → Worldview → Case → Duel → Gallery → Judgment → Updated Ledger
 

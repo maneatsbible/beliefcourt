@@ -6,10 +6,6 @@
 > The official and only constitutional name of this platform is **Truthbook** (abbreviation: tb, domain: truthbook.io). All legacy names, including BELIEF COURT, judgmental.io, disputable.io, and Better Dispute, are superseded and must not be used in any constitutional, governance, or product context going forward.
 
 
-## Table of Contents
-
-- [Power to the People](#power-to-the-people)
-- [Principle I — No Argumentation — Defended Belief Only](#principle-i--no-argumentation--defended-belief-only-non-negotiable--priority-one)
 
 ## Power to the People
 

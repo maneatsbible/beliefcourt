@@ -25,17 +25,18 @@ This revision codifies four constitutional constraints:
 
 ---
 
-## Table of Contents
+# Distributed Architecture & Blockchain Hardening Strategy
 
-- [Architecture Model](#architecture-model)
-- [Space-Native Ledger Model](#space-native-ledger-model)
-- [Judgment Citation Model](#judgment-citation-model)
-- [Constitutional Governance Model](#constitutional-governance-model)
-- [Keyholder Node Architecture](#keyholder-node-architecture)
-- [Cryptographic Proof & Integrity](#cryptographic-proof--integrity)
-- [Backup & Recovery Strategy](#backup--recovery-strategy)
-- [Implementation Roadmap](#implementation-roadmap)
-- [Risks & Mitigations](#risks--mitigations)
+| Field | Value |
+|---|---|
+| **Version** | `v0.2.0-pre-alpha` |
+| **Status** | 🔴 Strategic Specification — Roadmap Phase 2 |
+| **Created** | 2026-04-22 |
+| **Last revised** | 2026-04-22 |
+| **Spec** | [spec.md](spec.md) |
+| **Plan** | [plan.md](plan.md) |
+| **Constitution** | [constitution.md](constitution.md) |
+| **Phase** | Visionary; implementation deferred to Phase 2 (post-MVP) |
 
 ---
 

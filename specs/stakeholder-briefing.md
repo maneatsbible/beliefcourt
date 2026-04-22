@@ -10,9 +10,6 @@
 
 > **This document is a living public record.** All financial projections, funding targets, and revenue models are constitutional — governed by the Worldview Engine, challengeable by any authenticated Person, and permanently on the Belief Ledger once the platform is live. This is not a private pitch deck. It is evidence in the bootstrapping Claim.
 
----
-
-## Spec Index
 
 | Document | Role |
 |---|---|
@@ -34,23 +31,6 @@
 
 *Social media usually means social mayhem. Truthbook introduces social mediation.*
 
----
-
-## Table of Contents
-
-- [The Bootstrapping Claim](#the-bootstrapping-claim)
-- [What This Is](#what-this-is)
-- [Founder and Origin](#founder-and-origin)
-- [Why Judgment? Why Now?](#why-judgment-why-now)
-- [Why This, Why Now](#why-this-why-now)
-- [The Content Acquisition Strategy: Worldview Sync + Auto-Claim Anywhere](#the-content-acquisition-strategy-worldview-sync--auto-claim-anywhere)
-- [Keyholder Program — Federation and Rewards](#keyholder-program--federation-and-rewards)
-- [The Launch Flywheels](#the-launch-flywheels)
-- [Revenue Model](#revenue-model)
-- [Projected Growth](#projected-growth)
-- [The Cost Structure](#the-cost-structure)
-- [The Moat](#the-moat)
-- [The Foundation](#the-foundation)
 
 ---
 
@@ -290,6 +270,18 @@ Infrastructure: SQLite + Litestream on Fly.io. No database bill. No CDN bill. No
 6. **No equivalent exists.**
 
 ---
+
+## Worldview Explorer & Analytics
+
+Truthbook’s Worldview Explorer is the new main view of the platform, offering:
+
+- **Animated Timeline Replay:** Users can “replay” the evolution of Claims, Challenges, Settlements, and Rescissions, visualizing how worldviews interact and change over time.
+- **Worldview Maps:** Interactive visualizations show how close or distant users and groups are in their beliefs, with clusters, bridges, and shifts over time.
+- **Settlement & Forgiveness Metrics:** Track and visualize Settlements, Rescissions, and acts of confession and forgiveness, highlighting moments of reconciliation and regeneration—especially meaningful in Christian contexts.
+- **Personal and Community Reports:** Downloadable and shareable analytics for individuals, groups, and organizations.
+- **Salable Features:** Advanced analytics and visualizations are available as premium features for power users, churches, and research partners.
+
+All analytics are grounded in the Belief Ledger and governed by the Worldview Engine, ensuring transparency, auditability, and constitutional compliance.
 
 ## The Foundation
 
