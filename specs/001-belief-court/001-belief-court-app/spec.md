@@ -140,11 +140,11 @@ A visitor opens judgmental.io in their browser. They see the Home view listing C
 The composer's claim-first hint text is `I believe that...` and the action to submit a claim is conceptually **Start a Fire**.
 
 
-**Note on Accord vs. Agree (ClaimAccord):**
-- **Accord** is the outcome of a resolved Duel (Offer accepted by both parties). It is a negotiated, on-record agreement and is a Belief Ledger entry.
-- **Agree** (ClaimAccord) is a Person’s standing agreement with a Claim, not requiring a Duel or negotiation. It is a Belief Ledger entry but does not result from negotiation.
-- The **up** button on a Claim means “I agree” (creates a ClaimAccord). The **up** button on an Offer means “I accept” (can lead to Accord if both parties accept).
-- UI/UX must make this distinction explicit: “Agree” is a personal stance; “Accord” is a negotiated outcome. Only Accords resolve Duels.
+**Note on OfferAgreement vs. ClaimAgreement:**
+- **OfferAgreement** is the outcome of a resolved Duel (Offer accepted by both parties). It is a negotiated, on-record agreement and is a Belief Ledger entry.
+- **Agree** (ClaimAgreement) is a Person’s standing agreement with a Claim, not requiring a Duel or negotiation. It is a Belief Ledger entry but does not result from negotiation.
+- The **up** button on a Claim means “I agree” (creates a ClaimAgreement). The **up** button on an Offer means “I accept” (can lead to OfferAgreement if both parties accept).
+- UI/UX must make this distinction explicit: “Agree” is a personal stance; “OfferAgreement” is a negotiated outcome. Only OfferAgreements resolve Duels.
 
 **Gallery one-liners (Annotations) are always off the record for everyone, including bots.** Annotations are not Records, not attributed as epistemic acts, and not challengeable. GalleryBot posts are not Belief Ledger entries.
 
@@ -197,7 +197,7 @@ An authenticated user views a Claim (or any Record in a Case View) they disagree
 2. **Given** Person B fills in an Interrogatory challenge and submits, **Then** a new Case and Duel are created and Person A sees a "You were challenged" notification.
 3. **Given** a person attempts to challenge their own Record, **Then** the Challenge icon is disabled.
 4. **Given** Person B has already challenged a Record once, **When** they view it again, **Then** the Challenge icon is disabled for that Record.
-5. **Given** a Challenge is submitted against a Claim that has agreers (ClaimAccords), **Then** each agre-er is notified and can enter their own Duel within the same Case.
+5. **Given** a Challenge is submitted against a Claim that has agreers (ClaimAgreements), **Then** each agre-er is notified and can enter their own Duel within the same Case.
 
 ---
 
@@ -241,15 +241,15 @@ Either party can submit an Offer proposing resolution. The other party can accep
 
 A person can hold a ClaimAccord on a Claim, making them eligible to defend it when challenged and building their Base of Truth.
 
-**Why this priority**: ClaimAccords are the foundation of the knowledge base and Judgment eligibility.
+**Why this priority**: ClaimAgreements are the foundation of the knowledge base and Judgment eligibility.
 
-**Independent Test**: Person C holds a ClaimAccord on @herald's Claim and is eligible to enter a Duel defending it.
+**Independent Test**: Person C holds a ClaimAgreement on @herald's Claim and is eligible to enter a Duel defending it.
 
 **Acceptance Scenarios**:
 
-1. **Given** a Claim posted by another person, **When** an authenticated user clicks Agree, **Then** a ClaimAccord is created and they become eligible to defend it.
-2. **Given** a Challenge is issued against a Claim with multiple agreers, **Then** each agre-er receives notification and can enter their own Duel within the same Case.
-3. **Given** a person holds a ClaimAccord on a Claim, **Then** the Challenge icon for that Claim is disabled for them.
+1. **Given** a Claim posted by another person, **When** an authenticated user clicks Agree, **Then** a ClaimAgreement is created and they become eligible to defend it.
+2. **Given** a Challenge is issued against a Claim with multiple agreers, **Then** each agre-er (ClaimAgreement holder) receives notification and can enter their own Duel within the same Case.
+3. **Given** a person holds a ClaimAgreement on a Claim, **Then** the Challenge icon for that Claim is disabled for them.
 
 ---
 
@@ -357,7 +357,7 @@ An authenticated user wants to publicly withdraw a position they previously post
 
 ### User Story 11 — Person Profile and On-the-Record Search (Priority: P3)
 
-Any authenticated user can look up the full public record of any other Person: every Claim, Challenge, Answer, ClaimAccord, Judgment rendered, and Rescission — all filterable.
+Any authenticated user can look up the full public record of any other Person: every Claim, Challenge, Answer, ClaimAgreement, Judgment rendered, and Rescission — all filterable.
 
 Every Person profile also includes a Wall for long-form and short-form blog-style posts authored as `Comment` records. Wall content is on the Record.
 
@@ -368,7 +368,7 @@ Every Person profile also includes a Wall for long-form and short-form blog-styl
 **Acceptance Scenarios**:
 
 1. **Given** any post card, **When** the user clicks the author handle `@name`, **Then** the Person profile view opens for that author.
-2. **Given** the Person profile is open, **Then** five tabs are shown: All Records, Wall, Agreements (ClaimAccords), Judgments Rendered, Rescissions.
+2. **Given** the Person profile is open, **Then** five tabs are shown: All Records, Wall, Agreements (ClaimAgreements), Judgments Rendered, Rescissions.
 3. **Given** the Records tab, **When** the user applies a type filter, **Then** only Records of that type are shown.
 4. **Given** the Records tab, **When** the user types in the topic search field, **Then** Records containing that text are shown (full-text search).
 5. **Given** the user is unauthenticated, **Then** the Person profile is visible but all "Challenge" and "Agree" interactions are disabled with "Sign in" tooltips.
@@ -407,8 +407,8 @@ Any visitor can browse the 10 public auto-analytics views — Contested Ground, 
 **Acceptance Scenarios**:
 
 1. **Given** any visitor, **When** they visit `/analytics`, **Then** they see a navigation list of all 10 views.
-2. **Given** the Undefeated Claims leaderboard, **When** rendered, **Then** Claims are ordered by `ClaimAccords × survived Duels` with the formula shown as a tooltip.
-3. **Given** the "You disagree with N%" hook, **When** an authenticated user views the Home feed, **Then** each Claim card shows the percentage of Persons who hold that ClaimAccord against whom the current user has no ClaimAccord (approximated from the agreeers set).
+2. **Given** the Undefeated Claims leaderboard, **When** rendered, **Then** Claims are ordered by `ClaimAgreements × survived Duels` with the formula shown as a tooltip.
+3. **Given** the "You disagree with N%" hook, **When** an authenticated user views the Home feed, **Then** each Claim card shows the percentage of Persons who hold that ClaimAgreement against whom the current user has no ClaimAgreement (approximated from the agreeers set).
 4. **Given** the Velocity view, **When** a STANDING Claim is rescinded, **Then** the event appears in the Velocity feed with a `[Rescinded STANDING]` marker.
 
 ---
