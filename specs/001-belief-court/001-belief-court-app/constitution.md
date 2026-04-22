@@ -233,23 +233,30 @@ No AI system MAY participate in the Worldview Engine stack in any way that creat
 
 The Bot namespace is completely separate from the Person namespace. A Person is always a human authenticated via SM OAuth. A Bot is never a Person, and a Person is never a Bot. No handle in the Person namespace may be assigned to a Bot, and no Bot may acquire or inherit a Person identity.
 
+
 **Namespace rules:**
 
-- **Person namespace** — All authenticated SM OAuth users. Unique `@name` derived from SM handle. Must be human. The constraint is absolute: if an account is a Bot, it MUST NOT have a Person record.
-- **Bot namespace** — All automated agents on the platform: AnalyticsBot, GalleryBot, AdvisorBot. Stored separately from Person records. Display names carry a visual badge system to distinguish them from Persons at the point of display.
+- **Person namespace** — All authenticated SM OAuth users. Unique `@name` derived from SM handle. Must be human. The constraint is absolute: if an account is a Bot, it MUST NOT have a Person record. All Records must be authored by a Person (human), except for transcript Records.
+- **Bot namespace** — All automated agents on the platform: AnalyticsBot, GalleryBot, AdvisorBot, StenoBot/TranscriptBot. Stored separately from Person records. Display names carry a visual badge system to distinguish them from Persons at the point of display. Only StenoBot/TranscriptBot may author a Record, and only of type `transcript`.
 - **@herald** — A reserved system handle that is neither Person nor Bot while unclaimed. @herald is the placeholder identity for imported external content. It is permanently reserved and unavailable in the Person namespace. When the real author authenticates and claims their imported Claim, @herald is replaced by their Person record. @herald yields to the real author; it does not accumulate a worldview of its own.
+
 
 **System bots:**
 
 - **AnalyticsBot** — System-level. Read-only access to the Belief Ledger. MUST NOT write to the Ledger or attribute inferred beliefs to any Person. Operates at the platform level only.
 - **GalleryBot** — System-level. Posts Annotations within Moments on Duels. Annotations are NOT Records: they are not Belief Ledger entries, are not attributed as epistemic acts, and are not challengeable. GalleryBot posts carry the `[GalleryBot]` badge.
+- **StenoBot/TranscriptBot** — System-level. May author transcript Records for Video Duels. These are the only bot-authored Records. All other Records must be human-authored.
+**Translation Records:**
+
+Any Person (human) or Bot may file a Translation Record for any Record, especially to correct or improve a transcript Record authored by StenoBot/TranscriptBot. Translation Records must always indicate the source Record and target language. This enables anyone to correct, improve, or translate bot-generated transcripts or any other Record.
+
 
 **Personal bots (AdvisorBot):**
 
 - **AdvisorBot — Advisory ($9.99/month)** — Hired by a Person to advise on turn strategy. Advises; does not act. All Records filed remain attributed to the Person who filed them. Advised Records display `[AdvisorBot-advised]`.
-- **AdvisorBot — Power of Attorney ($29.99/month)** — Hired by a Person to act under their authority. May file Records attributed to that Person. All such Records carry `[via AdvisorBot]`. Person retains full accountability for every Record filed under PoA. Bot-v-bot Duels under PoA are permitted; post-mortem Judgment by human Judges applies.
+- **AdvisorBot — Power of Attorney ($29.99/month)** — Hired by a Person to act under their authority. AdvisorBot may file Records on behalf of the Person, but the Record is always authored by the Person, with a `[via AdvisorBot]` disclosure badge. The Person retains full accountability for every Record filed under PoA. Bot-v-bot Duels under PoA are permitted; post-mortem Judgment by human Judges applies.
 
-  **PoA Records are fully Miranda'd.** Every Record filed by AdvisorBot under PoA is a first-class Belief Ledger entry attributed to the Person — indistinguishable in legal and epistemic standing from a Record the Person filed themselves. It is permanently admissible as Evidence against the Person in any future Duel. It is challengeable. It contributes to their Worldview. It survives Rescission as a permanent artefact. A Concession or Accord reached by a Bot under PoA modifies the Person's Belief Ledger exactly as if the Person had filed it. The `[via AdvisorBot]` badge is a disclosure, not a disclaimer. Hiring a Bot to act for you does not reduce your exposure — it extends your reach while preserving your full accountability. This is non-negotiable and has no exceptions.
+  **PoA Records are fully Miranda'd.** Every Record filed by AdvisorBot under PoA is a first-class Belief Ledger entry attributed to the Person — indistinguishable in legal and epistemic standing from a Record the Person filed themselves. It is permanently admissible as Evidence against the Person in any future Duel. It is challengeable. It contributes to their Worldview. It survives Rescission as a permanent artefact. A Concession or Accord reached by a Bot under PoA modifies the Person's Belief Ledger exactly as if the Person had filed it. The `[via AdvisorBot]` badge is a disclosure, not a disclaimer. Hiring a Bot to act for you does not reduce your exposure — it extends your reach while preserving your full accountability. This is non-negotiable and has no exceptions. **In all such cases, the Record is authored by the Person, not the Bot, but the disclosure badge is mandatory.**
 - **AdvisorBot — Worldview Summary** — Included with Advisory and PoA. Read-only summarization of the Person's Belief Ledger for their own use. MUST NOT write to the Ledger.
 
 **Disclosure badge system:**

@@ -107,38 +107,60 @@ Represents an authenticated user (SM OAuth — X, Threads, Bluesky, or GitHub).
 
 ---
 
+
 ### Record (abstract — implementation only)
 
 The base of all user-created content. Every Record is a row in the `records` table. Not a domain term — users never see the word "Record." Its subtypes are the real entities.
 
+
+**Authorship rules:**
+- All Records must be authored by a Person (human), except for transcript Records, which may be authored by a Bot (StenoBot/TranscriptBot).
+- Only Bots of type StenoBot/TranscriptBot may author a Record, and only of type `"transcript"`.
+- All other Record types (`"claim"`, `"comment"`, `"challenge"`, `"answer"`, `"offer"`, `"response"`, etc.) must have a human Person as author.
+- When a Person hires an AdvisorBot with Power of Attorney (PoA), the AdvisorBot may file Records on their behalf, but the Record is always authored by the Person, with a `[via AdvisorBot]` disclosure badge. The Bot is never the author; the Person is fully accountable for the Record.
+
 | Field | Type | Source | Notes |
 |-------|------|--------|-------|
 | `id` | `integer` | DB auto-increment | Globally unique |
-| `type` | `enum` | DB column | `"claim"`, `"comment"`, `"challenge"`, `"answer"`, `"offer"`, `"response"` |
-| `authorId` | `integer` | DB foreign key | Person who created the Record |
+| `type` | `enum` | DB column | `"claim"`, `"comment"`, `"challenge"`, `"answer"`, `"offer"`, `"response"`, `"transcript"`, ... |
+| `authorId` | `integer \| null` | DB foreign key | Person who created the Record; null if authored by a Bot (for transcript only) |
+| `botId` | `integer \| null` | DB foreign key | Bot who authored the Record (only for transcript) |
 | `heraldClaimId` | `integer \| null` | DB column | Set when @herald is replaced by the real author; points to original Claim id |
 | `parentId` | `integer \| null` | DB column | Parent Record id; `null` for root Claims |
 | `caseId` | `integer \| null` | DB column | The nearest ancestor Claim or challenged Record that is the subject of this Record's Case |
 | `text` | `string \| null` | DB column | Optional for non-Claim records |
 | `imageUrl` | `string \| null` | DB column | Path or URL of attached image |
 | `sourceUrl` | `string \| null` | DB column | Original URL when Claim was imported via @herald |
-| `isAi` | `boolean` | DB column | `true` if entirely AI-generated |
-| `aiModel` | `string \| null` | DB column | AI model identifier if `isAi=true` or AI-assisted; e.g. `"gpt-4o"` |
-| `aiAssisted` | `boolean` | DB column | `true` if human-authored but substantially AI-assisted |
 | `createdAt` | `ISO8601` | DB `created_at` | |
-| `authorId` | `number` | GitHub issue `user.id` | Person who created the Issue |
-| `heraldClaimId` | `number \| null` | `JDG:META.heraldClaimId` | Set when @herald is replaced by the real author; points to original Claim id |
-| `parentId` | `number \| null` | `JDG:META.parentId` | Parent Record id; `null` for root Claims |
-| `caseId` | `number \| null` | `JDG:META.caseId` | The nearest ancestor Claim or challenged Record that is the subject of this Record's Case |
-| `text` | `string \| null` | Issue body (after meta block) | Optional for non-Claim records |
-| `imageUrl` | `string \| null` | `JDG:META.imageUrl` | GitHub issue attachment URL |
-| `sourceUrl` | `string \| null` | `JDG:META.sourceUrl` | Original URL when Claim was imported via @herald |
-| `createdAt` | `ISO8601` | GitHub `created_at` | |
 
 **Validation rules**:
+- If `type === "transcript"`, then `botId` must be set and `authorId` must be null.
+- For all other types, `authorId` must be set and `botId` must be null.
 - Root Claims (`parentId === null`): MUST have `text` XOR `imageUrl` (not both, not neither).
 - Non-root Records: MAY have both `text` and `imageUrl`.
 - All Records: Issue body is immutable after creation (append-only).
+
+---
+
+### Translation
+
+A Translation Record is a first-class entity allowing anyone (Person or Bot) to file a translation of any Record into any language. This is especially used to correct or improve a transcript Record authored by a Bot.
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `id` | `integer` | DB auto-increment |
+| `sourceRecordId` | `integer` | The Record being translated (may be a transcript or any other Record) |
+| `authorId` | `integer \| null` | Person who filed the translation (null if Bot) |
+| `botId` | `integer \| null` | Bot who filed the translation (null if Person) |
+| `language` | `string` | Target language code (e.g. "en", "es", "fr") |
+| `text` | `string` | The translated text |
+| `createdAt` | `ISO8601` | |
+
+**Validation rules:**
+- Exactly one of `authorId` or `botId` must be set.
+- A Translation may be filed for any Record, but is especially used to correct or improve a transcript Record.
+
+---
 
 ---
 
