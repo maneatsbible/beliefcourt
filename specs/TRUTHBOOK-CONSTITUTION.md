@@ -10,6 +10,16 @@
 
 ---
 
+## CONSTITUTIONAL DESIGN PRINCIPLES
+
+- **Bot Namespace:** All bots must use the !Bot prefix (e.g., !BotHelper). No bots may use the @Person namespace. Bots are never treated as People and are constitutionally distinct. Bots may only author Records of type `transcript` (e.g., StenoBot/TranscriptBot), unless otherwise amended by constitutional process.
+- **WantedPerson & Public Wall:** External/unregistered entities are modeled as WantedPerson, each with a public Wall. When they join, the Wall becomes their Blog at Truthbook.io/@username, suitable for any content they wish to post. WantedPeople do not consume @Person names until they register. Their Wall is public and displays all cases for and against them. Upon joining, they must select an unused @Person name.
+- **Formalized Record Subtypes:** All Record subtypes (e.g., SummonsRecord, DuelRecord, QuestionRecord, ObjectionRecord, etc.) are formalized as distinct, semantically-expressive types. Extensibility is allowed only by explicit constitutional process. The model must remain explorable and semantically meaningful for all users and admin tools, including in cold storage.
+- **Explorable Model:** The data model must support semantic exploration and visualization, even in cold storage, via canned queries and admin tools. All Record types and relationships must be explorable and meaningful for both users and administrators.
+
+
+---
+
 ## PREAMBLE
 
 ### Founding Conviction
@@ -83,11 +93,6 @@ Join. Litigate. Judge. Decide. Judgment is yours to decide.
 
 
 Every Record is authored by exactly one Person. Every Record has:
-- **ID**: globally unique, immutable, cryptographically signed
-- **Author**: the Person who created it, never changeable
-- **Timestamp**: creation time, sealed with the Record
-- **Content**: text, images, or references — never edited, only rescinded
-- **Integrity Hash**: SHA256 proof of authorship and contents
 
 
 
@@ -103,9 +108,48 @@ Every Record is authored by exactly one Person. Every Record has:
 8. **Response** — A reply to an Offer.
 9. **Judgment** — A verdict on a settled Duel, grounded in the Judge's worldview.
 
+
+Every Record is authored by exactly one Person (human, always @username), or, for transcript Records only, by a Bot using the !Bot prefix. Every Record has:
+- **ID**: globally unique, immutable, cryptographically signed
+- **Author**: the Person who created it, never changeable (or Bot for transcript Records only)
+- **Timestamp**: creation time, sealed with the Record
+- **Content**: text, images, or references — never edited, only rescinded
+- **Integrity Hash**: SHA256 proof of authorship and contents
+- **Type**: All Record subtypes are formalized, semantically-expressive, and constitutionally governed. New subtypes require explicit constitutional process.
+
+#### Record Subtypes (examples)
+- **Claim** — An assertion of truth, value, or fact. Claims are always on the record, open to challenge, and must be defended if challenged.
+- **Comment** — Neutral Wall post or reflection. On the record but not a claim unless challenged.
+- **CounterClaim** — Contestation of a Record, opening a Case.
+- **Affirmation** — Public affirmation (❤️), signals agreement or support.
+- **Challenge** — Formal contestation of a Claim or CounterClaim.
+- **Answer** — Response to a Challenge or Claim.
+- **Offer** — Proposed resolution or settlement.
+- **Response** — Reply to an Offer.
+- **Judgment** — Verdict on a settled Duel, grounded in the Judge's worldview.
+- **SummonsRecord** — Summons to appear or respond, including "Summons to Duel".
+- **DuelRecord** — Encapsulates a Duel process.
+- **QuestionRecord** — Interrogatory, may be open-ended or Yes/No.
+- **ObjectionRecord** — Procedural challenge within a Duel.
+- **WitnessCallRecord** — Call for a witness from the Gallery.
+- **TranscriptRecord** — Authored by !Bot, for transcripts only.
+
+**Any Record type can become a Claim if challenged.** If any Record is disputed, a Claim Record is written, turning the original into a Claim for the purposes of dispute. The original Record remains as context.
 **Any Record type can become a Claim if challenged.** If any Record is disputed, a Claim Record is written, turning the original into a Claim for the purposes of dispute. The original Record remains as context.
 
 ### Section 2.2 — Mandatory Disclosure Rules
+
+## ARTICLE II-A — WANTEDPERSON AND THE PUBLIC WALL
+
+### Section 2A.1 — WantedPerson
+
+External or unregistered entities are modeled as WantedPerson. Each WantedPerson has a public Wall, which becomes their Blog if they join the platform. WantedPeople do not consume @Person names until they register. Their Wall is public and displays all cases for and against them. Upon joining, they must select an unused @Person name. Once registered, their Wall becomes their Blog at Truthbook.io/@username, suitable for any content they wish to post.
+
+WantedPerson status:
+- **"wanted"** — not yet registered, Wall is public dossier
+- **"joined"** — has registered, Wall becomes Blog
+
+This ensures namespace integrity and public accountability, while inviting participation and response.
 
 
 
@@ -317,7 +361,7 @@ All Widgets are post-hoc analysis tools. None influence the Duel's outcome. All 
 
 ### Section 6.1 — All Bots Must Disclose
 
-Any Person record that represents an artificial agent (not a human) MUST be marked as a Bot in the Ledger.
+All bots must use the !Bot prefix (e.g., !BotHelper). Bots are never @Person and are constitutionally distinct. Bots may only author Records of type `transcript` (e.g., StenoBot/TranscriptBot), unless otherwise amended by constitutional process. Any Person record that represents an artificial agent (not a human) MUST be marked as a Bot in the Ledger.
 
 The Bot's Records MUST carry:
 - **Model identifier** (e.g., `gpt-4o`, `claude-opus`, etc.)
