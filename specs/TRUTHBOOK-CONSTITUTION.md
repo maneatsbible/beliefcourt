@@ -694,6 +694,22 @@ Widget outputs are advisory analysis, not sovereign judgment.
 - Every computed view must expose "how this was computed" details.
 - Conflicting widget outputs are resolved in open Duel process, not hidden ranking logic.
 
+### Section 15.4 — Workflow Explorer and Worldview Analytics (Constitutional Main View)
+
+The Worldview Explorer is the constitutional main view of Truthbook.
+
+It MUST provide interactive, animated visualizations of Worldviews, Claims, Challenges, Settlements, Rescissions, and their evolution over time.
+The Explorer SHALL include:
+  - **Ledger Replay:** Timeline playback of epistemic events, showing how beliefs, agreements, and disputes change.
+  - **Worldview Adjacency & Distance:** Visual maps (e.g., cluster graphs, MDS projections) showing epistemic proximity, divergence, and convergence between Persons and groups.
+  - **Settlement & Rescission Analytics:** Flow diagrams and metrics for Settlements, Rescissions, and their impact on network structure, including forgiveness and regeneration events.
+  - **Christian Context Overlays:** Visual cues for confession, forgiveness, and regeneration, reflecting the constitutional foundation of repentance and reconciliation.
+All analytics and visualizations MUST be:
+  - Transparent (showing how metrics are computed)
+  - Auditable (source data and computation exposed)
+  - Challengeable (interpretations may be disputed via Duel)
+The Worldview Explorer is a constitutional product feature, not an optional add-on. It is a required part of the platform’s protocol and user experience.
+
 ---
 
 ## SIGNATURE
