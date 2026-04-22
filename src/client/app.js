@@ -9,7 +9,7 @@ import { renderNavBar }     from './view/components/header.js';
 import { showErrorPanel }   from './view/components/error-panel.js';
 import { mountMockToolbar } from './view/components/mock-toolbar.js';
 import { MOCK_USERS }       from './mock/users.js';
-import { VERSION }          from './version.js';
+const VERSION = 'v0.0.1-pre-alpha';
 import { HomeView }         from './view/home-view.js';
 import { HomeController }   from './controller/home-controller.js';
 import { CaseView }      from './view/case-view.js';

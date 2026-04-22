@@ -2,17 +2,15 @@
 
 | Field | Value |
 |---|---|
-| **Version** | `v0.1.0-pre-alpha` |
+| **Version** | `v0.0.1-pre-alpha` |
 | **Status** | 🔴 Pre-Alpha — not production-ready |
 | **Feature branch** | `001-better-dispute-app` |
 | **Created** | 2026-04-18 |
 | **Last revised** | 2026-04-22 |
 | **AI assistant** | GitHub Copilot · Claude Sonnet 4.6 |
 | **Governed by** | [constitution.md](constitution.md) — supersedes all other documents |
-
 ---
 
-## Spec Index
 
 | Document | Role |
 |---|---|
@@ -626,7 +624,7 @@ Sponsored content is prohibited. Any sponsored-in-intent Record would be require
 **Authentication & Identity**
 
 - **FR-001**: The app MUST authenticate users through **SM OAuth** (X/Twitter, Threads, Bluesky, GitHub) via a server-side token exchange on the Hono API server. The server returns a signed JWT (HS256, 24h expiry) stored client-side. No GitHub API calls are made for data storage.
-- **FR-002**: Each Person MUST have a unique `@name` (derived from their social media handle on the authenticating platform) and a globally unique id assigned by the application.
+- **FR-002**: Each Person MUST have a unique `@name` (derived from their social media handle on the authenticating platform) and a globally unique id assigned by the application
 - **FR-003**: The @herald placeholder MUST be a system-level identity (not a real OAuth user) used to import external content. It is permanently reserved and unavailable in the Person namespace. Any authenticated user may submit a Claim attributed to @herald together with an immediate Challenge. The real author of the imported content may later authenticate and claim ownership, replacing @herald with their own Person record.
 
 **Records & Tree Structure**

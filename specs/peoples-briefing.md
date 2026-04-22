@@ -1,29 +1,22 @@
-# Truthbook — Stakeholder Briefing
+# Truthbook — People’s Briefing
 
 | Field | Value |
 |---|---|
-| **Version** | `v0.1.0-pre-alpha` |
+| **Version** | `v0.0.1-pre-alpha` |
 | **Status** | 🔴 Pre-Alpha — not production-ready |
 | **Last revised** | 2026-04-22 |
 | **AI assistant** | GitHub Copilot · Claude Sonnet 4.6 |
 | **Governed by** | [constitution.md](constitution.md) — supersedes all other documents |
 
-> **This document is a living public record.** All financial projections, funding targets, and revenue models are constitutional — governed by the Worldview Engine, challengeable by any authenticated Person, and permanently on the Belief Ledger once the platform is live. This is not a private pitch deck. It is evidence in the bootstrapping Claim.
+
+> **This document is a living public record.** Formerly known as the Stakeholder Briefing, it is now the People’s Briefing. All financial projections, funding targets, and revenue models are constitutional — governed by the Worldview Engine, challengeable by any authenticated Person, and permanently on the Belief Ledger once the platform is live. This is not a private pitch deck. It is evidence in the bootstrapping Claim.
+
+> The term "Stakeholder" is reserved for those with explicit, recognized interest in Truthbook’s continued existence and who participate in Constitutional decisions via the Worldview Engine. All other references to this document should use "People’s Briefing."
+
 
 
 | Document | Role |
 |---|---|
-| [spec.md](spec.md) | Functional requirements |
-| [plan.md](plan.md) | Implementation architecture and deployment |
-| [data-model.md](data-model.md) | Database schema and entity definitions |
-| [tasks.md](tasks.md) | Implementation tasks (SDLC) |
-| [quickstart.md](quickstart.md) | Development environment setup |
-| [research.md](research.md) | Pre-design unknowns and resolved decisions |
-| **[stakeholder-briefing.md](stakeholder-briefing.md)** | Public financial projections and constitutional crowdfunding — you are here |
-| [viral-growth-model.md](viral-growth-model.md) | Growth flywheels and acquisition model |
-| [constitution.md](constitution.md) | **Governing document — supersedes all others** |
-
----
 
 **The structured judgment engine for every domain where people need to reach a real decision — and the game everyone wants to play when the stakes involve love.**
 

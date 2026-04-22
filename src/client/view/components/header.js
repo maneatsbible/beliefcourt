@@ -23,7 +23,7 @@ const TABS = [
  * @param {object}      [opts]
  * @param {string|null} [opts.handle]  Authenticated user handle, or null
  */
-export function renderNavBar(version, { handle = null } = {}) {
+export function renderNavBar(version = 'v0.0.1-pre-alpha', { handle = null } = {}) {
   const root = document.getElementById('app-nav');
   if (!root) return;
 

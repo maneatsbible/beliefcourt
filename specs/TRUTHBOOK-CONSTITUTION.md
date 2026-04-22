@@ -2,7 +2,7 @@
 
 | Field         | Value                                                                                       |
 |-------------- |--------------------------------------------------------------------------------------------|
-| **Version**   | `1.0.0` — Constitutional Charter                                                           |
+| **Version**   | `v0.0.1-pre-alpha` — Constitutional Charter                                                           |
 | **Status**    | 🔥 Foundation                                                                             |
 | **Ratified**  | 2026-04-21                                                                                |
 | **Authority** | Sovereign document. Supersedes all other governance. Amendment only by Popular Voice.      |

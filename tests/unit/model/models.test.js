@@ -20,7 +20,7 @@ import { Agreement, CricketsConditions, CricketsEvent }
 // ---------------------------------------------------------------------------
 
 function makeIssue(number, type, meta, extraMeta = {}) {
-  const fullMeta = { type, version: 1, appId: APP_ID, ...meta, ...extraMeta };
+  const fullMeta = { type, version: 'v0.0.1-pre-alpha', appId: APP_ID, ...meta, ...extraMeta };
   const body = `<!-- DSP:META\n${JSON.stringify(fullMeta)}\n-->\n\nTest content`;
   return {
     number,

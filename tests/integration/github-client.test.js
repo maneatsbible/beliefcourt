@@ -42,13 +42,13 @@ function mockFetch(responses) {
 
 describe('buildBody / parseBody', () => {
   it('round-trips meta + content', () => {
-    const meta    = { type: 'assertion', version: 1, appId: APP_ID };
+    const meta    = { type: 'assertion', version: 'v0.0.1-pre-alpha', appId: APP_ID };
     const content = 'Hello world';
     const body    = buildBody(meta, content);
     const parsed  = parseBody(body);
 
     expect(parsed.type).toBe('assertion');
-    expect(parsed.version).toBe(1);
+    expect(parsed.version).toBe('v0.0.1-pre-alpha');
     expect(body).toContain('Hello world');
   });
 
@@ -64,14 +64,14 @@ describe('buildBody / parseBody', () => {
   });
 
   it('buildBody with no content produces only the meta block', () => {
-    const meta = { type: 'case', version: 1, appId: APP_ID };
+    const meta = { type: 'case', version: 'v0.0.1-pre-alpha', appId: APP_ID };
     const body = buildBody(meta);
     expect(body).toContain('DSP:META');
     expect(parseBody(body).type).toBe('case');
   });
 
   it('returns null when appId does not match the current app', () => {
-    const badAppId = '<!-- DSP:META\n{"type":"assertion","version":1,"appId":"other-app"}\n-->';
+    const badAppId = '<!-- DSP:META\n{"type":"assertion","version":"v0.0.1-pre-alpha","appId":"other-app"}\n-->';
     expect(parseBody(badAppId)).toBeNull();
   });
 });
@@ -164,7 +164,7 @@ describe('github-client.patch', () => {
 
 describe('computeContentHash', () => {
   it('returns a 64-character hex string', async () => {
-    const meta = { type: 'assertion', version: 1, appId: APP_ID };
+    const meta = { type: 'assertion', version: 'v0.0.1-pre-alpha', appId: APP_ID };
     const hash = await computeContentHash(meta, 'hello');
     expect(typeof hash).toBe('string');
     expect(hash.length).toBe(64);
@@ -172,7 +172,7 @@ describe('computeContentHash', () => {
   });
 
   it('produces the same hash for identical inputs', async () => {
-    const meta = { type: 'assertion', version: 1, appId: APP_ID };
+    const meta = { type: 'assertion', version: 'v0.0.1-pre-alpha', appId: APP_ID };
     const h1 = await computeContentHash(meta, 'hello');
     const h2 = await computeContentHash(meta, 'hello');
     expect(h1).toBe(h2);
@@ -186,7 +186,7 @@ describe('computeContentHash', () => {
   });
 
   it('ignores any existing hash field to avoid circular dependency', async () => {
-    const meta     = { type: 'assertion', version: 1, appId: APP_ID };
+    const meta     = { type: 'assertion', version: 'v0.0.1-pre-alpha', appId: APP_ID };
     const metaWith = { ...meta, hash: 'oldvalue' };
     const h1 = await computeContentHash(meta, 'hello');
     const h2 = await computeContentHash(metaWith, 'hello');
@@ -196,7 +196,7 @@ describe('computeContentHash', () => {
 
 describe('buildBodyWithHash / verifyBodyHash', () => {
   it('embeds a hash in the meta block', async () => {
-    const meta = { type: 'assertion', version: 1, appId: APP_ID };
+    const meta = { type: 'assertion', version: 'v0.0.1-pre-alpha', appId: APP_ID };
     const body = await buildBodyWithHash(meta, 'some content');
     const parsed = parseBody(body);
     expect(typeof parsed.hash).toBe('string');
@@ -204,14 +204,14 @@ describe('buildBodyWithHash / verifyBodyHash', () => {
   });
 
   it('verifyBodyHash returns true for a freshly built body', async () => {
-    const meta = { type: 'challenge', version: 1, appId: APP_ID, parentId: 1, rootId: 1 };
+    const meta = { type: 'challenge', version: 'v0.0.1-pre-alpha', appId: APP_ID, parentId: 1, rootId: 1 };
     const body = await buildBodyWithHash(meta, 'challenge text');
     const result = await verifyBodyHash(body);
     expect(result).toBe(true);
   });
 
   it('verifyBodyHash returns false when content has been tampered', async () => {
-    const meta = { type: 'assertion', version: 1, appId: APP_ID };
+    const meta = { type: 'assertion', version: 'v0.0.1-pre-alpha', appId: APP_ID };
     const body = await buildBodyWithHash(meta, 'original');
     const tampered = body.replace('original', 'tampered');
     const result = await verifyBodyHash(tampered);
@@ -219,7 +219,7 @@ describe('buildBodyWithHash / verifyBodyHash', () => {
   });
 
   it('verifyBodyHash returns null for a legacy body without a hash', async () => {
-    const meta = { type: 'assertion', version: 1, appId: APP_ID };
+    const meta = { type: 'assertion', version: 'v0.0.1-pre-alpha', appId: APP_ID };
     const body = buildBody(meta, 'no hash here');
     const result = await verifyBodyHash(body);
     expect(result).toBeNull();

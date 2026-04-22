@@ -10,7 +10,7 @@ const CONFIG = {
   githubClientId: 'test-client-id',
   dataRepo:       'owner/repo',
   heraldLogin:   'herald',
-  appVersion:     '1.0.0-test',
+  appVersion:     'v0.0.1-pre-alpha',
 };
 
 let ctrl;

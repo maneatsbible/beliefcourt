@@ -38,17 +38,15 @@ The dating features, the viral mechanics, the Christian Mode, the Church Discipl
 
 | Field | Value |
 |---|---|
-| **Version** | `3.0.0` |
+| **Version** | `v0.0.1-pre-alpha` |
 | **Status** | 🔴 Pre-Alpha — not production-ready |
 | **Feature branch** | `001-better-dispute-app` |
 | **Ratified** | 2026-04-18 |
 | **Last amended** | 2026-04-21 |
 | **AI assistant** | GitHub Copilot · Claude Sonnet 4.6 |
 | **Authority** | Governing document — supersedes all other spec documents |
-
 ---
 
-## Spec Index
 
 | Document | Role |
 |---|---|
@@ -58,38 +56,13 @@ The dating features, the viral mechanics, the Christian Mode, the Church Discipl
 | [tasks.md](tasks.md) | Implementation tasks (SDLC) |
 | [quickstart.md](quickstart.md) | Development environment setup |
 | [research.md](research.md) | Pre-design unknowns and resolved decisions |
-| [stakeholder-briefing.md](stakeholder-briefing.md) | Public financial projections and constitutional crowdfunding |
+| [peoples-briefing.md](peoples-briefing.md) | Public financial projections and constitutional crowdfunding |
 | [viral-growth-model.md](viral-growth-model.md) | Growth flywheels and acquisition model |
 | **[constitution.md](constitution.md)** | **Governing document — supersedes all others — you are here** |
 | [distributed-architecture.md](distributed-architecture.md) | Keyholder program, Truth Statements, cryptographic hardening, and fork mechanism |
 
 ---
 
-## Table of Contents
-
-- [Founding Declaration](#founding-declaration)
-- [Principle I — No Argumentation — Defended Belief Only](#principle-i--no-argumentation--defended-belief-only-non-negotiable--priority-one)
-- [Principle II — Code Quality](#principle-ii--code-quality-non-negotiable)
-- [Principle III — Testing Standards](#principle-iii--testing-standards-non-negotiable)
-- [Principle IV — User Experience Consistency](#principle-iv--user-experience-consistency-non-negotiable)
-- [Principle V — Performance Requirements](#principle-v--performance-requirements)
-- [Principle VI — Free-First Tool Selection](#principle-vi--free-first-tool-selection)
-- [Principle VII — American English Only](#principle-vii--american-english-only)
-- [Principle VIII — Christian Mode is Not a General Faith Platform](#principle-viii--christian-mode-is-not-a-general-faith-platform)
-- [Principle IX — No AI in the Worldview Engine Stack](#principle-ix--no-ai-in-the-worldview-engine-stack)
-- [Principle X — Bot Namespace and Disclosure](#principle-x--bot-namespace-and-disclosure)
-- [Principle XI — Youth Zone and the Guardian Relation](#principle-xi--youth-zone-and-the-guardian-relation)
-- [Principle XII — Open Governance and the Constitutional Duel](#principle-xii--open-governance-and-the-constitutional-duel)
-- [Principle XIII — URL Parameter Minimization and Mock Mode](#principle-xiii--url-parameter-minimization-and-mock-mode)
-- [Principle XIV — Worldview Reconciliation Process as Governance Engine](#principle-xiv--worldview-reconciliation-process-as-governance-engine)
-- [Principle XV — Keyholder Program and the Federation Moat](#principle-xv--keyholder-program-and-the-federation-moat)
-- [Principle XVI — No Cryptocurrency Until Constitutional Approval](#principle-xvi--no-cryptocurrency-until-constitutional-approval)
-- [Principle XVII — Financial Transparency as Constitutional Obligation](#principle-xvii--financial-transparency-as-constitutional-obligation)
-- [Principle XVIII — The Constitution as Belief Ledger Foundation](#principle-xviii--the-constitution-as-belief-ledger-foundation)
-- [Development Workflow](#development-workflow)
-- [Governance](#governance)
-
----
 
 ## Founding Declaration
 
@@ -489,10 +462,10 @@ The bar for constitutional crypto adoption is deliberately high: Accord (not spl
 All platform financial projections, revenue models, cost structures, crowdfunding targets, and Keyholder reward economics are **public constitutional evidence**. They are not internal business documents. They are challengeable by any authenticated Person. They are governed by WRP (Principle XIV). They are permanently archived on the Belief Ledger.
 
 **Specific obligations:**
-- The Stakeholder Briefing MUST be published at `/open-spec/stakeholder-briefing` alongside all other spec documents
+- The People’s Briefing MUST be published at `/open-spec/peoples-briefing` alongside all other spec documents
 - Any revision to financial projections MUST be filed as a Claim by `super_admin` and left open for 7 days before the document is updated
 - The running history of all projection revisions and their associated Duels is permanently on the Belief Ledger
-- There is no private version of the Stakeholder Briefing — the document seen by the public is the document used internally
+- There is no private version of the People’s Briefing — the document seen by the public is the document used internally
 
 **The bootstrapping Claim as primary evidence**: The platform's crowdfunding campaign is conducted via a live Claim filed on the platform itself — *"Truthbook is viable, worth funding, and can reach constitutional self-governance within 18 months of launch."* The running total raised through the P2P giving widget on that Claim is public evidence that the platform's governance model works. The existence of the campaign as a live Duel is the proof of concept.
 

@@ -1,6 +1,6 @@
 {
   "name": "truthbook",
-  "version": "1.0.0-alpha",
+  "version": "v0.0.1-pre-alpha",
   "description": "Truthbook - A peer-to-peer constitutional platform for defended belief. On the record.",
   "type": "module",
   "private": true,

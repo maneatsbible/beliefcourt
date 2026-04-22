@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| **Version** | `v0.1.0-pre-alpha` |
+| **Version** | `v0.0.1-pre-alpha` |
 | **Status** | 🔴 Pre-Alpha — not production-ready |
 | **Phase** | 0 — Unknowns resolved before design |
 | **Created** | 2026-04-18 |
@@ -10,22 +10,6 @@
 | **Plan** | [plan.md](plan.md) |
 | **AI assistant** | GitHub Copilot · Claude Sonnet 4.6 |
 | **Governed by** | [constitution.md](constitution.md) — supersedes all other documents |
-
----
-
-## Spec Index
-
-| Document | Role |
-|---|---|
-| [spec.md](spec.md) | Functional requirements |
-| [plan.md](plan.md) | Implementation architecture and deployment |
-| [data-model.md](data-model.md) | Database schema and entity definitions |
-| [tasks.md](tasks.md) | Implementation tasks (SDLC) |
-| [quickstart.md](quickstart.md) | Development environment setup |
-| **[research.md](research.md)** | Pre-design unknowns and resolved decisions — you are here |
-| [stakeholder-briefing.md](stakeholder-briefing.md) | Public financial projections and constitutional crowdfunding |
-| [viral-growth-model.md](viral-growth-model.md) | Growth flywheels and acquisition model |
-| [constitution.md](constitution.md) | **Governing document — supersedes all others** |
 
 
 ---

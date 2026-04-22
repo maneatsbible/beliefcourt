@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| **Version** | `v0.1.0-pre-alpha` |
+| **Version** | `v0.0.1-pre-alpha` |
 | **Status** | 🔴 Pre-Alpha — not production-ready |
 | **Task format** | `[ ]` not started · `[~]` in progress · `[X]` done |
 | **Prerequisite reading** | `plan.md`, `spec.md`, `data-model.md` |
@@ -10,22 +10,6 @@
 | **Last revised** | 2026-04-21 |
 | **AI assistant** | GitHub Copilot · Claude Sonnet 4.6 |
 | **Governed by** | [constitution.md](constitution.md) — supersedes all other documents |
-
----
-
-## Spec Index
-
-| Document | Role |
-|---|---|
-| [spec.md](spec.md) | Functional requirements |
-| [plan.md](plan.md) | Implementation architecture and deployment |
-| [data-model.md](data-model.md) | Database schema and entity definitions |
-| **[tasks.md](tasks.md)** | Implementation tasks (SDLC) — you are here |
-| [quickstart.md](quickstart.md) | Development environment setup |
-| [research.md](research.md) | Pre-design unknowns and resolved decisions |
-| [stakeholder-briefing.md](stakeholder-briefing.md) | Public financial projections and constitutional crowdfunding |
-| [viral-growth-model.md](viral-growth-model.md) | Growth flywheels and acquisition model |
-| [constitution.md](constitution.md) | **Governing document — supersedes all others** |
 
 ---
 
@@ -810,7 +794,7 @@
 
 ## Constitutional Governance, Crowdfunding, and Federation (FR-279 – FR-287)
 
-**Goal**: The MVP is a live, real product. The bootstrapping Claim is an on-platform Duel. P2P giving is wired to Stripe. Keyholders can register. Quorum gates are enforced. No crypto exists in the codebase. Financial projections are publicly challengeable at `/open-spec/stakeholder-briefing`.
+**Goal**: The MVP is a live, real product. The bootstrapping Claim is an on-platform Duel. P2P giving is wired to Stripe. Keyholders can register. Quorum gates are enforced. No crypto exists in the codebase. Financial projections are publicly challengeable at `/open-spec/peoples-briefing`.
 
 **Independent Test**: File bootstrapping Claim as `super_admin`; verify pinned with live giving total. Challenge it as another user; verify Duel flow proceeds. Verify PENDING_QUORUM disposition fires when < quorum Judgments exist. Verify `/api/keyholders` registry endpoint returns 200. `grep -r "blockchain\|ethereum\|solana\|token\|wallet" src/` returns zero results.
 
@@ -830,7 +814,7 @@
 - [ ] T312 Add `POST /api/giving/webhook` route — receives Stripe `payment_intent.succeeded` webhook; validates Stripe signature; increments `giving_widgets.total_raised_cents` and `contributor_count`; inserts a public contributor row in `giving_contributions` table (person_id or NULL for anonymous, amount_cents, created_at)
 - [ ] T313 Add `giving_contributions` table to migration 001: `id INTEGER PK, widget_id INTEGER NOT NULL FK, person_id INTEGER NULL FK, amount_cents INTEGER NOT NULL, anonymous BOOLEAN DEFAULT 0, created_at DATETIME NOT NULL`; NOT append-restricted (no correction needed — read-only after insert is sufficient)
 - [ ] T314 Render giving widget in `post-card.js`: when `record.givingWidget` is present, render below the post text — running total (e.g. "$1,240 raised"), contributor count, "Give" button (opens Stripe Payment Link in new tab), and collapsible contributor list (most recent 5, with "See all" link); total and count refresh after each page load; "Give" button hidden when unauthenticated with tooltip "Sign in to give" — wait, actually allow giving without sign-in since Stripe Payment Link requires no account: show Give button always, tooltip only when payment link is not yet set up
-- [ ] T315 Add `POST /api/admin/bootstrapping-claim` route (requireAdmin, idempotent) — creates the bootstrapping Claim Record if it does not already exist: `{ title: "Truthbook is viable, worth funding, and can reach constitutional self-governance within 18 months of launch.", body: <content from stakeholder-briefing.md summary>, labels: ["bootstrapping", "constitutional", "pinned"] }`; enables the giving widget automatically; pins it; attaches spec documents as Evidence links
+ - [ ] T315 Add `POST /api/admin/bootstrapping-claim` route (requireAdmin, idempotent) — creates the bootstrapping Claim Record if it does not already exist: `{ title: "Truthbook is viable, worth funding, and can reach constitutional self-governance within 18 months of launch.", body: <content from peoples-briefing.md summary>, labels: ["bootstrapping", "constitutional", "pinned"] }`; enables the giving widget automatically; pins it; attaches spec documents as Evidence links
 - [ ] T316 Add `keyholders` table to migration 001: `id INTEGER PK, person_id INTEGER NOT NULL FK, node_url TEXT NOT NULL, node_type TEXT NOT NULL CHECK(node_type IN ('seedling','steward','keeper')), registered_at DATETIME NOT NULL, last_ping_at DATETIME, is_active BOOLEAN DEFAULT 1, governance_weight REAL NOT NULL DEFAULT 0.0`
 - [ ] T317 Add `keyholder_rewards` table to migration 001: `id INTEGER PK, keyholder_id INTEGER NOT NULL FK, period_start DATETIME NOT NULL, period_end DATETIME NOT NULL, queries_served INTEGER DEFAULT 0, writes_relayed INTEGER DEFAULT 0, records_confirmed INTEGER DEFAULT 0, reward_usd_cents INTEGER DEFAULT 0, paid_at DATETIME NULL`; append-only
 - [ ] T318 Add `GET /api/keyholders` route (public) — returns all active Keyholder nodes with `id`, `node_type`, `node_url`, `registered_at`, `last_ping_at`, `governance_weight`; no personal data exposed

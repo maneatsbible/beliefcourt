@@ -5,7 +5,7 @@ The GitHub Issues PoC (truthbook.io, formerly disputable.io) proved the domain m
 
 | Field | Value |
 |---|---|
-| **Version** | `v0.1.0-pre-alpha` |
+| **Version** | `v0.0.1-pre-alpha` |
 | **Status** | 🔴 Pre-Alpha — not production-ready |
 | **Feature branch** | `001-better-dispute-app` |
 | **Created** | 2026-04-18 |
@@ -13,10 +13,8 @@ The GitHub Issues PoC (truthbook.io, formerly disputable.io) proved the domain m
 | **Spec** | [spec.md](spec.md) |
 | **AI assistant** | GitHub Copilot · Claude Sonnet 4.6 |
 | **Governed by** | [constitution.md](constitution.md) — supersedes all other documents |
-
 ---
 
-## Spec Index
 
 | Document | Role |
 |---|---|

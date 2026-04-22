@@ -2,29 +2,19 @@
 
 | Field | Value |
 |---|---|
-| **Version** | `v0.1.0-pre-alpha` |
+| **Version** | `v0.0.1-pre-alpha` |
 | **Status** | 🔴 Pre-Alpha — not production-ready |
 | **Created** | 2026-04-18 |
 | **Last revised** | 2026-04-21 |
 | **Plan** | [plan.md](plan.md) |
 | **AI assistant** | GitHub Copilot · Claude Sonnet 4.6 |
 | **Governed by** | [constitution.md](constitution.md) — supersedes all other documents |
-
 ---
 
-## Spec Index
 | [constitution.md](constitution.md) | **Governing document — supersedes all others** |
-
 ---
 
 ## Table of Contents
-
-- [Prerequisites](#prerequisites)
-- [Step 1 — Create a GitHub OAuth App](#step-1--create-a-github-oauth-app)
-- [Step 2 — Create the Data Repository](#step-2--create-the-data-repository)
-- [Step 3 — Configure the App](#step-3--configure-the-app)
-- [Step 4 — Run Locally](#step-4--run-locally)
-- [Step 5 — Authenticate](#step-5--authenticate)
 - [Step 6 — Run Tests](#step-6--run-tests)
 - [@herald Setup](#herald-setup)
 - [Project Structure Reference](#project-structure-reference)

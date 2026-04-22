@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| **Version** | `v0.1.0-pre-alpha` |
+| **Version** | `v0.0.1-pre-alpha` |
 | **Status** | 🔴 Pre-Alpha — not production-ready |
 | **Phase** | 1 — Design |
 | **Created** | 2026-04-18 |
@@ -13,17 +13,6 @@
 
  
 
-| Document | Role |
-|---|---|
-| [spec.md](spec.md) | Functional requirements |
-| [plan.md](plan.md) | Implementation architecture and deployment |
-| **[data-model.md](data-model.md)** | Database schema and entity definitions — you are here |
-| [tasks.md](tasks.md) | Implementation tasks (SDLC) |
-| [quickstart.md](quickstart.md) | Development environment setup |
-| [research.md](research.md) | Pre-design unknowns and resolved decisions |
-| [stakeholder-briefing.md](stakeholder-briefing.md) | Public financial projections and constitutional crowdfunding |
-| [viral-growth-model.md](viral-growth-model.md) | Growth flywheels and acquisition model |
-| [constitution.md](constitution.md) | **Governing document — supersedes all others** |
 
 > **Revision note**: This document supersedes the original disputable.io data model. Entities have been renamed and extended to reflect the full Truthbook vision. The implementation target is **Fly.io + SQLite + Hono** (not GitHub Issues). See plan.md for the full SQL schema.
 

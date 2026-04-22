@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| **Version** | `1.0.0` |
+| **Version** | `v0.0.1-pre-alpha` |
 | **Status** | 🔥 Canonical Architecture |
 | **Last updated** | 2026-04-21 |
 | **Governed by** | [Truthbook-Constitution.md](BELIEF-COURT-CONSTITUTION-v1.md) |
