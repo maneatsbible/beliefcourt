@@ -1,4 +1,43 @@
+<!--
+  disputable.io Constitution
+  Power flows from righteous judgment.
+-->
 # disputable.io Constitution
+
+
+## Table of Contents
+
+- [Power to the People](#power-to-the-people)
+- [Principle I — No Argumentation — Defended Belief Only](#principle-i--no-argumentation--defended-belief-only-non-negotiable--priority-one)
+
+## Power to the People
+
+
+The product serves two related purposes:
+
+1. **To give every person — beginning with those who share this faith — a place to stand on what they actually believe**, defended with integrity, subject to challenge, and resolved with respect.
+2. **To build something that lasts**: a platform principled enough to serve the faith community well, and robust enough to serve anyone willing to engage sincerely.
+
+The dating features, the viral mechanics, the Christian Mode, the Church Discipline process, the open API, the historical re-trials — all of it exists downstream of this. The ambition for the platform to grow, to reach people, and to sustain itself commercially is not in tension with this foundation. It is in service of it.
+
+
+
+- [Principle V — Performance Requirements](#principle-v--performance-requirements)
+- [Principle VI — Free-First Tool Selection](#principle-vi--free-first-tool-selection)
+- [Principle VII — American English Only](#principle-vii--american-english-only)
+- [Principle VIII — Christian Mode is Not a General Faith Platform](#principle-viii--christian-mode-is-not-a-general-faith-platform)
+- [Principle IX — No AI in the Worldview Engine Stack](#principle-ix--no-ai-in-the-worldview-engine-stack)
+- [Principle X — Bot Namespace and Disclosure](#principle-x--bot-namespace-and-disclosure)
+- [Principle XI — Youth Zone and the Guardian Relation](#principle-xi--youth-zone-and-the-guardian-relation)
+- [Principle XII — Open Governance and the Constitutional Duel](#principle-xii--open-governance-and-the-constitutional-duel)
+- [Principle XIII — URL Parameter Minimization and Mock Mode](#principle-xiii--url-parameter-minimization-and-mock-mode)
+- [Principle XIV — Worldview Reconciliation Process as Governance Engine](#principle-xiv--worldview-reconciliation-process-as-governance-engine)
+- [Principle XV — Keyholder Program and the Federation Moat](#principle-xv--keyholder-program-and-the-federation-moat)
+- [Principle XVI — No Cryptocurrency Until Constitutional Approval](#principle-xvi--no-cryptocurrency-until-constitutional-approval)
+- [Principle XVII — Financial Transparency as Constitutional Obligation](#principle-xvii--financial-transparency-as-constitutional-obligation)
+- [Principle XVIII — The Constitution as Belief Ledger Foundation](#principle-xviii--the-constitution-as-belief-ledger-foundation)
+- [Development Workflow](#development-workflow)
+- [Governance](#governance)
 
 | Field | Value |
 |---|---|
