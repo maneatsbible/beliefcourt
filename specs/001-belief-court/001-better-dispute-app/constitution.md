@@ -25,6 +25,7 @@
 | [stakeholder-briefing.md](stakeholder-briefing.md) | Public financial projections and constitutional crowdfunding |
 | [viral-growth-model.md](viral-growth-model.md) | Growth flywheels and acquisition model |
 | **[constitution.md](constitution.md)** | **Governing document — supersedes all others — you are here** |
+| [distributed-architecture.md](distributed-architecture.md) | Keyholder program, Truth Statements, cryptographic hardening, and fork mechanism |
 
 ---
 
