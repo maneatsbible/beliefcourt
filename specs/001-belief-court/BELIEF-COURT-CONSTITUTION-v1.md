@@ -97,8 +97,6 @@ Evidence (attachments, links, supporting material) is a model detail, not a disc
 
 Failure to disclose authorship creates a challengeable Record. Bad-faith non-disclosure (hiding AI authorship, hiding bot status) is grounds for expulsion from a Space.
 
-Failure to disclose authorship creates a challengeable Record. Bad-faith non-disclosure (hiding AI authorship, hiding bot status) is grounds for expulsion from a Space.
-
 
 ### Section 2.3 — Immutability and Rescission
 
