@@ -38,7 +38,7 @@ export function renderRecordCard(record, permissions, currentUser, handlers = {}
 
   // Derive visual state for FR-047
   const isUntested = record.isClaim && record.openCaseCount === 0;
-  const isStanding = record.isClaim && record.openCaseCount === 0 && record.accordCount > 0;
+  const isStanding = record.isClaim && record.openCaseCount === 0 && record.claimAgreementCount > 0;
   const stateClass = isStanding ? 'record-card--standing'
                    : isUntested ? 'record-card--untested'
                    : '';
@@ -75,8 +75,8 @@ export function renderRecordCard(record, permissions, currentUser, handlers = {}
       ${record.openCaseCount > 0
         ? `<span class="badge badge--cases" title="${record.openCaseCount} open case(s)">${_esc(String(record.openCaseCount))} ?</span>`
         : ''}
-      ${record.accordCount > 0
-        ? `<span class="badge badge--accords" title="${record.accordCount} accord(s)">\u21cc ${_esc(String(record.accordCount))}</span>`
+      ${record.claimAgreementCount > 0
+        ? `<span class="badge badge--agreements" title="${record.claimAgreementCount} agreement(s)">🤝 ${_esc(String(record.claimAgreementCount))}</span>`
         : ''}
     </div>
     <div class="card__body">

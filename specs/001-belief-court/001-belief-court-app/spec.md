@@ -45,11 +45,11 @@
 
 ## Clarifications
 
-### Session 2026-04-22 — Record card controls and speaking relations
+### Session 2026-04-22 — Record card controls and speaking roles
 
 - Q: What is the primary interaction control on Record cards? → A: Every Record card uses three primary controls: **up**, **neutral**, **down**. Their semantic meaning is context-sensitive (e.g., like/dislike, accept/reject, yes/no), but the control shape remains stable across the product.
 - Q: How is a challengeable Claim indicated on these controls? → A: The **up** and **down** controls (never neutral) may carry a claim-indicator by superimposing the control emoji over the fire emoji. A claim created through **Start a Fire** (composer hint: `I believe that...`) defaults to fire on **up**. A previously neutral statement can become claim-bearing if someone disputes it; the disputed direction takes fire and the filer of that claim is the defender for that claim.
-- Q: What relation vocabulary is used when authoring Records? → A: The speaking relation is explicit and shown as `Speaking as [relation] of this belief record.` Supported relations are **Judge, Advocate, Defender, Evangelist (JADE)** and **Investigator**. Investigator is for active reporting/research on Cases (journalistic, true-crime, or formal investigation modes).
+- Q: What are the speaking roles when authoring Records? → A: The speaking role is explicit and shown as `Speaking as [role] of this belief record.` Supported roles are **Evangelist, Defender, Advocate, Judge, Investigator, Commentator** (mnemonic: JADEIC). These are not Duel phases or a sequence—they are UX indicators of how the Person is speaking on the record. The UI (especially Composers and Record cards) should always display the Person’s current speaking role as a badge or label.
 
 ### Session 2026-04-22 — Profile Wall and Comment records
 

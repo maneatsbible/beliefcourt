@@ -32,7 +32,7 @@ export function getClaims({ limit = 30, offset = 0 } = {}) {
     ['claim', limit, offset]
   );
 
-  // Augment each claim with author info + case/accord counts.
+  // Augment each claim with author info + case/agreement counts.
   return claims.map(r => {
     // Author identity
     const identity = db.get(
@@ -50,12 +50,12 @@ export function getClaims({ limit = 30, offset = 0 } = {}) {
     );
     r.open_case_count = openCases.length;
 
-    // Accord count (claim_accords rows)
-    const accords = db.query(
-      `SELECT * FROM claim_accords WHERE claim_id = ?`,
+    // ClaimAgreement count (claim_agreements rows)
+    const agreements = db.query(
+      `SELECT * FROM claim_agreements WHERE claim_id = ?`,
       [r.id]
     );
-    r.accord_count = accords.length;
+    r.claim_agreement_count = agreements.length;
 
     return r;
   });

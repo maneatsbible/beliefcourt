@@ -182,7 +182,7 @@ export class HomeView {
     const action   = btn.dataset.action;
 
     if (action === 'challenge' && record) this._openChallengeComposer(record, card);
-    if (action === 'agree'     && record) this._submitAccord(record);
+    if (action === 'agree'     && record) this._submitClaimAgreement(record);
   }
 
   _openRecord(record) {
@@ -212,14 +212,14 @@ export class HomeView {
     });
   }
 
-  async _submitAccord(record) {
-    if (!this._user) { showNotification('Sign in to accord.', 'warn'); return; }
+  async _submitClaimAgreement(record) {
+    if (!this._user) { showNotification('Sign in to agree.', 'warn'); return; }
     try {
-      await this._ctrl.submitAccord(record.id);
-      showNotification('Accord recorded!', 'success');
+      await this._ctrl.submitClaimAgreement(record.id);
+      showNotification('Agreement recorded!', 'success');
       await this._resetFeed();
     } catch (err) {
-      showNotification(`Failed to accord: ${err.message}`, 'error');
+      showNotification(`Failed to agree: ${err.message}`, 'error');
     }
   }
 

@@ -43,11 +43,11 @@ export class HomeController {
   }
 
   /**
-   * Record an accord with a claim (agreeing publicly).
+   * Record a ClaimAgreement with a claim (agreeing publicly).
    * @param {string} claimId
    */
-  async submitAccord(claimId) {
-    return apiPost('/api/records', { type: 'accord', claimId });
+  async submitClaimAgreement(claimId) {
+    return apiPost('/api/records', { type: 'claim_agreement', claimId });
   }
 
   // ---------------------------------------------------------------------------
@@ -63,8 +63,8 @@ export class HomeController {
   }
 
   canAgree(user, record) {
-    if (!user) return { allowed: false, reason: 'Sign in to accord.' };
-    if (!record.isClaim) return { allowed: false, reason: 'Only claims can be accorded.' };
+    if (!user) return { allowed: false, reason: 'Sign in to agree.' };
+    if (!record.isClaim) return { allowed: false, reason: 'Only claims can be agreed with.' };
     return { allowed: true, reason: '' };
   }
 }
