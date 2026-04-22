@@ -6,7 +6,7 @@
 | **Status** | 🔴 Pre-Alpha — not production-ready |
 | **Phase** | 1 — Design |
 | **Created** | 2026-04-18 |
-| **Last revised** | 2026-04-21 |
+| **Last revised** | 2026-04-22 |
 | **Plan** | [plan.md](plan.md) |
 | **AI assistant** | GitHub Copilot · Claude Sonnet 4.6 |
 | **Governed by** | [constitution.md](constitution.md) — supersedes all other documents |
@@ -36,8 +36,9 @@
 - [Entity Hierarchy](#entity-hierarchy)
 - [The Belief Ledger and Worldview](#the-belief-ledger-and-worldview)
 - [Entities](#entities)
+- [Record Card Controls](#record-card-controls)
 - [Disposition State Transitions](#disposition-state-transitions)
-- [Record Type Icons (UI mapping)](#record-type-icons-ui-mapping)
+- [Record Card Control Mapping (UI)](#record-card-control-mapping-ui)
 - [Entity → Database Table Mapping](#entity--database-table-mapping)
 - [Storage Architecture Notes](#storage-architecture-notes)
 - [Controller Permission Gates](#controller-permission-gates)
@@ -101,6 +102,7 @@ Represents an authenticated user (SM OAuth — X, Threads, Bluesky, or GitHub).
 - A Person MUST NOT challenge their own Record.
 - A Person MUST NOT challenge a Claim they have agreed with.
 - A Person MUST NOT challenge the same Record more than once.
+- Person handles are globally unique across all Spaces.
 
 ---
 
@@ -136,6 +138,47 @@ The base of all user-created content. Every Record is a row in the `records` tab
 - Root Claims (`parentId === null`): MUST have `text` XOR `imageUrl` (not both, not neither).
 - Non-root Records: MAY have both `text` and `imageUrl`.
 - All Records: Issue body is immutable after creation (append-only).
+
+---
+
+### RecordRelation
+
+Declares the author's explicit speaking relation for a specific Record. Rendered in UI as `Speaking as [relation] of this belief record.`
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `id` | `integer` | DB auto-increment |
+| `recordId` | `integer` | The Record this relation applies to |
+| `authorId` | `integer` | Must match `records.author_id` |
+| `relation` | `enum` | `"judge"`, `"advocate"`, `"defender"`, `"evangelist"`, `"investigator"` |
+| `createdAt` | `ISO8601` | |
+
+**Constraints**:
+- Exactly one active relation per authored Record.
+- Only the Record author can set or change relation before first challenge; after challenge opens, relation is append-only history (new relation row, old row retained).
+- `investigator` relation denotes active case reporting/research (journalistic, true-crime, or formal investigative mode).
+
+---
+
+### RecordControlState
+
+Stores context-sensitive meaning and claim-indicator state for the three primary Record card controls.
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `recordId` | `integer` | Record whose controls are rendered |
+| `context` | `enum` | `"reaction"`, `"response"`, `"interrogatory"` |
+| `upMeaning` | `enum` | e.g. `"like"`, `"accept"`, `"yes"` |
+| `neutralMeaning` | `enum` | e.g. `"no_claim"`, `"defer"`, `"not_answering"` |
+| `downMeaning` | `enum` | e.g. `"dislike"`, `"reject"`, `"no"` |
+| `claimDirection` | `enum \| null` | `"up"`, `"down"`, or `null` |
+| `claimRecordId` | `integer \| null` | If control direction is claim-bearing, links to that Claim record |
+
+**Constraints**:
+- `claimDirection` MUST NEVER be `"neutral"`.
+- Claim indicator (fire overlay) may only appear on up or down controls.
+- A Record created from composer hint `I believe that...` (Start a Fire) defaults to `claimDirection="up"`.
+- A previously neutral stance can become claim-bearing when challenged; in that event `claimDirection` transitions to up or down and `claimRecordId` is set.
 
 ---
 
@@ -613,15 +656,35 @@ Home View
 
 ---
 
-## Record Type Icons (UI mapping)
+## Record Card Controls
 
-| Record Type | Icon | CSS class |
-|-------------|------|-----------|
-| Claim | `!` | `.icon-claim` |
-| Challenge | `?` | `.icon-challenge` |
-| Answer | `✓` | `.icon-answer` |
-| Offer | `⇌` | `.icon-offer` |
-| Response | `·` accepted / `✗` rejected | `.icon-response` |
+Every Record card exposes three primary controls in fixed order:
+1. Up
+2. Neutral
+3. Down
+
+Control meaning is context-sensitive but layout is invariant.
+
+- In reaction contexts: up/down map to like/dislike.
+- In offer-response contexts: up/down map to accept/reject.
+- In interrogatory contexts: up/down map to yes/no.
+- Neutral denotes no claim intent and never carries claim-fire.
+
+Fire-overlay semantics:
+- Up and down controls may be rendered as claim-bearing by superimposing the control emoji over fire.
+- Neutral control never carries fire.
+- Start a Fire (`I believe that...`) creates a claim-bearing up control by default.
+- If a neutral posture is disputed and becomes a filed claim, the resulting claim direction (up/down) takes fire and the filer is the defender of that claim.
+
+---
+
+## Record Card Control Mapping (UI)
+
+| Context | Up | Neutral | Down | Fire Overlay Rule |
+|---------|----|---------|------|-------------------|
+| `reaction` | like | no-claim | dislike | up/down only |
+| `response` | accept | no-claim | reject | up/down only |
+| `interrogatory` | yes | no-claim | no | up/down only |
 
 ---
 
@@ -632,6 +695,8 @@ Home View
 | Person | `persons` | `id`, `name`, `profile_pic_url`, `is_herald`, `is_ai`, `ai_model` |
 | LinkedIdentity | `linked_identities` | `person_id`, `platform`, `platform_user_id`, `platform_handle` |
 | Record (all types) | `records` | `id`, `type`, `author_id`, `parent_id`, `case_id`, `text`, `image_url`, `source_url`, `is_ai`, `ai_model`, `ai_assisted` |
+| RecordRelation | `record_relations` | `id`, `record_id`, `author_id`, `relation`, `created_at` |
+| RecordControlState | `record_control_states` | `record_id`, `context`, `up_meaning`, `neutral_meaning`, `down_meaning`, `claim_direction`, `claim_record_id` |
 | Case | `cases` | `id`, `subject_record_id`, `opened_by_person_id`, `trigger_challenge_id` |
 | Duel | `duels` | `id`, `case_id`, `challenger_id`, `defender_id` |
 | Disposition | `dispositions` | `id`, `duel_id`, `type`, `triggered_by_person_id` |

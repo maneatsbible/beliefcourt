@@ -6,7 +6,7 @@
 | **Status** | 🔴 Pre-Alpha — not production-ready |
 | **Feature branch** | `001-better-dispute-app` |
 | **Created** | 2026-04-18 |
-| **Last revised** | 2026-04-21 |
+| **Last revised** | 2026-04-22 |
 | **AI assistant** | GitHub Copilot · Claude Sonnet 4.6 |
 | **Governed by** | [constitution.md](constitution.md) — supersedes all other documents |
 
@@ -25,7 +25,7 @@
 | [stakeholder-briefing.md](stakeholder-briefing.md) | Public financial projections and constitutional crowdfunding |
 | [viral-growth-model.md](viral-growth-model.md) | Growth flywheels and acquisition model |
 | [constitution.md](constitution.md) | **Governing document — supersedes all others** |
-| [distributed-architecture.md](distributed-architecture.md) | Keyholder program, Truth Statements, cryptographic hardening, and fork mechanism |
+| [distributed-architecture.md](distributed-architecture.md) | Keyholder program, Truth Statements, cryptographic hardening, and Space-native governance |
 
 ---
 
@@ -44,6 +44,12 @@
 ---
 
 ## Clarifications
+
+### Session 2026-04-22 — Record card controls and speaking relations
+
+- Q: What is the primary interaction control on Record cards? → A: Every Record card uses three primary controls: **up**, **neutral**, **down**. Their semantic meaning is context-sensitive (e.g., like/dislike, accept/reject, yes/no), but the control shape remains stable across the product.
+- Q: How is a challengeable Claim indicated on these controls? → A: The **up** and **down** controls (never neutral) may carry a claim-indicator by superimposing the control emoji over the fire emoji. A claim created through **Start a Fire** (composer hint: `I believe that...`) defaults to fire on **up**. A previously neutral statement can become claim-bearing if someone disputes it; the disputed direction takes fire and the filer of that claim is the defender for that claim.
+- Q: What relation vocabulary is used when authoring Records? → A: The speaking relation is explicit and shown as `Speaking as [relation] of this belief record.` Supported relations are **Judge, Advocate, Defender, Evangelist (JADE)** and **Investigator**. Investigator is for active reporting/research on Cases (journalistic, true-crime, or formal investigation modes).
 
 ### Session 2026-04-18
 
@@ -124,6 +130,8 @@ The architecture maps exactly onto MVC, and the correspondence is not incidental
 
 A visitor opens judgmental.io in their browser. They see the Home view listing Claims as summary cards ranked by strength and activity. They can authenticate via GitHub and compose a new Claim (text and/or a single image). They can also import an external quote via @herald to plant a position for others to dispute.
 
+The composer's claim-first hint text is `I believe that...` and the action to submit a claim is conceptually **Start a Fire**.
+
 **Why this priority**: The Claim feed and composition are the entry point for all activity. Without this, no disputes can begin.
 
 **Independent Test**: A logged-in user can type text, submit a Claim, and see it appear as a new card on the Home feed.
@@ -135,6 +143,27 @@ A visitor opens judgmental.io in their browser. They see the Home view listing C
 3. **Given** the user wants to import an external quote, **When** they toggle @herald mode and paste a source URL and quote, **Then** the Claim is attributed to @herald with the source URL recorded, and a Challenge is opened against it immediately.
 4. **Given** the user uploads an image, **When** they submit a top-level Claim, **Then** the Claim contains either the text or the image (not both).
 5. **Given** any Claim card is visible, **When** the user clicks the copy icon, **Then** the canonical URL for that Claim is copied to their clipboard.
+6. **Given** a user submits from `I believe that...`, **When** the card renders, **Then** the up/neutral/down controls are shown and the **up** control carries the fire claim indicator.
+7. **Given** a card is rendered in a context with no claim intent, **Then** the neutral control shows no claim indicator and is never fire-marked.
+
+---
+
+### User Story 1A — Contextual Control Semantics and Speaking Relation (Priority: P1)
+
+A user should be able to use the same three controls (up, neutral, down) across contexts while understanding their current meaning and seeing who is speaking in which relation.
+
+**Why this priority**: Consistent controls with explicit relation context are foundational to clear on-record interaction.
+
+**Independent Test**: The same Record card renders in three contexts (`like/dislike`, `accept/reject`, `yes/no`) with unchanged control layout, context-appropriate labels, and visible `Speaking as [relation]` metadata.
+
+**Acceptance Scenarios**:
+
+1. **Given** a Record card in Home feed context, **When** controls render, **Then** up/down semantics map to like/dislike while neutral remains available for no-claim intent.
+2. **Given** a Record card in Offer/Response context, **When** controls render, **Then** up/down semantics map to accept/reject with the same control positions.
+3. **Given** a Record card in Interrogatory context, **When** controls render, **Then** up/down semantics map to yes/no with the same control positions.
+4. **Given** a claim-bearing direction exists, **When** the card renders, **Then** only up or down may carry the fire overlay, never neutral.
+5. **Given** a previously neutral position is disputed and filed as a claim, **When** the card updates, **Then** the disputed direction takes fire and that claim author is shown as defender for that claim.
+6. **Given** any authored Record, **When** metadata renders, **Then** the UI displays `Speaking as [relation] of this belief record.` where relation is one of Judge, Advocate, Defender, Evangelist, or Investigator.
 
 ---
 
