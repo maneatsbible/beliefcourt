@@ -24,11 +24,9 @@ Everything that follows — the constitutional structure, the duel process, the 
 
 ### Manifesto
 
-**On the Record.**  
-Every act is signed. Every claim is traced. Every challenge is recorded. No anonymous mob rule. No deleted arguments. No fake consensus. Every person stands in their name. Every voice leaves a mark in the People's ledger.
+**On the Record.** Every act is signed. Every claim is traced. Every challenge is recorded. No anonymous mob rule. No deleted arguments. No fake consensus. Every person stands in their name. Every voice leaves a mark in the People's ledger.
 
-**Power to the People.**
-BELIEF COURT is fully peer-to-peer in constitution and implementation. Power belongs to the People, not gatekeepers. The system's design makes that inevitable, not aspirational. When duels settle disputes and the Gallery judges the proceedings, legitimacy flows from the People's voice — spread to every peer, impossible to centralize, impossible to kill.
+**Power to the People.** BELIEF COURT is fully peer-to-peer in constitution and implementation. Power belongs to the People, not gatekeepers. The system's design makes that inevitable, not aspirational. When duels settle disputes and the Gallery judges the proceedings, legitimacy flows from the People's voice — spread to every peer, impossible to centralize, impossible to kill.
 
 ---
 
