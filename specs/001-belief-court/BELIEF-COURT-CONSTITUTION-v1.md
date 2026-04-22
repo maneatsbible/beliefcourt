@@ -75,24 +75,27 @@ Join. Litigate. Judge. Decide. Judgment is yours to decide.
 ### Section 2.1 — Record Entities
 
 
+
 Every Record is authored by exactly one Person. Every Record has:
 - **ID**: globally unique, immutable, cryptographically signed
 - **Author**: the Person who created it, never changeable
-- **Mode**: the JADEIC mode in which the Record was filed (Evangelist, Advocate, Defender, Judge, Investigator, Commentator)
 - **Timestamp**: creation time, sealed with the Record
 - **Content**: text, images, or references — never edited, only rescinded
 - **Integrity Hash**: SHA256 proof of authorship and contents
 
 
 
-Record types:
-1. **Claim** — An assertion of truth. Root of any dispute.
-2. **Comment** — A neutral statement or Wall post, not a claim by default. Comments are for ordinary conversation, reflection, or sharing. They are on the record but do not assert a claim unless challenged.
-3. **Challenge** — Contests a Record. Opens a Case.
-4. **Answer** — Responds to a Challenge within a Duel.
-5. **Offer** — Proposes a settlement.
-6. **Response** — Answers an Offer (accept, reject, counter, etc.).
-7. **Judgment** — A verdict on a settled Duel, grounded in the Judge's worldview.
+
+#### Record Types
+1. **Claim** — An assertion of truth, value, or fact. Claims are always on the record, open to challenge, and must be defended if challenged.
+2. **Comment** — The default, happy-path action. Comments are for ordinary conversation, reflection, or sharing. They are on the record but do not assert a claim unless challenged.
+3. **CounterClaim** — Filed by choosing the Disagree (🔥) action on a Record. If the original Record is not a Claim, a Claim Record is created to wrap it for the purposes of dispute. The original Record remains as context.
+4. **Affirmation** — Choosing the Affirm (❤️) action on a Record. This is a public affirmation, similar to a "like" but explicitly signals agreement or support.
+5. **Challenge** — A formal contestation of a Claim or CounterClaim.
+6. **Answer** — A response to a Challenge or Claim.
+7. **Offer** — A proposed resolution or settlement.
+8. **Response** — A reply to an Offer.
+9. **Judgment** — A verdict on a settled Duel, grounded in the Judge's worldview.
 
 **Any Record type can become a Claim if challenged.** If any Record is disputed, a Claim Record is written, turning the original into a Claim for the purposes of dispute. The original Record remains as context.
 
