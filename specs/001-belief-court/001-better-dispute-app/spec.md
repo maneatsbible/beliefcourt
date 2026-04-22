@@ -51,6 +51,13 @@
 - Q: How is a challengeable Claim indicated on these controls? → A: The **up** and **down** controls (never neutral) may carry a claim-indicator by superimposing the control emoji over the fire emoji. A claim created through **Start a Fire** (composer hint: `I believe that...`) defaults to fire on **up**. A previously neutral statement can become claim-bearing if someone disputes it; the disputed direction takes fire and the filer of that claim is the defender for that claim.
 - Q: What relation vocabulary is used when authoring Records? → A: The speaking relation is explicit and shown as `Speaking as [relation] of this belief record.` Supported relations are **Judge, Advocate, Defender, Evangelist (JADE)** and **Investigator**. Investigator is for active reporting/research on Cases (journalistic, true-crime, or formal investigation modes).
 
+### Session 2026-04-22 — Profile Wall and Comment records
+
+- Q: What personal publishing surface exists on a Person profile? → A: Every Person has a **Wall** on their profile for blog-style posting. Wall posts are first-class on-record entries.
+- Q: What record type is used for Wall posts? → A: Wall posts use `type=comment` and are neutral by default (no claim intent).
+- Q: How does a neutral Wall Comment become fire? → A: If a Comment is challenged, a Case opens. If the comment author (or another eligible defender per platform rules) defends the challenged position in Duel flow, that challenged stance becomes claim-bearing (fire).
+- Q: What interactions are allowed directly on Wall comments? → A: Wall commentary is conflict-free by design: only **up** (like) and **neutral** are allowed on the Wall surface. Direct down/dislike is not allowed on-Wall. Any disagreement route initiates Court flow by filing a Challenge Claim.
+
 ### Session 2026-04-18
 
 - Q: How should GitHub authentication be handled on a static site with no server? → A: GitHub Device Flow for v1 (zero-server); serverless token-exchange function planned for v2.
@@ -343,17 +350,24 @@ An authenticated user wants to publicly withdraw a position they previously post
 
 Any authenticated user can look up the full public record of any other Person: every Claim, Challenge, Answer, ClaimAccord, Judgment rendered, and Rescission — all filterable.
 
+Every Person profile also includes a Wall for long-form and short-form blog-style posts authored as `Comment` records. Wall content is on the Record.
+
 **Why this priority**: The Miranda principle requires that this information be accessible. It is also the primary research tool before entering a Duel.
 
-**Independent Test**: User A clicks on User B's handle → Person profile opens → tabs: Records, Agreements, Judgments, Rescissions; filter by `type=claim` → only Claims shown.
+**Independent Test**: User A clicks on User B's handle → Person profile opens → tabs: Records, Wall, Agreements, Judgments, Rescissions; filter by `type=claim` → only Claims shown; Wall renders `Comment` posts.
 
 **Acceptance Scenarios**:
 
 1. **Given** any post card, **When** the user clicks the author handle `@name`, **Then** the Person profile view opens for that author.
-2. **Given** the Person profile is open, **Then** four tabs are shown: All Records, Agreements (ClaimAccords), Judgments Rendered, Rescissions.
+2. **Given** the Person profile is open, **Then** five tabs are shown: All Records, Wall, Agreements (ClaimAccords), Judgments Rendered, Rescissions.
 3. **Given** the Records tab, **When** the user applies a type filter, **Then** only Records of that type are shown.
 4. **Given** the Records tab, **When** the user types in the topic search field, **Then** Records containing that text are shown (full-text search).
 5. **Given** the user is unauthenticated, **Then** the Person profile is visible but all "Challenge" and "Agree" interactions are disabled with "Sign in" tooltips.
+6. **Given** the profile owner creates a Wall post, **When** submitted, **Then** a new `Comment` record is appended and shown on the Wall in reverse-chronological order.
+7. **Given** a Wall Comment is unchallenged, **Then** its card remains neutral (no fire indicator).
+8. **Given** a Wall Comment is challenged, **When** a Case is opened and defense is filed in Duel flow, **Then** the challenged stance is rendered as claim-bearing fire in that dispute context.
+9. **Given** a viewer is on a Wall Comment card, **Then** only up and neutral controls are interactive on that Wall surface.
+10. **Given** a viewer intends to disagree with a Wall Comment, **When** they choose the disagreement route, **Then** the system opens Challenge composition and files the disagreement to Court as a Challenge Claim (opening a Case).
 
 ---
 

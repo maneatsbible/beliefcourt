@@ -49,6 +49,7 @@
 
 ```
 Claim                          ← root; the statement being disputed
+Comment                        ← neutral Wall post on Person profile
  └── Case                      ← opened when any Record is challenged
       └── Duel                 ← 1v1 contest within a Case
            ├── Challenge        ← turn: contest a Record
@@ -62,13 +63,13 @@ Claim                          ← root; the statement being disputed
            └── Judgment         ← verdict on Duel, grounded in BaseOfTruth
 ```
 
-Any Record (Claim, Challenge, Answer, Offer, Response, SimilarityLink) can itself be challenged, opening a nested Case with its own Case View and Duel Chooser.
+Any Record (Claim, Comment, Challenge, Answer, Offer, Response, SimilarityLink) can itself be challenged, opening a nested Case with its own Case View and Duel Chooser.
 
 ---
 
 ## The Belief Ledger and Worldview
 
-Every entity that extends **Record** is a **Belief Ledger entry**. The Belief Ledger is the append-only SQLite store of all epistemic acts on the platform. Filing a Claim, issuing a Challenge, giving an Answer, making an Offer, reaching an Accord, posting a Rescission — these are all acts attributed to a Person and stored permanently in the Ledger. Together they constitute that Person's **worldview** as it exists on the platform.
+Every entity that extends **Record** is a **Belief Ledger entry**. The Belief Ledger is the append-only SQLite store of all epistemic acts on the platform. Filing a Claim, posting a Comment on your Wall, issuing a Challenge, giving an Answer, making an Offer, reaching an Accord, posting a Rescission — these are all acts attributed to a Person and stored permanently in the Ledger. Together they constitute that Person's **worldview** as it exists on the platform.
 
 **Challenges are first-class Belief Ledger entries.** Issuing a Challenge is not a procedural step in a turn sequence — it is an epistemic act asserting that a Record is wrong, unclear, or undefended. It is attributed to the challenger, stored as a Record, and contributes to their worldview. A Challenge may itself be challenged, opening a nested Case. That nested Challenge is also a Record, also attributed, also challengeable. The recursion is unbounded. Every layer of challenge and answer in any nested Duel is a Record in the Belief Ledger.
 
@@ -113,7 +114,7 @@ The base of all user-created content. Every Record is a row in the `records` tab
 | Field | Type | Source | Notes |
 |-------|------|--------|-------|
 | `id` | `integer` | DB auto-increment | Globally unique |
-| `type` | `enum` | DB column | `"claim"`, `"challenge"`, `"answer"`, `"offer"`, `"response"` |
+| `type` | `enum` | DB column | `"claim"`, `"comment"`, `"challenge"`, `"answer"`, `"offer"`, `"response"` |
 | `authorId` | `integer` | DB foreign key | Person who created the Record |
 | `heraldClaimId` | `integer \| null` | DB column | Set when @herald is replaced by the real author; points to original Claim id |
 | `parentId` | `integer \| null` | DB column | Parent Record id; `null` for root Claims |
@@ -179,6 +180,7 @@ Stores context-sensitive meaning and claim-indicator state for the three primary
 - Claim indicator (fire overlay) may only appear on up or down controls.
 - A Record created from composer hint `I believe that...` (Start a Fire) defaults to `claimDirection="up"`.
 - A previously neutral stance can become claim-bearing when challenged; in that event `claimDirection` transitions to up or down and `claimRecordId` is set.
+- In Wall commentary context, direct down interaction is disabled; disagreement routes to Challenge composition.
 
 ---
 
@@ -203,6 +205,27 @@ DISPUTED ───(all Duels reach Disposition)──► SETTLED | DEFAULTED | S
 - **DEFAULTED**: A Duel ended by Default (deadline passed, no Answer).
 
 A Claim in STANDING state carries epistemic weight — it has been tested and held.
+
+---
+
+### Comment (extends Record)
+
+A neutral Wall post authored on a Person's profile. A Comment is on the Record but does not declare claim intent by default.
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `wallOwnerId` | `integer` | The profile owner whose Wall hosts this comment |
+| `isNeutral` | `boolean` | Always `true` on creation |
+| `isClaimBearing` | `boolean` | Derived; false at creation, may become true in dispute context |
+
+**Constraints**:
+- `type=comment` is the canonical Wall post type.
+- New Comments render with neutral controls and no fire indicator.
+- On the Wall surface, only up (like) and neutral controls are interactive for Comment records.
+- Down/dislike is not an on-Wall interaction for Comment records; disagreement is expressed by filing a Challenge Claim in Court flow.
+- A challenged Comment opens a Case like any other Record.
+- If the challenged stance is defended in Duel flow, that stance is rendered as claim-bearing (fire) for that dispute context.
+- Original Comment content remains append-only and does not mutate into a different record type.
 
 ---
 
@@ -685,6 +708,7 @@ Fire-overlay semantics:
 | `reaction` | like | no-claim | dislike | up/down only |
 | `response` | accept | no-claim | reject | up/down only |
 | `interrogatory` | yes | no-claim | no | up/down only |
+| `wall_commentary` | like | no-claim | disabled → Challenge Claim | fire only in Court context |
 
 ---
 
@@ -708,6 +732,7 @@ Fire-overlay semantics:
 | AnalysisMoment | `analysis_moments` | `analysis_id`, `moment_id` |
 | Judgment | `judgments` | `id`, `duel_id`, `judge_id`, `analysis_id`, `verdict`, `base_of_truth_claim_id` |
 | BaseOfTruth | `base_of_truth` | `person_id`, `anchor_claim_id` |
+| Wall (derived view) | `records` | `type='comment' AND author_id=:person_id ORDER BY created_at DESC` |
 | SimilarityLink | `similarity_links` | `id`, `author_id`, `record_a_id`, `record_b_id` |
 | Evidence | `evidence` | `id`, `record_id`, `author_id`, `attachment_type`, `url`, `text`, `source_record_id` |
 | Exhibit | `exhibits` | `id`, `duel_id`, `evidence_id`, `submitted_by_person_id`, `exhibit_label` |
