@@ -12,12 +12,6 @@
 
 ## CONSTITUTIONAL DESIGN PRINCIPLES
 
-- **Bot Namespace:** All bots must use the !Bot prefix (e.g., !BotHelper). No bots may use the @Person namespace. Bots are never treated as People and are constitutionally distinct. Bots may only author Records of type `transcript` (e.g., StenoBot/TranscriptBot), unless otherwise amended by constitutional process.
-- **WantedPerson & Public Wall:** External/unregistered entities are modeled as WantedPerson, each with a public Wall. When they join, the Wall becomes their Blog at Truthbook.io/@username, suitable for any content they wish to post. WantedPeople do not consume @Person names until they register. Their Wall is public and displays all cases for and against them. Upon joining, they must select an unused @Person name.
-- **Formalized Record Subtypes:** All Record subtypes (e.g., SummonsRecord, DuelRecord, QuestionRecord, ObjectionRecord, etc.) are formalized as distinct, semantically-expressive types. Extensibility is allowed only by explicit constitutional process. The model must remain explorable and semantically meaningful for all users and admin tools, including in cold storage.
-- **Explorable Model:** The data model must support semantic exploration and visualization, even in cold storage, via canned queries and admin tools. All Record types and relationships must be explorable and meaningful for both users and administrators.
-
-
 ---
 
 ## PREAMBLE
@@ -38,6 +32,7 @@ This platform is not built around the belief that argumentation wins debates. It
 Everything that follows — the constitutional structure, the duel process, the ledger architecture, the litigation process — flows from this conviction. When a design decision is hard to make, this is where the answer lives.
 ## ARTICLE 0 — PRINCIPLES OF JUDGMENT AND LANGUAGE
 
+### Section 0.1 — Constitutional Design Principles
 - The People do not decide what is true; the People Judge what is true.
 - Judgment is rendered according to each Person’s Worldview, which is based on their Affirmed Truth Statements.
 - The term “We” shall always refer to the People—never to the platform, its operators, or any AI.
@@ -90,6 +85,10 @@ Join. Litigate. Judge. Decide. Judgment is yours to decide.
 
 ### Section 2.1 — Record Entities
 
+Every Record is authored by exactly one Person (human, always @username), or, for transcript Records only, by a Bot using the !Bot prefix. All bots must use the !Bot prefix (e.g., !BotHelper). No bots may use the @Person namespace. Bots are never treated as People and are constitutionally distinct. Bots may only author Records of type `transcript` (e.g., StenoBot/TranscriptBot), unless otherwise amended by constitutional process.
+
+All Record subtypes (e.g., SummonsRecord, DuelRecord, QuestionRecord, ObjectionRecord, etc.) are formalized as distinct, semantically-expressive types. Extensibility is allowed only by explicit constitutional process. The model must remain explorable and semantically meaningful for all users and admin tools, including in cold storage. The data model must support semantic exploration and visualization, even in cold storage, via canned queries and admin tools. All Record types and relationships must be explorable and meaningful for both users and administrators.
+
 
 
 Every Record is authored by exactly one Person. Every Record has:
@@ -140,6 +139,8 @@ Every Record is authored by exactly one Person (human, always @username), or, fo
 ### Section 2.2 — Mandatory Disclosure Rules
 
 ## ARTICLE II-A — WANTEDPERSON AND THE PUBLIC WALL
+
+External/unregistered entities are modeled as WantedPerson, each with a public Wall. When they join, the Wall becomes their Blog at Truthbook.io/@username, suitable for any content they wish to post. WantedPeople do not consume @Person names until they register. Their Wall is public and displays all cases for and against them. Upon joining, they must select an unused @Person name.
 
 ### Section 2A.1 — WantedPerson
 
