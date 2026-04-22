@@ -407,9 +407,10 @@ ACTIVE ──(deadline passes, no answer)──► DEFAULT triggered
 
 ---
 
+
 ### Accord
 
-Records a successfully resolved Duel — both parties accepted an Offer. A first-class record produced by an accepted Response.
+Records a successfully resolved Duel — both parties accepted an Offer. A first-class record produced by an accepted Response. **Accord is a negotiated, on-record agreement and is a Belief Ledger entry.**
 
 | Field | Type | Notes |
 |-------|------|-------|
@@ -418,6 +419,23 @@ Records a successfully resolved Duel — both parties accepted an Offer. A first
 | `offerId` | `number` | The Offer that was accepted |
 | `responseId` | `number` | The Response that accepted it |
 | `createdAt` | `ISO8601` | |
+
+---
+
+### ClaimAccord
+
+Records that a Person has agreed with a Claim without a Duel — a standing agreement. Makes the Person eligible to defend the Claim if it is challenged. **ClaimAccord is a Person’s standing agreement with a Claim, not requiring a Duel or negotiation. It is a Belief Ledger entry but does not result from negotiation.**
+
+**UI/UX guidance:**
+- The **up** button on a Claim means “I agree” (creates a ClaimAccord).
+- The **up** button on an Offer means “I accept” (can lead to Accord if both parties accept).
+- UI/UX must make this distinction explicit: “Agree” is a personal stance; “Accord” is a negotiated outcome. Only Accords resolve Duels.
+
+---
+
+### Annotation (Gallery one-liners)
+
+A comment posted within a Moment — by a human or by GalleryBot. **Annotations are always off the record for everyone, including bots.** Annotations are not Records, not attributed as epistemic acts, and not challengeable. GalleryBot posts are not Belief Ledger entries.
 
 ---
 

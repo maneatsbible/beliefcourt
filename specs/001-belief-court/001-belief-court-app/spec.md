@@ -139,6 +139,15 @@ A visitor opens judgmental.io in their browser. They see the Home view listing C
 
 The composer's claim-first hint text is `I believe that...` and the action to submit a claim is conceptually **Start a Fire**.
 
+
+**Note on Accord vs. Agree (ClaimAccord):**
+- **Accord** is the outcome of a resolved Duel (Offer accepted by both parties). It is a negotiated, on-record agreement and is a Belief Ledger entry.
+- **Agree** (ClaimAccord) is a Person’s standing agreement with a Claim, not requiring a Duel or negotiation. It is a Belief Ledger entry but does not result from negotiation.
+- The **up** button on a Claim means “I agree” (creates a ClaimAccord). The **up** button on an Offer means “I accept” (can lead to Accord if both parties accept).
+- UI/UX must make this distinction explicit: “Agree” is a personal stance; “Accord” is a negotiated outcome. Only Accords resolve Duels.
+
+**Gallery one-liners (Annotations) are always off the record for everyone, including bots.** Annotations are not Records, not attributed as epistemic acts, and not challengeable. GalleryBot posts are not Belief Ledger entries.
+
 **Why this priority**: The Claim feed and composition are the entry point for all activity. Without this, no disputes can begin.
 
 **Independent Test**: A logged-in user can type text, submit a Claim, and see it appear as a new card on the Home feed.
