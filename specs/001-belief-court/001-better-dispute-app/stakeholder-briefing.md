@@ -4,7 +4,7 @@
 |---|---|
 | **Version** | `v0.1.0-pre-alpha` |
 | **Status** | 🔴 Pre-Alpha — not production-ready |
-| **Last revised** | 2026-04-21 |
+| **Last revised** | 2026-04-22 |
 | **AI assistant** | GitHub Copilot · Claude Sonnet 4.6 |
 | **Governed by** | [constitution.md](constitution.md) — supersedes all other documents |
 
@@ -40,6 +40,7 @@
 
 - [The Bootstrapping Claim](#the-bootstrapping-claim)
 - [What This Is](#what-this-is)
+- [Founder and Origin](#founder-and-origin)
 - [Why Judgment? Why Now?](#why-judgment-why-now)
 - [Why This, Why Now](#why-this-why-now)
 - [The Content Acquisition Strategy: Worldview Sync + Auto-Claim Anywhere](#the-content-acquisition-strategy-worldview-sync--auto-claim-anywhere)
@@ -73,6 +74,40 @@ judgmental.io is a structured judgment engine — Claims, Evidence, Duels, Verdi
 2. **Christian faith** — Built specifically for Bible-following Christians who take truth seriously. Not a general faith mode. Not Patheos. The platform runs deep into the full range of Christian life: personal belief formation through Doctrinal Duels and Exploring Our Faith; accountability and repentance mechanics modeled on Matthew 18; Church Discipline; and Christian courtship built on the same honest-disagreement mechanic. These are not features layered onto a debate app. They are the reason the platform was built.
 
 These are not two separate products. They are two acquisition channels for the same platform, feeding each other. A Christian who uses the accountability feature discovers the dating feed. A dating user who gets serious reaches the Marriage features. The funnel is the product.
+
+---
+
+## Founder and Origin
+
+BELIEF COURT is founded by **Christopher Howitt** (`@maneatsbible` on X/Twitter): a plain Bible preacher of judgment and holiness in Jesus Christ, with a 25-year professional history as a Software Architect.
+
+The platform came together through an unusual convergence. Over roughly six months, AI-assisted and agentic SDLC workflows compressed what would traditionally be a multi-team startup build into a solo founder execution window measured in weeks.
+
+### Counterfactual: without AI + agentic SDLC
+
+Estimated traditional path to reach this same pre-alpha scope:
+
+| Dimension | AI-assisted solo path | Traditional path (estimated) |
+|---|---|---|
+| Delivery time to current scope | Weeks | 12-24 months |
+| Core team size | 1 founder + AI tools | 8-15 people |
+| Roles required | Founder-architect (augmented) | Product, design, frontend, backend, platform/DevOps, QA, data, PM |
+| Typical pre-alpha cost | Primarily founder time + low infra/tooling cost | $1.2M-$3.5M fully-loaded payroll + overhead |
+| Hiring risk | Minimal coordination risk | High: recruiting, alignment, turnover, and runway risk |
+
+The practical bottleneck in the traditional path is not only money. It is assembly: finding and aligning the right people, in the right sequence, with shared conviction and execution speed, before momentum dies.
+
+### The paradox
+
+BELIEF COURT is enabled by the same AI acceleration wave it is architected to interrogate and constrain. The platform's Belief Ledger, disclosure requirements, and role-explicit judgment model are designed to keep human accountability legible even when machine-generated language is abundant.
+
+### Public invitation
+
+If this mission resonates, reach out and help light this fire.
+
+Christopher Howitt (`@maneatsbible`) is actively inviting collaborators, operators, and early supporters.
+
+**DMs are open.**
 
 ---
 
