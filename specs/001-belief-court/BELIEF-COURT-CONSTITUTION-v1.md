@@ -81,19 +81,22 @@ Record types:
   - If anyone disagrees with a Comment, a Claim Record is written, turning the Comment into a Claim for the purposes of dispute. The original Comment remains as context.
 3. **Challenge** — Contests a Record. Opens a Case.
 4. **Answer** — Responds to a Challenge within a Duel.
-5. **Offer** — Proposes settlement or OfferAgreement.
-6. **Response** — Accepts or rejects an Offer (can result in an OfferAgreement).
+5. **Offer** — Proposes a settlement.
+6. **Response** — Answers an Offer (accept, reject, counter, etc.).
 7. **Judgment** — A verdict on a settled Duel, grounded in the Judge's worldview.
 
 ### Section 2.2 — Mandatory Disclosure Rules
 
+
 Every Record MUST declare:
 - **Authorship**: Human, Bot (with disclosure), or AI-Assisted
-- **Confidence**: if the author contests certainty (optional)
-- **Worldview Context**: the epistemic frame within which the claim is made (optional but encouraged)
 - **Evidence**: links or attachments (optional)
 
-Failure to disclose creates a challengeable Record. Bad-faith non-disclosure (hiding AI authorship, hiding bot status) is grounds for expulsion from a Space.
+
+Failure to disclose authorship creates a challengeable Record. Bad-faith non-disclosure (hiding AI authorship, hiding bot status) is grounds for expulsion from a Space.
+
+Failure to disclose authorship creates a challengeable Record. Bad-faith non-disclosure (hiding AI authorship, hiding bot status) is grounds for expulsion from a Space.
+
 
 ### Section 2.3 — Immutability and Rescission
 
@@ -123,13 +126,14 @@ The Ledger is a cryptographic proof of what happened, not a claim about what hap
 
 ### Section 3.1 — Worldview Composition
 
-A **Worldview** is not a survey response. It is not inferred by AI. It is computed from the Records a Person has authored and the ClaimAgreements and OfferAgreements they have reached.
+
+A **Worldview** is not a survey response. It is not inferred by AI. It is computed from the Records a Person has authored and the ClaimAgreements and Settlements they have reached.
 
 A Person's Worldview emerges from the composition of:
 - **Claims they have filed** — what they assert to be true
 - **Challenges they have issued** — what they contest
 - **Answers they have given** — how they defend
-- **OfferAgreements they have reached** — where they changed their mind through negotiation
+- **Settlements they have reached** — where they changed their mind through negotiation
 - **ClaimAgreements they have made** — where they have agreed with a Claim directly
 
 The Worldview is deterministically derived at query time. No inference. No guessing. No hidden attributes.
@@ -188,7 +192,7 @@ Each role is active during a phase of the Duel:
 
 2. **Defender** — The defending party. Attacks the challenge under pressure. Tests the Evangelist's position to destruction if possible. This is cross-examination. The roles are now inverted: the Defender interrogates.
 
-3. **Advocate** — Both parties now seek common ground. OfferAgreements are proposed. Narrowing of disagreement. Seeking overlap. The goal shifts from victory to understanding.
+3. **Advocate** — Both parties now seek common ground. Settlements are proposed. Narrowing of disagreement. Seeking overlap. The goal shifts from victory to understanding.
 
 4. **Judge** — The Duel closes. The Gallery (and if applicable, a formal Judge Role) renders verdicts. No party acts in this phase; only judges speak.
 
@@ -217,7 +221,7 @@ No party can claim surprise; the countdown is public and visible in the Ledger.
 
 A Duel ends in one of five Dispositions:
 
-1. **OfferAgreement** — Both parties reach negotiated agreement via accepted Offer. The Case is closed. A **ClaimAgreement** may be filed granting standing to the Claim (if it was contested) or recording the agreement.
+1. **Settlement** — Both parties reach negotiated agreement via accepted Offer. The Case is closed. A **ClaimAgreement** may be filed granting standing to the Claim (if it was contested) or recording the agreement.
 2. **Judgment** — The Gallery renders a verdict. The Judgment Record is entered into the Ledger.
 3. **Default** — One party failed to respond; the other's position stands by Default.
 4. **Rescission** — One party withdraws the underlying Claim or Challenge; the Duel moot is dissolved.
@@ -261,7 +265,7 @@ The Gallery uses **Widgets** (investigative and presentation tools) to analyze D
 1. **Bible Widget** — Finds scripture references, contextualizes them, surfaces relevant passages
 2. **Precedent Widget** — Links this Duel to prior Duels on similar claims
 3. **Logic Widget** — Maps the logical structure of the arguments (diagnostic only; NOT a persuasion tool)
-4. **Consensus Widget** — Shows where the People have already reached OfferAgreement
+4. **Consensus Widget** — Shows where the People have already reached Settlement
 5. **Timeline Widget** — Visualizes the Duel's turn sequence and Moment markers
 6. **Impact Widget** — Traces how this Duel's Judgment has affected downstream Cases
 
