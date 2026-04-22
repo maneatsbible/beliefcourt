@@ -75,15 +75,17 @@ Every Record is authored by exactly one Person. Every Record has:
 - **Integrity Hash**: SHA256 proof of authorship and contents
 
 
+
 Record types:
 1. **Claim** — An assertion of truth. Root of any dispute.
 2. **Comment** — A neutral statement or Wall post, not a claim by default. Comments are for ordinary conversation, reflection, or sharing. They are on the record but do not assert a claim unless challenged.
-  - If anyone disagrees with a Comment, a Claim Record is written, turning the Comment into a Claim for the purposes of dispute. The original Comment remains as context.
 3. **Challenge** — Contests a Record. Opens a Case.
 4. **Answer** — Responds to a Challenge within a Duel.
 5. **Offer** — Proposes a settlement.
 6. **Response** — Answers an Offer (accept, reject, counter, etc.).
 7. **Judgment** — A verdict on a settled Duel, grounded in the Judge's worldview.
+
+**Any Record type can become a Claim if challenged.** If any Record is disputed, a Claim Record is written, turning the original into a Claim for the purposes of dispute. The original Record remains as context.
 
 ### Section 2.2 — Mandatory Disclosure Rules
 
