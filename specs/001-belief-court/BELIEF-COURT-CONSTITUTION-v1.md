@@ -88,9 +88,11 @@ Record types:
 ### Section 2.2 — Mandatory Disclosure Rules
 
 
+
 Every Record MUST declare:
 - **Authorship**: Human, Bot (with disclosure), or AI-Assisted
-- **Evidence**: links or attachments (optional)
+
+Evidence (attachments, links, supporting material) is a model detail, not a disclosure requirement. It may be attached to any Record, but is not itself a matter of disclosure.
 
 
 Failure to disclose authorship creates a challengeable Record. Bad-faith non-disclosure (hiding AI authorship, hiding bot status) is grounds for expulsion from a Space.
