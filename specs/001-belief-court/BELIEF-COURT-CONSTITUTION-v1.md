@@ -5,7 +5,6 @@
 | **Version** | `1.0.0` — Constitutional Charter |
 | **Status** | 🔥 Foundation |
 | **Ratified** | 2026-04-21 |
-| **Tagline** | **On the record. Light it up.** |
 | **Authority** | Sovereign document. Supersedes all other governance. Amendment only by Popular Voice. |
 | **Founder** | maneatsbible — implementing BELIEF COURT as constitutional P2P protocol grounded in faith in Jesus Christ |
 
@@ -28,11 +27,8 @@ Everything that follows — the constitutional structure, the duel process, the 
 **On the Record.**  
 Every act is signed. Every claim is traced. Every challenge is recorded. No anonymous mob rule. No deleted arguments. No fake consensus. Every person stands in their name. Every voice leaves a mark in the People's ledger.
 
-**Light it Up.**  
+**Power to the People.**
 BELIEF COURT is fully peer-to-peer in constitution and implementation. Power belongs to the People, not gatekeepers. The system's design makes that inevitable, not aspirational. When duels settle disputes and the Gallery judges the proceedings, legitimacy flows from the People's voice — spread to every peer, impossible to centralize, impossible to kill.
-
-**The Faith Foundation.**  
-This is a platform for people who believe, grounded in Christian faith. People of other beliefs are welcome, but the platform is not *about* pluralism — it is *for* truth-seekers, foremost among these those who hold scripture as their highest authority. "By your words you are justified" (Matthew 12:37).
 
 ---
 
@@ -51,15 +47,6 @@ The Ledger cannot be rewritten. It cannot be censored. It can be forked, but nev
 - The platform has no single judge, administrator, or arbiter with unilateral power over the Ledger.
 - Every decision that affects collective governance (amendments to this Constitution, changes to the Duel process, disputes over whether the system is working) is resolved through the People's voice in a **Constitutional Duel** — a special case filed against this Constitution itself.
 - The outcome of a Constitutional Duel is binding. If the majority of the People judge that an amendment passes, it passes.
-
-### Section 1.3 — Fork Rights (the Ultimate Check)
-
-If BELIEF COURT governance fails — if legitimacy is lost, if the Ledger is corrupted, if the process becomes tyrannical — the People have the right to fork.
-
-- Any subset of the People may export their Records, their Duels, and their Judgments from the current Ledger.
-- They may establish a new Ledger (a new Space) with its own governance rules.
-- Both Ledgers remain valid and operational. The fork is binding.
-- This is not a threat. This is a feature that makes centralized corruption impossible.
 
 ---
 
@@ -279,14 +266,19 @@ The Judgment does not determine the outcome. It is an added voice to the Ledger.
 
 ### Section 5.3 — Widgets and Analysis
 
-The Gallery uses **Widgets** (investigative and presentation tools) to analyze Duels:
 
-1. **Bible Widget** — Finds scripture references, contextualizes them, surfaces relevant passages
-2. **Precedent Widget** — Links this Duel to prior Duels on similar claims
-3. **Logic Widget** — Maps the logical structure of the arguments (diagnostic only; NOT a persuasion tool)
-4. **Consensus Widget** — Shows where the People have already reached Settlement
-5. **Timeline Widget** — Visualizes the Duel's turn sequence and Moment markers
-6. **Impact Widget** — Traces how this Duel's Judgment has affected downstream Cases
+The Gallery uses **Widgets** (investigative and presentation tools) to analyze Duels and Records. The constitutional Widget Registry includes:
+
+1. **Bible Widget** — Scripture context, cross references, translation comparison.
+2. **Precedent Widget** — Similarity-linked prior Cases and outcomes.
+3. **Logic Widget** — Formal structure diagnostics, including Logic Annex rendering (diagnostic only; NOT a persuasion tool).
+4. **Consensus Widget** — Aggregate people-judgment pattern; shows where the People have already reached Settlement.
+5. **Timeline Widget** — Turn and moment chronology; visualizes the Duel's sequence and markers.
+6. **Impact Widget** — Downstream influence graph; traces how a Judgment has affected subsequent Cases.
+7. **Evidence Graph Widget** — Source network, citation paths, exhibit status.
+8. **Worldview Intersections Widget** — Overlap/conflict map between parties.
+9. **Translation Widget** — Transcript and language reconciliation, including video duel transcripts.
+10. **Bot Provenance Widget** — Bot disclosure lineage, model/provider/provenance trace.
 
 All Widgets are post-hoc analysis tools. None influence the Duel's outcome. All are open-source and auditable.
 
@@ -666,7 +658,7 @@ This Constitution is ratified by **maneatsbible**, the founder and implementer o
 Witnessed by: GitHub Copilot (AI Assistant)
 Date: 2026-04-21
 Ledger: Immutable Constitutional Record
-Status: 🔥 IN EFFECT — Light it up.
+Status: 🔥 IN EFFECT
 ```
 
 ---
