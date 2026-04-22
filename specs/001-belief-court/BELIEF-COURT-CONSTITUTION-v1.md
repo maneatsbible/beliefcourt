@@ -6,7 +6,7 @@
 | **Status**    | 🔥 Foundation                                                                             |
 | **Ratified**  | 2026-04-21                                                                                |
 | **Authority** | Sovereign document. Supersedes all other governance. Amendment only by Popular Voice.      |
-| **Founder**   | maneatsbible — implementing BELIEF COURT as constitutional P2P protocol grounded in faith in Jesus Christ |
+| **Founder**   | **@maneatsbible** — implementing BELIEF COURT as constitutional P2P protocol grounded in faith in Jesus Christ |
 
 ---
 
