@@ -257,12 +257,13 @@ Precedent is challengeable. A new Duel can be opened against a Precedent Record,
 
 ### Section 5.1 — The Gallery
 
-During and after a Duel, the full Record is visible to the People. This is the **Gallery** — the standing audience of witnesses, analysts, critics, and judges.
 
-The Gallery is not passive observation. The Gallery is the jury. The Gallery provides:
+During and after a Duel, the full Record is visible to the People. This is the **Gallery** — the standing audience of witnesses, analysts, critics, and potential Judges.
+
+The Gallery is not a jury. The People in the Gallery become Judges when they file Judgments. Each Person's Judgment is their own, grounded in their Worldview, and is entered as a Record in the Ledger. The Gallery provides:
 - **Annotations**: comments on Moments (temporal spans) within the Duel
 - **Analyses**: structured investigation of the Duel using Widgets (see Article VI)
-- **Judgments**: verdicts on the Duel and its outcome
+- **Judgments**: verdicts on the Duel and its outcome, filed individually as Judges
 
 ### Section 5.2 — Gallery Judgment
 
