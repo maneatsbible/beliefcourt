@@ -8,21 +8,16 @@
 | **AI assistant** | GitHub Copilot · Claude Sonnet 4.6 |
 | **Governed by** | [constitution.md](constitution.md) — supersedes all other documents |
 
+---
 
-> **This document is a living public record.** Formerly known as the Stakeholder Briefing, it is now the People’s Briefing. All financial projections, funding targets, and revenue models are constitutional — governed by the Worldview Engine, challengeable by any authenticated Person, and permanently on the Belief Ledger once the platform is live. This is not a private pitch deck. It is evidence in the bootstrapping Claim.
-
-> The term "Stakeholder" is reserved for those with explicit, recognized interest in Truthbook’s continued existence and who participate in Constitutional decisions via the Worldview Engine. All other references to this document should use "People’s Briefing."
-
-
-
-| Document | Role |
-|---|---|
+> **This document is a living public record.**
+All financial projections, funding targets, and revenue models are constitutional — governed by the Worldview Engine, challengeable by any authenticated Person, and permanently on the Belief Ledger once the platform is live. This is not a private pitch deck. It is evidence in the bootstrapping Claim.
 
 **The structured judgment engine for every domain where people need to reach a real decision — and the game everyone wants to play when the stakes involve love.**
 
-*Where worldviews collide, people open cases to confront the differences, seeking harmony.*
+*Where worldviews collide, the people open cases to confront their differences, seeking harmony and mutual understanding.*
 
-*Social media usually means social mayhem. Truthbook introduces social mediation.*
+*Social media usually means social mayhem for the powers-that-be. Truthbook introduces social mediation for the people.*
 
 
 ---
