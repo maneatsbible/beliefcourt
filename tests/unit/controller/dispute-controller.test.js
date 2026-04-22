@@ -1,10 +1,10 @@
 /**
- * Unit tests: DisputeController permission gates
+ * Unit tests: CaseController permission gates
  * (pure logic only; no network calls)
  */
 
 import { describe, it, expect, beforeEach } from '../../runner.js';
-import { DisputeController } from '../../../src/controller/dispute-controller.js';
+import { CaseController } from '../../../src/controller/case-controller.js';
 import { DISPUTE_STATUS_ACTIVE, DISPUTE_STATUS_RESOLVED } from '../../../src/model/dispute.js';
 
 const CONFIG = {
@@ -16,9 +16,9 @@ const CONFIG = {
 
 let ctrl;
 
-describe('DisputeController', () => {
+describe('CaseController', () => {
   beforeEach(() => {
-    ctrl = new DisputeController({ config: CONFIG, token: null, currentUser: null });
+    ctrl = new CaseController({ config: CONFIG, token: null, currentUser: null });
   });
 
   // ── canOffer ─────────────────────────────────────────────────────────────

@@ -1,4 +1,4 @@
-# Quickstart: judgmental.io — Development Setup
+# Quickstart: Truthbook — Development Setup
 
 | Field | Value |
 |---|---|
@@ -58,7 +58,7 @@
 
 1. Go to **github.com → Settings → Developer settings → OAuth Apps → New OAuth App**.
 2. Fill in:
-  - **Application name**: `disputable.io (dev)`
+  - **Application name**: `Truthbook (dev)`
    - **Homepage URL**: `http://localhost:8080`
    - **Authorization callback URL**: *(leave blank — Device Flow does not use a callback URL)*
 3. Click **Register application**.
@@ -95,7 +95,7 @@ Edit `src/config.js`:
 // src/config.js
 export const CONFIG = {
   githubClientId: 'Ov23li...',          // Your OAuth App Client ID
-  appName: 'disputable.io',             // product name shown in the UI
+  appName: 'Truthbook',                 // product name shown in the UI
   dataRepo: 'disputableio/disputable-data', // owner/repo of your data repository
   heraldLogin: 'bd-herald',            // GitHub username of the @herald account
   appVersion: '0.1.0',

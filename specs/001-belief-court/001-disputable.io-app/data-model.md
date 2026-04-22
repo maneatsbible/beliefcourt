@@ -1,4 +1,4 @@
-# Data Model: judgmental.io
+# Data Model: Truthbook
 
 | Field | Value |
 |---|---|
@@ -27,7 +27,7 @@
 | [viral-growth-model.md](viral-growth-model.md) | Growth flywheels and acquisition model |
 | [constitution.md](constitution.md) | **Governing document — supersedes all others** |
 
-> **Revision note**: This document supersedes the original disputable.io data model. Entities have been renamed and extended to reflect the full judgmental.io vision. The implementation target is **Fly.io + SQLite + Hono** (not GitHub Issues). See plan.md for the full SQL schema.
+> **Revision note**: This document supersedes the original disputable.io data model. Entities have been renamed and extended to reflect the full Truthbook vision. The implementation target is **Fly.io + SQLite + Hono** (not GitHub Issues). See plan.md for the full SQL schema.
 
 ---
 
@@ -631,7 +631,7 @@ A structured attachment on any Record, providing supporting material. Not itself
 - Evidence attached to a Record is visible to all viewers of that Record.
 - For `cross_record` type: `sourceRecordId` MUST reference an existing Record; `url`, `text`, and `filePath` MUST be null.
 
-**Miranda Principle**: Any Record on judgmental.io — Claim, Challenge, Answer, Offer, Response — may be submitted as `cross_record` Evidence in any Duel in which its author is a party. Everything is on the record. Every position a Person has ever taken is admissible against them. This is not a feature; it is the constitutional foundation of the platform.
+**Miranda Principle**: Any Record on Truthbook — Claim, Challenge, Answer, Offer, Response — may be submitted as `cross_record` Evidence in any Duel in which its author is a party. Everything is on the record. Every position a Person has ever taken is admissible against them. This is not a feature; it is the constitutional foundation of the platform.
 
 ---
 

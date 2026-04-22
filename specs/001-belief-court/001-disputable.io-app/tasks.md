@@ -1,4 +1,4 @@
-# Tasks: judgmental.io
+# Tasks: Truthbook
 
 | Field | Value |
 |---|---|
@@ -74,9 +74,9 @@
 
 **Goal**: Fly.io app provisioned; Docker image builds and deploys; persistent SQLite volume mounted; Litestream replicates to Tigris S3; `fly.toml`, `Dockerfile`, and `start.sh` in place.
 
-**Independent Test**: `fly deploy` succeeds; `curl https://judgmental.io/health` returns `{"status":"ok","version":"0.1.0"}`; Litestream logs show replication to S3 bucket.
+**Independent Test**: `fly deploy` succeeds; `curl https://truthbook.io/health` returns `{"status":"ok","version":"0.1.0"}`; Litestream logs show replication to S3 bucket.
 
-- [ ] T001 Create `fly.toml` — app name `judgmental-io`, `shared-cpu-1x` / 256 MB, `auto_stop_machines = false`, internal port 3000, `/health` TCP check, `[mounts]` section pointing volume `jdg_data` to `/data` per plan.md topology
+- [ ] T001 Create `fly.toml` — app name `truthbook-io`, `shared-cpu-1x` / 256 MB, `auto_stop_machines = false`, internal port 3000, `/health` TCP check, `[mounts]` section pointing volume `tb_data` to `/data` per plan.md topology
 - [ ] T002 Create `Dockerfile` — `node:22-alpine` base, install `litestream` binary, copy app source + `start.sh`; expose port 3000
 - [ ] T003 Create `start.sh` — launches Litestream `replicate` in the background then starts `node src/server/index.js`; aborts if `fly secrets` vars are missing (check `JWT_SECRET` and `DB_PATH` at minimum)
 - [ ] T004 Create `litestream.yml` — replicate `/data/jdg.db` to `s3://{{TIGRIS_BUCKET}}/jdg.db` using `TIGRIS_ACCESS_KEY_ID` / `TIGRIS_SECRET_ACCESS_KEY` env vars
@@ -105,7 +105,7 @@
 - [X] T015 [P] Implement `src/model/post.js` — `Post` base class + `Assertion`, `Challenge`, `Answer` subclasses with all fields from data-model.md; `fromIssue(apiObj)` factories in `src/model/post.js`
 - [X] T016 [P] Implement `src/model/dispute.js` — `Dispute` class with all fields + `currentTurnPersonId` derivation logic + `status` derivation from labels; `fromIssue(apiObj)` factory in `src/model/dispute.js`
 - [X] T017 [P] Implement `src/model/agreement.js` — `Agreement` class; `CricketsConditions` class; `CricketsEvent` class with all fields from data-model.md; `fromIssue(apiObj)` factories in `src/model/agreement.js`
-- [X] T018 Implement `src/view/components/header.js` — `renderHeader(version)` function producing the header bar (scales icon, `disputable.io` wordmark, version on far-right) with `data-action="home"` navigation in `src/view/components/header.js`
+- [X] T018 Implement `src/view/components/header.js` — `renderHeader(version)` function producing the header bar (scales icon, `Truthbook` wordmark, version on far-right) with `data-action="home"` navigation in `src/view/components/header.js`
 ---
 
 ## Phase 3: DB Adapter + Hono Server Foundation
@@ -117,7 +117,7 @@
 - [ ] T014 Create `db/adapter.js` — exports `query(sql, params)`, `run(sql, params)`, `get(sql, params)` wrapping `better-sqlite3`; synchronous API matching `better-sqlite3` but behind an interface that can be swapped for `postgres` later
 - [ ] T015 Create `db/sqlite.js` — opens `better-sqlite3` at `process.env.DB_PATH`; enables WAL via pragma; exports the db instance
 - [ ] T016 Create `src/server/index.js` — imports Hono, creates app, registers middleware (CORS, rate-limit, maintenance), mounts route modules, starts listening on port 3000
-- [ ] T017 Implement global CORS middleware in `src/server/middleware/cors.js`: allow only `https://judgmental.io` and `http://localhost:*` origins; set `Access-Control-Allow-Credentials: true`
+- [ ] T017 Implement global CORS middleware in `src/server/middleware/cors.js`: allow only `https://truthbook.io` and `http://localhost:*` origins; set `Access-Control-Allow-Credentials: true`
 - [ ] T018 Implement rate-limit middleware in `src/server/middleware/rate-limit.js`: sliding window 200 req/min per IP using in-memory Map; return `429 Too Many Requests` with `Retry-After` header
 - [ ] T019 Implement maintenance middleware in `src/server/middleware/maintenance.js`: if `process.env.MAINTENANCE_MODE === 'true'` return `503` for all routes except `/health` and `/maintenance/submit`
 - [ ] T020 Add `GET /health` route: `{"status":"ok"}` 200
@@ -174,7 +174,7 @@
 - [ ] T038 Port and update `src/client/utils/icons.js` — update icon set: add `⚖` (Judgment), `⇌` (Offer), `🏛` (Case), `⚔` (Duel), `📎` (Evidence), `🎖` (Badge); remove old dispute-specific icons
 - [ ] T039 Port `src/client/utils/logger.js` — keep circular buffer + `window.__jdgLogger`; update context names
 - [ ] T040 Create `src/client/app.js` — on `DOMContentLoaded`: init logger; check auth; parse URL params; route to HomeView or DuelView or CaseView; wire `popstate`; wrap in try/catch → `showErrorPanel` on failure
-- [ ] T041 Port `src/client/view/components/header.js` — update app name to "judgmental.io"; handle all four SM OAuth provider sign-in buttons; show `@handle` when authenticated
+- [ ] T041 Port `src/client/view/components/header.js` — update app name to "Truthbook"; handle all four SM OAuth provider sign-in buttons; show `@handle` when authenticated
 - [ ] T042 Port `src/client/view/components/notification.js` — keep `showNotification(message, type)` API unchanged
 - [ ] T043 Port `src/client/view/components/error-panel.js` — keep full debug bundle (stack + logs + UA + URL); update branding
 - [ ] T044 Port `src/client/view/components/composer.js` — refactor to support `mode` param: `"claim"`, `"challenge"`, `"answer"`, `"offer"`, `"response"`, `"moment"`; remove direct GitHub API calls; submit to `apiFetch`
@@ -365,7 +365,7 @@
 
 **Independent Test**: Load app unauthenticated → Plausible pageview fires, GA4 fires; sign in → GA4 script not present; call `GET /api/analytics/contested` → returns top contested Claims.
 
-- [ ] T111 Add Plausible script to `index.html`: `<script defer data-domain="judgmental.io" src="https://plausible.io/js/script.js"></script>`
+- [ ] T111 Add Plausible script to `index.html`: `<script defer data-domain="truthbook.io" src="https://plausible.io/js/script.js"></script>`
 - [ ] T112 Add GA4 script to `index.html` wrapped in `if (!isAuthenticated())` check (evaluated at bootstrap in `app.js`), or loaded dynamically via `app.js`
 - [ ] T113 Add `trackEvent(name, props)` helper in `src/client/utils/analytics.js` — calls `window.plausible(name, { props })` if Plausible loaded; no-op otherwise
 - [ ] T114 Instrument all Plausible custom events in controllers: `jdg:claim_posted`, `jdg:challenge_posted`, `jdg:answer_posted`, `jdg:offer_made`, `jdg:accord_reached`, `jdg:judgment_written`, `jdg:tip_sent`, `jdg:evidence_submitted`
@@ -444,7 +444,7 @@
 
 ### Miranda Acknowledgement Card
 
-- [ ] T166 Create `src/client/view/components/miranda-card.js` — `renderMirandaCard()`: persistent card rendered above composer on Home View; text: *"Everything you post on judgmental.io is permanent, public, and on the record. Any of your posts can be submitted as Evidence in a Duel by anyone, at any time."*; shows "I understand" button; on click: stores acknowledgement in `localStorage` (`jdg:miranda_ack=1`) and collapses the card smoothly; NEVER a modal; NEVER auto-dismissed
+- [ ] T166 Create `src/client/view/components/miranda-card.js` — `renderMirandaCard()`: persistent card rendered above composer on Home View; text: *"Everything you post on Truthbook is permanent, public, and on the record. Any of your posts can be submitted as Evidence in a Duel by anyone, at any time."*; shows "I understand" button; on click: stores acknowledgement in `localStorage` (`tb:miranda_ack=1`) and collapses the card smoothly; NEVER a modal; NEVER auto-dismissed
 - [ ] T167 Wire `miranda-card.js` into `home-view.js`: render above composer when `!localStorage.getItem('jdg:miranda_ack')` and user is authenticated
 - [ ] T168 Add CSS: miranda card uses `--color-warning` left border accent, muted background, warning icon; collapse animation smooth
 
@@ -636,7 +636,7 @@
 
 ### B-002 — OAuth redirect URI registration
 
-- [ ] T216 Register `https://judgmental.io/auth/github/callback` in GitHub OAuth App settings; register X/Twitter OAuth 2.0 app with PKCE; register Threads App with Instagram Graph API; document all four client IDs/secrets as Fly.io secrets in plan.md runbook
+- [ ] T216 Register `https://truthbook.io/auth/github/callback` in GitHub OAuth App settings; register X/Twitter OAuth 2.0 app with PKCE; register Threads App with Instagram Graph API; document all four client IDs/secrets as Fly.io secrets in plan.md runbook
 - [ ] T217 Mark T027 (Bluesky OAuth) as deferred per B-009; add "Bluesky — coming soon" label to sign-in options in the UI
 
 ### B-003 / B-004 — Pre-deploy infrastructure
@@ -705,7 +705,7 @@
 - [ ] T242 Create `.github/dependabot.yml` — `version: 2`, `updates` entry for `package-ecosystem: npm`, `directory: /`, `schedule: { interval: weekly }`, `open-pull-requests-limit: 10`
 - [ ] T243 Add `ci/build-smoke` job — runs `npm ci`; starts server with `NODE_ENV=test DB_PATH=:memory: node src/server/index.js &`; waits up to 5s for `GET /health` to return 200 (via `curl --retry 5 --retry-delay 1 -sf http://localhost:3000/health`); then sends `SIGTERM`; any failure fails build
 - [ ] T244 Create `tests/smoke/` directory with `smoke.test.js` — 5 critical path checks against `$SMOKE_URL` env var: `/health` returns 200, `/version` returns JSON with `version` and `schema`, `POST /api/auth/callback` with invalid code returns 400, `GET /api/claims` returns JSON array, `GET /api/analytics/contested` returns JSON array
-- [ ] T245 Add `ci/staging-deploy` job — runs only on `push` to `main`; uses `superfly/flyctl-actions/setup-flyctl@master`; runs `flyctl deploy --app judgmental-io-staging --remote-only`; runs smoke tests against staging URL (`SMOKE_URL=https://judgmental-io-staging.fly.dev`); on smoke failure runs `flyctl releases rollback --app judgmental-io-staging` and opens a GitHub Issue via `actions/github-script` tagged `ci-regression`
+- [ ] T245 Add `ci/staging-deploy` job — runs only on `push` to `main`; uses `superfly/flyctl-actions/setup-flyctl@master`; runs `flyctl deploy --app truthbook-io-staging --remote-only`; runs smoke tests against staging URL (`SMOKE_URL=https://truthbook-io-staging.fly.dev`); on smoke failure runs `flyctl releases rollback --app truthbook-io-staging` and opens a GitHub Issue via `actions/github-script` tagged `ci-regression`
 - [ ] T246 Add GitHub Repository Secrets to CI: `FLY_API_TOKEN`, `JWT_SECRET_CI`, `STAGING_URL`; document all required secrets in `quickstart.md` under "CI Setup" section
 - [ ] T247 Configure branch protection rules in GitHub repository settings (document in `quickstart.md`): require status checks `ci/lint`, `ci/unit-tests`, `ci/integration-tests`, `ci/security-scan`, `ci/build-smoke` to pass before merging to `main`; require PR approval from at least 1 reviewer; no force-push to `main`
 - [ ] T248 Add release versioning job to `ci.yml` — runs after `staging-deploy` on `push` to `main`; reads `package.json` version; creates GitHub Release with tag `v<version>` via `actions/create-release`; runs `npm version patch` + commits and pushes to `main` with `[skip ci]` message to avoid CI loop; uses `GITHUB_TOKEN` from workflow context
@@ -728,7 +728,7 @@
 - [ ] T251 Add `blog_posts` table to migration `004_blog_opspec_herald.sql`: `id INTEGER PK, slug TEXT UNIQUE NOT NULL, title TEXT NOT NULL, body TEXT NOT NULL, author_id INTEGER FK references persons(id), published_at DATETIME, updated_at DATETIME, cover_image_url TEXT, tags TEXT DEFAULT '[]', is_featured BOOLEAN DEFAULT 0`
 - [ ] T252 Add `blog_author` and `super_admin` columns to `persons` in migration 004: `is_blog_author BOOLEAN DEFAULT 0`, `is_super_admin BOOLEAN DEFAULT 0`; seed the platform owner's Person row with both flags
 - [ ] T253 Add `GET /blog` route (public, no auth) — server-renders paginated list of published posts (`published_at IS NOT NULL`), sorted by `published_at DESC`; each card: title, author handle + avatar, date, tags, 200-char excerpt; Open Graph meta tags in `<head>`
-- [ ] T254 Add `GET /blog/:slug` route (public) — server-renders full post markdown as HTML via a markdown parser (`marked`); Open Graph + Twitter Card meta tags; no comments section; footer CTA: "Respond with a Claim on judgmental.io" → links to `/compose?context=blog&source=<slug>`
+- [ ] T254 Add `GET /blog/:slug` route (public) — server-renders full post markdown as HTML via a markdown parser (`marked`); Open Graph + Twitter Card meta tags; no comments section; footer CTA: "Respond with a Claim on Truthbook" → links to `/compose?context=blog&source=<slug>`
 - [ ] T255 Add `GET /admin/blog` (requireBlogAuthor) — paginated list of all posts (drafts + published) with edit links
 - [ ] T256 Add `GET /admin/blog/new` and `GET /admin/blog/:id/edit` (requireBlogAuthor) — markdown editor using a plain `<textarea>` with tab-key indent support; fields: title, slug (auto-generated from title, editable), cover_image_url, tags (comma list), body; Preview button renders markdown in-page; Save Draft / Publish buttons
 - [ ] T257 Add `POST /api/blog/posts` and `PATCH /api/blog/posts/:id` (requireBlogAuthor) — create/update post; `published_at` is set to `now` when `{ publish: true }` is passed and was previously null; validates non-empty title and body; slug uniqueness enforced
@@ -813,7 +813,7 @@
 
 ## GitHub PoC — Rate Limit Handling (FR-275 – FR-278)
 
-**Goal**: The current disputable.io SPA detects GitHub API rate-limit responses (HTTP 403/429) and surfaces clear, actionable UX instead of silent failures. Writes preserve draft content. Reads fall back to ETag cache. Mock mode is unaffected.
+**Goal**: The current Truthbook SPA detects GitHub API rate-limit responses (HTTP 403/429) and surfaces clear, actionable UX instead of silent failures. Writes preserve draft content. Reads fall back to ETag cache. Mock mode is unaffected.
 
 **Independent Test**: Exhaust rate limit anonymously → banner appears, cached content renders with `[cached]` indicator, write attempt shows inline error with draft preserved and Retry button. Sign in via Device Auth → banner auto-dismisses, pending read retried. Enable mock mode → no rate-limit UI at any point.
 
@@ -849,14 +849,14 @@
 - [ ] T312 Add `POST /api/giving/webhook` route — receives Stripe `payment_intent.succeeded` webhook; validates Stripe signature; increments `giving_widgets.total_raised_cents` and `contributor_count`; inserts a public contributor row in `giving_contributions` table (person_id or NULL for anonymous, amount_cents, created_at)
 - [ ] T313 Add `giving_contributions` table to migration 001: `id INTEGER PK, widget_id INTEGER NOT NULL FK, person_id INTEGER NULL FK, amount_cents INTEGER NOT NULL, anonymous BOOLEAN DEFAULT 0, created_at DATETIME NOT NULL`; NOT append-restricted (no correction needed — read-only after insert is sufficient)
 - [ ] T314 Render giving widget in `post-card.js`: when `record.givingWidget` is present, render below the post text — running total (e.g. "$1,240 raised"), contributor count, "Give" button (opens Stripe Payment Link in new tab), and collapsible contributor list (most recent 5, with "See all" link); total and count refresh after each page load; "Give" button hidden when unauthenticated with tooltip "Sign in to give" — wait, actually allow giving without sign-in since Stripe Payment Link requires no account: show Give button always, tooltip only when payment link is not yet set up
-- [ ] T315 Add `POST /api/admin/bootstrapping-claim` route (requireAdmin, idempotent) — creates the bootstrapping Claim Record if it does not already exist: `{ title: "judgmental.io is viable, worth funding, and can reach constitutional self-governance within 18 months of launch.", body: <content from stakeholder-briefing.md summary>, labels: ["bootstrapping", "constitutional", "pinned"] }`; enables the giving widget automatically; pins it; attaches spec documents as Evidence links
+- [ ] T315 Add `POST /api/admin/bootstrapping-claim` route (requireAdmin, idempotent) — creates the bootstrapping Claim Record if it does not already exist: `{ title: "Truthbook is viable, worth funding, and can reach constitutional self-governance within 18 months of launch.", body: <content from stakeholder-briefing.md summary>, labels: ["bootstrapping", "constitutional", "pinned"] }`; enables the giving widget automatically; pins it; attaches spec documents as Evidence links
 - [ ] T316 Add `keyholders` table to migration 001: `id INTEGER PK, person_id INTEGER NOT NULL FK, node_url TEXT NOT NULL, node_type TEXT NOT NULL CHECK(node_type IN ('seedling','steward','keeper')), registered_at DATETIME NOT NULL, last_ping_at DATETIME, is_active BOOLEAN DEFAULT 1, governance_weight REAL NOT NULL DEFAULT 0.0`
 - [ ] T317 Add `keyholder_rewards` table to migration 001: `id INTEGER PK, keyholder_id INTEGER NOT NULL FK, period_start DATETIME NOT NULL, period_end DATETIME NOT NULL, queries_served INTEGER DEFAULT 0, writes_relayed INTEGER DEFAULT 0, records_confirmed INTEGER DEFAULT 0, reward_usd_cents INTEGER DEFAULT 0, paid_at DATETIME NULL`; append-only
 - [ ] T318 Add `GET /api/keyholders` route (public) — returns all active Keyholder nodes with `id`, `node_type`, `node_url`, `registered_at`, `last_ping_at`, `governance_weight`; no personal data exposed
 - [ ] T319 Add `POST /api/keyholders` route (auth required) — registers a new Keyholder node for the authenticated user; validates URL is reachable (`GET <url>/health` returns 200); creates `keyholders` row; returns registration record; limited to one registration per Person in MVP
 - [ ] T320 Add `GET /api/keyholders/:id/rewards` route (auth required, own node only OR admin) — returns full reward history for the node; add `GET /settings/keyholder` client-side route rendering the Keyholder Settings page: node status, uptime, reward history, governance weight, and a "Deregister" button
 - [ ] T321 Add no-crypto assertion to CI: add a step to `ci/security-scan` job (T241) that runs `grep -r "blockchain\|ethereum\|solana\|wallet\|token\b" src/` and fails if any match is found; this enforces FR-285 at the build level; legitimate uses of "token" (JWT token, auth token) must use variable names that don't trigger the raw-word match — use `grep -rP "\bblockchain\b|\bethereum\b|\bsolana\b|\bcrypto\b|\bwallet\b" src/` with word-boundary regex to avoid false positives on `authToken`
-- [ ] T322 Add bootstrapping Claim to `src/mock/seed-data.js` — mock assertion with `{ number: 9999, title: "judgmental.io is viable, worth funding…", labels: ["bootstrapping","constitutional","pinned"], giving_widget: { total_raised_cents: 412500, contributor_count: 247 } }` so the pinned Claim renders correctly in mock mode with a realistic giving total
+- [ ] T322 Add bootstrapping Claim to `src/mock/seed-data.js` — mock assertion with `{ number: 9999, title: "Truthbook is viable, worth funding…", labels: ["bootstrapping","constitutional","pinned"], giving_widget: { total_raised_cents: 412500, contributor_count: 247 } }` so the pinned Claim renders correctly in mock mode with a realistic giving total
 
 
 

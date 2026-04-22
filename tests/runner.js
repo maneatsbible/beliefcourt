@@ -1,5 +1,5 @@
 /**
- * judgmental.io custom micro test-runner
+ * Truthbook custom micro test-runner
  * Pure JavaScript, no external dependencies.
  * Run with: node --experimental-vm-modules tests/runner.js
  */

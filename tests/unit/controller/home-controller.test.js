@@ -63,13 +63,13 @@ describe('HomeController', () => {
       expect(ctrl.canChallenge({ id: 5, login: 'bob' }, post).allowed).toBe(false);
     });
 
-    it('allows a different person with no existing disputes', () => {
+    it('allows a different person with no existing cases', () => {
       expect(ctrl.canChallenge({ id: 7, login: 'alice' }, post).allowed).toBe(true);
     });
 
     it('denies when person already challenged the root', () => {
-      const disputes = [{ challengerId: 7, rootPostId: 10 }];
-      expect(ctrl.canChallenge({ id: 7, login: 'alice' }, post, disputes).allowed).toBe(false);
+      const cases = [{ challengerId: 7, rootPostId: 10 }];
+      expect(ctrl.canChallenge({ id: 7, login: 'alice' }, post, cases).allowed).toBe(false);
     });
   });
 
@@ -96,8 +96,8 @@ describe('HomeController', () => {
     });
 
     it('denies if already challenged this assertion', () => {
-      const disputes = [{ challengerId: 7, rootPostId: 10 }];
-      expect(ctrl.canAgree({ id: 7, login: 'alice' }, assertion, [], disputes).allowed).toBe(false);
+      const cases = [{ challengerId: 7, rootPostId: 10 }];
+      expect(ctrl.canAgree({ id: 7, login: 'alice' }, assertion, [], cases).allowed).toBe(false);
     });
   });
 });

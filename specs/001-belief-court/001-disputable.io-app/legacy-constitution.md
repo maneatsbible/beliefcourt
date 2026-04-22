@@ -99,9 +99,9 @@ The dating features, the viral mechanics, the Christian Mode, the Church Discipl
 
 *Where worldviews collide, people open cases to confront the differences, seeking harmony.*
 
-*Social media usually means social mayhem. judgmental.io introduces social mediation.*
+*Social media usually means social mayhem. Truthbook introduces social mediation.*
 
-judgmental.io exists because of a conviction drawn directly from biblical faith in Jesus Christ.
+Truthbook exists because of a conviction drawn directly from biblical faith in Jesus Christ.
 
 The platform is built on the belief that truth is real, that it can be known, and that people made in the image of God are capable of holding and defending genuine convictions — not merely constructing plausible-sounding arguments.
 
@@ -122,7 +122,7 @@ This is the foundational product principle. It governs every design decision, ev
 
 **The core commitment:**
 
-judgmental.io is a platform for *defended belief*, not for *constructed argument*. The question the platform asks of every person in every Duel, in every context, is: *"What do you actually believe, and can you defend it?"* — never *"Can you build a better argument?"*
+Truthbook is a platform for *defended belief*, not for *constructed argument*. The question the platform asks of every person in every Duel, in every context, is: *"What do you actually believe, and can you defend it?"* — never *"Can you build a better argument?"*
 
 **What is prohibited, in all contexts, without exception:**
 
@@ -253,7 +253,7 @@ Christian Mode is a first-release feature set built specifically for Bible-follo
 
 ## Principle IX — No AI in the Worldview Engine Stack
 
-judgmental.io is a **Worldview Explorer**. A Person's worldview on this platform is the composition of all the Records they have produced and all the Accords they have reached. The architecture that stores, structures, and presents those records is the **Worldview Explorer**, which maps exactly onto MVC: the **Belief Ledger** (Model — SQLite), the **Worldview Engine** (Controller — deterministic derivation), and the **Worldview Renderer** (View — presentation).
+Truthbook is a **Worldview Explorer**. A Person's worldview on this platform is the composition of all the Records they have produced and all the Accords they have reached. The architecture that stores, structures, and presents those records is the **Worldview Explorer**, which maps exactly onto MVC: the **Belief Ledger** (Model — SQLite), the **Worldview Engine** (Controller — deterministic derivation), and the **Worldview Renderer** (View — presentation).
 
 No AI system MAY participate in the Worldview Engine stack in any way that creates, modifies, implies, or attributes a Record to a Person.
 
@@ -498,7 +498,7 @@ All platform financial projections, revenue models, cost structures, crowdfundin
 - The running history of all projection revisions and their associated Duels is permanently on the Belief Ledger
 - There is no private version of the Stakeholder Briefing — the document seen by the public is the document used internally
 
-**The bootstrapping Claim as primary evidence**: The platform's crowdfunding campaign is conducted via a live Claim filed on the platform itself — *"judgmental.io is viable, worth funding, and can reach constitutional self-governance within 18 months of launch."* The running total raised through the P2P giving widget on that Claim is public evidence that the platform's governance model works. The existence of the campaign as a live Duel is the proof of concept.
+**The bootstrapping Claim as primary evidence**: The platform's crowdfunding campaign is conducted via a live Claim filed on the platform itself — *"Truthbook is viable, worth funding, and can reach constitutional self-governance within 18 months of launch."* The running total raised through the P2P giving widget on that Claim is public evidence that the platform's governance model works. The existence of the campaign as a live Duel is the proof of concept.
 
 **Rationale**: A platform that asks people to put their beliefs on the public record is obligated to put its own business case on the same record. Financial opacity in a platform built on epistemic accountability is a constitutional contradiction.
 
@@ -540,7 +540,7 @@ The following gates MUST pass before any code may be merged to the main branch:
 
 ## Governance
 
-This constitution supersedes all other development guidelines and practices within the disputable.io project. Where conflicts arise, this document takes precedence.
+This constitution supersedes all other development guidelines and practices within the Truthbook project. Where conflicts arise, this document takes precedence.
 
 **Amendment procedure**:
 1. Non-constitutional spec changes (new FRs, new tasks): `super_admin` may approve and deploy directly.

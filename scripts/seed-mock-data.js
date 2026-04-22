@@ -1,5 +1,5 @@
-// REMOVED — This script seeded localStorage for the disputable.io GitHub Issues PoC.
-// judgmental.io uses src/mock/seed-data.js and db/migrations/ for seeding.
+// REMOVED — This script seeded localStorage for the Truthbook GitHub Issues PoC.
+// Truthbook uses src/mock/seed-data.js and db/migrations/ for seeding.
 // Run: git rm scripts/seed-mock-data.js
 
 // seed-mock-data.js

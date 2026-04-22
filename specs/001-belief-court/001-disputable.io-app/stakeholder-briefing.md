@@ -1,4 +1,4 @@
-# judgmental.io — Stakeholder Briefing
+# Truthbook — Stakeholder Briefing
 
 | Field | Value |
 |---|---|
@@ -32,7 +32,7 @@
 
 *Where worldviews collide, people open cases to confront the differences, seeking harmony.*
 
-*Social media usually means social mayhem. judgmental.io introduces social mediation.*
+*Social media usually means social mayhem. Truthbook introduces social mediation.*
 
 ---
 
@@ -57,7 +57,7 @@
 ## The Bootstrapping Claim
 
 > **This document is primary evidence in the following live Claim on the platform:**
-> *"judgmental.io is viable, worth funding, and can reach constitutional self-governance within 18 months of launch."*
+> *"Truthbook is viable, worth funding, and can reach constitutional self-governance within 18 months of launch."*
 >
 > That Claim is filed by the platform founder (@maneatsbible), pinned to the top of the platform's public feed, and open to Challenge by any authenticated Person. Every financial projection, growth model, and architectural decision in this document is evidence in that Duel. Every contribution made through the P2P giving widget on that Claim is a public Agreement — recorded on the Belief Ledger, permanently attributable.
 >
@@ -67,7 +67,7 @@
 
 ## What This Is
 
-judgmental.io is a structured judgment engine — Claims, Evidence, Duels, Verdicts. Everything on the record. But the launch strategy isn't "debate platform." It's a simultaneous blitz across two high-intent communities that have never had a tool like this:
+Truthbook is a structured judgment engine — Claims, Evidence, Duels, Verdicts. Everything on the record. But the launch strategy isn't "debate platform." It's a simultaneous blitz across two high-intent communities that have never had a tool like this:
 
 1. **Dating** — "Duel me before you date me." Compatibility through honest disagreement, shareable Score Cards, viral invite links, a Faith Alignment Score for Christians. The mechanic generates content every time two people use it.
 
@@ -79,7 +79,7 @@ These are not two separate products. They are two acquisition channels for the s
 
 ## Founder and Origin
 
-BELIEF COURT is founded by **Christopher Howitt** (`@maneatsbible` on X/Twitter): a plain Bible preacher of judgment and holiness in Jesus Christ, with a 25-year professional history as a Software Architect.
+Truthbook is founded by **Christopher Howitt** (`@maneatsbible` on X/Twitter): a plain Bible preacher of judgment and holiness in Jesus Christ, with a 25-year professional history as a Software Architect.
 
 The platform came together through an unusual convergence. Over roughly six months, AI-assisted and agentic SDLC workflows compressed what would traditionally be a multi-team startup build into a solo founder execution window measured in weeks.
 
@@ -99,7 +99,7 @@ The practical bottleneck in the traditional path is not only money. It is assemb
 
 ### The paradox
 
-BELIEF COURT is enabled by the same AI acceleration wave it is architected to interrogate and constrain. The platform's Belief Ledger, disclosure requirements, and role-explicit judgment model are designed to keep human accountability legible even when machine-generated language is abundant.
+Truthbook is enabled by the same AI acceleration wave it is architected to interrogate and constrain. The platform's Belief Ledger, disclosure requirements, and role-explicit judgment model are designed to keep human accountability legible even when machine-generated language is abundant.
 
 ### Public invitation
 
@@ -119,7 +119,7 @@ Not just in disputes. In every domain where two people need to reach a decision,
 
 The result is that nothing actually gets resolved. It gets re-litigated. The same fight resurfaces. Resentment compounds. People avoid the conversation, or have it in the worst possible context, or have it six times and still don't have an answer.
 
-judgmental.io fixes this. Not by mediating. Not by offering coaching. By giving people a structure — Claim, Evidence, Challenge, Answer, Offer, Disposition — that forces a position to be stated, evidence to be produced, and a resolution to be reached and recorded. The resolution is the product. The record is the value.
+Truthbook fixes this. Not by mediating. Not by offering coaching. By giving people a structure — Claim, Evidence, Challenge, Answer, Offer, Disposition — that forces a position to be stated, evidence to be produced, and a resolution to be reached and recorded. The resolution is the product. The record is the value.
 
 This need exists across every context where humans disagree:
 - **Romantic** — compatibility before commitment; the "Duel me before you date me" hook
@@ -137,10 +137,10 @@ One Worldview Engine. Every context. The mechanic doesn't change. The framing do
 
 ## Why This, Why Now
 
-- Dating apps optimize for matches, not compatibility. "Swipe right" selects for photos. judgmental.io selects for positions. How someone *defends* what they believe is a far stronger compatibility signal than any profile photo or questionnaire.
+- Dating apps optimize for matches, not compatibility. "Swipe right" selects for photos. Truthbook selects for positions. How someone *defends* what they believe is a far stronger compatibility signal than any profile photo or questionnaire.
 - The Christian dating market is large, underserved, and enormously word-of-mouth driven. A platform that treats Christian courtship with actual theological seriousness — not just a "faith" checkbox — has no direct competitor.
 - Every Duel is shareable content. Every Score Card is a watermarked referral. The product markets itself every time two people use it.
-- AI bots are a $50B+ problem for social platforms. judgmental.io is the first platform to solve it architecturally rather than reactively — and to convert it into a revenue stream.
+- AI bots are a $50B+ problem for social platforms. Truthbook is the first platform to solve it architecturally rather than reactively — and to convert it into a revenue stream.
 - **The platform never cold-starts.** Worldview Sync pre-seeds the Belief Ledger with real public figures' statements from trending content, news, and social feeds — on day one, before those figures have ever heard of the platform. The content that fills every other platform is already in the Duel queue here.
 
 ---
@@ -174,7 +174,7 @@ Users who want to build a public Worldview subscribe to **Auto-Claim Anywhere**.
 
 > **This section is constitutional.** The Keyholder reward rate, eligibility rules, and node registration process are governed by the Worldview Engine. Any change to these terms requires a Constitutional Duel. See FR-284 and Principle XIV of the constitution.
 
-A **Keyholder** is any Person or organization that hosts a judgmental.io node — a read-replica or compute-contributing instance of the platform's infrastructure — and has registered that node through the platform's Keyholder Registry. Keyholders are a constitutional class of Stakeholder. They earn rewards for the compute and infrastructure work they perform. They hold a constitutional stake in platform governance proportional to their Keyholder tier.
+A **Keyholder** is any Person or organization that hosts a Truthbook node — a read-replica or compute-contributing instance of the platform's infrastructure — and has registered that node through the platform's Keyholder Registry. Keyholders are a constitutional class of Stakeholder. They earn rewards for the compute and infrastructure work they perform. They hold a constitutional stake in platform governance proportional to their Keyholder tier.
 
 ### Why Keyholders solve the open-source fork problem
 
@@ -295,4 +295,4 @@ Infrastructure: SQLite + Litestream on Fly.io. No database bill. No CDN bill. No
 
 This platform was built from a conviction rooted in biblical faith in Jesus Christ — that truth is real and knowable, and that people are capable of defending what they actually believe.
 
-**judgmental.io — On the record.**
+**Truthbook — On the record.**

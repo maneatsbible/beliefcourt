@@ -1,5 +1,5 @@
 -- Migration 001: Initial Schema
--- judgmental.io — Belief Ledger
+-- Truthbook — Belief Ledger
 
 PRAGMA journal_mode=WAL;
 PRAGMA synchronous=NORMAL;

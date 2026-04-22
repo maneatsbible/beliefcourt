@@ -50,12 +50,12 @@
     <circle cx="40.00" cy="45.04" r="2.16"   fill="#f0d048"/>
     <circle cx="40.00" cy="45.04" r="0.86" fill="#fdf0a0"/>
   <!-- Wordmark -->
-  <text x="82" y="53"
-        font-family="'SF Pro Display','Helvetica Neue',Arial,sans-serif"
-        font-size="32" font-weight="600" letter-spacing="-0.5"
-        fill="#e8dfc4">judgmental</text>
-  <text x="323" y="53"
-        font-family="'SF Pro Display','Helvetica Neue',Arial,sans-serif"
-        font-size="32" font-weight="300"
-        fill="#4868b0">.io</text>
+    <text x="82" y="53"
+      font-family="'SF Pro Display','Helvetica Neue',Arial,sans-serif"
+      font-size="32" font-weight="600" letter-spacing="-0.5"
+      fill="#e8dfc4">Truthbook</text>
+    <text x="323" y="53"
+      font-family="'SF Pro Display','Helvetica Neue',Arial,sans-serif"
+      font-size="32" font-weight="300"
+      fill="#4868b0">truthbook.io</text>
 </svg>

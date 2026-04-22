@@ -1,6 +1,6 @@
 /**
  * Unit tests: Model classes
- * Person, Post hierarchy, Dispute, Agreement, CricketsConditions, CricketsEvent
+ * Person, Post hierarchy, Case, Agreement, CricketsConditions, CricketsEvent
  */
 
 import { describe, it, expect } from '../../runner.js';
@@ -10,8 +10,8 @@ import {
   Post, Assertion, Challenge, Answer,
   POST_TYPE_ASSERTION, POST_TYPE_CHALLENGE, POST_TYPE_ANSWER,
 } from '../../../src/model/post.js';
-import { Dispute, DISPUTE_STATUS_ACTIVE, DISPUTE_STATUS_RESOLVED, DISPUTE_STATUS_CRICKETS }
-  from '../../../src/model/dispute.js';
+import { Case, CASE_STATUS_ACTIVE, CASE_STATUS_RESOLVED, CASE_STATUS_CRICKETS }
+  from '../../../src/model/case.js';
 import { Agreement, CricketsConditions, CricketsEvent }
   from '../../../src/model/agreement.js';
 
@@ -96,17 +96,17 @@ describe('Post.fromIssue', () => {
 });
 
 // ---------------------------------------------------------------------------
-// Dispute
+// Case
 // ---------------------------------------------------------------------------
 
-describe('Dispute.fromIssue', () => {
+describe('Case.fromIssue', () => {
   it('derives active status from dsp:active label', () => {
     const issue = makeIssue(1, 'dispute', {
       challengerId: 10, defenderId: 20, rootPostId: 5, triggerChallengeId: 8,
     });
     issue.labels = [{ name: 'dsp:dispute' }, { name: 'dsp:active' }];
-    const d = Dispute.fromIssue(issue);
-    expect(d.status).toBe(DISPUTE_STATUS_ACTIVE);
+    const c = Case.fromIssue(issue);
+    expect(c.status).toBe(CASE_STATUS_ACTIVE);
     expect(d.isActive).toBe(true);
   });
 
@@ -115,8 +115,8 @@ describe('Dispute.fromIssue', () => {
       challengerId: 10, defenderId: 20, rootPostId: 5, triggerChallengeId: 8,
     });
     issue.labels = [{ name: 'dsp:dispute' }, { name: 'dsp:resolved' }];
-    const d = Dispute.fromIssue(issue);
-    expect(d.status).toBe(DISPUTE_STATUS_RESOLVED);
+    const c = Case.fromIssue(issue);
+    expect(c.status).toBe(CASE_STATUS_RESOLVED);
     expect(d.isResolved).toBe(true);
   });
 
@@ -125,8 +125,8 @@ describe('Dispute.fromIssue', () => {
       challengerId: 10, defenderId: 20, rootPostId: 5, triggerChallengeId: 8,
     });
     issue.labels = [{ name: 'dsp:dispute' }, { name: 'dsp:active' }, { name: 'dsp:crickets-event' }];
-    const d = Dispute.fromIssue(issue);
-    expect(d.status).toBe(DISPUTE_STATUS_CRICKETS);
+    const c = Case.fromIssue(issue);
+    expect(c.status).toBe(CASE_STATUS_CRICKETS);
     expect(d.isCrickets).toBe(true);
   });
 });

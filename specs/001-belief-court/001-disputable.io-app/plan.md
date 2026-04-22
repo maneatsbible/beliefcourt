@@ -1,4 +1,7 @@
-# Implementation Plan: judgmental.io
+# Implementation Plan: Truthbook
+Truthbook is a browser-only, plain vanilla JavaScript SPA backed by a lightweight Hono API server running on Fly.io, with SQLite (WAL mode) as the primary database streamed to S3-compatible storage via Litestream. Identity is established through social media OAuth (X, Threads, Bluesky, GitHub) — no GitHub API calls are made for data storage. All content records are stored in the application's own database. The architecture is strict MVC: all permission logic in the Controller, dumb rendering in the View, DB entities mapped directly in the Model.
+
+The GitHub Issues PoC (truthbook.io, formerly disputable.io) proved the domain model. This plan implements the production architecture.
 
 | Field | Value |
 |---|---|
@@ -85,7 +88,7 @@ Tigris (S3-compatible object storage, free on Fly.io)
 ### fly.toml (outline)
 
 ```toml
-app = "judgmental-io"
+app = "truthbook-io"
 primary_region = "lax"
 
 [build]
@@ -562,7 +565,7 @@ Swapping backends = swap `adapter.js` import. All queries remain unchanged.
 **Integration**: A single `<script>` tag in `index.html`. No build step, no npm package.
 
 ```html
-<script defer data-domain="judgmental.io"
+<script defer data-domain="truthbook.io"
   src="https://plausible.io/js/script.js"></script>
 ```
 
@@ -614,7 +617,7 @@ src/
 ├── client/                         # Browser frontend (vanilla JS, no build step)
 │   ├── app.js                      # Entry point — bootstraps controller, renders shell
 │   ├── api/
-│   │   ├── client.js               # Fetch wrapper for judgmental.io REST API
+│   │   ├── client.js               # Fetch wrapper for truthbook.io REST API
 │   │   └── auth.js                 # SM OAuth PKCE flow + JWT storage
 │   ├── model/
 │   │   ├── person.js               # Person entity + herald attribution

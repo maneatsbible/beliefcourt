@@ -62,17 +62,13 @@
   <!-- Rule -->
   <rect x="300" y="395" width="600" height="1" fill="url(#rulefade)"/>
   <!-- Wordmark -->
-  <text text-anchor="middle" x="600" y="470"
-        font-family="'SF Pro Display','Helvetica Neue',Arial,sans-serif"
-        font-size="72" font-weight="600" letter-spacing="-1"
-        fill="#e8dfc4" filter="url(#txtglow)">judgmental<tspan fill="#4868b0" font-weight="300">.io</tspan></text>
+    <text text-anchor="middle" x="600" y="470"
+      font-family="'SF Pro Display','Helvetica Neue',Arial,sans-serif"
+      font-size="72" font-weight="600" letter-spacing="-1"
+      fill="#e8dfc4" filter="url(#txtglow)">Truthbook<tspan fill="#4868b0" font-weight="300">.io</tspan></text>
   <!-- Taglines -->
-  <text text-anchor="middle" x="600" y="536"
-        font-family="'SF Pro Display','Helvetica Neue',Arial,sans-serif"
-        font-size="22" font-weight="300" letter-spacing="0.5"
-        fill="#7080a8">The internet has been fighting for 30 years.</text>
-  <text text-anchor="middle" x="600" y="566"
-        font-family="'SF Pro Display','Helvetica Neue',Arial,sans-serif"
-        font-size="22" font-weight="300" letter-spacing="0.5"
-        fill="#7080a8">judgmental.io is where we settle it.</text>
+    <text text-anchor="middle" x="600" y="536"
+      font-family="'SF Pro Display','Helvetica Neue',Arial,sans-serif"
+      font-size="22" font-weight="300" letter-spacing="0.5"
+      fill="#7080a8">truthbook.io is where we settle it.</text>
 </svg>

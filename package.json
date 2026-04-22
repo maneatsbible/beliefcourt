@@ -1,7 +1,7 @@
 {
-  "name": "belief-court",
+  "name": "truthbook",
   "version": "1.0.0-alpha",
-  "description": "BELIEF COURT - A peer-to-peer constitutional platform for defended belief. On the record.",
+  "description": "Truthbook - A peer-to-peer constitutional platform for defended belief. On the record.",
   "type": "module",
   "private": true,
   "scripts": {

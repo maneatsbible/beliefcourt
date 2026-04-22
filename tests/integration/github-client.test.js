@@ -64,10 +64,10 @@ describe('buildBody / parseBody', () => {
   });
 
   it('buildBody with no content produces only the meta block', () => {
-    const meta = { type: 'dispute', version: 1, appId: APP_ID };
+    const meta = { type: 'case', version: 1, appId: APP_ID };
     const body = buildBody(meta);
     expect(body).toContain('DSP:META');
-    expect(parseBody(body).type).toBe('dispute');
+    expect(parseBody(body).type).toBe('case');
   });
 
   it('returns null when appId does not match the current app', () => {

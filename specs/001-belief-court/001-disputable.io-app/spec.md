@@ -1,4 +1,4 @@
-# Feature Specification: judgmental.io
+# Feature Specification: Truthbook
 
 | Field | Value |
 |---|---|
@@ -82,7 +82,7 @@
 ### Session 2026-04-20 — Expanded product scope
 
 - Q: Should a Dating/Compatibility mode be in v1? → A: Yes. A Duel can be filed with `context=compatibility` between two consenting Persons. Mechanics are identical to standard Duels; the framing, copy, and UI chrome change. Both Persons must accept the Duel invitation before it begins. The verdict is private to the two parties by default but may be made public.
-- Q: How are Compatibility Duels shared and discovered to drive traffic? → A: Three viral loops: (1) shareable invite link with anonymous teaser card sent outside the app; (2) public Open Challenges feed where anyone may accept; (3) shareable "Duel me on this" Score Card image watermarked with judgmental.io URL. Topic templates and a Match Profile alignment feature drive organic discovery. Dating leaderboard (Most Compatible Pairs) provides social proof.
+- Q: How are Compatibility Duels shared and discovered to drive traffic? → A: Three viral loops: (1) shareable invite link with anonymous teaser card sent outside the app; (2) public Open Challenges feed where anyone may accept; (3) shareable "Duel me on this" Score Card image watermarked with truthbook.io URL. Topic templates and a Match Profile alignment feature drive organic discovery. Dating leaderboard (Most Compatible Pairs) provides social proof.
 - Q: Are there features specifically for Bible-following Christians? → A: Yes — **Christian Mode** is a first-release feature set, not deferred, and not a general interfaith layer. It is built specifically for people who hold scripture as their highest authority. Features include: Scripture Evidence type, Doctrinal Claims with scripture citation helper, Bible Study Duels, Church/Small Group org tier with `elder` role, Accountability Partnerships, Community Discernment, a three-stage Church Discipline process (Reconciliation / Witnessed Reconciliation / Community Review), Theological topic templates, **Exploring Our Faith** (an ongoing structured project — see FR-169), Tradition tag, **Christian Dating** context (faith-first matching and courtship Duels), and **Parenting Duels** (faith formation, discipline approach, co-parenting under shared faith). The **Bible Widget** (FR-210) and **Bible Reader** (FR-211) are the platform's native scripture study tool — KJV default, 7 free translations at launch, with a low-priority roadmap for licensed translations requiring formal publisher partnerships. Pre-marital Counseling Track is included but is secondary priority — it ships after the core dispute and reconciliation features. No denomination is privileged. The platform actively discourages proof-texting in all contexts — scripture references are testimony, not logical premises (Constitutional Principle I). This is not Patheos. There is no generic spirituality mode.
 - Q: Should an Open API for third-party integrations be in v1? → A: Yes, as a documented public REST API with API-key auth. All read endpoints (Claims, Cases, Duels, Dispositions, Analytics views) are accessible. Write endpoints (file a Claim, open a Case) require org-tier or API-key auth. Rate-limited. Documented at `GET /api/docs` (JSON/OpenAPI 3.1).
 - Q: Should Historical Re-trials be in v1? → A: Yes. A Duel may be created with `context=historical` and a `historical_subject` string (e.g. "Galileo v The Church, 1633"). These Duels are special: parties are role-players defending assigned historical positions, not personal claims. The original Record is a system-authored Claim citing the historical subject. These Duels are always public, never generate ClaimAccords against living Persons, and are tagged for the Historic Re-trials analytics view.
@@ -109,9 +109,9 @@
 
 *Where worldviews collide, people open cases to confront the differences, seeking harmony.*
 
-*Social media usually means social mayhem. judgmental.io introduces social mediation.*
+*Social media usually means social mayhem. Truthbook introduces social mediation.*
 
-judgmental.io is a **Worldview Explorer**. A Person's worldview is not a profile field, a survey result, or an AI-generated summary. It is the composition of all the Records they have produced and all the Accords they have reached — every Claim filed, every Challenge issued, every Answer given, every Offer made, every Rescission posted. The Worldview Explorer is the complete architecture through which those records are stored, structured, and presented.
+Truthbook is a **Worldview Explorer**. A Person's worldview is not a profile field, a survey result, or an AI-generated summary. It is the composition of all the Records they have produced and all the Accords they have reached — every Claim filed, every Challenge issued, every Answer given, every Offer made, every Rescission posted. The Worldview Explorer is the complete architecture through which those records are stored, structured, and presented.
 
 The architecture maps exactly onto MVC, and the correspondence is not incidental — it is the design:
 
@@ -135,7 +135,7 @@ The architecture maps exactly onto MVC, and the correspondence is not incidental
 
 ### User Story 1 — View Claims and Make a Claim (Priority: P1)
 
-A visitor opens judgmental.io in their browser. They see the Home view listing Claims as summary cards ranked by strength and activity. They can authenticate via GitHub and compose a new Claim (text and/or a single image). They can also import an external quote via @herald to plant a position for others to dispute.
+A visitor opens truthbook.io in their browser. They see the Home view listing Claims as summary cards ranked by strength and activity. They can authenticate via GitHub and compose a new Claim (text and/or a single image). They can also import an external quote via @herald to plant a position for others to dispute.
 
 The composer's claim-first hint text is `I believe that...` and the action to submit a claim is conceptually **Start a Fire**.
 
@@ -328,12 +328,12 @@ A brand-new user arrives at judgmental.io for the first time. They see the publi
 
 **Acceptance Scenarios**:
 
-1. **Given** an unauthenticated visitor, **When** they click "Sign in" and select GitHub, **Then** they are redirected to GitHub OAuth, then back to judgmental.io with a valid JWT stored in `localStorage`.
+1. **Given** an unauthenticated visitor, **When** they click "Sign in" and select GitHub, **Then** they are redirected to GitHub OAuth, then back to truthbook.io with a valid JWT stored in `localStorage`.
 2. **Given** a newly authenticated user has never acknowledged the Miranda notice, **When** the composer is visible, **Then** the Miranda acknowledgement card is shown above it.
 3. **Given** the user clicks "I understand" on the Miranda card, **Then** `localStorage['jdg:miranda_ack']` is set to `1` and the card is removed from the DOM.
 4. **Given** the user refreshes or reopens the app, **When** `jdg:miranda_ack` is already set, **Then** the Miranda card is NOT shown.
 5. **Given** a returning user with an expired JWT, **When** they reload the app, **Then** they see the unauthenticated Home feed and a "Your session expired — sign in again" notice.
-6. **Given** the user's handle on their chosen platform is already taken by another Person on judgmental.io, **When** they complete OAuth, **Then** the server appends a short unique suffix to disambiguate and returns the resolved `@handle` in the JWT response.
+6. **Given** the user's handle on their chosen platform is already taken by another Person on truthbook.io, **When** they complete OAuth, **Then** the server appends a short unique suffix to disambiguate and returns the resolved `@handle` in the JWT response.
 
 ---
 

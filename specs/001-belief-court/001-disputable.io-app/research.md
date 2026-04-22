@@ -1,4 +1,4 @@
-# Research: judgmental.io
+# Research: Truthbook
 
 | Field | Value |
 |---|---|
@@ -66,16 +66,16 @@
 
 ## 2. GitHub Issues as Append-Only Database — Schema Design
 
-**Decision**: One GitHub Issue per logical entity (Post, Dispute). Structured metadata stored as a JSON front-matter block in the Issue body, followed by human-readable content. No Issue is ever edited after creation.
+**Decision**: One GitHub Issue per logical entity (Post, Case). Structured metadata stored as a JSON front-matter block in the Issue body, followed by human-readable content. No Issue is ever edited after creation.
 
 **Encoding approach**:
 ```
 <!-- DSP:META
 {
-  "type": "assertion|challenge|answer|dispute|agreement|crickets|offer",
+  "type": "assertion|challenge|answer|case|agreement|crickets|offer",
   "version": 1,
   "parentId": 42,
-  "disputeId": 17,
+  "caseId": 17,
   "postType": "interrogatory|objection",
   "yesNo": true|false|null,
   "deadline": "2026-04-19T12:00:00Z"
@@ -140,15 +140,15 @@ return data;
 
 **Controller pattern**:
 ```js
-// dispute-controller.js
-export class DisputeController {
+// case-controller.js
+export class CaseController {
   constructor(model, apiClient) { ... }
   canChallenge(person, post) { ... }   // returns bool
   canAnswer(person, challenge) { ... }
-  canDispute(person, post) { ... }
+  canCase(person, post) { ... }
   canAgree(person, assertion) { ... }
-  canOffer(person, dispute) { ... }
-  canDeclareCrickets(person, dispute) { ... }
+  canOffer(person, caseObj) { ... }
+  canDeclareCrickets(person, caseObj) { ... }
   // Actions:
   async submitChallenge(person, post, challengeData) { ... }
   async submitAnswer(person, challenge, answerData) { ... }
