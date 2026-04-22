@@ -1,5 +1,13 @@
 # Data Model: Truthbook
 
+## Constitutional Design Principles (2026-04-22)
+
+- **Bot Namespace:** All bots must use the !Bot prefix (e.g., !BotHelper). No bots may use the @Person namespace. Bots are never treated as People and are constitutionally distinct.
+- **WantedPerson & Public Wall:** External/unregistered entities are modeled as WantedPerson, each with a public Wall. When they join, the Wall becomes their Blog at Truthbook.io/@username, suitable for any content they wish to post.
+- **Formalized Record Subtypes:** All Record subtypes (e.g., SummonsRecord, DuelRecord, QuestionRecord, ObjectionRecord, etc.) are formalized as distinct, semantically-expressive types. Extensibility is allowed only by explicit constitutional amendment.
+- **Explorable Model:** The data model must support semantic exploration and visualization, even in cold storage, via canned queries and admin tools. All Record types and relationships must be explorable and meaningful for both users and administrators.
+
+
 | Field | Value |
 |---|---|
 | **Version** | `v0.0.1-pre-alpha` |
@@ -57,18 +65,16 @@ Every entity that extends **Record** is a **Belief Ledger entry**. The Belief Le
 
 ## Entities
 
+
 ### Person
 
-Represents an authenticated user (SM OAuth — X, Threads, Bluesky, or GitHub).
+Represents an authenticated human user (SM OAuth — X, Threads, Bluesky, or GitHub). Only real humans may be @Person. Bots and system actors are constitutionally forbidden from using the @Person namespace.
 
 | Field | Type | Source | Notes |
 |-------|------|--------|-------|
 | `id` | `integer` | DB auto-increment | Globally unique, immutable |
 | `name` | `string` | SM handle prefixed `@` | e.g., `@alice` |
 | `profilePicUrl` | `string` | SM OAuth `picture` | Display only |
-| `isHerald` | `boolean` | Derived | `true` if this is the system-level @herald account |
-| `isAi` | `boolean` | Set at registration | `true` if this Person is an AI persona (bot account) |
-| `aiModel` | `string \| null` | Set at registration | The model identifier if `isAi` is true (e.g. `"gpt-4o"`) |
 | `linkedPlatforms` | `string[]` | linked_identities table | All SM platforms this person has linked |
 
 **Special instance — @herald**: A placeholder identity used to import external content for immediate disputation. When you quote something from the internet (a tweet, an article, a public statement), you submit it as a Claim attributed to @herald. A Challenge against that Claim is submitted simultaneously, summoning the original author. If and when the original author arrives and authenticates, they can claim ownership of the @herald Claim, replacing @herald with their own Person record. @herald is not a persona; it is a beacon. @herald is permanently reserved as a system handle — it is unavailable in the Person namespace and is neither a Person nor a Bot while unclaimed.
@@ -79,16 +85,38 @@ Represents an authenticated user (SM OAuth — X, Threads, Bluesky, or GitHub).
 - A Person MUST NOT challenge the same Record more than once.
 - Person handles are globally unique across all Spaces.
 
+### WantedPerson
+
+Represents an external or unregistered identity. Each WantedPerson has a public Wall, which becomes their Blog if they join the platform. WantedPeople do not consume @Person names until they register. Their Wall is public and displays all cases for and against them. Upon joining, they must select an unused @Person name.
+
+| Field | Type | Source | Notes |
+|-------|------|--------|-------|
+| `id` | `integer` | DB auto-increment | Globally unique |
+| `externalHandle` | `string` | Platform handle or identifier | e.g., Twitter/X handle |
+| `wallUrl` | `string` | Generated | Public Wall/Blog URL |
+| `status` | `enum` | System | `"wanted"`, `"joined"` |
+
+### Bot
+
+All bots must use the !Bot prefix (e.g., !BotHelper). Bots are never @Person and are constitutionally distinct. Bots may only author Records of type `transcript` (e.g., StenoBot/TranscriptBot), unless otherwise amended by constitutional process.
+
+| Field | Type | Source | Notes |
+|-------|------|--------|-------|
+| `id` | `integer` | DB auto-increment | Globally unique |
+| `name` | `string` | System | Must be prefixed with !Bot |
+| `botType` | `string` | System | e.g., TranscriptBot, AdvisorBot |
+
+
 ---
+
 
 
 ### Record (abstract — implementation only)
 
-The base of all user-created content. Every Record is a row in the `records` table. Not a domain term — users never see the word "Record." Its subtypes are the real entities.
-
+The base of all user-created content. Every Record is a row in the `records` table. Not a domain term — users never see the word "Record." Its subtypes are the real entities. All Record subtypes are formalized and constitutionally governed for semantic expressiveness and explorable meaning.
 
 **Authorship rules:**
-- All Records must be authored by a Person (human), except for transcript Records, which may be authored by a Bot (StenoBot/TranscriptBot).
+- All Records must be authored by a Person (human), except for transcript Records, which may be authored by a Bot (StenoBot/TranscriptBot) using the !Bot prefix.
 - Only Bots of type StenoBot/TranscriptBot may author a Record, and only of type `"transcript"`.
 - All other Record types (`"claim"`, `"comment"`, `"challenge"`, `"answer"`, `"offer"`, `"response"`, etc.) must have a human Person as author.
 - When a Person hires an AdvisorBot with Power of Attorney (PoA), the AdvisorBot may file Records on their behalf, but the Record is always authored by the Person, with a `[via AdvisorBot]` disclosure badge. The Bot is never the author; the Person is fully accountable for the Record.
@@ -96,8 +124,17 @@ The base of all user-created content. Every Record is a row in the `records` tab
 | Field | Type | Source | Notes |
 |-------|------|--------|-------|
 | `id` | `integer` | DB auto-increment | Globally unique |
-| `type` | `enum` | DB column | `"claim"`, `"comment"`, `"challenge"`, `"answer"`, `"offer"`, `"response"`, `"transcript"`, ... |
+| `type` | `enum` | DB column | Formalized subtypes: `"claim"`, `"comment"`, `"challenge"`, `"answer"`, `"offer"`, `"response"`, `"summons"`, `"duel"`, `"question"`, `"objection"`, `"witness_call"`, `"transcript"`, ... |
 | `authorId` | `integer \| null` | DB foreign key | Person who created the Record; null if authored by a Bot (for transcript only) |
+| `content` | `text` | User/system | Record content |
+| `createdAt` | `datetime` | System | Timestamp |
+| `meta` | `json` | System | Subtype-specific fields (e.g., yesNo for Question, witnessId for WitnessCall, etc.) |
+
+**Constitutional extensibility:**
+All new Record subtypes must be defined by constitutional amendment. The model must remain explorable and semantically meaningful for all users and admin tools, including in cold storage.
+
+**Explorability:**
+Admin and user tools must provide canned queries and visualizations for all Record types and their relationships, supporting semantic exploration and auditability.
 | `botId` | `integer \| null` | DB foreign key | Bot who authored the Record (only for transcript) |
 | `heraldClaimId` | `integer \| null` | DB column | Set when @herald is replaced by the real author; points to original Claim id |
 | `parentId` | `integer \| null` | DB column | Parent Record id; `null` for root Claims |
