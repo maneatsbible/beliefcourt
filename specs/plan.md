@@ -12,7 +12,7 @@ The GitHub Issues PoC (truthbook.io, formerly disputable.io) proved the domain m
 | **Last revised** | 2026-04-21 |
 | **Spec** | [spec.md](spec.md) |
 | **AI assistant** | GitHub Copilot · Claude Sonnet 4.6 |
-| **Governed by** | [constitution.md](constitution.md) — supersedes all other documents |
+| **Constitution** | [TRUTHBOOK-CONSTITUTION.md](TRUTHBOOK-CONSTITUTION.md) |
 ---
 
 

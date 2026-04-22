@@ -6,7 +6,6 @@
 | **Status** | 🔴 Pre-Alpha — not production-ready |
 | **Last revised** | 2026-04-22 |
 | **AI assistant** | GitHub Copilot · Claude Sonnet 4.6 |
-| **Governed by** | [constitution.md](constitution.md) — supersedes all other documents |
 
 ---
 

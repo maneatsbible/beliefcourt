@@ -44,7 +44,7 @@ The dating features, the viral mechanics, the Christian Mode, the Church Discipl
 | **Ratified** | 2026-04-18 |
 | **Last amended** | 2026-04-21 |
 | **AI assistant** | GitHub Copilot · Claude Sonnet 4.6 |
-| **Authority** | Governing document — supersedes all other spec documents |
+| **Constitution** | [TRUTHBOOK-CONSTITUTION.md](TRUTHBOOK-CONSTITUTION.md) |
 ---
 
 

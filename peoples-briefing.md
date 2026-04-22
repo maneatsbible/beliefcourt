@@ -1,5 +1,6 @@
 | **Version** | `v0.0.1-pre-alpha` |
 | **Versioning Scheme** | Semantic Versioning (MAJOR.MINOR.PATCH-qualifier) — All constitutional and product documents must use the unified version string: `v0.0.1-pre-alpha` until v1.0.0 ratification. |
+| **Constitution** | [TRUTHBOOK-CONSTITUTION.md](TRUTHBOOK-CONSTITUTION.md) |
 
 # Truthbook — People’s Briefing
 
