@@ -169,7 +169,7 @@ Multiple people who agree about a Claim may each challenge it independently, cre
 
 A **Duel** is a double-deposition submitted to witnesses (the Gallery) for judgment.
 
-All disputes are settled by dueling. This is the constitutional settlement process. All parties stand equally. Both are interrogated. Both are questioned. The judgment comes from the People, not from a remote arbiter.
+All disputes are settled by dueling. ⚔️ This is the constitutional settlement process. All parties stand equally. Both are interrogated. Both are questioned. The judgment comes from the People, not from a remote arbiter.
 
 ### Section 4.2 — JADE Role Sequence
 
