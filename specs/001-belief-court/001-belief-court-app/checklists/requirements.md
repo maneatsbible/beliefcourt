@@ -1,4 +1,4 @@
-# Specification Quality Checklist: disputable.io
+# Specification Quality Checklist: BELIEF COURT
 
 **Purpose**: Validate specification completeness and quality before proceeding to planning
 **Created**: 2026-04-18

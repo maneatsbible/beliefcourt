@@ -150,7 +150,7 @@ Multiple people who agree about a Claim may each challenge it independently, cre
 
 ---
 
-## ARTICLE IV — THE DUEL PROCESS AND JADE ROLES
+## ARTICLE IV — THE DUEL PROCESS AND JADEIC MODES
 
 ### Section 4.1 — The Duel
 
