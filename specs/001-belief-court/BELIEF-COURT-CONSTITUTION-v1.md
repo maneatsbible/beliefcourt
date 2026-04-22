@@ -35,7 +35,7 @@ Everything that follows — the constitutional structure, the duel process, the 
 
 ---
 
-## ARTICLE I — SOVEREIGNTY OF THE PEOPLE
+## ARTICLE I — THE PEOPLE ARE IN CHARGE
 
 ### Section 1.1 — Ledger Authority
 
@@ -60,7 +60,7 @@ Who would be sued? Truthbook belongs to the People. Justice is open, and every v
 
 Join. Litigate. Judge. Decide. Judgment is yours to decide.
 
-### Section 1.2 — Power Flows From Below
+### Section 1.2 — Judgment by the People Changes Everything
 
 *No central sovereign exists.*
 
