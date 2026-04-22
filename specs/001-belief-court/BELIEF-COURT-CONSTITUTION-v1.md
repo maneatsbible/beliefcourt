@@ -1,4 +1,4 @@
-# BELIEF COURT — Constitutional Charter
+# Truthbook — Constitutional Charter
 
 | Field         | Value                                                                                       |
 |-------------- |--------------------------------------------------------------------------------------------|
@@ -6,7 +6,7 @@
 | **Status**    | 🔥 Foundation                                                                             |
 | **Ratified**  | 2026-04-21                                                                                |
 | **Authority** | Sovereign document. Supersedes all other governance. Amendment only by Popular Voice.      |
-| **Founder**   | **@maneatsbible** — implementing BELIEF COURT as constitutional P2P protocol grounded in faith in Jesus Christ |
+| **Founder**   | **@maneatsbible** — implementing Truthbook (tb, truthbook.io) as constitutional P2P protocol grounded in faith in Jesus Christ |
 
 ---
 
@@ -14,13 +14,18 @@
 
 ### Founding Conviction
 
-BELIEF COURT exists because of one conviction:
+
+> **Constitutional Naming Rule:**
+>
+> The official and only constitutional name of this platform is **Truthbook** (abbreviation: tb, domain: truthbook.io). All legacy names, including BELIEF COURT, judgmental.io, disputable.io, and Better Dispute, are superseded and must not be used in any constitutional, governance, or product context going forward.
+
+Truthbook exists because of one conviction:
 
 **The truth is real. The truth is unchanging. The truth can be known. People made in the image of God are capable of holding genuine convictions, defending them with integrity, and changing them through honest encounter.**
 
 This platform is not built around the belief that argumentation wins debates. It is built around the conviction that *defended belief, when tested against the sincere challenge of another, can produce understanding, reconciliation, and genuine growth.*
 
-Everything that follows — the constitutional structure, the duel process, the ledger architecture, the role system, the Gallery — flows from this conviction. When a design decision is hard to make, this is where the answer lives.
+Everything that follows — the constitutional structure, the duel process, the ledger architecture, the litigation process — flows from this conviction. When a design decision is hard to make, this is where the answer lives.
 ## ARTICLE 0 — PRINCIPLES OF JUDGMENT AND LANGUAGE
 
 - The People do not decide what is true; the People Judge what is true.
@@ -32,7 +37,7 @@ Everything that follows — the constitutional structure, the duel process, the 
 
 **On the Record.** Every act is signed. Every claim is traced. Every challenge is recorded. No anonymous mob rule. No deleted arguments. No fake consensus. Every person stands in their name. Every voice leaves a mark in the People's ledger.
 
-**Power to the People.** BELIEF COURT is fully peer-to-peer in constitution and implementation. Power belongs to the People, not gatekeepers. The system's design makes that inevitable, not aspirational. When duels settle disputes and the Gallery judges the proceedings, legitimacy flows from the People's voice — spread to every peer, impossible to centralize, impossible to kill.
+**Power to the People.** Truthbook is fully peer-to-peer in constitution and implementation. Power belongs to the People, not gatekeepers. The system's design makes that inevitable, not aspirational. When duels settle disputes and the Gallery judges the proceedings, legitimacy flows from the People's voice — spread to every peer, impossible to centralize, impossible to kill.
 
 ---
 
@@ -40,7 +45,7 @@ Everything that follows — the constitutional structure, the duel process, the 
 
 ### Section 1.1 — Ledger Authority
 
-The **Belief Ledger** is the sole source of truth. It is append-only, immutable, and cryptographically signed. Every Record — Claim, Challenge, Answer, Offer, Response, Judgment — is stored as a signed entry owned by its author.
+The **Truthbook Ledger** is the sole source of truth. It is append-only, immutable, and cryptographically signed. Every Record — Claim, Challenge, Answer, Offer, Response, Judgment — is stored as a signed entry owned by its author.
 
 The Ledger cannot be rewritten. It cannot be censored. It can be forked, but never falsified.
 

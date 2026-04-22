@@ -1,5 +1,5 @@
 /**
- * Hono API server — judgmental.io
+ * Hono API server — truthbook.io
  *
  * Mock mode:   USE_MOCK_DB=true node src/server/index.js
  * Production:  DB_PATH=/data/jdg.db JWT_SECRET=... node src/server/index.js
@@ -60,7 +60,7 @@ app.notFound(c => {
 
 // ---- Start ------------------------------------------------------------------
 serve({ fetch: app.fetch, port: PORT }, () => {
-  console.log(`[server] judgmental.io running on http://localhost:${PORT}`);
+  console.log(`[server] truthbook.io running on http://localhost:${PORT}`);
   console.log(`[server] mock mode: ${process.env.USE_MOCK_DB === 'true' ? 'ON' : 'OFF'}`);
 });
 

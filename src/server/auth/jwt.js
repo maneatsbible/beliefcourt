@@ -7,8 +7,8 @@ import { SignJWT, jwtVerify } from 'jose';
 
 const ALG      = 'HS256';
 const EXPIRY   = '24h';
-const ISSUER   = 'judgmental.io';
-const AUDIENCE = 'judgmental.io';
+const ISSUER   = 'truthbook.io';
+const AUDIENCE = 'truthbook.io';
 
 function _secret() {
   const s = process.env.JWT_SECRET;

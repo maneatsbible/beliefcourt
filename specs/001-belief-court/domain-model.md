@@ -1,11 +1,11 @@
-# BELIEF COURT — Unified Domain Model and Flow
+# Truthbook — Unified Domain Model and Flow
 
 | Field | Value |
 |---|---|
 | **Version** | `1.0.0` |
 | **Status** | 🔥 Canonical Architecture |
 | **Last updated** | 2026-04-21 |
-| **Governed by** | [BELIEF-COURT-CONSTITUTION-v1.md](BELIEF-COURT-CONSTITUTION-v1.md) |
+| **Governed by** | [Truthbook-Constitution.md](BELIEF-COURT-CONSTITUTION-v1.md) |
 
 ---
 
@@ -40,7 +40,7 @@ Record (signed, attributed, immutable)
   └─ Status: OPEN (new Claim)
       ↓
 Ledger Entry (appended, never rewritten)
-  ├─ Stored in Belief Ledger (SQLite append-only)
+  ├─ Stored in Truthbook Ledger (SQLite append-only)
   ├─ Replicated to backup storage (Litestream)
   └─ Visible to all Persons
 ```

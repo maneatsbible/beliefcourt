@@ -45,7 +45,7 @@ githubAuthRouter.get('/callback', async c => {
 
   // Fetch user profile
   const userRes = await fetch(GITHUB_USER, {
-    headers: { Authorization: `Bearer ${tokenData.access_token}`, 'User-Agent': 'judgmental.io' },
+    headers: { Authorization: `Bearer ${tokenData.access_token}`, 'User-Agent': 'truthbook.io' },
   });
   const ghUser  = await userRes.json();
 

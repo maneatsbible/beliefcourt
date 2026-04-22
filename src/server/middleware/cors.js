@@ -1,11 +1,11 @@
 /**
  * CORS middleware.
- * Allows judgmental.io and localhost origins only.
+ * Allows truthbook.io and localhost origins only.
  */
 
 const ALLOWED_ORIGINS = [
-  'https://judgmental.io',
-  'https://www.judgmental.io',
+  'https://truthbook.io',
+  'https://www.truthbook.io',
 ];
 
 const LOCAL_RE = /^http:\/\/localhost(:\d+)?$/;

@@ -1,8 +1,9 @@
-<!--
-  disputable.io Constitution
-  Power flows from righteous judgment.
--->
-# disputable.io Constitution
+
+# Truthbook Constitution
+
+> **Constitutional Naming Rule:**
+>
+> The official and only constitutional name of this platform is **Truthbook** (abbreviation: tb, domain: truthbook.io). All legacy names, including BELIEF COURT, judgmental.io, disputable.io, and Better Dispute, are superseded and must not be used in any constitutional, governance, or product context going forward.
 
 
 ## Table of Contents
