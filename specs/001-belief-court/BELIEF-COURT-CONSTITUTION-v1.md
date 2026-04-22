@@ -16,7 +16,7 @@
 
 BELIEF COURT exists because of one conviction:
 
-**Truth is real. Truth can be known. People made in the image of God are capable of holding genuine convictions, defending them with integrity, and changing them through honest encounter.**
+**The truth is real. The truth is unchanging. The truth can be known. People made in the image of God are capable of holding genuine convictions, defending them with integrity, and changing them through honest encounter.**
 
 This platform is not built around the belief that argumentation wins debates. It is built around the conviction that *defended belief, when tested against the sincere challenge of another, can produce understanding, reconciliation, and genuine growth.*
 
