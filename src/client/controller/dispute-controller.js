@@ -81,5 +81,5 @@ export class DuelController {
   }
 }
 
-// Backward-compatible export during BELIEF COURT refactor.
-export { DuelController as DisputeController };
+// Backward-compatible export during Truthbook rebrand.
+export { DuelController as TruthbookDuelController };

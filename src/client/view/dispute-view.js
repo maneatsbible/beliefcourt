@@ -182,5 +182,5 @@ export class CaseView {
   }
 }
 
-// Backward-compatible alias for BELIEF COURT naming.
-export { CaseView as CaseCourtView };
+// Backward-compatible alias for Truthbook naming.
+export { CaseView as CaseTruthbookView };

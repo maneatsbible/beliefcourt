@@ -1,6 +1,6 @@
 /**
  * Mock seed data — REST API–shaped objects for mock mode.
- * Covers key disputable.io scenarios without a backend.
+ * Covers key Truthbook scenarios without a backend.
  *
  * Scenarios:
  *   A. Active dispute — multi-round interrogatory Q&A
