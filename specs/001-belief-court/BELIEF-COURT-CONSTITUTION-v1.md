@@ -67,9 +67,11 @@ If BELIEF COURT governance fails — if legitimacy is lost, if the Ledger is cor
 
 ### Section 2.1 — Record Entities
 
+
 Every Record is authored by exactly one Person. Every Record has:
 - **ID**: globally unique, immutable, cryptographically signed
 - **Author**: the Person who created it, never changeable
+- **Mode**: the JADEIC mode in which the Record was filed (Evangelist, Advocate, Defender, Judge, Investigator, Commentator)
 - **Timestamp**: creation time, sealed with the Record
 - **Content**: text, images, or references — never edited, only rescinded
 - **Integrity Hash**: SHA256 proof of authorship and contents
@@ -171,32 +173,30 @@ A **Duel** is a double-deposition submitted to witnesses (the Gallery) for judgm
 
 All disputes are settled by dueling. ⚔️ This is the constitutional settlement process. All parties stand equally. Both are interrogated. Both are questioned. The judgment comes from the People, not from a remote arbiter.
 
-### Section 4.2 — JADE Role Sequence
+### Section 4.2 — Modal Process and JADEIC Modes
 
-Every Duel has four phases, marked by role transitions:
 
-```
-EVANGELIST
-  ↓ (flip)
-DEFENDER
-  ↓ (flip)
-ADVOCATE
-  ↓ (flip)
-JUDGE
-  ↓ (exit)
-```
+### The Modal Process and JADEIC Modes
 
-Read backward (vertically from top to bottom): Evangelist → Defender → Advocate → Judge.
+The Modal Process is the constitutional structure for all on-the-record actions. Every Person is always in one and only one JADEIC mode when acting on the record. The current mode is always visible in the UI (small red bold "ON THE RECORD" at the top of the app; dimmed gray when off the record, e.g., Gallery comments or Bot chat). The mode is shown on every Record Card and in the Composer.
 
-Each role is active during a phase of the Duel:
+**JADEIC Modes:**
 
-1. **Evangelist** — The initial challenger. States their position, their challenge, their stake in the truth. This is testimony under oath (figurative). Challenges the defender to stand.
+- **Evangelist**: Filing a new Claim or taking any "Start a Fire" action (marked by the fire icon in the UI). This mode applies when a Person initiates a position or invites a Duel.
+- **Advocate**: Filing a Challenge (CounterClaim) to an existing Claim or Record. The Person is advocating for a Case, acting as a prosecutor.
+- **Defender**: Filing an Answer to a Challenge, defending the original Claim or Record being challenged.
+- **Judge**: Filing a Judgment on any Case or Duel. The Person is rendering a verdict, grounded in their own Worldview.
+- **Investigator**: Filing an Analysis or structured investigation (e.g., using Widgets) on a Case or Duel.
+- **Commentator**: Filing a Comment or Annotation (off the record, e.g., Gallery one-liners, Bot chat, or Wall posts). This mode is always off the record.
 
-2. **Defender** — The defending party. Attacks the challenge under pressure. Tests the Evangelist's position to destruction if possible. This is cross-examination. The roles are now inverted: the Defender interrogates.
+**Modal Process Principles:**
+- JADEIC modes apply everywhere on the platform, not just in Duels or Cases.
+- The mode is determined by the action and context, not by turn sequence or phase.
+- Only one mode is active for a Person at a time when on the record.
+- The UI/UX must always indicate the current mode, both for the author of a Record and for the Person composing a new Record.
+- "On the record" is always visually indicated (small red bold at the top of the app); "off the record" is dimmed gray.
 
-3. **Advocate** — Both parties now seek common ground. Settlements are proposed. Narrowing of disagreement. Seeking overlap. The goal shifts from victory to understanding.
-
-4. **Judge** — The Duel closes. The Gallery (and if applicable, a formal Judge Role) renders verdicts. No party acts in this phase; only judges speak.
+This Modal Process ensures that every on-the-record action is constitutional, auditable, and clear in both process and presentation.
 
 ### Section 4.3 — Turn Structure Within a Phase
 
