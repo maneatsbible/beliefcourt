@@ -158,3 +158,6 @@ function _relTime(isoString) {
   if (hrs < 24)  return `${hrs}h ago`;
   return `${Math.floor(hrs / 24)}d ago`;
 }
+
+// PROTOCOL NOTE: Only the fire emoji (🔥), superimposed with the relevant control emoji, is used as the claim indicator in UI controls.
+// The heart+fire overlay (❤️🔥) is reserved for platform identity and branding only. See Constitution and app spec for details.

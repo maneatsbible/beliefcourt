@@ -71,7 +71,7 @@ Truthbook is a structured judgment engine — Claims, Evidence, Duels, Verdicts.
 
 1. **Dating** — "Duel me before you date me." Compatibility through honest disagreement, shareable Score Cards, viral invite links, a Faith Alignment Score for Christians. The mechanic generates content every time two people use it.
 
-2. **Christian faith** — Built specifically for Bible-following Christians who take truth seriously. Not a general faith mode. Not Patheos. The platform runs deep into the full range of Christian life: personal belief formation through Doctrinal Duels and Exploring Our Faith; accountability and repentance mechanics modeled on Matthew 18; Church Discipline; and Christian courtship built on the same honest-disagreement mechanic. These are not features layered onto a debate app. They are the reason the platform was built.
+2. **Christian faith** — Built specifically for Bible-following Christians who take the truth seriously, knowing that the truth is Jesus Christ. Truthbook is not a general faith forum. Not Patheos. The platform runs deep into the full range of Christian life: personal belief formation through Doctrinal Duels and Exploring Our Faith; accountability and repentance mechanics modeled on Matthew 18; Church Discipline; and Christian courtship built on the same honest-disagreement mechanic. These are not features layered onto a debate app. They are the reason the platform was built.
 
 These are not two separate products. They are two acquisition channels for the same platform, feeding each other. A Christian who uses the accountability feature discovers the dating feed. A dating user who gets serious reaches the Marriage features. The funnel is the product.
 

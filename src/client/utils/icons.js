@@ -3,6 +3,13 @@
  * Using Unicode + minimal inline SVG. No icon font dependencies.
  */
 
+// ---
+// PROTOCOL NOTE: The heart+fire overlay (❤️🔥) is the Truthbook brand icon and protocol glyph.
+// It MUST NOT be used as a generic claim indicator or control. Only the fire emoji (🔥),
+// superimposed with the relevant control emoji, is used as the claim indicator in UI controls.
+// See: Constitution ARTICLE XIII and app spec for details.
+export const ICON_BRAND = '❤️🔥'; // For branding/identity only
+
 export const ICON_CLAIM            = '!';
 export const ICON_CHALLENGE        = '?';
 export const ICON_ANSWER           = '✓';

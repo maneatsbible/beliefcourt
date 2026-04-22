@@ -561,7 +561,24 @@ Every entity, state, and process MUST have a canonical emoji identifier:
 | Space | 🧭 | Accord | 🕊️ |
 | Gallery | 👥 | Rescission | ↩️ |
 
+| **Brand (Truthbook)** | ❤️🔥 |  |  |
+
 Emoji are not decorative. They are first-class protocol glyphs used in API responses, state machines, and UI affordances.
+
+### Section 13.1 — Truthbook Brand Iconography
+
+The official Truthbook brand icon is the overlay of the heart emoji (❤️) and fire emoji (🔥), rendered together as ❤️🔥. This icon is the canonical protocol glyph for Truthbook and MUST be used in all branding, UI affordances, and protocol-level representations of the platform.
+
+**Protocol Rules:**
+- The combined ❤️🔥 overlay is the only constitutional brand icon for Truthbook.
+- The heart (❤️) and fire (🔥) emoji MAY be used separately as protocol-level controls and status indicators, but only in ways that reinforce their constitutional meaning:
+  - ❤️ signifies conviction, care, or affirmation.
+  - 🔥 signifies challenge, testing, or the process of truth-seeking.
+- The overlay (❤️🔥) is reserved for platform identity, Record Cards, and all official branding.
+- All uses MUST be accessible and visually clear in both light and dark modes.
+
+**Constitutional Note:**
+The Truthbook brand icon (❤️🔥) is not decorative. It is a first-class protocol glyph, subject to the same requirements as all other protocol emoji. Any change to this iconography requires a Constitutional Amendment.
 
 ---
 

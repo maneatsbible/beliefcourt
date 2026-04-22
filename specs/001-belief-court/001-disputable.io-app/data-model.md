@@ -191,18 +191,18 @@ Stores context-sensitive meaning and claim-indicator state for the three primary
 |-------|------|-------|
 | `recordId` | `integer` | Record whose controls are rendered |
 | `context` | `enum` | `"reaction"`, `"response"`, `"interrogatory"` |
-| `upMeaning` | `enum` | e.g. `"like"`, `"accept"`, `"yes"` |
+| `affirmMeaning` | `enum` | e.g. `"affirm"`, `"agree"`, `"accept"`, `"yes"` (control: ❤️) |
 | `neutralMeaning` | `enum` | e.g. `"no_claim"`, `"defer"`, `"not_answering"` |
-| `downMeaning` | `enum` | e.g. `"dislike"`, `"reject"`, `"no"` |
-| `claimDirection` | `enum \| null` | `"up"`, `"down"`, or `null` |
+| `disagreeMeaning` | `enum` | e.g. `"disagree"`, `"challenge"`, `"reject"`, `"no"` (control: 🔥) |
+| `claimDirection` | `enum \| null` | `"affirm"`, `"disagree"`, or `null` |
 | `claimRecordId` | `integer \| null` | If control direction is claim-bearing, links to that Claim record |
 
-**Constraints**:
+**Protocol Constraints**:
 - `claimDirection` MUST NEVER be `"neutral"`.
-- Claim indicator (fire overlay) may only appear on up or down controls.
-- A Record created from composer hint `I believe that...` (Start a Fire) defaults to `claimDirection="up"`.
-- A previously neutral stance can become claim-bearing when challenged; in that event `claimDirection` transitions to up or down and `claimRecordId` is set.
-- In Wall commentary context, direct down interaction is disabled; disagreement routes to Challenge composition.
+- Claim indicator (fire overlay) may only appear on Affirm (❤️) or Disagree (🔥) controls.
+- A Record created from composer hint `I believe that...` (Start a Fire) defaults to `claimDirection="affirm"` (❤️).
+- A previously neutral stance can become claim-bearing when challenged; in that event `claimDirection` transitions to "affirm" or "disagree" and `claimRecordId` is set.
+- In Wall commentary context, direct Disagree (🔥) interaction is disabled; disagreement routes to Challenge composition.
 
 ---
 
@@ -722,33 +722,31 @@ Home View
 ## Record Card Controls
 
 Every Record card exposes three primary controls in fixed order:
-1. Up
+1. Affirm (❤️)
 2. Neutral
-3. Down
+3. Disagree (🔥)
 
 Control meaning is context-sensitive but layout is invariant.
 
-- In reaction contexts: up/down map to like/dislike.
-- In offer-response contexts: up/down map to accept/reject.
-- In interrogatory contexts: up/down map to yes/no.
+- In all contexts, Affirm (❤️) means "agree/accept/yes" and Disagree (🔥) means "disagree/challenge/no".
 - Neutral denotes no claim intent and never carries claim-fire.
 
-Fire-overlay semantics:
-- Up and down controls may be rendered as claim-bearing by superimposing the control emoji over fire.
+**Fire-overlay semantics:**
+- Affirm (❤️) and Disagree (🔥) controls may be rendered as claim-bearing by superimposing the control emoji over fire.
 - Neutral control never carries fire.
-- Start a Fire (`I believe that...`) creates a claim-bearing up control by default.
-- If a neutral posture is disputed and becomes a filed claim, the resulting claim direction (up/down) takes fire and the filer is the defender of that claim.
+- Start a Fire (`I believe that...`) creates a claim-bearing Affirm (❤️) control by default.
+- If a neutral posture is disputed and becomes a filed claim, the resulting claim direction (affirm/disagree) takes fire and the filer is the defender of that claim.
 
----
+----
 
 ## Record Card Control Mapping (UI)
 
-| Context | Up | Neutral | Down | Fire Overlay Rule |
-|---------|----|---------|------|-------------------|
-| `reaction` | like | no-claim | dislike | up/down only |
-| `response` | accept | no-claim | reject | up/down only |
-| `interrogatory` | yes | no-claim | no | up/down only |
-| `wall_commentary` | like | no-claim | disabled → Challenge Claim | fire only in Court context |
+| Context | Affirm (❤️) | Neutral | Disagree (🔥) | Fire Overlay Rule |
+|---------|-------------|---------|---------------|-------------------|
+| `reaction` | Affirm | no-claim | Disagree | Affirm/Disagree only |
+| `response` | Affirm | no-claim | Disagree | Affirm/Disagree only |
+| `interrogatory` | Affirm | no-claim | Disagree | Affirm/Disagree only |
+| `wall_commentary` | Affirm | no-claim | disabled → Challenge Claim | fire only in Court context |
 
 ---
 

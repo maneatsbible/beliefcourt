@@ -142,9 +142,9 @@ The composer's claim-first hint text is `I believe that...` and the action to su
 
 **Note on OfferAgreement vs. ClaimAgreement:**
 - **OfferAgreement** is the outcome of a resolved Duel (Offer accepted by both parties). It is a negotiated, on-record agreement and is a Belief Ledger entry.
-- **Agree** (ClaimAgreement) is a Person’s standing agreement with a Claim, not requiring a Duel or negotiation. It is a Belief Ledger entry but does not result from negotiation.
-- The **up** button on a Claim means “I agree” (creates a ClaimAgreement). The **up** button on an Offer means “I accept” (can lead to OfferAgreement if both parties accept).
-- UI/UX must make this distinction explicit: “Agree” is a personal stance; “OfferAgreement” is a negotiated outcome. Only OfferAgreements resolve Duels.
+- **Agree** (ClaimAgreement) is a Person's standing agreement with a Claim, not requiring a Duel or negotiation. It is a Belief Ledger entry but does not result from negotiation.
+- The **Affirm (❤️)** control on a Claim means “I agree” (creates a ClaimAgreement). The **Affirm (❤️)** control on an Offer means “I accept” (can lead to OfferAgreement if both parties accept).
+UI/UX must make this distinction explicit: “Agree” is a personal stance; “OfferAgreement” is a negotiated outcome. Only OfferAgreements resolve Duels.
 
 **Gallery one-liners (Annotations) are always off the record for everyone, including bots.** Annotations are not Records, not attributed as epistemic acts, and not challengeable. GalleryBot posts are not Belief Ledger entries.
 
@@ -159,7 +159,7 @@ The composer's claim-first hint text is `I believe that...` and the action to su
 3. **Given** the user wants to import an external quote, **When** they toggle @herald mode and paste a source URL and quote, **Then** the Claim is attributed to @herald with the source URL recorded, and a Challenge is opened against it immediately.
 4. **Given** the user uploads an image, **When** they submit a top-level Claim, **Then** the Claim contains either the text or the image (not both).
 5. **Given** any Claim card is visible, **When** the user clicks the copy icon, **Then** the canonical URL for that Claim is copied to their clipboard.
-6. **Given** a user submits from `I believe that...`, **When** the card renders, **Then** the up/neutral/down controls are shown and the **up** control carries the fire claim indicator.
+6. **Given** a user submits from `I believe that...`, **When** the card renders, **Then** the Affirm (❤️)/neutral/Disagree (🔥) controls are shown and the **Affirm (❤️)** control carries the fire claim indicator.
 7. **Given** a card is rendered in a context with no claim intent, **Then** the neutral control shows no claim indicator and is never fire-marked.
 
 ---
@@ -174,10 +174,10 @@ A user should be able to use the same three controls (up, neutral, down) across 
 
 **Acceptance Scenarios**:
 
-1. **Given** a Record card in Home feed context, **When** controls render, **Then** up/down semantics map to like/dislike while neutral remains available for no-claim intent.
-2. **Given** a Record card in Offer/Response context, **When** controls render, **Then** up/down semantics map to accept/reject with the same control positions.
-3. **Given** a Record card in Interrogatory context, **When** controls render, **Then** up/down semantics map to yes/no with the same control positions.
-4. **Given** a claim-bearing direction exists, **When** the card renders, **Then** only up or down may carry the fire overlay, never neutral.
+1. **Given** a Record card in Home feed context, **When** controls render, **Then** Affirm (❤️)/Disagree (🔥) semantics map to "affirm/disagree" while neutral remains available for no-claim intent.
+2. **Given** a Record card in Offer/Response context, **When** controls render, **Then** Affirm (❤️)/Disagree (🔥) semantics map to "affirm/disagree" with the same control positions.
+3. **Given** a Record card in Interrogatory context, **When** controls render, **Then** Affirm (❤️)/Disagree (🔥) semantics map to "affirm/disagree" with the same control positions.
+4. **Given** a claim-bearing direction exists, **When** the card renders, **Then** only Affirm (❤️) or Disagree (🔥) may carry the fire overlay, never neutral.
 5. **Given** a previously neutral position is disputed and filed as a claim, **When** the card updates, **Then** the disputed direction takes fire and that claim author is shown as defender for that claim.
 6. **Given** any authored Record, **When** metadata renders, **Then** the UI displays `Speaking as [relation] of this belief record.` where relation is one of Judge, Advocate, Defender, Evangelist, or Investigator.
 
@@ -537,7 +537,7 @@ A developer or organization wants to query judgmental.io data programmatically �
 
 ### User Story 21 — Verdict Data API Subscription (Priority: P2 — Business)
 
-A researcher or institution wants bulk access to anonymized Duel outcome data for analysis — studying how claims survive contestation, how judgment consistency correlates with claim strength, etc. They subscribe to a data tier and query the Verdict Data API.
+A researcher or institution wants to bulk access to anonymized Duel outcome data for analysis — studying how claims survive contestation, how judgment consistency correlates with claim strength, etc. They subscribe to a data tier and query the Verdict Data API.
 
 **Why this priority**: Zero marginal cost. Pure revenue. The data is a byproduct of the platform's existing mechanics.
 
@@ -760,9 +760,6 @@ Sponsored content is prohibited. Any sponsored-in-intent Record would be require
   - **Subpoena**: A formal request that a specific Person enter a Duel as a witness.
   - **Deposition**: A structured pre-Case Q&A chain (Interrogatory Challenge sequence) before a formal Case is opened.
   - **Burden of proof**: A Duel-level flag indicating which party must prove their position.
-
-**Formal Logic Annex (Adversary Embrace)**
-
 - **FR-068a**: The platform MUST support a `logic_annex` Record type that allows formal philosophical argument (including syllogisms) as an attached analysis lane on Claims, Challenges, Answers, and Judgments.
 - **FR-068b**: A `logic_annex` MUST include: `form`, ordered `premises`, `inference`, and `conclusion` fields. It is challengeable like any other Record.
 - **FR-068c**: Core Duel outcomes MUST NOT be determined by formal validity alone. Logic Annex output is advisory analysis, interpreted through worldview, evidence, and cross-examination.
@@ -1413,7 +1410,7 @@ The following views are computed from the live database at query time, not store
 | Graveyard | Defaulted Cases, Claims with zero agreers |
 | Velocity | Fastest-growing ClaimAccords in last 7 days |
 | Flip Rate | Persons who reversed ClaimAccord positions most frequently |
-| Disagreement Hook | "You disagree with N% on this" shown per Claim card on Home View |
+| Disagreement Hook | "You disagree with N%" shown per Claim card on Home View |
 | Historic Re-trials | Completed Historical Re-trial Duels, searchable by `historical_subject` |
 | Apology Court | Resolved and unresolved Apology Court Duels, filterable by `reconciliation` / `rejection` |
 
@@ -1437,7 +1434,7 @@ The following views are computed from the live database at query time, not store
 - **SC-014**: A Historical Re-trial's root Claim is authored by `@system`; neither party's ClaimAccord count changes after a verdict.
 - **SC-015**: An Apology Court Duel with all three required fields (acknowledgement, evidence, remedy) submitted produces a `reconciliation` or `rejection` Disposition correctly; the feed renders the correct visual state for each.
 - **SC-016**: `GET /api/docs` returns a valid OpenAPI 3.1 JSON document; all documented endpoints return the correct HTTP status for both authorized and unauthorized requests.
-- **SC-017**: `GET /api/data/claims` with a Researcher API key returns only anonymized claim text with no Person identifiers; a Person who has opted out does not appear in the results.
+- **SC-017**: `GET /api/data/claims` with a Researcher API key returns only anonymized claim text with no Person identifiers; a Person who has opted out does not appear.
 
 ---
 
