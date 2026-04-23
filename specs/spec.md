@@ -700,7 +700,6 @@ Sponsored content is prohibited. Any sponsored-in-intent Record would be require
 - **FR-054**: The two-lane Case View (after first counter-challenge) MUST interleave challenges and counter-challenges chronologically. Left lane: challenger's Challenges. Right lane: defender's counter-Challenges.
 - **FR-055**: The "Your turn" indicator MUST be shown within the active Case View.
 - **FR-056**: The latest actionable Record MUST be highlighted.
-- **FR-057**: The app MUST use no external JavaScript frameworks or libraries; plain vanilla JS only.
 - **FR-058**: The Home feed MUST pre-fetch Case detail data for all Claim cards visible in the current viewport.
 
 **AI Disclosure**
