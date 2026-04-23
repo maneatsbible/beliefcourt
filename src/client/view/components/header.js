@@ -77,10 +77,13 @@ export function renderNavBar(version = 'v0.0.1-pre-alpha', { handle = null } = {
     if (view === 'home') {
       setUrlParams({});
       window.location.reload();
+    } else if (view === 'search') {
+      // Stub: Show a TODO popup for Search (like Start a Fire)
+      alert('Search: [TODO] Implement search popup/modal.');
     } else {
       setUrlParams({ v: view });
     }
-    if (view !== 'home') {
+    if (view !== 'home' && view !== 'search') {
       root.querySelectorAll('.nav-tab').forEach(t => {
         const isActive = t.dataset.view === view;
         t.classList.toggle('nav-tab--active', isActive);
