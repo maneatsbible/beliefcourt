@@ -1,4 +1,4 @@
-// *** LEGACY VISUALIZATION FILES MUST BE MARKED FOR DELETION ***
+// Visualization suite: TimelineReplayView.js
 // TimelineReplayView.js — Timeline/ledger replay visualization (mockMode-first)
 //
 // This component visualizes the replay of the case/ledger timeline, animating claims, duels, and judgments over time.

@@ -20,7 +20,7 @@
 - **Formalized Record Subtypes:** All Record subtypes (e.g., SummonsRecord, DuelRecord, QuestionRecord, ObjectionRecord, etc.) are formalized as distinct, semantically-expressive types. Extensibility is allowed only by explicit constitutional amendment.
 - **Explorable Model:** The data model must support semantic exploration and visualization, even in cold storage, via canned queries and admin tools. All Record types and relationships must be explorable and meaningful for both users and administrators.
 
-> **Revision note**: This document supersedes the original disputable.io data model. Entities have been renamed and extended to reflect the full Truthbook vision. The implementation target is **Fly.io + SQLite + Hono** (not GitHub Issues). See plan.md for the full SQL schema.
+> **Revision note**: This document supersedes all prior data models. Entities have been renamed and extended to reflect the full Truthbook vision. The implementation target is **distributed, append-only Belief Ledger with Hono API**. See plan.md for the full schema.
 
 
 ---
@@ -49,7 +49,7 @@ Any Record (Claim, Comment, Challenge, Answer, Offer, Response, SimilarityLink) 
 
 ## The Belief Ledger and Worldview
 
-Every entity that extends **Record** is a **Belief Ledger entry**. The Belief Ledger is the append-only SQLite store of all epistemic acts on the platform. Filing a Claim, posting a Comment on your Wall, issuing a Challenge, giving an Answer, making an Offer, reaching an Accord, posting a Rescission — these are all acts attributed to a Person and stored permanently in the Ledger. Together they constitute that Person's **worldview** as it exists on the platform.
+Every entity that extends **Record** is a **Belief Ledger entry**. The Belief Ledger is the distributed, append-only, cryptographically signed store of all epistemic acts on the platform. Filing a Claim, posting a Comment on your Wall, issuing a Challenge, giving an Answer, making an Offer, reaching an Accord, posting a Rescission — these are all acts attributed to a Person and stored permanently in the Ledger. Together they constitute that Person's **worldview** as it exists on the platform.
 
 **Challenges are first-class Belief Ledger entries.** Issuing a Challenge is not a procedural step in a turn sequence — it is an epistemic act asserting that a Record is wrong, unclear, or undefended. It is attributed to the challenger, stored as a Record, and contributes to their worldview. A Challenge may itself be challenged, opening a nested Case. That nested Challenge is also a Record, also attributed, also challengeable. The recursion is unbounded. Every layer of challenge and answer in any nested Duel is a Record in the Belief Ledger.
 

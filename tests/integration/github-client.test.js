@@ -218,7 +218,7 @@ describe('buildBodyWithHash / verifyBodyHash', () => {
     expect(result).toBe(false);
   });
 
-  it('verifyBodyHash returns null for a legacy body without a hash', async () => {
+  it('verifyBodyHash returns null for a pre-hash body (old format)', async () => {
     const meta = { type: 'assertion', version: 'v0.0.1-pre-alpha', appId: APP_ID };
     const body = buildBody(meta, 'no hash here');
     const result = await verifyBodyHash(body);

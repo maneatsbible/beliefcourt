@@ -255,6 +255,6 @@ async function bootstrap() {
   }
 }
 
-// (Legacy view/component mounting removed — replaced by visualization suite)
+// (Old view/component mounting removed — replaced by visualization suite)
 
 document.addEventListener('DOMContentLoaded', bootstrap);

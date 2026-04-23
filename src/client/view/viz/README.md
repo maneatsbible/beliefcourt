@@ -2,7 +2,7 @@
 
 This directory contains all new visualization components for Truthbook, built fresh for mockMode-first analytics and timeline replay features.
 
-- All legacy visualization code is to be marked for deletion in its original files.
+All previous visualization code has been superseded by the new suite.
 - All new visualizations (timeline, EEO, adjacency/distance, settlements, etc.) should be implemented here as modular, composable components.
 - All visualizations must work in mockMode with static data.
 - D3.js is the preferred library for rendering.
@@ -19,4 +19,4 @@ Import and mount these components from the main app or relevant views. All must 
 
 ---
 
-**NOTE:** All legacy visualization code in other files must be marked for deletion at the top of the file.
+**NOTE:** All previous visualization code in other files has been superseded by the new suite.

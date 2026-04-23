@@ -2,10 +2,10 @@
  * DB Adapter — interface contract.
  *
  * All database access goes through one of:
- *   - SqliteAdapter  (better-sqlite3, production)
+ *   - LedgerAdapter  (production)
  *   - MockAdapter    (in-memory Map, development / mock mode)
  *
- * The interface is intentionally synchronous-style to match better-sqlite3.
+ * The interface is intentionally synchronous-style for compatibility.
  * Swap the export in db/db.js to change backends.
  */
 

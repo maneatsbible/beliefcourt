@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
-# REMOVED — setup-labels.sh was for the disputable.io GitHub Issues PoC.
-# judgmental.io uses its own Hono/SQLite backend with no GitHub label schema.
-# Run: git rm scripts/setup-labels.sh
+
 
 set -e
 
@@ -29,7 +27,7 @@ create_label() {
   fi
 }
 
-echo "Setting up disputable.io labels in $REPO ..."
+echo "Setting up Truthbook labels in $REPO ..."
 
 create_label "dsp:assertion"           "e3b341" "Assertion post"
 create_label "dsp:challenge"           "bc8cff" "Challenge post"

@@ -1,4 +1,4 @@
-// *** LEGACY VISUALIZATION FILES MUST BE MARKED FOR DELETION ***
+// Visualization suite: WorldviewMapView.js
 // WorldviewMapView.js — Overview of all worldviews and their relationships (mockMode-first)
 //
 // This component visualizes all worldviews and their relationships in a map/graph.

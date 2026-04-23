@@ -22,7 +22,7 @@ export function getRecordsByCase(caseId) {
 /**
  * Returns all Claims (paginated) for the home feed.
  * Uses sequential simple queries for MockAdapter compatibility —
- * avoids JOINs and subqueries which only work in SqliteAdapter.
+ * avoids JOINs and subqueries for compatibility with all adapters.
  */
 export function getClaims({ limit = 30, offset = 0 } = {}) {
   const db = getDb();

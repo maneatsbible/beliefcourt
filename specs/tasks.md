@@ -15,7 +15,7 @@
 
 ## Phase 1: Infrastructure Setup
 
-**Goal**: Fly.io app provisioned; Docker image builds and deploys; persistent SQLite volume mounted; Litestream replicates to Tigris S3; `fly.toml`, `Dockerfile`, and `start.sh` in place.
+**Goal**: Fly.io app provisioned; Docker image builds and deploys; distributed Belief Ledger volume mounted; Litestream replicates to Tigris S3; `fly.toml`, `Dockerfile`, and `start.sh` in place.
 
 **Independent Test**: `fly deploy` succeeds; `curl https://truthbook.io/health` returns `{"status":"ok","version":"0.1.0"}`; Litestream logs show replication to S3 bucket.
 
@@ -34,7 +34,7 @@
 
 ## Phase 2: Database — Migration 001 (Initial Schema)
 
-**Goal**: SQLite WAL-mode database initialised on first boot with all tables from `plan.md` Migration 001. Append-only triggers prevent UPDATE/DELETE on immutable tables. `db/migrate.js` runs migrations idempotently on startup.
+**Goal**: Distributed Belief Ledger initialised on first boot with all tables from `plan.md` Migration 001. Append-only triggers prevent UPDATE/DELETE on immutable tables. `db/migrate.js` runs migrations idempotently on startup.
 
 **Independent Test**: Fresh `node src/server/index.js` with empty `/data/jdg.db` → all tables exist; second run → no error, no duplicate tables; `PRAGMA integrity_check` passes.
 
@@ -53,12 +53,12 @@
 
 ## Phase 3: DB Adapter + Hono Server Foundation
 
-**Goal**: Thin DB adapter abstracts SQLite calls (enabling future Postgres swap). Hono server starts on port 3000 with `/health`, `/version`, and global middleware (CORS, rate-limit, maintenance).
+**Goal**: Thin DB adapter abstracts Belief Ledger calls (enabling future distributed log swap). Hono server starts on port 3000 with `/health`, `/version`, and global middleware (CORS, rate-limit, maintenance).
 
 **Independent Test**: `curl /health` → 200 `{"status":"ok"}`; `curl /version` → 200 `{"version":"0.1.0","schema":1}`; send >200 req/min from same IP → 429; `MAINTENANCE_MODE=true` → all non-`/health` routes return 503.
 
-- [ ] T014 Create `db/adapter.js` — exports `query(sql, params)`, `run(sql, params)`, `get(sql, params)` wrapping `better-sqlite3`; synchronous API matching `better-sqlite3` but behind an interface that can be swapped for `postgres` later
-- [ ] T015 Create `db/sqlite.js` — opens `better-sqlite3` at `process.env.DB_PATH`; enables WAL via pragma; exports the db instance
+- [ ] T014 Create `db/adapter.js` — exports `query(sql, params)`, `run(sql, params)`, `get(sql, params)` wrapping the distributed Belief Ledger; synchronous API matching the current adapter but behind an interface that can be swapped for distributed log later
+- [ ] T015 Create `db/ledger.js` — opens the distributed Belief Ledger at `process.env.DB_PATH`; enables append-only mode; exports the db instance
 - [ ] T016 Create `src/server/index.js` — imports Hono, creates app, registers middleware (CORS, rate-limit, maintenance), mounts route modules, starts listening on port 3000
 - [ ] T017 Implement global CORS middleware in `src/server/middleware/cors.js`: allow only `https://truthbook.io` and `http://localhost:*` origins; set `Access-Control-Allow-Credentials: true`
 - [ ] T018 Implement rate-limit middleware in `src/server/middleware/rate-limit.js`: sliding window 200 req/min per IP using in-memory Map; return `429 Too Many Requests` with `Retry-After` header
@@ -95,7 +95,7 @@
 **Independent Test**: Set `MAINTENANCE_MODE=true` in fly secrets; request any page → get `maintenance.html`; submit a message → `maintenance_submissions` table records it; `/health` still 200.
 
 - [ ] T030 Create `maintenance.html` — standalone self-contained HTML page (no external deps); shows app logo, "We'll be right back" message, optional ETA, and a simple email + message form that POSTs to `/maintenance/submit`
-- [ ] T031 Add `POST /maintenance/submit` route (bypasses maintenance middleware): stores `{ email, message, submitted_at }` in a `maintenance_submissions` SQLite table (add to migration 001 or a new migration 002)
+- [ ] T031 Add `POST /maintenance/submit` route (bypasses maintenance middleware): stores `{ email, message, submitted_at }` in a `maintenance_submissions` table in the distributed Belief Ledger (add to migration 001 or a new migration 002)
 - [ ] T032 Update maintenance middleware: when `MAINTENANCE_MODE=true` and request accepts HTML, serve `maintenance.html` with 503; for API requests return JSON `{"error":"maintenance"}` 503
 - [ ] T033 Add operator runbook comment in `fly.toml` explaining how to toggle maintenance mode via `fly secrets set MAINTENANCE_MODE=true/false`
 
@@ -570,11 +570,9 @@
 
 **Goal**: Resolve all Implementation Blockers (B-001 through B-010). Close data model and build/deploy gaps identified in the full spec review. Harden the deploy pipeline and add missing `package.json` scripts.
 
-**Independent Test**: `fly deploy` completes cleanly with `better-sqlite3` built; `/health` 200; migrations run once, idempotently; Litestream replicates to Tigris; `npm run migrate` works locally; all 3 OAuth providers have registered redirect URIs.
+**Independent Test**: `fly deploy` completes cleanly; `/health` 200; migrations run once, idempotently; Litestream replicates to Tigris; `npm run migrate` works locally; all 3 OAuth providers have registered redirect URIs.
 
-### B-001 — Docker build toolchain for `better-sqlite3`
 
-- [ ] T215 Update `Dockerfile`: add `RUN apk add --no-cache python3 make g++ && npm ci --omit=dev` in the build layer; use multi-stage build (`node:22-alpine` builder → `node:22-alpine` runtime) to keep final image small; verify `better-sqlite3` compiles without error on `fly deploy`
 
 ### B-002 — OAuth redirect URI registration
 
@@ -619,7 +617,7 @@
 - [ ] T230 Add `package.json` scripts: `"migrate": "node db/migrate.js"`, `"seed": "node src/mock/seed-data.js"`, `"test": "node tests/run-all.js"`, `"stripe:listen": "stripe listen --forward-to localhost:3000/api/tips/webhook"`
 - [ ] T231 Add deploy health-check assertion to `start.sh`: after `db/migrate.js` runs, `curl -sf http://localhost:3000/health` once before allowing Fly.io to route traffic; if it fails, exit 1 (Fly.io will block the deploy and roll back)
 - [ ] T232 Document migration rollback strategy in plan.md: since content tables are append-only, rollback is always a forward patch (migration 004 that undoes structural changes introduced in 003). No `DOWN` migrations. If a bad migration ships, it is fixed by deploying migration `N+1`.
-- [ ] T233 Add `PRAGMA foreign_keys=ON` assertion at DB open time in `db/sqlite.js` to ensure FK constraints are enforced at runtime (SQLite disables them by default)
+
 
 **Checkpoint**: All 10 blockers resolved or formally deferred. `notifications` table live. `moments.type` discriminated. Deploy pipeline has preflight, health-check gate, and rollback strategy documented. `package.json` scripts in place.
 

@@ -1,4 +1,4 @@
-// *** LEGACY VISUALIZATION FILES MUST BE MARKED FOR DELETION ***
+// Visualization suite: AdjacencyView.js
 // AdjacencyView.js — Worldview adjacency/distance visualization (mockMode-first)
 //
 // This component visualizes the adjacency/distance between worldviews.

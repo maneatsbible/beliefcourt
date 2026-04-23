@@ -30,7 +30,7 @@ Record (signed, attributed, immutable)
   └─ Status: OPEN (new Claim)
       ↓
 Ledger Entry (appended, never rewritten)
-  ├─ Stored in Truthbook Ledger (SQLite append-only)
+  ├─ Stored in Truthbook Ledger (distributed, append-only)
   ├─ Replicated to backup storage (Litestream)
   └─ Visible to all Persons
 ```
@@ -372,7 +372,7 @@ This record type embraces formal argument users while preserving core defended-b
 #### Space
 - **ID**: globally unique
 - **Name**: Public | Org Name | Private Group Name
-- **Ledger**: local Belief Ledger (SQLite)
+- **Ledger**: local Belief Ledger (distributed, append-only)
 - **Members**: list of Person IDs with access
 - **ConstitutionalVariant**: Truthbook standard or custom rules
 - **ForkRight**: if corrupted, members may fork
@@ -629,6 +629,6 @@ CLOSED (ready for analysis)
 
 ## Next Sections
 
-1. [Implementation Plan](plan.md) — Fly.io, Hono, SQLite (preserved from judgmental.io)
+1. [Implementation Plan](plan.md) — Fly.io, Hono, distributed ledger (preserved from Truthbook)
 2. [Specification](spec.md) — Feature requirements aligned to Truthbook
 3. [Tasks](tasks.md) — Implementation tasks in dependency order

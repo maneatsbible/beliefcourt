@@ -278,7 +278,7 @@ body.has-mock-toolbar #app-main { padding-top: 44px; }
   padding-left: 8px;
 }
 
-/* ── Header bar (legacy — keep stubs to avoid 404 regressions) ──── */
+/* ── Header bar (stub for backward compatibility) ──── */
 .header-bar { display: none; }
 .header-title { display: none; }
 .header-version { display: none; }

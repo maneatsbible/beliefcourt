@@ -63,9 +63,9 @@ export function runMigrations(adapter) {
 
 // Run standalone: node db/migrate.js
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  const { SqliteAdapter } = await import('./sqlite.js');
+  const { LedgerAdapter } = await import('./adapter.js');
   const path = process.env.DB_PATH ?? './data/jdg.db';
-  const adapter = new SqliteAdapter(path);
+  const adapter = new LedgerAdapter(path);
   runMigrations(adapter);
   console.log('[migrate] done');
 }

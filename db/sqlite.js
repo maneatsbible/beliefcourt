@@ -1,24 +1,22 @@
 /**
- * SqliteAdapter — wraps better-sqlite3 behind the DbAdapter interface.
+ * LedgerAdapter — wraps distributed ledger backend behind the DbAdapter interface.
  * Used in production. Requires DB_PATH env var.
  */
 
-import Database from 'better-sqlite3';
+// LedgerAdapter stub — replace with distributed ledger implementation.
 import { DbAdapter } from './adapter.js';
 
-export class SqliteAdapter extends DbAdapter {
+export class LedgerAdapter extends DbAdapter {
   constructor(path) {
     super();
-    this._db = new Database(path);
-    this._db.pragma('journal_mode = WAL');
-    this._db.pragma('synchronous = NORMAL');
-    this._db.pragma('foreign_keys = ON');
+    // TODO: Implement distributed ledger connection using path
   }
 
   query(sql, params = []) {
-    return this._db.prepare(sql).all(...params);
+    // TODO: Implement distributed ledger query
+    throw new Error('Not implemented');
   }
-
+}
   get(sql, params = []) {
     return this._db.prepare(sql).get(...params);
   }

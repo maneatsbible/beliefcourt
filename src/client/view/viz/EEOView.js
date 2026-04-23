@@ -1,4 +1,4 @@
-// *** LEGACY VISUALIZATION FILES MUST BE MARKED FOR DELETION ***
+// Visualization suite: EEOView.js
 // EEOView.js — Emergent Epistemic Organization visualization (mockMode-first)
 //
 // This component visualizes the EEO structure and its evolution over time.

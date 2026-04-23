@@ -5,11 +5,11 @@
  *   Uses MockAdapter backed by in-memory data seeded from src/mock/seed-rows.js
  *
  * In production:
- *   Uses SqliteAdapter backed by DB_PATH env var.
+ *   Uses LedgerAdapter backed by DB_PATH env var.
  */
 
 import { MockAdapter }   from './mock-adapter.js';
-import { SqliteAdapter } from './sqlite.js';
+import { LedgerAdapter } from './adapter.js';
 
 let _db = null;
 
@@ -30,11 +30,11 @@ export async function initDb() {
   } else {
     const path = process.env.DB_PATH;
     if (!path) throw new Error('DB_PATH env var is required in production');
-    const adapter = new SqliteAdapter(path);
+    const adapter = new LedgerAdapter(path);
     const { runMigrations } = await import('./migrate.js');
     runMigrations(adapter);
     _db = adapter;
-    console.log(`[db] sqlite — ${path}`);
+    console.log(`[db] ledger — ${path}`);
   }
 
   return _db;

@@ -38,12 +38,12 @@
 
 ## Step 2 — Create the Data Repository
 
-1. Create a new public or private GitHub repository (e.g., `disputableio/disputable-data`).
+1. Create a new public or private GitHub repository (e.g., `truthbook-data/truthbook-data`).
 2. Run the label setup script to create the required `dsp:*` labels:
 
 ```bash
 # Requires the GitHub CLI (gh) and authentication
-bash scripts/setup-labels.sh disputableio/disputable-data
+bash scripts/setup-labels.sh truthbook-data/truthbook-data
 ```
 
 Or create labels manually (see the label table in [contracts/github-issues-schema.md](contracts/github-issues-schema.md)).
@@ -65,7 +65,7 @@ Edit `src/config.js`:
 export const CONFIG = {
   githubClientId: 'Ov23li...',          // Your OAuth App Client ID
   appName: 'Truthbook',                 // product name shown in the UI
-  dataRepo: 'disputableio/disputable-data', // owner/repo of your data repository
+  dataRepo: 'truthbook-data/truthbook-data', // owner/repo of your data repository
   heraldLogin: 'bd-herald',            // GitHub username of the @herald account
   appVersion: '0.1.0',
 };

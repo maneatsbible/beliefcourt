@@ -56,7 +56,7 @@ This revision codifies four constitutional constraints:
 
 ## 2. Data Layer
 
-- **Distributed, append-only log**: Replace SQLite with a distributed, append-only log (e.g., Apache Kafka, NATS JetStream, or custom Raft-based log).
+- **Distributed, append-only log**: Truthbook uses a distributed, append-only log (e.g., Apache Kafka, NATS JetStream, or custom Raft-based log).
   - Each Record is a signed, immutable event.
   - All nodes ingest, verify, and append Records to their local log.
   - Merkle roots are computed over the log for tamper evidence.
@@ -148,7 +148,7 @@ This revision codifies four constitutional constraints:
 
 ---
 
-This architecture is fully aligned with the Truthbook Constitution and is designed for robust, scalable, and tamper-evident operation without blockchain or legacy database constraints.
+This architecture is fully aligned with the Truthbook Constitution and is designed for robust, scalable, and tamper-evident operation without blockchain or traditional database constraints.
 
 ---
 
@@ -326,7 +326,7 @@ Responses can include Merkle inclusion paths so clients independently verify ret
 
 ### Phase 1 (MVP)
 
-- Keep Fly.io + SQLite foundation
+- Keep Fly.io + distributed log foundation
 - Add deterministic signatures and proof publication
 - Add schema support for Space entities
 

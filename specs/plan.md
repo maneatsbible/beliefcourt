@@ -4,11 +4,11 @@
 |---|---|
 | **Version** | `v0.0.1-pre-alpha` |
 | **Status** | 🔴 Pre-Alpha — not production-ready |
-| **Feature branch** | `001-better-dispute-app` |
+| **Feature branch** | `001-truthbook-app` |
 | **Created** | 2026-04-18 |
 | **Last revised** | 2026-04-21 |
 | **Spec** | [spec.md](spec.md) |
-| **AI assistant** | GitHub Copilot · Claude Sonnet 4.6 |
+| **AI assistant** | GitHub Copilot (GPT-4.1) |
 | **Constitution** | [TRUTHBOOK-CONSTITUTION.md](/specs/TRUTHBOOK-CONSTITUTION.md) |
 
 ---
@@ -23,14 +23,14 @@ Truthbook is a browser-only, plain vanilla JavaScript SPA, targeting **mobile br
 **Language/Version**: Vanilla JavaScript ES2022+ (no transpilation) for frontend; Node.js 22 LTS + Hono for API server  
 
 **Primary Dependencies**: Zero external JS libraries in the browser. Server: Hono (minimal, ~14 KB), jose (JWT), node-cron (deadline detection)  
-**Storage**: Distributed, append-only, cryptographically signed log (Kafka, NATS JetStream, or custom Raft-based) replicated across Keyholder nodes. Snapshots and backups to S3-compatible storage.  
-**Auth**: SM OAuth (X, Threads, GitHub) → server-side token exchange → signed JWT (HS256, 24h expiry) returned to client  
-**Testing**: Custom micro test-runner (plain JS, no framework)  
-**Target Platform**: Modern desktop browsers — Chrome 110+, Firefox 110+, Safari 16+, Edge 110+  
-**Project Type**: Static frontend (Fly.io static asset serving or CDN) + Hono API server on Fly.io  
-**Performance Goals**: Home feed first render ≤ 2 s; challenge/answer round-trip ≤ 4 s; LCP ≤ 2.5 s; CLS ≤ 0.1  
-**Constraints**: Append-only, cryptographically signed records; all writes are peer-verified and replicated.  
-**Scale/Scope**: Horizontally scalable—Keyholder nodes can be added for increased throughput and redundancy. No single point of failure.  
+| **Storage**: Distributed, append-only, cryptographically signed Belief Ledger replicated across Keyholder nodes. Snapshots and backups to S3-compatible storage.  
+| **Auth**: Social OAuth (X, Threads, GitHub) → server-side token exchange → signed JWT (HS256, 24h expiry) returned to client  
+| **Testing**: Custom micro test-runner (plain JS, no framework)  
+| **Target Platform**: Modern desktop browsers — Chrome 110+, Firefox 110+, Safari 16+, Edge 110+  
+| **Project Type**: Static frontend (CDN or Fly.io static asset serving) + Hono API server on Fly.io  
+| **Performance Goals**: Home feed first render ≤ 2 s; challenge/answer round-trip ≤ 4 s; LCP ≤ 2.5 s; CLS ≤ 0.1  
+| **Constraints**: Append-only, cryptographically signed records; all writes are peer-verified and replicated.  
+| **Scale/Scope**: Horizontally scalable—Keyholder nodes can be added for increased throughput and redundancy. No single point of failure.  
 ---
 
 ## Infrastructure: Distributed Keyholder Deployment
@@ -93,11 +93,11 @@ The maintenance page (`maintenance.html`) is a standalone static HTML file with 
 
 ## Data Model and Schema
 
-All data structures are append-only and cryptographically signed. New entity types or fields require a constitutional amendment and coordinated upgrade of all Keyholder nodes. The distributed log is the canonical source of truth, and all schema evolution is governed by constitutional process. No legacy database or migration system is used.
+All data structures are append-only and cryptographically signed. New entity types or fields require a constitutional amendment and coordinated upgrade of all Keyholder nodes. The distributed Belief Ledger is the canonical source of truth, and all schema evolution is governed by constitutional process. No migration from previous architectures is required.
 
 ## Scaling and Migration Planning
 
-Truthbook is natively horizontally scalable. Keyholder nodes can be added or removed with no single point of failure. All data is replicated and verified across nodes using deterministic, cryptographically signed logs. No migration from legacy databases is required; all scaling is handled by adding nodes and partitioning via Spaces.
+Truthbook is natively horizontally scalable. Keyholder nodes can be added or removed with no single point of failure. All data is replicated and verified across nodes using deterministic, cryptographically signed logs. All scaling is handled by adding nodes and partitioning via Spaces.
 
 ## Known Risks and Mitigations
 

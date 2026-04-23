@@ -1,4 +1,4 @@
-// *** LEGACY FILE: MARKED FOR DELETION — Replaced by /viz/ visualization suite. ***
+// Visualization suite: superseded this component.
 /**
  * Mock Toolbar — visible only when ?m= (mock mode) is active.
  * Lets you switch mock users without a full sign-in flow.

@@ -801,5 +801,5 @@ Status: 🔥 IN EFFECT
 
 1. [Data Model](data-model.md) — Complete entity schema
 2. [Domain Model Flow](domain-model.md) — Records → Ledger → Worldview → Duel → Gallery → Judgment
-3. [Implementation Plan](plan.md) — Fly.io, Hono, SQLite architecture (preserved from judgmental.io)
+3. [Implementation Plan](plan.md) — Fly.io, Hono, distributed Belief Ledger architecture (Truthbook)
 4. [Specification](spec.md) — Feature requirements alignment with Truthbook

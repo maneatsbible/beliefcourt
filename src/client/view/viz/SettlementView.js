@@ -1,4 +1,4 @@
-// *** LEGACY VISUALIZATION FILES MUST BE MARKED FOR DELETION ***
+// Visualization suite: SettlementView.js
 // SettlementView.js — Settlement/forgiveness visualization (mockMode-first)
 //
 // This component visualizes settlements, forgiveness, and regeneration events.
