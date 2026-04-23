@@ -14,7 +14,7 @@
 import {
   ICON_CLAIM, ICON_CHALLENGE, ICON_ANSWER, ICON_OFFER,
   ICON_RESPONSE_ACCEPT,
-  ICON_COPY, ICON_AGREE,
+  ICON_COPY, ICON_AGREE, ICON_BRAND,
 } from '../../utils/icons.js';
 import { buildCanonicalUrl } from '../../utils/url.js';
 import { showNotification }  from './notification.js';
@@ -68,6 +68,7 @@ export function renderRecordCard(record, permissions, currentUser, handlers = {}
   card.innerHTML = `
     <div class="card__header">
       <span class="record-type-icon" aria-label="${_esc(record.type)}">${_typeIcon(record.type)}</span>
+      <span class="record-brand-icon" title="Truthbook Brand" aria-label="Truthbook">${ICON_BRAND}</span>
       <span class="record-author">@${_esc(record.authorHandle ?? '?')}</span>
       <time class="record-time" datetime="${_esc(record.createdAt)}">${_relTime(record.createdAt)}</time>
       ${isYourTurn   ? '<span class="badge badge--your-turn">Your turn</span>' : ''}

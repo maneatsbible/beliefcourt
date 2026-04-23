@@ -116,30 +116,11 @@ Join. Litigate. Judge. Decide. Judgment is yours to decide.
 
 ### Section 2.1 — Record Entities
 
-Every Record is authored by exactly one Person (human, always @username), or, for transcript Records only, by a Bot using the !Bot prefix. All bots must use the !Bot prefix (e.g., !BotHelper). No bots may use the @Person namespace. Bots are never treated as People and are constitutionally distinct. Bots may only author Records of type `transcript` (e.g., StenoBot/TranscriptBot), unless otherwise amended by constitutional process.
+Every Record is authored by exactly one Person (human, always @username), or, for tasks such as transcription, by a Bot using the !Bot prefix. All bots must use the !Bot prefix (e.g., !BotHelper). No bots may use the @Person namespace. Bots are never treated as People and are constitutionally distinct. Bots may only author Records of type `transcript` (e.g., StenoBot/TranscriptBot), unless otherwise amended by constitutional process.
 
-All Record subtypes (e.g., SummonsRecord, DuelRecord, QuestionRecord, ObjectionRecord, etc.) are formalized as distinct, semantically-expressive types. Extensibility is allowed only by explicit constitutional process. The model must remain explorable and semantically meaningful for all users and admin tools, including in cold storage. The data model must support semantic exploration and visualization, even in cold storage, via canned queries and admin tools. All Record types and relationships must be explorable and meaningful for both users and administrators.
+All Record subtypes (e.g., Claim, Case, Summons, Deposition, Judgment, Question, Answer, Objection, etc.) are formalized as distinct, semantically-expressive types. Extensibility is allowed only by explicit constitutional process. The model must remain explorable and semantically meaningful for all users and admin tools, including in cold storage. The data model must support semantic exploration and visualization, even in cold storage, via canned queries and admin tools. All Record types and relationships must be explorable and meaningful for both users and administrators.
 
-
-
-Every Record is authored by exactly one Person. Every Record has:
-
-
-
-
-#### Record Types
-1. **Claim** (🔥) — An assertion of truth, value, or fact. Claims are always on the record, open to challenge, and must be defended if challenged.
-2. **Comment** — The default, happy-path action. Comments are for ordinary conversation, reflection, or sharing. They are on the record but do not assert a claim unless challenged.
-3. **CounterClaim** — Filed by choosing the Disagree (🔥) action on a Record. If the original Record is not a Claim, a Claim Record is created to wrap it for the purposes of dispute. The original Record remains as context.
-4. **Affirmation** — Choosing the Affirm (❤️) action on a Record. This is a public affirmation, similar to a "like" but explicitly signals agreement or support.
-5. **Challenge** — A formal contestation of a Claim or CounterClaim.
-6. **Answer** — A response to a Challenge or Claim.
-7. **Offer** — A proposed resolution or settlement.
-8. **Response** — A reply to an Offer.
-9. **Judgment** — A verdict on a settled Duel, grounded in the Judge's worldview.
-
-
-Every Record is authored by exactly one Person (human, always @username), or, for transcript Records only, by a Bot using the !Bot prefix. Every Record has:
+Every Record has:
 - **ID**: globally unique, immutable, cryptographically signed
 - **Author**: the Person who created it, never changeable (or Bot for transcript Records only)
 - **Timestamp**: creation time, sealed with the Record
@@ -159,7 +140,7 @@ Every Record is authored by exactly one Person (human, always @username), or, fo
 - **Offer** — Proposed resolution or settlement.
 - **Response** — Reply to an Offer.
 - **Judgment** — Verdict on a settled Duel, grounded in the Judge's worldview.
-- **SummonsRecord** — Summons to appear or respond, including "Summons to Duel".
+- **Summons** — Summons to appear or respond, including "Summons to Duel".
 Duel.
 - **WitnessCall** — Call for a witness from the Gallery.
 - **Translation** — Authored by !StenoBot for automated transcriptions, and useful for People to correct its errors and amend the record.
@@ -643,14 +624,14 @@ Emoji are not decorative. They are first-class protocol glyphs used in API respo
 
 ### Section 13.1 — Truthbook Brand Iconography
 
-The official Truthbook brand icon is the overlay of the heart emoji (❤️) and fire emoji (🔥), rendered together as ❤️🔥. This icon is the canonical protocol glyph for Truthbook and MUST be used in all branding, UI affordances, and protocol-level representations of the platform.
+The official Truthbook brand icon is the overlay of the heart emoji (❤️) and fire emoji (🔥), rendered together as ❤️🔥. This icon is the canonical protocol glyph for Truthbook and MUST be used in all branding, UI affordances, navigation (including the Home button), and protocol-level representations of the platform.
 
 **Protocol Rules:**
-- The combined ❤️🔥 overlay is the only constitutional brand icon for Truthbook.
+- The combined ❤️🔥 overlay is the only constitutional brand icon for Truthbook, and MUST be used for the Home button and all primary navigation affordances.
 - The heart (❤️) and fire (🔥) emoji MAY be used separately as protocol-level controls and status indicators, but only in ways that reinforce their constitutional meaning:
   - ❤️ signifies conviction, care, or affirmation.
   - 🔥 signifies challenge, testing, or the process of truth-seeking.
-- The overlay (❤️🔥) is reserved for platform identity, Record Cards, and all official branding.
+- The overlay (❤️🔥) is reserved for platform identity, Record Cards, all official branding, and the Home button in the navigation bar.
 - All uses MUST be accessible and visually clear in both light and dark modes.
 
 **Constitutional Note:**

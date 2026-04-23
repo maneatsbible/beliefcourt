@@ -13,8 +13,10 @@ function _esc(str) {
     .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
+import { ICON_BRAND } from '../../utils/icons.js';
+
 const TABS = [
-  { id: 'home',   icon: '⚖',  label: 'Home'   },
+  { id: 'home',   icon: ICON_BRAND,  label: 'Home'   },
   { id: 'search', icon: '🔍', label: 'Search' },
   { id: 'person', icon: '👤', label: null      }, // label built dynamically
 ];
@@ -52,16 +54,19 @@ export function renderNavBar(version = 'v0.0.1-pre-alpha', { handle = null } = {
     const view = btn.dataset.view;
     if (view === 'home') {
       setUrlParams({});
+      window.location.reload(); // Force full reload to ensure home view refreshes
     } else {
       setUrlParams({ v: view });
     }
-    // Update active state visually without full reload
-    root.querySelectorAll('.nav-tab').forEach(t => {
-      const isActive = t.dataset.view === view;
-      t.classList.toggle('nav-tab--active', isActive);
-      if (isActive) t.setAttribute('aria-current', 'page');
-      else t.removeAttribute('aria-current');
-    });
+    // Update active state visually without full reload (for non-home)
+    if (view !== 'home') {
+      root.querySelectorAll('.nav-tab').forEach(t => {
+        const isActive = t.dataset.view === view;
+        t.classList.toggle('nav-tab--active', isActive);
+        if (isActive) t.setAttribute('aria-current', 'page');
+        else t.removeAttribute('aria-current');
+      });
+    }
   });
 }
 

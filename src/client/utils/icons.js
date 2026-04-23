@@ -8,7 +8,7 @@
 // It MUST NOT be used as a generic claim indicator or control. Only the fire emoji (🔥),
 // superimposed with the relevant control emoji, is used as the claim indicator in UI controls.
 // See: Constitution ARTICLE XIII and app spec for details.
-export const ICON_BRAND = '❤️🔥'; // For branding/identity only
+export const ICON_BRAND = '❤️🔥'; // For branding/identity only, constitutional protocol glyph
 
 export const ICON_CLAIM            = '!';
 export const ICON_CHALLENGE        = '?';
@@ -17,7 +17,7 @@ export const ICON_OFFER            = '⇌';
 export const ICON_RESPONSE_ACCEPT  = '·';
 export const ICON_RESPONSE_REJECT  = '✗';
 export const ICON_CASE      = '🏛';
-export const ICON_JUDGMENT  = '⚖';
+export const ICON_JUDGMENT  = '⚖'; // Not used for Home, see ICON_BRAND
 export const ICON_BADGE     = '🎖';
 export const ICON_EVIDENCE  = '📎';
 
@@ -34,12 +34,8 @@ export const ICON_BACK = `<svg xmlns="http://www.w3.org/2000/svg" width="14" hei
   <polyline points="15 18 9 12 15 6"/>
 </svg>`;
 
-export const ICON_HOME = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-  <polyline points="9 22 9 12 15 12 15 22"/>
-</svg>`;
+// ICON_HOME is now the constitutional brand icon
+export const ICON_HOME = ICON_BRAND;
 
 export const ICON_AGREE = `<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13"
   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
