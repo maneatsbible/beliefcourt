@@ -16,16 +16,16 @@
 
 ## Summary
 
-Truthbook is a browser-only, plain vanilla JavaScript SPA, targeting **mobile browsers first, desktop browsers second**. It is backed by a lightweight Hono API server running on Fly.io, with a distributed, append-only, cryptographically signed log as the primary data store. Identity is established through social media OAuth (X, Threads, GitHub). All content records are stored in the distributed ledger, replicated and verified by independent Keyholder nodes. The architecture is strict MVC: all permission logic in the Controller, dumb rendering in the View, DB entities mapped directly in the Model. The MVP **requires a fully functional mockMode implementation and mock datasets for all major flows**.
+Truthbook is a browser-only JavaScript SPA, targeting **mobile browsers first, desktop browsers second**. It is backed by a lightweight Hono API server running on Fly.io, with a distributed, append-only, cryptographically signed log as the primary data store. Identity is established through social media OAuth (X, Threads, GitHub). All content records are stored in the distributed ledger, replicated and verified by independent Keyholder nodes. The architecture is strict MVC: all permission logic in the Controller, dumb rendering in the View, DB entities mapped directly in the Model. The MVP **requires a fully functional mockMode implementation and mock datasets for all major flows**.
 
 ## Technical Context
 
-**Language/Version**: Vanilla JavaScript ES2022+ (no transpilation) for frontend; Node.js 22 LTS + Hono for API server  
+**Language/Version**: JavaScript ES2022+ for frontend; Node.js 22 LTS + Hono for API server  
 
-**Primary Dependencies**: Zero external JS libraries in the browser. Server: Hono (minimal, ~14 KB), jose (JWT), node-cron (deadline detection)  
+**Primary Dependencies**: Any JavaScript libraries may be used in the browser as needed. Server: Hono (minimal, ~14 KB), jose (JWT), node-cron (deadline detection)  
 | **Storage**: Distributed, append-only, cryptographically signed Belief Ledger replicated across Keyholder nodes. Snapshots and backups to S3-compatible storage.  
 | **Auth**: Social OAuth (X, Threads, GitHub) → server-side token exchange → signed JWT (HS256, 24h expiry) returned to client  
-| **Testing**: Custom micro test-runner (plain JS, no framework)  
+| **Testing**: Custom micro test-runner (JS, no framework)
 | **Target Platform**: Modern desktop browsers — Chrome 110+, Firefox 110+, Safari 16+, Edge 110+  
 | **Project Type**: Static frontend (CDN or Fly.io static asset serving) + Hono API server on Fly.io  
 | **Performance Goals**: Home feed first render ≤ 2 s; challenge/answer round-trip ≤ 4 s; LCP ≤ 2.5 s; CLS ≤ 0.1  

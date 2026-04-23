@@ -1,6 +1,6 @@
 /**
  * Truthbook custom micro test-runner
- * Pure JavaScript, no external dependencies.
+ * JavaScript, no framework required.
  * Run with: node --experimental-vm-modules tests/runner.js
  */
 

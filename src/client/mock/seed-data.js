@@ -67,7 +67,7 @@ export const SEED_RECORDS = [
   {
     id: 'rec-a1', type: 'claim',
     author_id: 'person-bob', author_handle: 'bob', author_platform: 'github',
-    case_id: null, text: 'TypeScript is strictly better than plain JavaScript for any team with more than 5 engineers.',
+    case_id: null, text: 'TypeScript is strictly better than JavaScript for any team with more than 5 engineers.',
     open_case_count: 1, accord_count: 2, status: 'open',
     created_at: '2026-04-01T10:00:00Z', is_ai: 0, ai_model: null,
   },
