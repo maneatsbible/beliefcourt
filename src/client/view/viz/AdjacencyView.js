@@ -50,7 +50,51 @@ export class AdjacencyView {
       .attr('fill', d => d3.interpolateYlGnBu(1 - Math.min(1, d.distance)))
       .attr('stroke', '#fff')
       .append('title')
-      .text(d => `From ${d.source} to ${d.target}: ${d.distance}`);
+      .text(d => `From ${d.source} to ${d.target}: Distance = ${d.distance}`);
+
+    // Axis labels
+    svg.append('text')
+      .attr('x', cellSize * n / 2)
+      .attr('y', height - 8)
+      .attr('text-anchor', 'middle')
+      .attr('font-size', 13)
+      .attr('fill', '#888')
+      .text('Target Worldview');
+    svg.append('text')
+      .attr('x', -height / 2)
+      .attr('y', 14)
+      .attr('transform', 'rotate(-90)')
+      .attr('text-anchor', 'middle')
+      .attr('font-size', 13)
+      .attr('fill', '#888')
+      .text('Source Worldview');
+
+    // Legend
+    const legendWidth = 120;
+    const legendHeight = 12;
+    const legend = svg.append('g')
+      .attr('transform', `translate(${width - legendWidth - 20},${height - 30})`);
+    for (let i = 0; i <= 10; i++) {
+      legend.append('rect')
+        .attr('x', i * (legendWidth / 10))
+        .attr('y', 0)
+        .attr('width', legendWidth / 10)
+        .attr('height', legendHeight)
+        .attr('fill', d3.interpolateYlGnBu(i / 10));
+    }
+    legend.append('text')
+      .attr('x', 0)
+      .attr('y', legendHeight + 12)
+      .attr('font-size', 11)
+      .attr('fill', '#888')
+      .text('Closer');
+    legend.append('text')
+      .attr('x', legendWidth)
+      .attr('y', legendHeight + 12)
+      .attr('text-anchor', 'end')
+      .attr('font-size', 11)
+      .attr('fill', '#888')
+      .text('Further');
 
     // Draw labels
     svg.selectAll('text.row')

@@ -12,16 +12,17 @@
 }
 /* --- Viz Suite Enhancements --- */
 .viz-marketing-wrap {
-  margin-top: 32px;
-  margin-bottom: 32px;
+  margin-top: 48px;
+  margin-bottom: 64px;
+  padding-bottom: 16px;
 }
 .viz-block {
   background: var(--color-surface-2);
   border: 2px solid var(--color-border);
   border-radius: 12px;
   box-shadow: 0 2px 8px #0002;
-  margin: 36px 0 48px 0;
-  padding: 32px 24px 28px 24px;
+  margin: 48px 0 64px 0;
+  padding: 36px 28px 32px 28px;
   position: relative;
   transition: box-shadow 0.2s;
 }

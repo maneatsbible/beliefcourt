@@ -91,6 +91,14 @@ export class TimelineReplayView {
     svg.append('g')
       .attr('transform', `translate(0,${height - margin.bottom})`)
       .call(xAxis);
+    // Axis label
+    svg.append('text')
+      .attr('x', width / 2)
+      .attr('y', height - 2)
+      .attr('text-anchor', 'middle')
+      .attr('font-size', 13)
+      .attr('fill', '#888')
+      .text('Timeline (chronological order)');
 
     // Draw event line
     svg.append('line')

@@ -120,20 +120,14 @@ async function bootstrap() {
         `;
         vizWrap.appendChild(marketing);
 
-        // Timeline replay
-        const timelineDiv = document.createElement('div');
-        timelineDiv.className = 'viz-block viz-block--timeline';
-        timelineDiv.style.overflowX = 'auto';
-        timelineDiv.style.maxWidth = '100%';
-        timelineDiv.innerHTML = `<div class="viz-label"><span class="viz-label-icon">⏳</span> <b>Animated Timeline Replay</b><br><span class="viz-label-desc">Watch the story unfold, step by step, with play/pause controls. <b>${timelineCount}</b> events, <b>${uniquePeople}</b> people.</span></div>`;
-        marketing.appendChild(timelineDiv);
-        new TimelineReplayView(timelineDiv, MOCK_TIMELINE, { width: 1800, maxVisible: 30 }).render();
+        // Add extra spacing to intro
+        marketing.style.marginBottom = '48px';
 
         // Worldview map
         const mapDiv = document.createElement('div');
         mapDiv.className = 'viz-block viz-block--worldview-map';
         mapDiv.style.minHeight = '400px';
-        mapDiv.innerHTML = `<div class="viz-label"><span class="viz-label-icon">🌐</span> <b>Worldview Map</b><br><span class="viz-label-desc">Explore <b>${worldviewCount}</b> worldviews and their connections.</span></div>`;
+        mapDiv.innerHTML = `<div class="viz-label"><span class="viz-label-icon">🌐</span> <b>Worldview Map</b><br><span class="viz-label-desc">A living map of all worldviews and their connections. Each node is a worldview; each line is a relationship. <b>${worldviewCount}</b> worldviews, clustered and interconnected. <span class='viz-demo-caption'>See the big picture of belief.</span></span></div>`;
         marketing.appendChild(mapDiv);
         new WorldviewMapView(mapDiv, MOCK_WORLDVIEW_MAP, { width: 800, height: 400 }).render();
 
@@ -141,7 +135,7 @@ async function bootstrap() {
         const eeoDiv = document.createElement('div');
         eeoDiv.className = 'viz-block viz-block--eeo';
         eeoDiv.style.minHeight = '300px';
-        eeoDiv.innerHTML = `<div class="viz-label"><span class="viz-label-icon">🤝</span> <b>Epistemic Organization</b><br><span class="viz-label-desc">${eeoLinks} trust links. See how knowledge and trust emerge from every interaction.</span></div>`;
+        eeoDiv.innerHTML = `<div class="viz-label"><span class="viz-label-icon">🤝</span> <b>Epistemic Organization</b><br><span class="viz-label-desc">How does trust and knowledge emerge? This graph shows <b>${eeoLinks}</b> trust links between people. <span class='viz-demo-caption'>Watch the network of trust form and evolve.</span></span></div>`;
         marketing.appendChild(eeoDiv);
         new EEOView(eeoDiv, MOCK_EEO, { width: 600, height: 300 }).render();
 
@@ -149,7 +143,7 @@ async function bootstrap() {
         const adjDiv = document.createElement('div');
         adjDiv.className = 'viz-block viz-block--adjacency';
         adjDiv.style.minHeight = '300px';
-        adjDiv.innerHTML = `<div class="viz-label"><span class="viz-label-icon">🔗</span> <b>Worldview Adjacency</b><br><span class="viz-label-desc">${adjPairs} worldview distances. Visualize the bridges between perspectives.</span></div>`;
+        adjDiv.innerHTML = `<div class="viz-label"><span class="viz-label-icon">🔗</span> <b>Worldview Adjacency</b><br><span class="viz-label-desc">${adjPairs} worldview distances. <span class='viz-demo-caption'>Visualize the bridges and distances between perspectives. Darker = closer, lighter = further.</span></span></div>`;
         marketing.appendChild(adjDiv);
         new AdjacencyView(adjDiv, MOCK_ADJACENCY, { width: 600, height: 300 }).render();
 
@@ -157,9 +151,18 @@ async function bootstrap() {
         const settleDiv = document.createElement('div');
         settleDiv.className = 'viz-block viz-block--settlement';
         settleDiv.style.minHeight = '200px';
-        settleDiv.innerHTML = `<div class="viz-label"><span class="viz-label-icon">🕊️</span> <b>Forgiveness & Settlement</b><br><span class="viz-label-desc">${settlements} events. Trace the path from conflict to reconciliation and peace.</span></div>`;
+        settleDiv.innerHTML = `<div class="viz-label"><span class="viz-label-icon">🕊️</span> <b>Forgiveness & Settlement</b><br><span class="viz-label-desc">${settlements} events. <span class='viz-demo-caption'>Trace the path from conflict to reconciliation and peace. Green = forgiveness, blue = regeneration, gold = settlement.</span></span></div>`;
         marketing.appendChild(settleDiv);
         new SettlementView(settleDiv, MOCK_SETTLEMENTS, { width: 700, height: 200 }).render();
+
+        // Timeline replay (now last)
+        const timelineDiv = document.createElement('div');
+        timelineDiv.className = 'viz-block viz-block--timeline';
+        timelineDiv.style.overflowX = 'auto';
+        timelineDiv.style.maxWidth = '100%';
+        timelineDiv.innerHTML = `<div class="viz-label"><span class="viz-label-icon">⏳</span> <b>Animated Timeline Replay</b><br><span class="viz-label-desc">Watch the story unfold, step by step, with play/pause controls. <b>${timelineCount}</b> events, <b>${uniquePeople}</b> people.<span class='viz-demo-caption'>See every claim, challenge, answer, and act of forgiveness as it happens.</span></span></div>`;
+        marketing.appendChild(timelineDiv);
+        new TimelineReplayView(timelineDiv, MOCK_TIMELINE, { width: 1800, maxVisible: 30 }).render();
       }
       // Case: Timeline replay + settlements
       else if (view === 'case' && params.id) {
