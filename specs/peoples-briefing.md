@@ -6,7 +6,7 @@
 | **Status** | 🔴 Pre-Alpha — not production-ready |
 | **Last revised** | 2026-04-22 |
 | **AI assistant** | GitHub Copilot · Claude Sonnet 4.6 |
-| **Constitution** | [TRUTHBOOK-CONSTITUTION.md](TRUTHBOOK-CONSTITUTION.md) |
+| **Constitution** | [TRUTHBOOK-CONSTITUTION.md](/specs/TRUTHBOOK-CONSTITUTION.md) |
 
 ---
 

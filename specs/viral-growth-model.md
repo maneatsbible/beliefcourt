@@ -6,21 +6,7 @@
 | **Status** | 🔴 Pre-Alpha — not production-ready |
 | **Last revised** | 2026-04-21 |
 | **AI assistant** | GitHub Copilot · Claude Sonnet 4.6 |
-| **Constitution** | [TRUTHBOOK-CONSTITUTION.md](TRUTHBOOK-CONSTITUTION.md) |
----
-
-
-| Document | Role |
-|---|---|
-| [spec.md](spec.md) | Functional requirements |
-| [plan.md](plan.md) | Implementation architecture and deployment |
-| [data-model.md](data-model.md) | Database schema and entity definitions |
-| [tasks.md](tasks.md) | Implementation tasks (SDLC) |
-| [quickstart.md](quickstart.md) | Development environment setup |
-| [research.md](research.md) | Pre-design unknowns and resolved decisions |
-| [peoples-briefing.md](peoples-briefing.md) | Public financial projections and constitutional crowdfunding |
-| **[viral-growth-model.md](viral-growth-model.md)** | Growth flywheels and acquisition model — you are here |
-| [constitution.md](constitution.md) | **Governing document — supersedes all others** |
+| **Constitution** | [TRUTHBOOK-CONSTITUTION.md](/specs/TRUTHBOOK-CONSTITUTION.md) |
 
 ---
 

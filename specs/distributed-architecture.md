@@ -35,8 +35,7 @@ This revision codifies four constitutional constraints:
 | **Last revised** | 2026-04-22 |
 | **Spec** | [spec.md](spec.md) |
 | **Plan** | [plan.md](plan.md) |
-| **Constitution** | [constitution.md](constitution.md) |
-| **Phase** | Visionary; implementation deferred to Phase 2 (post-MVP) |
+| **Constitution** | [TRUTHBOOK-CONSTITUTION.md](/specs/TRUTHBOOK-CONSTITUTION.md) |
 
 ---
 

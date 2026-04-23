@@ -1,13 +1,5 @@
 # Data Model: Truthbook
 
-## Constitutional Design Principles (2026-04-22)
-
-- **Bot Namespace:** All bots must use the !Bot prefix (e.g., !BotHelper). No bots may use the @Person namespace. Bots are never treated as People and are constitutionally distinct.
-- **WantedPerson & Public Wall:** External/unregistered entities are modeled as WantedPerson, each with a public Wall. When they join, the Wall becomes their Blog at Truthbook.io/@username, suitable for any content they wish to post.
-- **Formalized Record Subtypes:** All Record subtypes (e.g., SummonsRecord, DuelRecord, QuestionRecord, ObjectionRecord, etc.) are formalized as distinct, semantically-expressive types. Extensibility is allowed only by explicit constitutional amendment.
-- **Explorable Model:** The data model must support semantic exploration and visualization, even in cold storage, via canned queries and admin tools. All Record types and relationships must be explorable and meaningful for both users and administrators.
-
-
 | Field | Value |
 |---|---|
 | **Version** | `v0.0.1-pre-alpha` |
@@ -17,10 +9,16 @@
 | **Last revised** | 2026-04-22 |
 | **Plan** | [plan.md](plan.md) |
 | **AI assistant** | GitHub Copilot · Claude Sonnet 4.6 |
-| **Constitution** | [TRUTHBOOK-CONSTITUTION.md](TRUTHBOOK-CONSTITUTION.md) |
+| **Constitution** | [TRUTHBOOK-CONSTITUTION.md](/specs/TRUTHBOOK-CONSTITUTION.md) |
 
- 
+---
 
+## Constitutional Design Principles (2026-04-22)
+
+- **Bot Namespace:** All bots must use the !Bot prefix (e.g., !BotHelper). No bots may use the @Person namespace. Bots are never treated as People and are constitutionally distinct.
+- **WantedPerson & Public Wall:** External/unregistered entities are modeled as WantedPerson, each with a public Wall. When they join, the Wall becomes their Blog at Truthbook.io/@username, suitable for any content they wish to post.
+- **Formalized Record Subtypes:** All Record subtypes (e.g., SummonsRecord, DuelRecord, QuestionRecord, ObjectionRecord, etc.) are formalized as distinct, semantically-expressive types. Extensibility is allowed only by explicit constitutional amendment.
+- **Explorable Model:** The data model must support semantic exploration and visualization, even in cold storage, via canned queries and admin tools. All Record types and relationships must be explorable and meaningful for both users and administrators.
 
 > **Revision note**: This document supersedes the original disputable.io data model. Entities have been renamed and extended to reflect the full Truthbook vision. The implementation target is **Fly.io + SQLite + Hono** (not GitHub Issues). See plan.md for the full SQL schema.
 

@@ -5,11 +5,9 @@
 | **Version** | `v0.0.1-pre-alpha` |
 | **Status** | 🔥 Canonical Architecture |
 | **Last updated** | 2026-04-21 |
-| **Constitution** | [TRUTHBOOK-CONSTITUTION.md](TRUTHBOOK-CONSTITUTION.md) |
+| **Constitution** | [TRUTHBOOK-CONSTITUTION.md](/specs/TRUTHBOOK-CONSTITUTION.md) |
 
 ---
-
-
 
 ## The Complete Flow: Records → Ledger → Worldview → Case → Duel → Gallery → Judgment → Updated Ledger
 

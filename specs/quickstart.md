@@ -8,17 +8,7 @@
 | **Last revised** | 2026-04-21 |
 | **Plan** | [plan.md](plan.md) |
 | **AI assistant** | GitHub Copilot · Claude Sonnet 4.6 |
-| **Constitution** | [TRUTHBOOK-CONSTITUTION.md](TRUTHBOOK-CONSTITUTION.md) |
----
-
-| [constitution.md](constitution.md) | **Governing document — supersedes all others** |
----
-
-## Table of Contents
-- [Step 6 — Run Tests](#step-6--run-tests)
-- [@herald Setup](#herald-setup)
-- [Project Structure Reference](#project-structure-reference)
-- [Common Development Patterns](#common-development-patterns)
+| **Constitution** | [TRUTHBOOK-CONSTITUTION.md](/specs/TRUTHBOOK-CONSTITUTION.md) |
 
 ---
 

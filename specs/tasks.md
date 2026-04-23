@@ -9,29 +9,7 @@
 | **Source structure** | `src/client/` (browser), `src/server/` (Hono/Node), `db/` (migrations + adapter) |
 | **Last revised** | 2026-04-21 |
 | **AI assistant** | GitHub Copilot · Claude Sonnet 4.6 |
-| **Constitution** | [TRUTHBOOK-CONSTITUTION.md](TRUTHBOOK-CONSTITUTION.md) |
-
----
-
-- [Phase 18: Ads](#phase-18-ads)
-- [Phase 19: BibleWidget and Bible Reader](#phase-19-biblewidget-and-bible-reader-fr-210-fr-211)
-- [Phase 20: Tooltips](#phase-20-tooltips)
-- [Phase 21: Notifications (US8)](#phase-21-notifications-us8)
-- [Phase 22: Nested Cases / Lineage (US7)](#phase-22-nested-cases--lineage-us7)
-- [Phase 23: Security Hardening](#phase-23-security-hardening)
-- [Phase 24: Test Coverage](#phase-24-test-coverage)
-- [Phase 25: Final Polish + Quickstart Validation](#phase-25-final-polish--quickstart-validation)
-- [Phase 26: Miranda, Rescission, Judgment Weight, and On-the-Record Search](#phase-26-miranda-rescission-judgment-weight-and-on-the-record-search)
-- [Phase 27: Admin, User Management, and Cron Infrastructure](#phase-27-admin-user-management-and-cron-infrastructure)
-- [Phase 28: Blocker Resolution and Gap Closure](#phase-28-blocker-resolution-and-gap-closure)
-- [Phase 29: CI / CD Pipeline](#phase-29-ci--cd-pipeline-fr-232--fr-241)
-- [Phase 30: Judgy Blog](#phase-30-judgy-blog-fr-242--fr-245)
-- [Phase 31: Open-Spec Public Surface](#phase-31-open-spec-public-surface-fr-247--fr-250)
-- [Phase 32: Milestone 1 — mockMode MVP](#phase-32-milestone-1--mockmode-mvp)
-- [Phase 33: Milestone 2 — Worldview Explorer](#phase-33-milestone-2--worldview-explorer-mockmode)
-- [Phase 34: Milestone 3 — Worldview Sync + Auto-Claim Anywhere](#phase-34-milestone-3--worldview-sync--auto-claim-anywhere-spec--stubs)
-- [GitHub PoC — Rate Limit Handling](#github-poc--rate-limit-handling-fr-275--fr-278)
-- [Constitutional Governance, Crowdfunding, and Federation](#constitutional-governance-crowdfunding-and-federation-fr-279--fr-287)
+| **Constitution** | [TRUTHBOOK-CONSTITUTION.md](/specs/TRUTHBOOK-CONSTITUTION.md) |
 
 ---
 
