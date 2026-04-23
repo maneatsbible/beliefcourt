@@ -22,12 +22,51 @@ export class SettlementView {
     this._opts = opts;
   }
 
-  render() {
+  async render() {
     this._el.innerHTML = '';
-    // TODO: Implement D3 settlement visualization here
-    const d3root = document.createElement('div');
-    d3root.className = 'viz-settlement';
-    d3root.textContent = '[SettlementView: D3 visualization placeholder]';
-    this._el.appendChild(d3root);
+    const d3 = await (await import('./d3.js')).loadD3();
+    const width = this._opts.width || 700;
+    const height = this._opts.height || 300;
+    const svg = d3.select(this._el)
+      .append('svg')
+      .attr('width', width)
+      .attr('height', height)
+      .attr('class', 'viz-settlement');
+
+    // Timeline of settlements/forgiveness
+    const data = this._data.slice().sort((a, b) => new Date(a.ts) - new Date(b.ts));
+    const x = d3.scaleTime()
+      .domain(d3.extent(data, d => new Date(d.ts)))
+      .range([60, width - 20]);
+    const y = d3.scalePoint()
+      .domain([...new Set(data.map(d => d.from))])
+      .range([40, height - 40]);
+
+    svg.append('g')
+      .attr('transform', `translate(0,${height - 30})`)
+      .call(d3.axisBottom(x));
+    svg.append('g')
+      .attr('transform', `translate(60,0)`)
+      .call(d3.axisLeft(y));
+
+    svg.selectAll('circle')
+      .data(data)
+      .join('circle')
+      .attr('cx', d => x(new Date(d.ts)))
+      .attr('cy', d => y(d.from))
+      .attr('r', 8)
+      .attr('fill', d => d.type === 'forgiveness' ? '#8bc34a' : (d.type === 'regeneration' ? '#03a9f4' : '#ffc107'))
+      .attr('stroke', '#333')
+      .attr('opacity', 0.8)
+      .append('title')
+      .text(d => `${d.type} from ${d.from} to ${d.to}: ${d.note}`);
+
+    // Animate reveal
+    svg.selectAll('circle')
+      .attr('opacity', 0)
+      .transition()
+      .delay((d, i) => i * 40)
+      .duration(400)
+      .attr('opacity', 0.8);
   }
 }

@@ -28,6 +28,19 @@ export class TimelineReplayView {
     d3root.className = 'viz-timeline-replay';
     this._el.appendChild(d3root);
 
+    // Controls
+    const controls = document.createElement('div');
+    controls.className = 'viz-controls';
+    controls.style.marginBottom = '8px';
+    d3root.appendChild(controls);
+    const playBtn = document.createElement('button');
+    playBtn.textContent = 'Play';
+    playBtn.style.marginRight = '8px';
+    const pauseBtn = document.createElement('button');
+    pauseBtn.textContent = 'Pause';
+    controls.appendChild(playBtn);
+    controls.appendChild(pauseBtn);
+
     // Load D3 dynamically
     const { loadD3 } = await import('./d3.js');
     const d3 = await loadD3();
@@ -38,7 +51,7 @@ export class TimelineReplayView {
     const margin = { left: 60, right: 40, top: 30, bottom: 30 };
 
     // Prepare SVG
-    d3root.innerHTML = '';
+    d3root.innerHTML += '';
     const svg = d3.select(d3root)
       .append('svg')
       .attr('width', width)
@@ -91,32 +104,6 @@ export class TimelineReplayView {
       regeneration: '#0288d1',
     };
 
-    // Draw events as circles
-    svg.selectAll('circle.event')
-      .data(data)
-      .enter()
-      .append('circle')
-      .attr('class', 'event')
-      .attr('cx', d => x(d.date))
-      .attr('cy', y)
-      .attr('r', 13)
-      .attr('fill', d => color[d.type] || '#888')
-      .attr('stroke', '#222')
-      .attr('stroke-width', 1.5);
-
-    // Add event labels (icon or type)
-    svg.selectAll('text.event-label')
-      .data(data)
-      .enter()
-      .append('text')
-      .attr('class', 'event-label')
-      .attr('x', d => x(d.date))
-      .attr('y', y - 20)
-      .attr('text-anchor', 'middle')
-      .attr('font-size', 13)
-      .attr('fill', '#333')
-      .text(d => d.type.charAt(0).toUpperCase());
-
     // Tooltip on hover
     const tooltip = d3root.appendChild(document.createElement('div'));
     tooltip.className = 'viz-tooltip';
@@ -134,7 +121,37 @@ export class TimelineReplayView {
       zIndex: 10,
     });
 
-    svg.selectAll('circle.event')
+    // Animation state
+    let animIdx = 0;
+    let animTimer = null;
+    let isPlaying = false;
+
+    // Draw all events, but hide them initially
+    const eventGroups = svg.selectAll('g.event')
+      .data(data)
+      .enter()
+      .append('g')
+      .attr('class', 'event')
+      .style('opacity', 0);
+
+    eventGroups.append('circle')
+      .attr('cx', d => x(d.date))
+      .attr('cy', y)
+      .attr('r', 13)
+      .attr('fill', d => color[d.type] || '#888')
+      .attr('stroke', '#222')
+      .attr('stroke-width', 1.5);
+
+    eventGroups.append('text')
+      .attr('x', d => x(d.date))
+      .attr('y', y - 20)
+      .attr('text-anchor', 'middle')
+      .attr('font-size', 13)
+      .attr('fill', '#333')
+      .text(d => d.type.charAt(0).toUpperCase());
+
+    // Tooltip events
+    eventGroups.select('circle')
       .on('mouseover', function(event, d) {
         tooltip.style.display = 'block';
         tooltip.innerHTML = `<b>${d.type.toUpperCase()}</b><br>${d.text}<br><i>${d.person}</i><br>${d.date.toLocaleString()}`;
@@ -146,5 +163,43 @@ export class TimelineReplayView {
       .on('mouseout', function() {
         tooltip.style.display = 'none';
       });
+
+    function showEvents(upTo) {
+      eventGroups.transition().duration(0).style('opacity', (d, i) => i <= upTo ? 1 : 0.2);
+      // Highlight current
+      eventGroups.select('circle').attr('stroke', (d, i) => i === upTo ? '#000' : '#222').attr('stroke-width', (d, i) => i === upTo ? 3 : 1.5);
+    }
+
+    function play() {
+      if (isPlaying) return;
+      isPlaying = true;
+      playBtn.disabled = true;
+      pauseBtn.disabled = false;
+      if (animIdx >= data.length) animIdx = 0;
+      showEvents(animIdx - 1);
+      animTimer = setInterval(() => {
+        if (animIdx < data.length) {
+          showEvents(animIdx);
+          animIdx++;
+        } else {
+          pause();
+        }
+      }, 900);
+    }
+
+    function pause() {
+      isPlaying = false;
+      playBtn.disabled = false;
+      pauseBtn.disabled = true;
+      if (animTimer) clearInterval(animTimer);
+      animTimer = null;
+    }
+
+    playBtn.onclick = play;
+    pauseBtn.onclick = pause;
+
+    // Initial state
+    pause();
+    showEvents(-1);
   }
 }

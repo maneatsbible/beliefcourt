@@ -22,12 +22,55 @@ export class AdjacencyView {
     this._opts = opts;
   }
 
-  render() {
+  async render() {
     this._el.innerHTML = '';
-    // TODO: Implement D3 adjacency visualization here
-    const d3root = document.createElement('div');
-    d3root.className = 'viz-adjacency';
-    d3root.textContent = '[AdjacencyView: D3 visualization placeholder]';
-    this._el.appendChild(d3root);
+    const d3 = await (await import('./d3.js')).loadD3();
+    const width = this._opts.width || 600;
+    const height = this._opts.height || 600;
+    const svg = d3.select(this._el)
+      .append('svg')
+      .attr('width', width)
+      .attr('height', height)
+      .attr('class', 'viz-adjacency');
+
+    // Build a matrix of distances
+    const nodes = Array.from(new Set(this._data.flatMap(d => [d.source, d.target])));
+    const n = nodes.length;
+    const nodeIndex = Object.fromEntries(nodes.map((id, i) => [id, i]));
+    const cellSize = Math.max(10, Math.floor(Math.min(width, height) / n));
+
+    // Draw grid
+    svg.selectAll('rect')
+      .data(this._data)
+      .join('rect')
+      .attr('x', d => nodeIndex[d.source] * cellSize)
+      .attr('y', d => nodeIndex[d.target] * cellSize)
+      .attr('width', cellSize)
+      .attr('height', cellSize)
+      .attr('fill', d => d3.interpolateYlGnBu(1 - Math.min(1, d.distance)))
+      .attr('stroke', '#fff')
+      .append('title')
+      .text(d => `From ${d.source} to ${d.target}: ${d.distance}`);
+
+    // Draw labels
+    svg.selectAll('text.row')
+      .data(nodes)
+      .join('text')
+      .attr('class', 'row')
+      .attr('x', 0)
+      .attr('y', (d, i) => i * cellSize + cellSize / 2)
+      .attr('dy', '.35em')
+      .attr('text-anchor', 'end')
+      .attr('font-size', 10)
+      .text(d => d);
+    svg.selectAll('text.col')
+      .data(nodes)
+      .join('text')
+      .attr('class', 'col')
+      .attr('x', (d, i) => i * cellSize + cellSize / 2)
+      .attr('y', 10)
+      .attr('text-anchor', 'middle')
+      .attr('font-size', 10)
+      .text(d => d);
   }
 }

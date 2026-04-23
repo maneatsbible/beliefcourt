@@ -40,6 +40,12 @@ Truthbook is a structured judgment engine — Claims, Evidence, Duels, Verdicts.
 
 2. **Christian faith** — Built specifically for Bible-following Christians who take the truth seriously, knowing that the truth is Jesus Christ. Truthbook is not a general faith forum. Not Patheos. The platform runs deep into the full range of Christian life: personal belief formation through Doctrinal Duels and Exploring Our Faith; accountability and repentance mechanics modeled on Matthew 18; Church Discipline; and Christian courtship built on the same honest-disagreement mechanic. These are not features layered onto a debate app. They are the reason the platform was built.
 
+---
+
+**Picture a shockingly different internet:**
+
+On Truthbook, when people stumble, they ask for forgiveness. And people forgive them — with mercy, with prayer, and with a spirit of reconciliation. The platform is designed to make confession, forgiveness, and restoration not just possible, but visible and celebrated. This is a place where the cycle of judgment ends in mercy, and where the record of reconciliation is as permanent as the record of dispute. This is the Christian difference — and it is the burning heart of Truthbook.
+
 These are not two separate products. They are two acquisition channels for the same platform, feeding each other. A Christian who uses the accountability feature discovers the dating feed. A dating user who gets serious reaches the Marriage features. The funnel is the product.
 
 ---
