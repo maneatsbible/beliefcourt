@@ -73,23 +73,47 @@ async function bootstrap() {
       const view   = params.v ?? 'home';
       main.innerHTML = '';
 
-      // Home: Timeline replay + worldview map
+      // Home: Timeline replay + worldview map + all viz views
       if (view === 'home' || !view) {
         const vizWrap = document.createElement('div');
         vizWrap.className = 'viz-suite viz-suite--home';
         main.appendChild(vizWrap);
 
-        // Timeline replay
+        // Timeline replay (with scroll/zoom)
         const timelineDiv = document.createElement('div');
         timelineDiv.className = 'viz-block viz-block--timeline';
+        timelineDiv.style.overflowX = 'auto';
+        timelineDiv.style.maxWidth = '100%';
         vizWrap.appendChild(timelineDiv);
-        new TimelineReplayView(timelineDiv, MOCK_TIMELINE).render();
+        new TimelineReplayView(timelineDiv, MOCK_TIMELINE, { width: 1800, maxVisible: 30 }).render();
 
         // Worldview map
         const mapDiv = document.createElement('div');
         mapDiv.className = 'viz-block viz-block--worldview-map';
+        mapDiv.style.minHeight = '400px';
         vizWrap.appendChild(mapDiv);
-        new WorldviewMapView(mapDiv, MOCK_WORLDVIEW_MAP).render();
+        new WorldviewMapView(mapDiv, MOCK_WORLDVIEW_MAP, { width: 800, height: 400 }).render();
+
+        // EEO
+        const eeoDiv = document.createElement('div');
+        eeoDiv.className = 'viz-block viz-block--eeo';
+        eeoDiv.style.minHeight = '300px';
+        vizWrap.appendChild(eeoDiv);
+        new EEOView(eeoDiv, MOCK_EEO, { width: 600, height: 300 }).render();
+
+        // Adjacency
+        const adjDiv = document.createElement('div');
+        adjDiv.className = 'viz-block viz-block--adjacency';
+        adjDiv.style.minHeight = '300px';
+        vizWrap.appendChild(adjDiv);
+        new AdjacencyView(adjDiv, MOCK_ADJACENCY, { width: 600, height: 300 }).render();
+
+        // Settlements
+        const settleDiv = document.createElement('div');
+        settleDiv.className = 'viz-block viz-block--settlement';
+        settleDiv.style.minHeight = '200px';
+        vizWrap.appendChild(settleDiv);
+        new SettlementView(settleDiv, MOCK_SETTLEMENTS, { width: 700, height: 200 }).render();
       }
       // Case: Timeline replay + settlements
       else if (view === 'case' && params.id) {

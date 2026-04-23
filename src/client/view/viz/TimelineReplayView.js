@@ -58,8 +58,15 @@ export class TimelineReplayView {
       .attr('height', height);
 
     // Parse and sort events by timestamp
-    const data = (this._data || []).map(e => ({ ...e, date: new Date(e.ts) }))
+    let data = (this._data || []).map(e => ({ ...e, date: new Date(e.ts) }))
       .sort((a, b) => a.date - b.date);
+
+    // Limit visible events if maxVisible is set
+    const maxVisible = this._opts.maxVisible || 30;
+    if (data.length > maxVisible) {
+      // Show only the last maxVisible events
+      data = data.slice(-maxVisible);
+    }
 
     if (!data.length) {
       svg.append('text')
