@@ -126,7 +126,7 @@ No company owns the words that define the pursuit of truth. Truthbook is a civic
 
 If there is a disagreement, file a Case. On Truthbook, the People Judge.
 
-Who would be sued? Truthbook belongs to the People. Justice is open, and every voice matters.
+Truthbook belongs to the People. Justice is open, and every voice matters.
 
 Join. Litigate. Judge. Decide. Judgment is yours to decide.
 
