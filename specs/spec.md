@@ -11,6 +11,12 @@
 
 ## Introduction
 
+## Bot Namespace and Disclosure Rules (from Constitution)
+
+All bots must use the !Bot prefix (e.g., !BotHelper). No bots may use the @Person namespace. Bots are never treated as People and are constitutionally distinct. Bots may only author Records of type `transcript` (e.g., StenoBot/TranscriptBot), unless otherwise amended by constitutional process.
+
+All features, flows, and requirements for bots, AI, and imported content must ensure full disclosure and challengeability. See the data model for technical schema and plan.md for operational requirements.
+
 Truthbook is a constitutional, peer-to-peer platform for defended belief, structured dispute, and worldview exploration. Every act is on the record, every claim is challengeable, and every judgment is rendered by the People, not by algorithm or central authority. The platform is governed by its [Constitutional Charter](/specs/TRUTHBOOK-CONSTITUTION.md), which defines all core entities, flows, and principles. This specification encodes only those features, requirements, and flows that are constitutional—removing all non-compliant or superseded elements.
 
 **Core Principles:**

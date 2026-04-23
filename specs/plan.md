@@ -171,6 +171,22 @@ GA4 is required for Google Ads conversion tracking (FR-079). Integrated alongsid
 
 ## Project Structure
 
+## Operational Requirements: CRUD Entity Hardening, Audit, and Privacy
+
+All Person entities and mutable (CRUD) tables must comply with the following requirements (moved from the constitutional charter):
+
+- **Strict access controls:** Users may only update their own data. Administrative updates are allowed only for legitimate, auditable reasons.
+- **Audit logging:** Every create, update, and delete action must be logged, including who performed the action, what changed, when, and the old/new values.
+- **Soft deletes:** Deletion must be implemented as a soft delete (marking as deleted/disabled), not physical removal, to preserve history and accountability.
+- **Input validation and sanitization:** All input must be validated and sanitized to prevent injection and other attacks.
+- **Strong authentication and authorization:** All user-related actions must require strong authentication and proper authorization.
+- **Regular backups:** User tables and audit logs must be regularly backed up to prevent data loss.
+
+**Person Storage and Privacy:**
+Person entities must be stored as first-class records in the distributed, append-only, cryptographically signed log (the Belief Ledger or equivalent), ensuring a tamper-evident, auditable, and constitutionally compliant record of all identity-related actions. For privacy, performance, and regulatory compliance (including GDPR), a privacy-aware, query-optimized side index (such as SQLite) must be maintained for fast Person lookup, authentication, and profile queries. Personally identifiable information (PII) is stored in the side index, which supports selective deletion or anonymization as required by law. The distributed log stores only pseudonymous references or hashed data for PII fields, ensuring that the authoritative ledger remains immutable and auditable, while the side index enables compliance with “right to be forgotten” and other privacy requests. This hybrid approach balances auditability, privacy, and performance.
+
+These requirements apply to all CRUD entities, present and future. Immutable (append-only) entities, such as Records in the Belief Ledger, are governed by their own constitutional rules of immutability and auditability.
+
 ### Documentation (this feature)
 
 ```text

@@ -27,6 +27,48 @@
 
 ## Entity Hierarchy
 
+## Record Entities and Subtypes (from Constitution)
+
+Every Record is authored by exactly one Person (human, always @username), or, for tasks such as transcription, by a Bot using the !Bot prefix. All bots must use the !Bot prefix (e.g., !BotHelper). No bots may use the @Person namespace. Bots are never treated as People and are constitutionally distinct. Bots may only author Records of type `transcript` (e.g., StenoBot/TranscriptBot), unless otherwise amended by constitutional process.
+
+All Record subtypes (e.g., Claim, Case, Summons, Deposition, Judgment, Question, Answer, Objection, etc.) are formalized as distinct, semantically-expressive types. Extensibility is allowed only by explicit constitutional process. The model must remain explorable and semantically meaningful for all users and admin tools, including in cold storage. The data model must support semantic exploration and visualization, even in cold storage, via canned queries and admin tools. All Record types and relationships must be explorable and meaningful for both users and administrators.
+
+Every Record has:
+- **ID**: globally unique, immutable, cryptographically signed
+- **Author**: the Person who created it, never changeable (or Bot for transcript Records only)
+- **Timestamp**: creation time, sealed with the Record
+- **Content**: text, images, or references — never edited, only rescinded
+- **Integrity Hash**: SHA256 proof of authorship and contents
+- **Type**: All Record subtypes are formalized, semantically-expressive, and constitutionally governed. New subtypes require explicit constitutional process.
+
+### Record Subtypes (examples)
+- **Comment** — Neutral Wall post or reflection. On the record but not a claim unless challenged.
+- **Affirmation** (❤️) — Public affirmation, signals agreement or support.
+- **Claim** (🔥) — An assertion of truth, value, or fact. Claims are always on the record, open to challenge, and must be defended if challenged.
+- **CounterClaim** (🔥) — Contestation of a Record, opening a Case.
+- **Duel** — Encapsulates a Duel process.
+- **Question** — Interrogatory, may be open-ended or Yes/No.
+- **Answer** — Response to a Question.
+- **Objection** — Procedural challenge within a Duel.
+- **Offer** — Proposed resolution or settlement.
+- **Response** — Reply to an Offer.
+- **Judgment** — Verdict on a settled Duel, grounded in the Judge's worldview.
+- **Summons** — Summons to appear or respond, including "Summons to Duel".
+- **WitnessCall** — Call for a witness from the Gallery.
+- **Translation** — Authored by !StenoBot for automated transcriptions, and useful for People to correct its errors and amend the record.
+
+**Any Record type can become a Claim if challenged.** If any Record is disputed, a Claim Record is written, turning the original into a Claim for the purposes of dispute. The original Record remains as context.
+
+## WantedPerson and Public Wall/Blog
+
+External or unregistered entities are modeled as WantedPerson. Each WantedPerson has a public Wall, which becomes their Blog if they join the platform. WantedPeople do not consume @Person names until they register. Their Wall is public and displays all cases for and against them. Upon joining, they must select an unused @Person name. Once registered, their Wall becomes their Blog at Truthbook.io/@username, suitable for any content they wish to post.
+
+WantedPerson status:
+- **"wanted"** — not yet registered, Wall is public dossier
+- **"joined"** — has registered, Wall becomes Blog
+
+This ensures namespace integrity and public accountability, while inviting participation and response.
+
 ```
 Claim                          ← root; the statement being disputed
 Comment                        ← neutral Wall post on Person profile

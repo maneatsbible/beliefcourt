@@ -4,15 +4,15 @@
 | **Version**   | `v0.0.1-pre-alpha` — Constitutional Charter                                                           |
 | **Status**    | 🔥 Foundation                                                                             |
 | **Ratified**  | 2026-04-21                                                                                |
-| **Founder**   | **@maneatsbible** — the plain Bible preacher implementing Truthbook (tb, truthbook.io) as a constitutional P2P protocol, interpersonal mediator, distributed belief ledger and overall Social Media and Blogging/publishing super-power grounded in faith in Jesus Christ |
+| **Founder**   | **@maneatsbible** — see peoples-briefing.md for founder story, vision, and invitation. |
 
 ---
 
-## How Truthbook Works (Plain Language)
+**How Truthbook Works (Plain Language), Inclusivity, and Founding Conviction have been moved to peoples-briefing.md.**
 
-Truthbook is a social platform where anyone can share what they believe, agree with others, or simply explore different worldviews. The main controls are a heart (❤️) to affirm and a fire (🔥) to challenge. If you want, you can just affirm and follow what resonates with you. No one is forced into conflict. But if a disagreement arises, Truthbook offers a structured, fair, and transparent way to resolve it, with every step recorded and open to the community. You can always see how and why a decision was made. On Truthbook, disagreement gets handled.
+**CRUD and technical requirements have been moved to spec.md and plan.md.**
 
-**Inclusivity:** Truthbook welcomes all worldviews. You can explore, affirm, and challenge beliefs in a safe, structured environment. The platform is open-source, decentralized, and governed by the people who use it.
+**For entity definitions and data model, see data-model.md.**
 
 ---
 
@@ -37,6 +37,7 @@ Truthbook is a social platform where anyone can share what they believe, agree w
 18. [Article XV — Widget Commonwealth and Mobile Excellence](#article-xv--widget-commonwealth-and-mobile-excellence)
 19. [Signature](#signature)
 
+---
 
 ## PREAMBLE
 
@@ -61,20 +62,6 @@ Everything that follows — the constitutional structure, the duel process, the 
 ### Section 0.4 — CRUD Entity Hardening and Audit Requirements
 
 
-#### Person Storage and Privacy (Constitutional Clause)
-
-All Person entities must be stored as first-class records in the distributed, append-only, cryptographically signed log (the Belief Ledger or equivalent), ensuring a tamper-evident, auditable, and constitutionally compliant record of all identity-related actions. For privacy, performance, and regulatory compliance (including GDPR), a privacy-aware, query-optimized side index (such as SQLite) must be maintained for fast Person lookup, authentication, and profile queries. Personally identifiable information (PII) is stored in the side index, which supports selective deletion or anonymization as required by law. The distributed log stores only pseudonymous references or hashed data for PII fields, ensuring that the authoritative ledger remains immutable and auditable, while the side index enables compliance with “right to be forgotten” and other privacy requests. This hybrid approach is constitutionally required to balance auditability, privacy, and performance.
-
-All mutable (CRUD) entities, including Person and any future CRUD tables, must be protected by the following hardening measures:
-
-- **Strict access controls:** Users may only update their own data. Administrative updates are allowed only for legitimate, auditable reasons.
-- **Audit logging:** Every create, update, and delete action must be logged, including who performed the action, what changed, when, and the old/new values.
-- **Soft deletes:** Deletion must be implemented as a soft delete (marking as deleted/disabled), not physical removal, to preserve history and accountability.
-- **Input validation and sanitization:** All input must be validated and sanitized to prevent injection and other attacks.
-- **Strong authentication and authorization:** All user-related actions must require strong authentication and proper authorization.
-- **Regular backups:** User tables and audit logs must be regularly backed up to prevent data loss.
-
-These requirements apply to all CRUD entities, present and future. Immutable (append-only) entities, such as Records in the Belief Ledger, are governed by their own constitutional rules of immutability and auditability.
 
 ### Section 0.1 — Constitutional Design Principles
 - The People do not decide what is true; the People Judge what is true.
@@ -147,55 +134,11 @@ Join. Litigate. Judge. Decide. Judgment is yours to decide.
 
 ## ARTICLE II — THE BELIEF LEDGER
 
-### Section 2.1 — Record Entities
 
-Every Record is authored by exactly one Person (human, always @username), or, for tasks such as transcription, by a Bot using the !Bot prefix. All bots must use the !Bot prefix (e.g., !BotHelper). No bots may use the @Person namespace. Bots are never treated as People and are constitutionally distinct. Bots may only author Records of type `transcript` (e.g., StenoBot/TranscriptBot), unless otherwise amended by constitutional process.
-
-All Record subtypes (e.g., Claim, Case, Summons, Deposition, Judgment, Question, Answer, Objection, etc.) are formalized as distinct, semantically-expressive types. Extensibility is allowed only by explicit constitutional process. The model must remain explorable and semantically meaningful for all users and admin tools, including in cold storage. The data model must support semantic exploration and visualization, even in cold storage, via canned queries and admin tools. All Record types and relationships must be explorable and meaningful for both users and administrators.
-
-Every Record has:
-- **ID**: globally unique, immutable, cryptographically signed
-- **Author**: the Person who created it, never changeable (or Bot for transcript Records only)
-- **Timestamp**: creation time, sealed with the Record
-- **Content**: text, images, or references — never edited, only rescinded
-- **Integrity Hash**: SHA256 proof of authorship and contents
-- **Type**: All Record subtypes are formalized, semantically-expressive, and constitutionally governed. New subtypes require explicit constitutional process.
-
-#### Record Subtypes (examples)
-- **Comment** — Neutral Wall post or reflection. On the record but not a claim unless challenged.
-- **Affirmation** (❤️) — Public affirmation, signals agreement or support.
-- **Claim** (🔥) — An assertion of truth, value, or fact. Claims are always on the record, open to challenge, and must be defended if challenged.
-- **CounterClaim** (🔥) — Contestation of a Record, opening a Case.
-- **Duel** — Encapsulates a Duel process.
-- **Question** — Interrogatory, may be open-ended or Yes/No.
-- **Answer** — Response to a Question.
-- **Objection** — Procedural challenge within a 
-- **Offer** — Proposed resolution or settlement.
-- **Response** — Reply to an Offer.
-- **Judgment** — Verdict on a settled Duel, grounded in the Judge's worldview.
-- **Summons** — Summons to appear or respond, including "Summons to Duel".
-Duel.
-- **WitnessCall** — Call for a witness from the Gallery.
-- **Translation** — Authored by !StenoBot for automated transcriptions, and useful for People to correct its errors and amend the record.
-
-**Any Record type can become a Claim if challenged.** If any Record is disputed, a Claim Record is written, turning the original into a Claim for the purposes of dispute. The original Record remains as context.
-**Any Record type can become a Claim if challenged.** If any Record is disputed, a Claim Record is written, turning the original into a Claim for the purposes of dispute. The original Record remains as context.
-
-### Section 2.2 — Mandatory Disclosure Rules
 
 ## ARTICLE II-A — WANTEDPERSON AND THE PUBLIC WALL
 
-External/unregistered entities are modeled as WantedPerson, each with a public Wall. When they join, the Wall becomes their Blog at Truthbook.io/@username, suitable for any content they wish to post. WantedPeople do not consume @Person names until they register. Their Wall is public and displays all cases for and against them. Upon joining, they must select an unused @Person name.
 
-### Section 2A.1 — WantedPerson
-
-External or unregistered entities are modeled as WantedPerson. Each WantedPerson has a public Wall, which becomes their Blog if they join the platform. WantedPeople do not consume @Person names until they register. Their Wall is public and displays all cases for and against them. Upon joining, they must select an unused @Person name. Once registered, their Wall becomes their Blog at Truthbook.io/@username, suitable for any content they wish to post.
-
-WantedPerson status:
-- **"wanted"** — not yet registered, Wall is public dossier
-- **"joined"** — has registered, Wall becomes Blog
-
-This ensures namespace integrity and public accountability, while inviting participation and response.
 
 
 
