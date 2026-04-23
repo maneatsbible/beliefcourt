@@ -235,7 +235,7 @@ src/
 │   ├── server.js                   # Entry point — mounts routes, middleware
 │   ├── db/
 │   │   ├── adapter.js              # DB interface: query(), run(), transaction()
-│   │   ├── log-adapter.js          # distributed log implementation (Kafka/NATS/Custom Raft)
+│   │   ├── log-adapter.js          # distributed log implementation (Kafka)
 │   │   └── migrate.js              # Runs pending migrations on startup
 │   ├── routes/
 │   │   ├── auth.js                 # SM OAuth callback + JWT issuance

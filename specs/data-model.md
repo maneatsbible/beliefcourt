@@ -121,7 +121,7 @@ Represents an authenticated human user (SM OAuth — X, Threads, or GitHub). Onl
 
 #### Storage Strategy
 
-All Person entities are stored as first-class records in the distributed, append-only, cryptographically signed log (Kafka/NATS/Custom Raft) alongside all other core entities. This ensures a tamper-evident, auditable, and constitutionally compliant record of all identity-related actions.
+All Person entities are stored as first-class records in the distributed, append-only, cryptographically signed log (Kafka) alongside all other core entities. This ensures a tamper-evident, auditable, and constitutionally compliant record of all identity-related actions.
 
 For privacy, performance, and regulatory compliance (e.g., GDPR):
 - A privacy-aware, query-optimized side index (such as SQLite) is maintained for fast Person lookup, authentication, and profile queries.
@@ -856,7 +856,7 @@ Control meaning is context-sensitive but layout is invariant.
 ## Storage Architecture Notes
 
 
-The canonical append-only ledger is a distributed, cryptographically signed log (e.g., Apache Kafka, NATS JetStream, or custom Raft-based log) replicated across independent Keyholder nodes. All writes go through the Hono API server, which proxies to the distributed log. Each node independently verifies, appends, and serves records. Regular, signed snapshots (JSON or binary) are stored in S3-compatible object storage for point-in-time restore and disaster recovery.
+The canonical append-only ledger is a distributed, cryptographically signed log (Kafka) replicated across independent Keyholder nodes. All writes go through the Hono API server, which proxies to the distributed log. Each node independently verifies, appends, and serves records. Regular, signed snapshots (JSON or binary) are stored in S3-compatible object storage for point-in-time restore and disaster recovery.
 
 **Append-only enforcement**: The distributed log enforces immutability at the protocol level. No UPDATE/DELETE operations are permitted on content records (`records`, `cases`, `duels`, `dispositions`, `accords`, `claim_accords`, `moments`, `analyses`, `judgments`, `similarity_links`, `evidence`, `exhibits`, `rescissions`). Only operational/cache tables or ephemeral state (e.g., `deadline_conditions.active`, `maintenance_messages`, `person_stats`, `analytics_snapshots`, `similarity_clusters`, `cron_runs`, `moderation_flags`, `notifications.read_at`) allow updates or upserts, and these are managed outside the canonical log.
 

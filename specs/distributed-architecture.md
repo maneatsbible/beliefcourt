@@ -56,7 +56,7 @@ This revision codifies four constitutional constraints:
 
 ## 2. Data Layer
 
-- **Distributed, append-only log**: Truthbook uses a distributed, append-only log (e.g., Apache Kafka, NATS JetStream, or custom Raft-based log).
+- **Distributed, append-only log**: Truthbook uses a distributed, append-only log (Kafka).
   - Each Record is a signed, immutable event.
   - All nodes ingest, verify, and append Records to their local log.
   - Merkle roots are computed over the log for tamper evidence.
@@ -71,7 +71,7 @@ This revision codifies four constitutional constraints:
   - Publishes and syncs Merkle roots and signed Records with peers.
   - Serves queries and proofs to clients.
   - Participates in constitutional governance (Duel, Judgment, etc.).
-- **Coordinator election**: Pluggable, constitutionally-governed election protocol (Raft, or custom, with constitutional override).
+- **Coordinator election**: Pluggable, constitutionally-governed election protocol (Kafka-based or custom, with constitutional override).
 - **Node rewards**: Uptime, correctness, and service are tracked and rewarded per constitutional policy.
 
 ---

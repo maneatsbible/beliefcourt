@@ -15,7 +15,7 @@
 
 ## Phase 1: Infrastructure Setup
 
-**Goal**: Fly.io app provisioned; Docker image builds and deploys; distributed Belief Ledger volume mounted; Litestream replicates to Tigris S3; `fly.toml`, `Dockerfile`, and `start.sh` in place.
+**Goal**: Fly.io app provisioned; Docker image builds and deploys; distributed Belief Ledger (Kafka) volume mounted; Litestream replicates to Tigris S3; `fly.toml`, `Dockerfile`, and `start.sh` in place.
 
 **Independent Test**: `fly deploy` succeeds; `curl https://truthbook.io/health` returns `{"status":"ok","version":"0.1.0"}`; Litestream logs show replication to S3 bucket.
 
@@ -34,7 +34,7 @@
 
 ## Phase 2: Database — Migration 001 (Initial Schema)
 
-**Goal**: Distributed Belief Ledger initialised on first boot with all tables from `plan.md` Migration 001. Append-only triggers prevent UPDATE/DELETE on immutable tables. `db/migrate.js` runs migrations idempotently on startup.
+**Goal**: Distributed Belief Ledger (Kafka) initialised on first boot with all tables from `plan.md` Migration 001. Append-only triggers prevent UPDATE/DELETE on immutable tables. `db/migrate.js` runs migrations idempotently on startup.
 
 **Independent Test**: Fresh `node src/server/index.js` with empty `/data/jdg.db` → all tables exist; second run → no error, no duplicate tables; `PRAGMA integrity_check` passes.
 
@@ -57,8 +57,8 @@
 
 **Independent Test**: `curl /health` → 200 `{"status":"ok"}`; `curl /version` → 200 `{"version":"0.1.0","schema":1}`; send >200 req/min from same IP → 429; `MAINTENANCE_MODE=true` → all non-`/health` routes return 503.
 
-- [ ] T014 Create `db/adapter.js` — exports `query(sql, params)`, `run(sql, params)`, `get(sql, params)` wrapping the distributed Belief Ledger; synchronous API matching the current adapter but behind an interface that can be swapped for distributed log later
-- [ ] T015 Create `db/ledger.js` — opens the distributed Belief Ledger at `process.env.DB_PATH`; enables append-only mode; exports the db instance
+- [ ] T014 Create `db/adapter.js` — exports `query(sql, params)`, `run(sql, params)`, `get(sql, params)` wrapping the distributed Belief Ledger (Kafka); synchronous API matching the current adapter but behind an interface that can be swapped for distributed log later
+- [ ] T015 Create `db/ledger.js` — opens the distributed Belief Ledger (Kafka) at `process.env.DB_PATH`; enables append-only mode; exports the db instance
 - [ ] T016 Create `src/server/index.js` — imports Hono, creates app, registers middleware (CORS, rate-limit, maintenance), mounts route modules, starts listening on port 3000
 - [ ] T017 Implement global CORS middleware in `src/server/middleware/cors.js`: allow only `https://truthbook.io` and `http://localhost:*` origins; set `Access-Control-Allow-Credentials: true`
 - [ ] T018 Implement rate-limit middleware in `src/server/middleware/rate-limit.js`: sliding window 200 req/min per IP using in-memory Map; return `429 Too Many Requests` with `Retry-After` header
