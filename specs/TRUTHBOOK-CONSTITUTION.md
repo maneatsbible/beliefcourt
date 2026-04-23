@@ -1,6 +1,3 @@
-### Section 0.2 — Universal Case-Insensitivity for URL Parameters
-
-All URL query parameter keys and values in Truthbook are constitutionally required to be case-insensitive. Any navigation, routing, or feature that depends on URL parameters must treat both keys and values as case-insensitive, and all code must enforce this rule. This ensures robust, user-friendly, and error-proof navigation throughout the platform.
 # Truthbook — Constitutional Charter
 
 | Field         | Value                                                                                       |
@@ -8,18 +5,35 @@ All URL query parameter keys and values in Truthbook are constitutionally requir
 | **Version**   | `v0.0.1-pre-alpha` — Constitutional Charter                                                           |
 | **Status**    | 🔥 Foundation                                                                             |
 | **Ratified**  | 2026-04-21                                                                                |
-| **Founder**   | **@maneatsbible** — implementing Truthbook (tb, truthbook.io) as constitutional P2P protocol grounded in faith in Jesus Christ |
+| **Founder**   | **@maneatsbible** — the plain Bible preacher implementing Truthbook (tb, truthbook.io) as a constitutional P2P protocol, interpersonal mediator, distributed belief ledger and overall Social Media and Blogging/publishing super-power grounded in faith in Jesus Christ |
 
 ---
 
-## CONSTITUTIONAL DESIGN PRINCIPLES
+## Table of Contents
+1. [Preamble](#preamble)
+2. [Constitutional Design Principles](#constitutional-design-principles)
+3. [Article 0 — Principles of Judgment and Language](#article-0--principles-of-judgment-and-language)
+4. [Article I — The People Are In Charge](#article-i--the-people-are-in-charge)
+5. [Article II — The Belief Ledger](#article-ii--the-belief-ledger)
+6. [Article III — Worldviews and Claims](#article-iii--worldviews-and-claims)
+7. [Article IV — The Duel Process and JADEIC Modes](#article-iv--the-duel-process-and-jadeic-modes)
+8. [Article V — The Gallery and People's Judgment](#article-v--the-gallery-and-peoples-judgment)
+9. [Article VI — Bot Disclosure and the SM Bot Problem](#article-vi--bot-disclosure-and-the-sm-bot-problem)
+10. [Article VII — Spaces and Federation](#article-vii--spaces-and-federation)
+11. [Article VIII — No Argumentation — Defended Belief Only](#article-viii--no-argumentation--defended-belief-only)
+12. [Article IX — The Christian Foundation](#article-ix--the-christian-foundation)
+13. [Article X — Constitutional Amendment](#article-x--constitutional-amendment)
+14. [Article XI — Mandatory Principles](#article-xi--mandatory-principles)
+15. [Article XII — Financial Transparency](#article-xii--financial-transparency)
+16. [Article XIII — Emoji as Protocol](#article-xiii--emoji-as-protocol)
+17. [Article XIV — Adversary Transformation and Civic Order](#article-xiv--adversary-transformation-and-civic-order)
+18. [Article XV — Widget Commonwealth and Mobile Excellence](#article-xv--widget-commonwealth-and-mobile-excellence)
+19. [Signature](#signature)
 
----
 
 ## PREAMBLE
 
 ### Founding Conviction
-
 
 > **Constitutional Naming Rule:**
 >
@@ -32,6 +46,21 @@ Truthbook exists because of one conviction:
 This platform is not built around the belief that argumentation wins debates. It is built around the conviction that *defended belief, when tested against the sincere challenge of another, can produce understanding, reconciliation, and genuine growth.*
 
 Everything that follows — the constitutional structure, the duel process, the ledger architecture, the litigation process — flows from this conviction. When a design decision is hard to make, this is where the answer lives.
+
+---
+
+## CONSTITUTIONAL DESIGN PRINCIPLES
+
+### Section 0.1 — Constitutional Design Principles
+- The People do not decide what is true; the People Judge what is true.
+- Judgment is rendered according to each Person’s Worldview, which is based on their Affirmed Truth Statements.
+- The term “We” shall always refer to the People—never to the platform, its operators, or any AI.
+- No AI or platform communication shall state or imply that “We” (the platform or AI) are proud, honored, or possess feelings.
+- The term "Objection" refers only to process within Duels. For other conflicts, use terms such as "disagreement" or "conflict."
+
+### Section 0.2 — Universal Case-Insensitivity for URL Parameters
+
+All URL query parameter keys and values in Truthbook are constitutionally required to be case-insensitive. Any navigation, routing, or feature that depends on URL parameters must treat both keys and values as case-insensitive, and all code must enforce this rule. This ensures robust, user-friendly, and error-proof navigation throughout the platform.
 ## ARTICLE 0 — PRINCIPLES OF JUDGMENT AND LANGUAGE
 
 ### Section 0.1 — Constitutional Design Principles
