@@ -376,7 +376,7 @@ This record type embraces formal argument users while preserving core defended-b
 - **Name**: Public | Org Name | Private Group Name
 - **Ledger**: local Belief Ledger (SQLite)
 - **Members**: list of Person IDs with access
-- **ConstitutionalVariant**: BELIEF COURT standard or custom rules
+- **ConstitutionalVariant**: Truthbook standard or custom rules
 - **ForkRight**: if corrupted, members may fork
 
 #### Bot
@@ -632,5 +632,5 @@ CLOSED (ready for analysis)
 ## Next Sections
 
 1. [Implementation Plan](plan.md) — Fly.io, Hono, SQLite (preserved from judgmental.io)
-2. [Specification](spec.md) — Feature requirements aligned to BELIEF COURT
+2. [Specification](spec.md) — Feature requirements aligned to Truthbook
 3. [Tasks](tasks.md) — Implementation tasks in dependency order

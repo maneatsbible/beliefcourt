@@ -384,7 +384,7 @@ The original video is the canonical source. The AI transcript is a derived index
 
 A **Space** is an isolated Belief Ledger with its own governance rules, participant set, and constitutional variant.
 
-BELIEF COURT can host multiple federated Spaces:
+Truthbook can host multiple federated Spaces:
 - The **Public Space** — open to all, governed by this Constitution
 - **Org Spaces** — isolated Ledgers for a church, business, or affinity group
 - **Private Spaces** — invitation-only Ledgers for a family or working group
@@ -406,7 +406,7 @@ Cross-Space Cases are rare. They require:
 
 ### Section 8.1 — The Core Principle (NON-NEGOTIABLE)
 
-BELIEF COURT is a platform for **defended belief**, not **constructed argument**.
+Truthbook is a platform for **defended belief**, not **constructed argument**.
 
 Formal syllogistic reasoning, logical proof, argument construction, and formal debate mechanics are **prohibited** as primary persuasion tools in core Duel flow.
 
@@ -424,7 +424,7 @@ What is prohibited:
 
 ### Section 8.4 — Formal Logic Annex (Adversary Embrace)
 
-BELIEF COURT embraces people who want formal philosophical argument (including syllogisms) by containing it in a constitutional lane that serves truth-seeking instead of replacing it.
+Truthbook embraces people who want formal philosophical argument (including syllogisms) by containing it in a constitutional lane that serves truth-seeking instead of replacing it.
 
 Rules for this lane:
 
@@ -462,7 +462,7 @@ The codebase MUST include `ANTI_ARGUMENTATION_REVIEW_CHECKLIST.md` as a PR gate.
 
 ### Section 9.1 — Explicit Faith Grounding
 
-BELIEF COURT is not a generic dispute platform that *happens to* include Christians.
+Truthbook is not a generic dispute platform that *happens to* include Christians.
 
 It is a platform specifically designed for and by people who hold Christian faith as their highest authority. The first release MUST include:
 
@@ -476,7 +476,7 @@ It is a platform specifically designed for and by people who hold Christian fait
 
 ### Section 9.2 — Principle: Scripture is Authority, Not Logic
 
-Throughout BELIEF COURT, scripture is treated as **testimony to a Person's Base of Truth**, never as a logical premise.
+Throughout Truthbook, scripture is treated as **testimony to a Person's Base of Truth**, never as a logical premise.
 
 When a Christian cites scripture, they are saying: "This is what God says. I believe it. Here is how it grounds my position." They are not saying: "Given Verse A, logically Verse B follows; therefore, my position is logically sound."
 
@@ -492,7 +492,7 @@ All features involving scripture MUST actively discourage proof-texting:
 
 ### Section 9.4 — Openness to Others
 
-While explicitly grounded in Christian faith, BELIEF COURT welcomes participants of other beliefs.
+While explicitly grounded in Christian faith, Truthbook welcomes participants of other beliefs.
 
 However:
 - A non-Christian is still bound by Principle I (No Argumentation — Defended Belief Only).
@@ -558,7 +558,7 @@ All production code MUST meet:
 
 ### Section 12.1 — Revenue Model
 
-BELIEF COURT will sustain itself through:
+Truthbook will sustain itself through:
 1. **Judgment Data API** (subscription tiers for anonymized, aggregated verdicts)
 2. **Pro Features** (optional: advanced analytics, premium Spaces, API access)
 3. **Constitutional Crowdfunding** (annual participatory budget for core development)
@@ -616,7 +616,7 @@ The Truthbook brand icon (❤️🔥) is not decorative. It is a first-class pro
 
 ### Section 14.1 — Method: Embrace the Adversary, Offer the Better Way
 
-BELIEF COURT adopts one governing problem-solving method across product, governance, and growth:
+Truthbook adopts one governing problem-solving method across product, governance, and growth:
 
 1. Embrace the adversary directly (do not pretend conflict is absent).
 2. Offer the better Way in both spirit and design.
@@ -754,7 +754,7 @@ The Worldview Explorer is a constitutional product feature, not an optional add-
 
 ## SIGNATURE
 
-This Constitution is ratified by **maneatsbible**, the founder and implementer of BELIEF COURT, grounded in faith in Jesus Christ and commitment to the People's sovereignty over all systems of truth-seeking.
+This Constitution is ratified by **maneatsbible**, the founder and implementer of Truthbook, grounded in faith in Jesus Christ and commitment to the People's sovereignty over all systems of truth-seeking.
 
 ```
 Witnessed by: GitHub Copilot (AI Assistant)
@@ -770,4 +770,4 @@ Status: 🔥 IN EFFECT
 1. [Data Model](data-model.md) — Complete entity schema
 2. [Domain Model Flow](domain-model.md) — Records → Ledger → Worldview → Duel → Gallery → Judgment
 3. [Implementation Plan](plan.md) — Fly.io, Hono, SQLite architecture (preserved from judgmental.io)
-4. [Specification](spec.md) — Feature requirements alignment with BELIEF COURT
+4. [Specification](spec.md) — Feature requirements alignment with Truthbook

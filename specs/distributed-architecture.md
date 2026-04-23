@@ -15,7 +15,7 @@
 
 ## Overview
 
-BELIEF COURT achieves blockchain-like properties **without blockchain**. The system is architected for **distributed, sovereign operation** where independent Keyholders maintain copies of Belief Ledger data, earn rewards for stewardship, and collectively govern the protocol through Constitutional Duels.
+Truthbook achieves blockchain-like properties **without blockchain**. The system is architected for **distributed, sovereign operation** where independent Keyholders maintain copies of Belief Ledger data, earn rewards for stewardship, and collectively govern the protocol through Constitutional Duels.
 
 This revision codifies four constitutional constraints:
 1. Every Judgment cites the judge's full Accord lineage, including root Truth Statement Accords.
@@ -71,7 +71,7 @@ No blockchain is required. The target properties are delivered by:
 
 ### No Forking Rule
 
-BELIEF COURT does not use network forks for governance divergence. All divergence and organizational shape are represented as Spaces in the same database system.
+Truthbook does not use network forks for governance divergence. All divergence and organizational shape are represented as Spaces in the same database system.
 
 ### Space Definition
 
@@ -279,7 +279,7 @@ Responses can include Merkle inclusion paths so clients independently verify ret
 
 ## Summary
 
-BELIEF COURT remains blockchain-skeptical while delivering tamper evidence, distributed operation, and constitutional governance.
+Truthbook remains blockchain-skeptical while delivering tamper evidence, distributed operation, and constitutional governance.
 
 The system is:
 - Cryptographically signed
