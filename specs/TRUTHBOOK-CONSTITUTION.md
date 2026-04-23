@@ -148,18 +148,19 @@ Every Record is authored by exactly one Person (human, always @username), or, fo
 - **Type**: All Record subtypes are formalized, semantically-expressive, and constitutionally governed. New subtypes require explicit constitutional process.
 
 #### Record Subtypes (examples)
-- **Claim** (🔥) — An assertion of truth, value, or fact. Claims are always on the record, open to challenge, and must be defended if challenged.
 - **Comment** — Neutral Wall post or reflection. On the record but not a claim unless challenged.
-- **CounterClaim** (🔥) — Contestation of a Record, opening a Case.
 - **Affirmation** (❤️) — Public affirmation, signals agreement or support.
+- **Claim** (🔥) — An assertion of truth, value, or fact. Claims are always on the record, open to challenge, and must be defended if challenged.
+- **CounterClaim** (🔥) — Contestation of a Record, opening a Case.
+- **Duel** — Encapsulates a Duel process.
+- **Question** — Interrogatory, may be open-ended or Yes/No.
+- **Answer** — Response to a Question.
+- **Objection** — Procedural challenge within a 
 - **Offer** — Proposed resolution or settlement.
 - **Response** — Reply to an Offer.
 - **Judgment** — Verdict on a settled Duel, grounded in the Judge's worldview.
 - **SummonsRecord** — Summons to appear or respond, including "Summons to Duel".
-- **Duel** — Encapsulates a Duel process.
-- **Question** — Interrogatory, may be open-ended or Yes/No.
-- **Answer** — Response to a Question.
-- **Objection** — Procedural challenge within a Duel.
+Duel.
 - **WitnessCall** — Call for a witness from the Gallery.
 - **Translation** — Authored by !StenoBot for automated transcriptions, and useful for People to correct its errors and amend the record.
 
