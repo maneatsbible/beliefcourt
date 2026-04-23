@@ -93,7 +93,11 @@ The maintenance page (`maintenance.html`) is a standalone static HTML file with 
 
 ## Data Model and Schema
 
+
 All data structures are append-only and cryptographically signed. New entity types or fields require a constitutional amendment and coordinated upgrade of all Keyholder nodes. The distributed Belief Ledger is the canonical source of truth, and all schema evolution is governed by constitutional process. No migration from previous architectures is required.
+
+**Person Storage and Privacy:**
+Person entities are stored as first-class records in the distributed, append-only, cryptographically signed log, ensuring auditability and constitutional compliance. For privacy, performance, and GDPR compliance, a privacy-aware side index (e.g., SQLite) is maintained for fast lookup and PII management. The log stores only pseudonymous or hashed references for PII fields, while the side index enables selective deletion or anonymization as required by law. This hybrid approach balances auditability, privacy, and performance.
 
 ## Scaling and Migration Planning
 

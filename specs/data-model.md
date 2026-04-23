@@ -77,6 +77,21 @@ Represents an authenticated human user (SM OAuth — X, Threads, or GitHub). Onl
 
 **Special instance — @herald**: A placeholder identity used to import external content for immediate disputation. When you quote something from the internet (a tweet, an article, a public statement), you submit it as a Claim attributed to @herald. A Challenge against that Claim is submitted simultaneously, summoning the original author. If and when the original author arrives and authenticates, they can claim ownership of the @herald Claim, replacing @herald with their own Person record. @herald is not a persona; it is a beacon. @herald is permanently reserved as a system handle — it is unavailable in the Person namespace and is neither a Person nor a Bot while unclaimed.
 
+#### Storage Strategy
+
+All Person entities are stored as first-class records in the distributed, append-only, cryptographically signed log (Kafka/NATS/Custom Raft) alongside all other core entities. This ensures a tamper-evident, auditable, and constitutionally compliant record of all identity-related actions.
+
+For privacy, performance, and regulatory compliance (e.g., GDPR):
+- A privacy-aware, query-optimized side index (such as SQLite) is maintained for fast Person lookup, authentication, and profile queries.
+- Personally identifiable information (PII) is stored in the side index, which supports selective deletion or anonymization as required by law.
+- The distributed log stores only pseudonymous references or hashed data for PII fields, ensuring that the authoritative ledger remains immutable and auditable, while the side index enables compliance with “right to be forgotten” and other privacy requests.
+
+**Summary:**
+- **Authoritative source:** Distributed append-only log (immutable, signed, replicated)
+- **Practical/GDPR layer:** Side index (queryable, PII can be deleted/anonymized as required)
+
+This hybrid approach balances auditability, privacy, and performance, and is the recommended pattern for Person CRUD in Truthbook.
+
 **Person constraints**:
 - A Person MUST NOT challenge their own Record.
 - A Person MUST NOT challenge a Claim they have agreed with.

@@ -60,6 +60,11 @@ Everything that follows — the constitutional structure, the duel process, the 
 
 ### Section 0.4 — CRUD Entity Hardening and Audit Requirements
 
+
+#### Person Storage and Privacy (Constitutional Clause)
+
+All Person entities must be stored as first-class records in the distributed, append-only, cryptographically signed log (the Belief Ledger or equivalent), ensuring a tamper-evident, auditable, and constitutionally compliant record of all identity-related actions. For privacy, performance, and regulatory compliance (including GDPR), a privacy-aware, query-optimized side index (such as SQLite) must be maintained for fast Person lookup, authentication, and profile queries. Personally identifiable information (PII) is stored in the side index, which supports selective deletion or anonymization as required by law. The distributed log stores only pseudonymous references or hashed data for PII fields, ensuring that the authoritative ledger remains immutable and auditable, while the side index enables compliance with “right to be forgotten” and other privacy requests. This hybrid approach is constitutionally required to balance auditability, privacy, and performance.
+
 All mutable (CRUD) entities, including Person and any future CRUD tables, must be protected by the following hardening measures:
 
 - **Strict access controls:** Users may only update their own data. Administrative updates are allowed only for legitimate, auditable reasons.
