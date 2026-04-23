@@ -72,7 +72,7 @@
 
 ## Phase 4: SM OAuth + JWT Authentication
 
-**Goal**: Users can sign in via X (Twitter), Threads, Bluesky, or GitHub OAuth. Server exchanges code for token server-side, creates/updates `persons` row and `linked_identities`, issues signed JWT (HS256, 24h). Client stores JWT in `localStorage`.
+**Goal**: Users can sign in via X (Twitter), Threads, or GitHub OAuth. Server exchanges code for token server-side, creates/updates `persons` row and `linked_identities`, issues signed JWT (HS256, 24h). Client stores JWT in `localStorage`.
 
 **Independent Test**: Sign in with GitHub OAuth → `persons` row created, JWT returned; re-sign-in → same `person_id`, `linked_identities` upserted; expired JWT → 401; tampered JWT → 401.
 
@@ -81,7 +81,6 @@
 - [ ] T024 Implement GitHub OAuth flow in `src/server/auth/github-oauth.js`: `GET /auth/github` redirects to GitHub; `GET /auth/github/callback` exchanges code, fetches user profile, upserts `persons` + `linked_identities`, issues JWT, redirects to `/?token=<jwt>`
 - [ ] T025 Implement X (Twitter) OAuth 2.0 PKCE flow in `src/server/auth/x-oauth.js`: same pattern as GitHub; store PKCE verifier in server-side session (Map keyed by `state`); note high-risk volatility per plan.md
 - [ ] T026 Implement Threads OAuth flow in `src/server/auth/threads-oauth.js`: Facebook Login SDK server-side; same upsert pattern
-- [ ] T027 Implement Bluesky OAuth flow in `src/server/auth/bluesky-oauth.js`: ATProto OAuth; same upsert pattern
 - [ ] T028 Create `src/client/api/auth.js` — `signIn(provider)` redirects to `/auth/<provider>`; `handleCallback()` extracts `?token=` from URL, stores in `localStorage`, removes from URL with `history.replaceState`; `getToken()` reads from `localStorage`; `isAuthenticated()` checks token exists and not expired (decode without verify); `signOut()` clears token
 - [ ] T029 Add `GET /auth/me` route (requires auth middleware): returns `{ personId, handle, platform, is_ai, linked_identities[] }` from `persons` join `linked_identities`
 
@@ -120,7 +119,7 @@
 - [ ] T041 Port `src/client/view/components/header.js` — update app name to "Truthbook"; handle all four SM OAuth provider sign-in buttons; show `@handle` when authenticated
 - [ ] T042 Port `src/client/view/components/notification.js` — keep `showNotification(message, type)` API unchanged
 - [ ] T043 Port `src/client/view/components/error-panel.js` — keep full debug bundle (stack + logs + UA + URL); update branding
-- [ ] T044 Port `src/client/view/components/composer.js` — refactor to support `mode` param: `"claim"`, `"challenge"`, `"answer"`, `"offer"`, `"response"`, `"moment"`; remove direct GitHub API calls; submit to `apiFetch`
+- [ ] T044 Port `src/client/view/components/composer.js` — refactor to support `mode` param: `"claim"`, `"challenge"`, `"answer"`, `"offer"`, `"response"`, `"moment"`; ensure all storage is via internal API; submit to `apiFetch`
 
 **Checkpoint**: Client bootstraps. Auth flow works. All utility modules updated. Composer mode-driven.
 
@@ -571,7 +570,7 @@
 
 **Goal**: Resolve all Implementation Blockers (B-001 through B-010). Close data model and build/deploy gaps identified in the full spec review. Harden the deploy pipeline and add missing `package.json` scripts.
 
-**Independent Test**: `fly deploy` completes cleanly with `better-sqlite3` built; `/health` 200; migrations run once, idempotently; Litestream replicates to Tigris; `npm run migrate` works locally; all 4 OAuth providers have registered redirect URIs (Bluesky deferred per B-009).
+**Independent Test**: `fly deploy` completes cleanly with `better-sqlite3` built; `/health` 200; migrations run once, idempotently; Litestream replicates to Tigris; `npm run migrate` works locally; all 3 OAuth providers have registered redirect URIs.
 
 ### B-001 — Docker build toolchain for `better-sqlite3`
 
@@ -580,7 +579,6 @@
 ### B-002 — OAuth redirect URI registration
 
 - [ ] T216 Register `https://truthbook.io/auth/github/callback` in GitHub OAuth App settings; register X/Twitter OAuth 2.0 app with PKCE; register Threads App with Instagram Graph API; document all four client IDs/secrets as Fly.io secrets in plan.md runbook
-- [ ] T217 Mark T027 (Bluesky OAuth) as deferred per B-009; add "Bluesky — coming soon" label to sign-in options in the UI
 
 ### B-003 / B-004 — Pre-deploy infrastructure
 
@@ -602,9 +600,7 @@
 
 - [ ] T222 In `src/server/index.js`, after `registerAll(db)` is called, run a one-time startup sweep: query `deadline_conditions` where `deadline_at < now` and no Disposition exists; call `deadline-checker` logic for each; log count of caught-up deadlines
 
-### B-009 — Bluesky deferred
 
-- [ ] T223 In sign-in UI, show Bluesky option as disabled button with tooltip "Bluesky sign-in — coming soon"; remove T027 from active phase and log it in a `## Deferred` section at the bottom of tasks.md
 
 ### B-010 — @system person seed
 

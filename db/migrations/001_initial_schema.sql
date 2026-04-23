@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS persons (
 CREATE TABLE IF NOT EXISTS linked_identities (
   id                TEXT PRIMARY KEY,
   person_id         TEXT NOT NULL REFERENCES persons(id),
-  platform          TEXT NOT NULL,   -- 'x' | 'threads' | 'bluesky' | 'github'
+  platform          TEXT NOT NULL,   -- 'x' | 'threads' | 'github'
   platform_user_id  TEXT NOT NULL,
   handle            TEXT NOT NULL,
   profile_pic_url   TEXT,

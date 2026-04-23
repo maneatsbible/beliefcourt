@@ -140,7 +140,7 @@ The app uses this token only when a user explicitly toggles "Import as @herald".
 
 ```
 src/
-├── api/          # GitHub API client, cache, Device Flow auth
+├── api/          # API client, cache, Device Flow auth
 ├── model/        # Data entities (Person, Post, Dispute, …)
 ├── controller/   # Permission gates + action logic
 ├── view/         # Render functions + components

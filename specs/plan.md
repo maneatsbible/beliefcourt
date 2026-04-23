@@ -13,25 +13,17 @@
 
 ---
 
-## Emergent Epistemic Organization (EEO)
-EEO is the emergent structure of epistemic relationships, clusters, and dynamics as revealed by the Belief Ledger. It describes how worldviews, agreements, disputes, settlements, and rescissions self-organize into patterns—clusters, bridges, outliers, and flows—across the network of Persons and Records. EEO is not imposed; it emerges from the actual epistemic acts recorded in the Ledger. The Worldview Explorer visualizes EEO, making the invisible structure of belief and reconciliation visible, explorable, and actionable.
-# Implementation Plan: Truthbook
-Truthbook is a browser-only, plain vanilla JavaScript SPA backed by a lightweight Hono API server running on Fly.io, with SQLite (WAL mode) as the primary database streamed to S3-compatible storage via Litestream. Identity is established through social media OAuth (X, Threads, Bluesky, GitHub) — no GitHub API calls are made for data storage. All content records are stored in the application's own database. The architecture is strict MVC: all permission logic in the Controller, dumb rendering in the View, DB entities mapped directly in the Model.
-
-The GitHub Issues PoC (truthbook.io, formerly disputable.io) proved the domain model. This plan implements the production architecture.
 
 ## Summary
 
-Truthbook is a browser-only, plain vanilla JavaScript SPA backed by a lightweight Hono API server running on Fly.io, with SQLite (WAL mode) as the primary database streamed to S3-compatible storage via Litestream. Identity is established through social media OAuth (X, Threads, Bluesky, GitHub) — no GitHub API calls are made for data storage. All content records are stored in the application's own database. The architecture is strict MVC: all permission logic in the Controller, dumb rendering in the View, DB entities mapped directly in the Model.
-
-The GitHub Issues PoC (disputable.io) proved the domain model. This plan implements the production architecture.
+Truthbook is a browser-only, plain vanilla JavaScript SPA, targeting **mobile browsers first, desktop browsers second**. It is backed by a lightweight Hono API server running on Fly.io, with SQLite (WAL mode) as the primary database streamed to S3-compatible storage via Litestream. Identity is established through social media OAuth (X, Threads, GitHub). All content records are stored in the application's own database. The architecture is strict MVC: all permission logic in the Controller, dumb rendering in the View, DB entities mapped directly in the Model. The MVP **requires a fully functional mockMode implementation and mock datasets for all major flows**.
 
 ## Technical Context
 
 **Language/Version**: Vanilla JavaScript ES2022+ (no transpilation) for frontend; Node.js 22 LTS + Hono for API server  
 **Primary Dependencies**: Zero external JS libraries in the browser. Server: Hono (minimal, ~14 KB), better-sqlite3, jose (JWT), node-cron (deadline detection)  
 **Storage**: SQLite (WAL mode) on Fly.io persistent volume; Litestream continuous replication to Tigris (S3-compatible, free on Fly.io)  
-**Auth**: SM OAuth (X, Threads, Bluesky, GitHub) → server-side token exchange → signed JWT (HS256, 24h expiry) returned to client  
+**Auth**: SM OAuth (X, Threads, GitHub) → server-side token exchange → signed JWT (HS256, 24h expiry) returned to client  
 **Testing**: Custom micro test-runner (plain JS, no framework)  
 **Target Platform**: Modern desktop browsers — Chrome 110+, Firefox 110+, Safari 16+, Edge 110+  
 **Project Type**: Static frontend (Fly.io static asset serving or CDN) + Hono API server on Fly.io  
@@ -184,7 +176,7 @@ CREATE TABLE persons (
 CREATE TABLE linked_identities (
   id              TEXT PRIMARY KEY,
   person_id       TEXT NOT NULL REFERENCES persons(id),
-  platform        TEXT NOT NULL,   -- 'x' | 'threads' | 'bluesky' | 'github'
+  platform        TEXT NOT NULL,   -- 'x' | 'threads' | 'github'
   platform_user_id TEXT NOT NULL,
   handle          TEXT NOT NULL,
   verified_at     TEXT NOT NULL DEFAULT (datetime('now')),

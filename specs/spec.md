@@ -34,12 +34,12 @@
 - Q: Where do GitHub Issues live — single shared repo, per-topic, or per-user? → A: Single shared repo owned by the app (e.g., `judgmentalio/judgmental-data`); all users' content is stored as issues there.
 - Q: When multiple people have agreed with a Claim and it is challenged, how many Duels are created? → A: One Duel per challenger–defender pair within the same Case; each agre-er who chooses to respond opens their own Duel.
 - Q: How is the deadline countdown enforced with no server? → A: Agreed deadline timestamp stored in the GitHub Issue body; clients compute remaining time on load; the first client to load past the deadline writes the Default (Disposition) record as a new GitHub Issue.
-- Q: What is the caching and pre-fetching strategy given GitHub API rate limits? → A: localStorage cache with ETag-based conditional GETs (If-None-Match); viewport pre-fetch for visible Home feed cards.
+- Q: What is the caching and pre-fetching strategy for API rate limits? → A: localStorage cache with ETag-based conditional GETs (If-None-Match); viewport pre-fetch for visible Home feed cards.
 
 ### Session 2026-04-20 — Infrastructure pivot and feature batch
 
 - Q: What analytics stack? → A: Both **Plausible** (privacy-first, no cookies, no consent banner — primary) and **Google Analytics 4** (IP-anonymized — secondary, required for ads integration). Both are script-tag only; no build step.
-- Q: Should auth still use GitHub Device Flow? → A: No. Backend is now Fly.io + Hono + SQLite. Auth is **SM OAuth** (X, Threads or GitHub) → server-side token exchange → signed JWT (HS256, 24h). No GitHub API calls for data storage.
+- Q: Should auth still use GitHub Device Flow? → A: No. Backend is now Fly.io + Hono + SQLite. Auth is **SM OAuth** (X, Threads or GitHub) → server-side token exchange → signed JWT (HS256, 24h). No GitHub API is used for content storage.
 - Q: How are AI-authored Records disclosed? → A: `is_ai: boolean` and `ai_model: string | null` on every Record. The UI renders an `[AI]` or `[AI-assisted]` badge on every affected Record card — not just on the Person profile.
 - Q: How does the tipping/creator-funding system work? → A: Direct peer-to-peer tips via Stripe (primary) or Ko-fi link. Platform fee 0% in v1. Tips are attached to a Person (and optionally to the Record that prompted the tip). Constitutional constraint: **no judgment, Claim access, or Duel participation is ever gated behind payment**.
 - Q: What are Evidence and Exhibits? → A: An **Evidence** is a structured attachment (file, URL, quote) on any Record as supporting material. An **Exhibit** is a formally submitted Evidence item during a Duel, given an exhibit label (Exhibit A, B …). Either party may object to an Exhibit, opening a nested Case.
@@ -280,7 +280,7 @@ Users receive notifications when a Record they own or hold a ClaimAccord on is c
 
 ### Edge Cases
 
-- What happens when a GitHub API call fails mid-Challenge submission? The optimistic UI must roll back and inform the user.
+- [Removed: GitHub API call failure handling — not relevant; all storage is internal.]
 - What if the same person is invited via a shared URL but is already a party to that Duel? They are taken directly to the Case View in their correct role.
 - What if a person holds a ClaimAccord on a Claim and is the only one who can enter a Duel against it? The Challenge icon is disabled for that person — they cannot be both challenger and defender.
 - What if the same challenge type is submitted twice in one turn by accident? The UI must prevent double-submission after first submit.
@@ -610,7 +610,7 @@ Sponsored content is prohibited. Any sponsored-in-intent Record would be require
 
 **Authentication & Identity**
 
-- **FR-001**: The app MUST authenticate users through **SM OAuth** (X/Twitter, Threads, GitHub) via a server-side token exchange on the Hono API server. The server returns a signed JWT (HS256, 24h expiry) stored client-side. No GitHub API calls are made for data storage.
+- **FR-001**: The app MUST authenticate users through **SM OAuth** (X/Twitter, Threads, GitHub) via a server-side token exchange on the Hono API server. The server returns a signed JWT (HS256, 24h expiry) stored client-side. No GitHub API is used for content storage.
 - **FR-002**: Each Person MUST have a unique `@name` (derived from their social media handle on the authenticating platform) and a globally unique id assigned by the application
 - **FR-003**: The @herald placeholder MUST be a system-level identity (not a real OAuth user) used to import external content. It is permanently reserved and unavailable in the Person namespace. Any authenticated user may submit a Claim attributed to @herald together with an immediate Challenge. The real author of the imported content may later authenticate and claim ownership, replacing @herald with their own Person record.
 
@@ -1322,19 +1322,7 @@ The Youth Zone is a first-class supervised space for persons under 18. It is gov
 
 ---
 
-**GitHub PoC — Rate Limit Handling (disputable.io current client)**
 
-The current disputable.io SPA communicates directly with the GitHub Issues API (no backend proxy). Anonymous requests share GitHub's 60 req/hr unauthenticated quota; authenticated requests receive 5,000 req/hr. The following requirements govern client-side behaviour when that quota is exhausted.
-
-- **FR-275** (**Rate-limit detection — reads**): When any `GET` call to the GitHub API returns HTTP 403 or 429, the client MUST inspect the response body for `"API rate limit exceeded"` or a `X-RateLimit-Remaining: 0` header. On detection the client MUST: (1) surface a non-blocking banner — "GitHub rate limit reached. Reads may be stale. Sign in for a higher limit." with a "Sign In" CTA if the user is unauthenticated; (2) serve subsequent `GET` requests from the ETag cache where available, and render a `[cached]` indicator on stale content; (3) suppress further API calls until either the user signs in or `X-RateLimit-Reset` has elapsed.
-
-- **FR-276** (**Rate-limit detection — writes**): When any `POST` or `PATCH` call to the GitHub API returns HTTP 403 or 429 due to rate limiting, the client MUST not silently swallow the error. The composer or action button that triggered the write MUST display an inline error: "Couldn't save — GitHub rate limit reached. Try again after [time] or sign in for a higher limit." The composer MUST retain the user's draft text and not clear the input. A "Retry" button MUST be shown; pressing it re-attempts the request once after a 3-second delay.
-
-- **FR-277** (**Mock mode bypass**): When mock mode is active (`isMockMode() === true`), rate-limit detection MUST be fully bypassed. All reads and writes operate on the in-memory + localStorage store and are never rate-limited. This ensures development and demo workflows are unaffected.
-
-- **FR-278** (**Sign-in upsell on rate limit**): The rate-limit banner (FR-275) MUST include a brief explanation: "Signed-in users get 5,000 GitHub API requests per hour vs 60 for anonymous visitors." The "Sign In" CTA navigates to the GitHub Device Auth flow. On successful authentication the banner MUST dismiss automatically and the pending read request MUST be retried with the new token.
-
-**Independent Test**: Load the app without a token; exhaust the rate limit; verify the banner appears and content still renders from cache. Attempt to submit a Challenge; verify the draft is preserved and the inline error is shown. Activate mock mode; verify no rate-limit UI appears at all.
 
 ---
 

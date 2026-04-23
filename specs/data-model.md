@@ -66,7 +66,7 @@ Every entity that extends **Record** is a **Belief Ledger entry**. The Belief Le
 
 ### Person
 
-Represents an authenticated human user (SM OAuth — X, Threads, Bluesky, or GitHub). Only real humans may be @Person. Bots and system actors are constitutionally forbidden from using the @Person namespace.
+Represents an authenticated human user (SM OAuth — X, Threads, or GitHub). Only real humans may be @Person. Bots and system actors are constitutionally forbidden from using the @Person namespace.
 
 | Field | Type | Source | Notes |
 |-------|------|--------|-------|

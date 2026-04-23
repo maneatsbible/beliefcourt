@@ -135,6 +135,12 @@ One Worldview Engine. Every context. The mechanic doesn't change. The framing do
 
 ---
 
+## Emergent Epistemic Organization (EEO)
+
+EEO is the emergent structure of epistemic relationships, clusters, and dynamics as revealed by the Belief Ledger. It describes how worldviews, agreements, disputes, settlements, and rescissions self-organize into patterns—clusters, bridges, outliers, and flows—across the network of Persons and Records. EEO is not imposed; it emerges from the actual epistemic acts recorded in the Ledger. The Worldview Explorer visualizes EEO, making the invisible structure of belief and reconciliation visible, explorable, and actionable.
+
+---
+
 ## The Content Acquisition Strategy: Worldview Sync + Auto-Claim Anywhere
 
 These are the two mechanics that solve the hardest problem in social platform history: where does the first content come from, and how does it keep growing without a paid acquisition budget?

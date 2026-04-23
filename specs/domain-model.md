@@ -242,7 +242,7 @@ Worldview Recomputed (for each Person involved)
 #### Person
 - **ID**: globally unique, immutable
 - **Handle**: @username (reserved at first use, never changed)
-- **Platforms**: linked social identities (X, Threads, Bluesky, GitHub)
+- **Platforms**: linked social identities (X, Threads, GitHub)
 - **Role**: Human, Bot, AI (disclosed at record-level)
 - **Reputation**: calibration score (from historical Judgment accuracy)
 - **Worldview**: computed from all Records authored by this Person
