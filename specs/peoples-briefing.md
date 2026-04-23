@@ -18,6 +18,10 @@
 
 ---
 
+**Truthbook is a general-purpose platform open to everyone, for any kind of content or community. While its design and governance are grounded in Christian principles—emphasizing truth, reconciliation, and integrity—participation is not limited by faith or background. All are welcome to use Truthbook for open discussion, creative expression, and honest disagreement, regardless of belief. The platform’s Christian foundation shapes its commitment to fairness and transparency, but its doors are open to all.**
+
+---
+
 ## The Bootstrapping Claim
 
 > **This document is primary evidence in the following live Claim on the platform:**
