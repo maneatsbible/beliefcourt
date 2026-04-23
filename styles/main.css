@@ -1,3 +1,78 @@
+/* --- Viz Suite Enhancements --- */
+.viz-marketing-wrap {
+  margin-top: 32px;
+  margin-bottom: 32px;
+}
+.viz-block {
+  background: var(--color-surface-2);
+  border: 2px solid var(--color-border);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px #0002;
+  margin: 36px 0 48px 0;
+  padding: 32px 24px 28px 24px;
+  position: relative;
+  transition: box-shadow 0.2s;
+}
+.viz-block:hover {
+  box-shadow: 0 4px 24px #0004;
+}
+.viz-label {
+  margin-bottom: 18px;
+  font-size: 1.18em;
+  font-weight: 600;
+  color: var(--color-accent-blue);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.viz-label-icon {
+  font-size: 1.5em;
+  margin-right: 6px;
+}
+.viz-label-desc {
+  display: block;
+  font-size: 0.98em;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+  font-weight: 400;
+}
+.viz-demo-caption {
+  color: var(--color-text-muted);
+  font-size: 0.98em;
+  margin-top: 6px;
+}
+.viz-home-message {
+  margin: 48px 0 36px 0;
+  font-size: 1.18em;
+  color: var(--color-text);
+  text-align: center;
+}
+.viz-demo-link {
+  display: inline-block;
+  margin: 18px 0 0 0;
+  padding: 12px 28px;
+  background: var(--color-accent-blue);
+  color: var(--color-bg);
+  border-radius: 8px;
+  font-size: 1.1em;
+  font-weight: 700;
+  box-shadow: 0 2px 8px #0002;
+  transition: background 0.2s, color 0.2s;
+}
+.viz-demo-link:hover {
+  background: #79b8ff;
+  color: var(--color-bg);
+}
+.viz-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 18px 0;
+  justify-content: flex-start;
+}
+.viz-timeline-replay {
+  margin-top: 0;
+}
 /* Truthbook design system */
 
 :root {

@@ -28,26 +28,16 @@ export class TimelineReplayView {
     d3root.className = 'viz-timeline-replay';
     this._el.appendChild(d3root);
 
-    // Controls (styled)
+    // Controls (styled, visually associated with timeline)
     const controls = document.createElement('div');
     controls.className = 'viz-controls';
-    controls.style.display = 'flex';
-    controls.style.alignItems = 'center';
-    controls.style.gap = '12px';
-    controls.style.margin = '12px 0 8px 0';
     d3root.appendChild(controls);
     const playBtn = document.createElement('button');
-    playBtn.innerHTML = '<span style="font-size:18px;">▶️</span> <span>Play</span>';
+    playBtn.innerHTML = '<span style="font-size:1.1em;">▶️</span> <span>Play</span>';
     playBtn.className = 'btn btn--primary';
-    playBtn.style.display = 'flex';
-    playBtn.style.alignItems = 'center';
-    playBtn.style.gap = '6px';
     const pauseBtn = document.createElement('button');
-    pauseBtn.innerHTML = '<span style="font-size:18px;">⏸️</span> <span>Pause</span>';
+    pauseBtn.innerHTML = '<span style="font-size:1.1em;">⏸️</span> <span>Pause</span>';
     pauseBtn.className = 'btn btn--secondary';
-    pauseBtn.style.display = 'flex';
-    pauseBtn.style.alignItems = 'center';
-    pauseBtn.style.gap = '6px';
     controls.appendChild(playBtn);
     controls.appendChild(pauseBtn);
 
@@ -182,7 +172,7 @@ export class TimelineReplayView {
       });
 
     function showEvents(upTo) {
-      eventGroups.transition().duration(300).style('opacity', (d, i) => i <= upTo ? 1 : 0.2);
+      eventGroups.transition().duration(400).style('opacity', (d, i) => i <= upTo ? 1 : 0.2);
       // Highlight current
       eventGroups.select('circle').attr('stroke', (d, i) => i === upTo ? '#000' : '#222').attr('stroke-width', (d, i) => i === upTo ? 3 : 1.5);
     }
@@ -190,6 +180,8 @@ export class TimelineReplayView {
     function play() {
       if (isPlaying) return;
       isPlaying = true;
+      playBtn.classList.add('btn--active');
+      pauseBtn.classList.remove('btn--active');
       playBtn.disabled = true;
       pauseBtn.disabled = false;
       if (animIdx >= data.length) animIdx = 0;
@@ -206,6 +198,8 @@ export class TimelineReplayView {
 
     function pause() {
       isPlaying = false;
+      playBtn.classList.remove('btn--active');
+      pauseBtn.classList.add('btn--active');
       playBtn.disabled = false;
       pauseBtn.disabled = true;
       if (animTimer) clearInterval(animTimer);
