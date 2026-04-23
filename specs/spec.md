@@ -38,7 +38,7 @@ This document supersedes all prior specifications and is continuously updated to
 - Q: What is Judgment? → A: A Person's verdict on a Duel, grounded in their declared Base of Truth. Requires a completed Analysis (which references Moments). The accumulation of Judgments is the knowledge base.
 - Q: How is Claim strength computed? → A: At query time from the dataset — not stored as a score. Strength = agreers × survived Duels. No opaque scores; all signals are queryable relationships.
 - Q: How is semantic equivalence of Records determined? → A: By community, not algorithm. A **SimilarityLink** is a first-class challengeable Record asserting two Records are equivalent. If it stands, it enables Precedent surfacing.
-- Q: What is the storage architecture? → A: GitHub Issues as append-only tamper-evident ledger (v1). A secondary read-model index (v2) for performant queries. The ledger is authoritative; the index is derived and rebuildable.
+  - Q: What is the storage architecture? → A: Distributed, append-only, cryptographically signed Belief Ledger. All nodes replicate the ledger and verify signatures. A secondary read-model index (v2) for performant queries. The ledger is authoritative; the index is derived and rebuildable.
 
 ---
 
@@ -54,7 +54,7 @@ Truthbook is a **Worldview Explorer**. A Person's worldview is not a profile fie
 
 The architecture maps exactly onto MVC, and the correspondence is not incidental — it is the design:
 
-- **Belief Ledger (Model)** — The SQLite database. Append-only record of every epistemic act: Claims, Challenges, Answers, Offers, Responses, Accords, ClaimAccords, Rescissions, Dispositions, Judgments, Evidence. The Ledger contains only what happened — what a Person actually filed, contested, agreed to, or withdrew. There is no inference layer. There are no implied beliefs. The Ledger is authoritative; it cannot be reconstructed from any other source.
+f- **Belief Ledger (Model)** — The distributed, cryptographically signed ledger. Append-only record of every epistemic act: Claims, Challenges, Answers, Offers, Responses, Accords, ClaimAccords, Rescissions, Dispositions, Judgments, Evidence. The Ledger contains only what happened — what a Person actually filed, contested, agreed to, or withdrew. There is no inference layer. There are no implied beliefs. The Ledger is authoritative; it cannot be reconstructed from any other source. All nodes verify signatures and replicate the ledger.
 
 - **Worldview Engine (Controller)** — Derives structure from the Belief Ledger deterministically, without AI. This is where Tradition Map computation lives (Jaccard similarity over `faith_relevant` ClaimAccords), where Compatibility Scores are computed, where the Personal Faith Profile is assembled, where Accord chains are traced, where the Base of Truth is derived. The Engine asks: *given all the Records this Person has produced, what structure emerges?* That structure is not inferred. It is computed. A Tradition Map produced by the Worldview Engine is a faithful derivation of what a Person has actually defended and agreed to — nothing else.
 
@@ -62,7 +62,7 @@ The architecture maps exactly onto MVC, and the correspondence is not incidental
 
 - **Worldview Explorer (the whole)** — The name for the complete stack taken together as a product concept. Not a feature. Not a section of the app. The architecture *is* the product. Every Duel filed is a Worldview Explorer interaction in whatever domain it occurs — dating, faith, family, neighborhood, workplace, history. The same engine processes all of it.
 
-**Analytics** sits within the Controller layer but is conceptually outside the Worldview Engine. Analytics queries the Belief Ledger directly (SQLite read-only) and may use AI for clustering, pattern detection, and trend analysis across cohorts. It operates at the platform level, not the Person level — it observes population-wide patterns in records that individuals have already made. Analytics MUST NOT write back to the Belief Ledger. The flow is strictly one-way: Belief Ledger → Analytics. Analytics outputs are never written as Records into any Person's Ledger, and no inferred belief is ever attributed to a Person based on analytics.
+**Analytics** sits within the Controller layer but is conceptually outside the Worldview Engine. Analytics queries the distributed Belief Ledger directly (read-only) and may use AI for clustering, pattern detection, and trend analysis across cohorts. It operates at the platform level, not the Person level — it observes population-wide patterns in records that individuals have already made. Analytics MUST NOT write back to the Belief Ledger. The flow is strictly one-way: Belief Ledger → Analytics. Analytics outputs are never written as Records into any Person's Ledger, and no inferred belief is ever attributed to a Person based on analytics.
 
 **Challenges are Belief Ledger entries.** Filing a Challenge is an epistemic act: it asserts that a Record is wrong, unclear, or undefended. That act is attributed to the challenger, stored as a Record in the Belief Ledger, and contributes to their worldview exactly as a Claim or Accord does. A Challenge that is itself challenged produces a nested Record — also in the Ledger, also attributed, also challengeable. This recursion has no floor. Each layer of challenge and answer in a nested Duel is a Record. All of them are in the Belief Ledger. All of them constitute worldview.
 
@@ -369,21 +369,22 @@ An authenticated moderator or admin can view the moderation flag queue, review f
 
 ---
 
-### User Story 15 — Deployment and Migration (Priority: P1 — Operator)
 
-The operator needs repeatable, safe deployment: run migrations before traffic, toggle maintenance mode during schema changes, and restore from Litestream backup if the volume is lost.
+### User Story 15 — Distributed Deployment and Node Operations (Priority: P1 — Operator)
 
-**Why this priority**: This is an operational blocker. Without a safe deploy path, every schema change is a risk.
+The operator needs repeatable, safe deployment: bring up new nodes, join the distributed ledger, verify cryptographic integrity, and ensure all nodes are in sync. Schema changes and protocol upgrades are governed by constitutional process and require majority approval by keyholder nodes. Maintenance mode is toggled via distributed consensus. Backups are cryptographically signed snapshots stored in S3-compatible storage, restorable by replaying the ledger from genesis or from a signed checkpoint.
 
-**Independent Test**: `fly deploy` → container starts → `db/migrate.js` runs → `/health` returns 200 → traffic resumes. Run `fly deploy` twice → migrations are idempotent, no duplicate runs.
+**Why this priority**: This is an operational blocker. Without a safe distributed deploy path, every protocol or schema change is a risk.
+
+**Independent Test**: Operator brings up a new node → node joins the distributed ledger → verifies all signatures and Merkle roots → `/health` returns 200 → node is listed in `/keyholders`. Operator brings up a node with a stale ledger → node syncs to latest state from peers. Operator restores from a signed snapshot → node verifies integrity and rejoins the cluster.
 
 **Acceptance Scenarios**:
 
-1. **Given** a new `*.sql` migration file is added, **When** `fly deploy` completes, **Then** `db/migrate.js` runs it exactly once and records it in `schema_migrations`.
-2. **Given** `fly deploy` is run with no new migrations, **Then** `migrate.js` completes immediately with no writes.
-3. **Given** `MAINTENANCE_MODE=true` is set via `fly secrets set`, **Then** all API and HTML routes except `/health` return 503; `/maintenance.html` is served for browser requests.
-4. **Given** the Fly.io volume is lost and must be restored, **When** the operator runs the Litestream restore procedure, **Then** the database is recovered to within 5 minutes of the last write.
-5. **Given** the operator runs `npm run migrate` locally against `DB_PATH=/tmp/test.db`, **Then** all migrations run against the local DB, enabling local dev without a live Fly.io instance.
+1. **Given** a new node is deployed, **When** it joins the cluster, **Then** it syncs the full ledger from peers, verifies all signatures, and is listed in `/keyholders`.
+2. **Given** a protocol or schema change is proposed, **When** a constitutional Duel is filed and reaches Accord, **Then** the change is rolled out via distributed consensus and all nodes upgrade in lockstep.
+3. **Given** maintenance mode is toggled, **Then** all nodes coordinate to serve `/maintenance.html` and reject writes until consensus is restored.
+4. **Given** a node is lost or corrupted, **When** the operator restores from a signed snapshot, **Then** the node replays the ledger to the latest state and rejoins the cluster.
+5. **Given** a local dev node is started, **Then** it can join a testnet cluster or replay the ledger from a known snapshot for local development.
 
 ---
 
@@ -400,7 +401,7 @@ An admin user manages Persons (role changes, bans), monitors cron job health, an
 3. **Given** the admin bans a user, **Then** `persons.banned_at` is set and the user list shows them as banned immediately.
 4. **Given** the admin visits `/admin/cron`, **Then** each of the 7 jobs shows its last run timestamp and outcome (OK / ERROR with message).
 5. **Given** the admin clicks "Run now" on any job, **Then** the job executes synchronously and the result is shown inline within 10 seconds.
-6. **Given** the admin visits `/admin/health`, **Then** they see DB file size, WAL size, server uptime, memory usage, Litestream last-replicated-at, and rate-limit hit count — all live.
+6. **Given** the admin visits `/admin/health`, **Then** they see node sync status, ledger height, cryptographic integrity status, server uptime, memory usage, and rate-limit hit count — all live.
 
 ---
 
@@ -584,11 +585,11 @@ Sponsored content is prohibited. Any sponsored-in-intent Record would be require
 **Records & Tree Structure**
 
 - **FR-004**: The system MUST support the following Record types: Claim, Challenge, Answer, Offer, Response, Case, Duel, Disposition, Accord, ClaimAccord, DeadlineConditions, Moment, Analysis, Judgment, SimilarityLink, Evidence, Exhibit.
-- **FR-005**: Every Record MUST be stored as a row in the application's SQLite database (Fly.io persistent volume, Litestream-replicated). The database is the canonical append-only ledger.
+- **FR-005**: Every Record MUST be stored as an append-only entry in the distributed, cryptographically signed Belief Ledger. The ledger is the canonical, authoritative record and is replicated and verified by all keyholder nodes.
 - **FR-006**: Top-level Claims MUST contain either text OR a single image, not both.
 - **FR-007**: Non-Claim Records MAY contain both text and a single image.
-- **FR-008**: All Records MUST have globally unique integer ids assigned by the database.
-- **FR-009**: The database store MUST be treated as append-only for content Records; no row is UPDATE'd or DELETE'd after creation.
+- **FR-008**: All Records MUST have globally unique cryptographic ids assigned by the distributed ledger protocol.
+- **FR-009**: The distributed ledger MUST be append-only for content Records; no entry is ever updated or deleted after creation.
 
 **Challenges and Cases**
 
@@ -600,7 +601,7 @@ Sponsored content is prohibited. Any sponsored-in-intent Record would be require
 
 **Cases and Duels**
 
-- **FR-015**: Cases and Duels MUST be first-class objects stored as distinct rows in the database.
+- **FR-015**: Cases and Duels MUST be first-class objects stored as distinct entries in the distributed ledger.
 - **FR-016**: A Duel involves exactly two Persons (challenger and defender); the controller MUST enforce whose turn it is.
 - **FR-017**: A Case may contain multiple Duels — one per challenger–defender pair (e.g. when multiple ClaimAccord holders respond to the same Challenge).
 - **FR-018**: Persons who hold a ClaimAccord on a Claim MUST be eligible to enter a Duel defending it when it is challenged; each agre-er opens their own Duel within the same Case.
@@ -684,7 +685,7 @@ Sponsored content is prohibited. Any sponsored-in-intent Record would be require
 - **FR-097** (**Ban enforcement**): A banned Person MUST receive `403 {"error":"banned"}` on all write routes. Banned Persons MAY still read public content — ban is a write-lock, not erasure. Banning MUST NOT delete any Records (append-only principle preserved).
 - **FR-098** (**Moderation queue**): Two types of reports flow into the moderation queue: (a) flagged Records — any authenticated Person may flag a Record as harmful; (b) automatic flags from the cron integrity check. Moderators and admins see the queue; only admins may resolve flags that result in bans.
 - **FR-099** (**Cron Control Panel**): Admin interface MUST show a Cron Control Panel listing every scheduled job with: name, schedule expression, last run timestamp, last run outcome (OK / ERROR + message), next scheduled run, and a manual "Run now" trigger. Jobs MUST NOT be startable/stoppable from the panel — only manually triggered for diagnostic use.
-- **FR-100** (**System health**): Admin interface MUST display: DB file size, WAL checkpoint lag, Litestream last-replicated timestamp, server uptime, memory usage, and rate-limit hit count in the last hour. All polled live on page load.
+- **FR-100** (**System health**): Admin interface MUST display: node sync status, ledger height, cryptographic integrity status, server uptime, memory usage, and rate-limit hit count in the last hour. All polled live on page load.
 
 **Scheduled Jobs (Cron)**
 
@@ -693,7 +694,7 @@ Sponsored content is prohibited. Any sponsored-in-intent Record would be require
 - **FR-103** (**Judgment track-record recompute**): `every hour` — for each Person who has rendered Judgments, recompute `judgment_track_record` (fraction of prior Judgments aligned with eventual Accord outcomes) and upsert into `person_stats` cache table. This cached value is used by Judgment weight computation to avoid per-request aggregation.
 - **FR-104** (**Analytics rollup**): `every hour` — aggregate `records`, `claim_accords`, `duels`, `judgments` into `analytics_snapshots` table (hourly buckets). Powers auto-analytics views without full-table scans on every request.
 - **FR-105** (**SimilarityLink cluster recompute**): `every 24 hours` — walks the `similarity_links` graph and recomputes connected-component cluster ids, storing cluster membership in `similarity_clusters` table. Enables Precedent surfacing queries.
-- **FR-106** (**DB integrity check**): `every 24 hours` — runs `PRAGMA integrity_check`; runs `PRAGMA wal_checkpoint(PASSIVE)`; records Litestream replication lag; if integrity check fails or lag > 5 minutes, creates an auto-flag in the moderation queue and writes to `cron_runs` with `status=error`.
+- **FR-106** (**Ledger integrity check**): `every 24 hours` — verifies cryptographic integrity of the distributed ledger (Merkle root, signature chain); checks node sync status; if integrity check fails or lag > 5 minutes, creates an auto-flag in the moderation queue and writes to `cron_runs` with `status=error`.
 - **FR-107** (**Tip settlement digest**): `every 24 hours at 00:00 UTC` — aggregates tip totals per recipient for the prior day; writes a row to `tip_digests`; exposes via `GET /api/persons/:id/tips/digest` for creator dashboard.
 
 **Dating and Compatibility Mode**
@@ -1300,7 +1301,7 @@ The following views are computed from the live database at query time, not store
 - **SC-004**: The full challenge-answer-counter-challenge cycle for one Duel round-trips (submit → server → re-render) in under 4 seconds on a standard broadband connection.
 - **SC-005**: The Home feed loads and renders the first screen of Claim cards in under 2 seconds on a standard broadband connection.
 - **SC-006**: A deadline expiry triggers a visible and audible Default event within 60 seconds of the deadline passing (server-side node-cron, 1-minute tick); client displays event on next load/poll.
-- **SC-007**: 100% of Record/Case/Duel state changes are persisted to the SQLite database; no client-only state mutations go unrecorded.
+- **SC-007**: 100% of Record/Case/Duel state changes are persisted to the distributed, cryptographically signed ledger; no client-only state mutations go unrecorded.
 - **SC-008**: Every AI-authored or AI-assisted Record displays the correct disclosure badge in all views.
 - **SC-009**: Unauthenticated users see the ad strip; authenticated users never see ads in any view.
 - **SC-010**: All 10 auto-analytics views load and render in under 3 seconds.
@@ -1317,7 +1318,7 @@ The following views are computed from the live database at query time, not store
 ## Assumptions
 
 - Users have a social media account (X, Threads or GitHub) and are willing to authorise the app via SM OAuth.
-- The Hono API server runs on Fly.io (single instance, shared-cpu-1x, 256 MB) with SQLite (WAL mode) on a persistent volume.
+- The Hono API server runs as a stateless service, connecting to the distributed, cryptographically signed Belief Ledger. All state is replicated and verified across keyholder nodes. No single point of failure.
 - Litestream continuously replicates the SQLite WAL to Tigris (S3-compatible, free on Fly.io).
 - Mobile browser support is a stretch goal; v1 targets modern desktop browsers (Chrome 110+, Firefox 110+, Safari 16+, Edge 110+).
 - Real-time push notifications (WebSockets/SSE) are out of scope; the app polls or refreshes on user action.

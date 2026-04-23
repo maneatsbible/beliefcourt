@@ -16,87 +16,42 @@
 
 ## Summary
 
-Truthbook is a browser-only, plain vanilla JavaScript SPA, targeting **mobile browsers first, desktop browsers second**. It is backed by a lightweight Hono API server running on Fly.io, with SQLite (WAL mode) as the primary database streamed to S3-compatible storage via Litestream. Identity is established through social media OAuth (X, Threads, GitHub). All content records are stored in the application's own database. The architecture is strict MVC: all permission logic in the Controller, dumb rendering in the View, DB entities mapped directly in the Model. The MVP **requires a fully functional mockMode implementation and mock datasets for all major flows**.
+Truthbook is a browser-only, plain vanilla JavaScript SPA, targeting **mobile browsers first, desktop browsers second**. It is backed by a lightweight Hono API server running on Fly.io, with a distributed, append-only, cryptographically signed log as the primary data store. Identity is established through social media OAuth (X, Threads, GitHub). All content records are stored in the distributed ledger, replicated and verified by independent Keyholder nodes. The architecture is strict MVC: all permission logic in the Controller, dumb rendering in the View, DB entities mapped directly in the Model. The MVP **requires a fully functional mockMode implementation and mock datasets for all major flows**.
 
 ## Technical Context
 
 **Language/Version**: Vanilla JavaScript ES2022+ (no transpilation) for frontend; Node.js 22 LTS + Hono for API server  
-**Primary Dependencies**: Zero external JS libraries in the browser. Server: Hono (minimal, ~14 KB), better-sqlite3, jose (JWT), node-cron (deadline detection)  
-**Storage**: SQLite (WAL mode) on Fly.io persistent volume; Litestream continuous replication to Tigris (S3-compatible, free on Fly.io)  
+
+**Primary Dependencies**: Zero external JS libraries in the browser. Server: Hono (minimal, ~14 KB), jose (JWT), node-cron (deadline detection)  
+**Storage**: Distributed, append-only, cryptographically signed log (Kafka, NATS JetStream, or custom Raft-based) replicated across Keyholder nodes. Snapshots and backups to S3-compatible storage.  
 **Auth**: SM OAuth (X, Threads, GitHub) → server-side token exchange → signed JWT (HS256, 24h expiry) returned to client  
 **Testing**: Custom micro test-runner (plain JS, no framework)  
 **Target Platform**: Modern desktop browsers — Chrome 110+, Firefox 110+, Safari 16+, Edge 110+  
 **Project Type**: Static frontend (Fly.io static asset serving or CDN) + Hono API server on Fly.io  
 **Performance Goals**: Home feed first render ≤ 2 s; challenge/answer round-trip ≤ 4 s; LCP ≤ 2.5 s; CLS ≤ 0.1  
-**Constraints**: Append-only record tables (no UPDATE/DELETE on content); single Fly.io instance for SQLite write serialisation; WAL mode for concurrent reads  
-**Scale/Scope**: Single-instance SQLite handles ~500 concurrent users, ~10k writes/day comfortably. Migration path to Postgres when needed.
-
+**Constraints**: Append-only, cryptographically signed records; all writes are peer-verified and replicated.  
+**Scale/Scope**: Horizontally scalable—Keyholder nodes can be added for increased throughput and redundancy. No single point of failure.  
 ---
 
-## Infrastructure: Fly.io Deployment
+## Infrastructure: Distributed Keyholder Deployment
 
 ### Application topology
 
 ```
-Fly.io Machine (single instance, shared-cpu-1x, 256 MB)
+Keyholder Node (Docker container or bare metal)
   ├── Hono API server (Node.js 22, port 8080)
-  ├── SQLite database file (/data/judgmental.db, WAL mode)
-  ├── Litestream sidecar (continuous replication → Tigris S3)
-  └── Static frontend assets served by Hono (or Fly.io CDN edge)
+  ├── Distributed append-only log (Kafka/NATS/Custom Raft)
+  ├── Merkle root computation and signature verification
+  ├── Peer-to-peer replication and gossip
+  └── Static frontend assets served by Hono (or CDN edge)
 
-Tigris (S3-compatible object storage, free on Fly.io)
-  └── Litestream WAL replicas (point-in-time restore)
+S3-compatible object storage
+  └── Signed snapshots and backups (point-in-time restore)
 ```
 
-### fly.toml (outline)
+### Deployment
 
-```toml
-app = "truthbook-io"
-primary_region = "lax"
-
-[build]
-  dockerfile = "Dockerfile"
-
-[mounts]
-  source = "judgmental_data"
-  destination = "/data"
-
-[http_service]
-  internal_port = 8080
-  force_https = true
-  auto_stop_machines = false   # keep alive — no cold starts
-  auto_start_machines = true
-  min_machines_running = 1
-
-[checks]
-  [checks.api]
-    type = "http"
-    path = "/health"
-    interval = "15s"
-    timeout = "5s"
-```
-
-### Dockerfile (outline)
-
-```dockerfile
-FROM node:22-alpine
-RUN apk add --no-cache sqlite litestream curl
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --production
-COPY . .
-EXPOSE 8080
-CMD ["sh", "start.sh"]
-```
-
-`start.sh` — restores from Litestream backup on cold start, then launches both Litestream and the API server:
-
-```sh
-#!/bin/sh
-litestream restore -if-replica-exists -config /etc/litestream.yml /data/judgmental.db
-litestream replicate -config /etc/litestream.yml &
-node src/server.js
-```
+Keyholder nodes are deployed as containers or on bare metal, each running the full protocol stack. Nodes discover peers via DNS, static config, or gossip. All data is replicated and verified across nodes. Snapshots and backups are stored in S3-compatible storage for disaster recovery.
 
 ---
 
@@ -135,370 +90,24 @@ The maintenance page (`maintenance.html`) is a standalone static HTML file with 
 
 ---
 
-## Database Schema
 
-### Versioning and migrations
+## Data Model and Schema
 
-Migrations are plain numbered SQL files in `db/migrations/`:
-
-```
-db/
-  migrations/
-    001_initial_schema.sql
-    002_add_similarity_links.sql
-    003_add_base_of_truth.sql
-    ...
-  seed/
-    dev_seed.sql
-  migrate.js      ← runs pending migrations on server startup
-```
-
-`migrate.js` reads a `schema_migrations` table (created on first run), compares to files on disk, and runs any pending migrations in order. Idempotent — safe to run on every startup.
-
-```sql
-CREATE TABLE IF NOT EXISTS schema_migrations (
-  version     INTEGER PRIMARY KEY,
-  filename    TEXT NOT NULL,
-  applied_at  TEXT NOT NULL DEFAULT (datetime('now'))
-);
-```
-
-### Core tables (Migration 001)
-
-```sql
--- Persons and linked SM identities
-CREATE TABLE persons (
-  id           TEXT PRIMARY KEY,   -- UUID v4
-  display_name TEXT,
-  created_at   TEXT NOT NULL DEFAULT (datetime('now'))
-);
-
-CREATE TABLE linked_identities (
-  id              TEXT PRIMARY KEY,
-  person_id       TEXT NOT NULL REFERENCES persons(id),
-  platform        TEXT NOT NULL,   -- 'x' | 'threads' | 'github'
-  platform_user_id TEXT NOT NULL,
-  handle          TEXT NOT NULL,
-  verified_at     TEXT NOT NULL DEFAULT (datetime('now')),
-  UNIQUE(platform, platform_user_id)
-);
-
--- All content records (append-only: no UPDATE/DELETE triggers enforce this)
-CREATE TABLE records (
-  id            TEXT PRIMARY KEY,  -- UUID v4
-  type          TEXT NOT NULL,     -- 'claim'|'challenge'|'answer'|'offer'|'response'
-  author_id     TEXT NOT NULL REFERENCES persons(id),
-  parent_id     TEXT REFERENCES records(id),
-  case_id       TEXT REFERENCES cases(id),
-  text          TEXT,
-  image_url     TEXT,
-  source_url    TEXT,              -- for @herald imports
-  attributed_handle TEXT,          -- @handle on external platform
-  attributed_platform TEXT,        -- 'x'|'threads' etc.
-  integrity_hash TEXT NOT NULL,    -- SHA-256 of canonical fields
-  created_at    TEXT NOT NULL DEFAULT (datetime('now'))
-);
-
-CREATE TABLE cases (
-  id                  TEXT PRIMARY KEY,
-  subject_record_id   TEXT NOT NULL REFERENCES records(id),
-  opened_by_person_id TEXT NOT NULL REFERENCES persons(id),
-  trigger_challenge_id TEXT NOT NULL REFERENCES records(id),
-  created_at          TEXT NOT NULL DEFAULT (datetime('now'))
-);
-
-CREATE TABLE duels (
-  id            TEXT PRIMARY KEY,
-  case_id       TEXT NOT NULL REFERENCES cases(id),
-  challenger_id TEXT NOT NULL REFERENCES persons(id),
-  defender_id   TEXT NOT NULL REFERENCES persons(id),
-  created_at    TEXT NOT NULL DEFAULT (datetime('now'))
-);
-
-CREATE TABLE dispositions (
-  id                    TEXT PRIMARY KEY,
-  duel_id               TEXT NOT NULL REFERENCES duels(id),
-  type                  TEXT NOT NULL,  -- 'accord'|'default'|'withdrawal'
-  triggered_by_person_id TEXT NOT NULL REFERENCES persons(id),
-  detected_at           TEXT NOT NULL,
-  created_at            TEXT NOT NULL DEFAULT (datetime('now'))
-);
-
-CREATE TABLE accords (
-  id          TEXT PRIMARY KEY,
-  duel_id     TEXT NOT NULL REFERENCES duels(id),
-  offer_id    TEXT NOT NULL REFERENCES records(id),
-  response_id TEXT NOT NULL REFERENCES records(id),
-  created_at  TEXT NOT NULL DEFAULT (datetime('now'))
-);
-
-CREATE TABLE claim_accords (
-  id         TEXT PRIMARY KEY,
-  claim_id   TEXT NOT NULL REFERENCES records(id),
-  person_id  TEXT NOT NULL REFERENCES persons(id),
-  created_at TEXT NOT NULL DEFAULT (datetime('now')),
-  UNIQUE(claim_id, person_id)
-);
-
-CREATE TABLE deadline_conditions (
-  id                   TEXT PRIMARY KEY,
-  duel_id              TEXT NOT NULL REFERENCES duels(id),
-  proposed_by_person_id TEXT NOT NULL REFERENCES persons(id),
-  agreed_by_person_id  TEXT REFERENCES persons(id),
-  duration_ms          INTEGER NOT NULL,
-  active               INTEGER NOT NULL DEFAULT 0,
-  current_deadline_iso TEXT,
-  created_at           TEXT NOT NULL DEFAULT (datetime('now'))
-);
-
-CREATE TABLE moments (
-  id               TEXT PRIMARY KEY,
-  subject_record_id TEXT NOT NULL REFERENCES records(id),
-  duel_id          TEXT NOT NULL REFERENCES duels(id),
-  author_id        TEXT NOT NULL REFERENCES persons(id),
-  text             TEXT NOT NULL,
-  created_at       TEXT NOT NULL DEFAULT (datetime('now'))
-);
-
-CREATE TABLE analyses (
-  id         TEXT PRIMARY KEY,
-  duel_id    TEXT NOT NULL REFERENCES duels(id),
-  author_id  TEXT NOT NULL REFERENCES persons(id),
-  text       TEXT NOT NULL,
-  created_at TEXT NOT NULL DEFAULT (datetime('now'))
-);
-
-CREATE TABLE analysis_moments (
-  analysis_id TEXT NOT NULL REFERENCES analyses(id),
-  moment_id   TEXT NOT NULL REFERENCES moments(id),
-  PRIMARY KEY (analysis_id, moment_id)
-);
-
-CREATE TABLE judgments (
-  id                    TEXT PRIMARY KEY,
-  duel_id               TEXT NOT NULL REFERENCES duels(id),
-  judge_id              TEXT NOT NULL REFERENCES persons(id),
-  analysis_id           TEXT NOT NULL REFERENCES analyses(id),
-  verdict               TEXT NOT NULL,  -- 'challenger'|'defender'
-  base_of_truth_claim_id TEXT NOT NULL REFERENCES records(id),
-  reasoning             TEXT NOT NULL,
-  created_at            TEXT NOT NULL DEFAULT (datetime('now'))
-);
-
-CREATE TABLE base_of_truth (
-  person_id        TEXT PRIMARY KEY REFERENCES persons(id),
-  anchor_claim_id  TEXT NOT NULL REFERENCES records(id),
-  declared_at      TEXT NOT NULL DEFAULT (datetime('now'))
-);
-
-CREATE TABLE similarity_links (
-  id          TEXT PRIMARY KEY,
-  author_id   TEXT NOT NULL REFERENCES persons(id),
-  record_a_id TEXT NOT NULL REFERENCES records(id),
-  record_b_id TEXT NOT NULL REFERENCES records(id),
-  reasoning   TEXT NOT NULL,
-  created_at  TEXT NOT NULL DEFAULT (datetime('now')),
-  UNIQUE(record_a_id, record_b_id)
-);
-
--- Append-only enforcement triggers (no UPDATE or DELETE on content tables)
-CREATE TRIGGER records_no_update BEFORE UPDATE ON records BEGIN
-  SELECT RAISE(ABORT, 'records table is append-only');
-END;
-CREATE TRIGGER records_no_delete BEFORE DELETE ON records BEGIN
-  SELECT RAISE(ABORT, 'records table is append-only');
-END;
-
--- Maintenance mode composer submissions
-CREATE TABLE maintenance_messages (
-  id         INTEGER PRIMARY KEY AUTOINCREMENT,
-  contact    TEXT,
-  message    TEXT,
-  ip_hash    TEXT,
-  created_at TEXT NOT NULL DEFAULT (datetime('now'))
-);
-
--- Indexes
-CREATE INDEX idx_records_type ON records(type);
-CREATE INDEX idx_records_author ON records(author_id);
-CREATE INDEX idx_records_parent ON records(parent_id);
-CREATE INDEX idx_records_case ON records(case_id);
-CREATE INDEX idx_cases_subject ON cases(subject_record_id);
-CREATE INDEX idx_duels_case ON duels(case_id);
-CREATE INDEX idx_claim_accords_claim ON claim_accords(claim_id);
-CREATE INDEX idx_claim_accords_person ON claim_accords(person_id);
-CREATE INDEX idx_judgments_duel ON judgments(duel_id);
-CREATE INDEX idx_linked_identities_person ON linked_identities(person_id);
-```
-
-### Extended tables (Migration 002)
-
-```sql
--- AI disclosure fields on records (alter existing table)
-ALTER TABLE records ADD COLUMN is_ai      INTEGER NOT NULL DEFAULT 0;
-ALTER TABLE records ADD COLUMN ai_model   TEXT;
-ALTER TABLE records ADD COLUMN ai_assisted INTEGER NOT NULL DEFAULT 0;
-
--- AI persona fields on persons (alter existing table)
-ALTER TABLE persons ADD COLUMN is_ai    INTEGER NOT NULL DEFAULT 0;
-ALTER TABLE persons ADD COLUMN ai_model TEXT;
-
--- Evidence: structured attachments on any Record
-CREATE TABLE evidence (
-  id              INTEGER PRIMARY KEY AUTOINCREMENT,
-  record_id       INTEGER NOT NULL REFERENCES records(id),
-  author_id       INTEGER NOT NULL REFERENCES persons(id),
-  attachment_type TEXT NOT NULL CHECK(attachment_type IN ('url','quote','image','file')),
-  title           TEXT,
-  url             TEXT,
-  text            TEXT,
-  file_path       TEXT,
-  source_url      TEXT,
-  created_at      TEXT NOT NULL DEFAULT (datetime('now'))
-);
-CREATE INDEX idx_evidence_record ON evidence(record_id);
-
--- Exhibits: formally submitted Evidence in a Duel
-CREATE TABLE exhibits (
-  id                     INTEGER PRIMARY KEY AUTOINCREMENT,
-  duel_id                INTEGER NOT NULL REFERENCES duels(id),
-  evidence_id            INTEGER NOT NULL REFERENCES evidence(id),
-  submitted_by_person_id INTEGER NOT NULL REFERENCES persons(id),
-  exhibit_label          TEXT NOT NULL,  -- "A", "B", "C" ...
-  created_at             TEXT NOT NULL DEFAULT (datetime('now')),
-  UNIQUE(duel_id, exhibit_label)
-);
-CREATE INDEX idx_exhibits_duel ON exhibits(duel_id);
-
--- Tips: voluntary peer-to-peer support
-CREATE TABLE tips (
-  id                      INTEGER PRIMARY KEY AUTOINCREMENT,
-  from_person_id          INTEGER NOT NULL REFERENCES persons(id),
-  to_person_id            INTEGER NOT NULL REFERENCES persons(id),
-  amount_cents            INTEGER NOT NULL,
-  currency                TEXT NOT NULL DEFAULT 'USD',
-  subject_record_id       INTEGER REFERENCES records(id),
-  payment_provider        TEXT NOT NULL CHECK(payment_provider IN ('stripe','kofi')),
-  stripe_payment_intent_id TEXT,
-  platform_fee_percent    INTEGER NOT NULL DEFAULT 0,
-  created_at              TEXT NOT NULL DEFAULT (datetime('now'))
-);
-CREATE INDEX idx_tips_to ON tips(to_person_id);
-CREATE INDEX idx_tips_from ON tips(from_person_id);
-
--- Append-only triggers for new content tables
-CREATE TRIGGER evidence_no_update BEFORE UPDATE ON evidence BEGIN
-  SELECT RAISE(ABORT, 'evidence table is append-only');
-END;
-CREATE TRIGGER evidence_no_delete BEFORE DELETE ON evidence BEGIN
-  SELECT RAISE(ABORT, 'evidence table is append-only');
-END;
-CREATE TRIGGER exhibits_no_update BEFORE UPDATE ON exhibits BEGIN
-  SELECT RAISE(ABORT, 'exhibits table is append-only');
-END;
-CREATE TRIGGER exhibits_no_delete BEFORE DELETE ON exhibits BEGIN
-  SELECT RAISE(ABORT, 'exhibits table is append-only');
-END;
-```
-
-
-
-### Application versioning
-
-Semantic versioning: `MAJOR.MINOR.PATCH`
-
-- `MAJOR`: breaking changes to the data model or API contract
-- `MINOR`: new features, new entity types, new API endpoints
-- `PATCH`: bug fixes, performance improvements, UI changes
-
-Version is stored in `package.json` and displayed in the app header (FR-044). The API exposes it at `GET /version`.
-
-### Database versioning
-
-Migration version numbers are sequential integers matching the filename prefix (`001`, `002`, ...). The running migration version is readable at `GET /version` alongside the app version. A mismatch between expected and actual migration version on startup is a fatal error — the server refuses to start until migrations are applied.
-
-### API versioning
-
-API routes are prefixed: `/api/v1/...`. A breaking schema change increments the route prefix to `/api/v2/...` and the old version remains available for one major app version cycle before deprecation.
-
----
+All data structures are append-only and cryptographically signed. New entity types or fields require a constitutional amendment and coordinated upgrade of all Keyholder nodes. The distributed log is the canonical source of truth, and all schema evolution is governed by constitutional process. No legacy database or migration system is used.
 
 ## Scaling and Migration Planning
 
-### Current ceiling (SQLite single-instance)
-
-| Metric | Practical limit | Notes |
-|--------|----------------|-------|
-| Concurrent reads | ~1,000/s | WAL mode; reads don't block each other |
-| Concurrent writes | ~200/s | Serialised; WAL mode reduces contention |
-| Database file size | ~10 GB comfortable | SQLite handles TB-scale but Litestream replication gets slower |
-| Active users (concurrent) | ~500 | Estimated; depends heavily on write mix |
-
-### Migration trigger signals
-
-These are the operational signals that indicate it is time to migrate from SQLite to Postgres:
-
-1. Write latency (p95) exceeds 200ms under normal load
-2. Database file size exceeds 5 GB
-3. Need to run more than one Fly.io instance (horizontal scaling required)
-4. Litestream replication lag exceeds 10 seconds consistently
-
-### Migration path: SQLite → Postgres
-
-The schema is designed to be Postgres-compatible with minor changes:
-- `TEXT PRIMARY KEY` UUIDs → `UUID PRIMARY KEY DEFAULT gen_random_uuid()`
-- SQLite `datetime('now')` → Postgres `NOW()`
-- SQLite triggers → Postgres triggers (same logic, different syntax)
-- `INTEGER` booleans → `BOOLEAN`
-
-Migration procedure:
-1. Spin up Postgres instance (Fly.io Postgres or Supabase)
-2. Run schema DDL with Postgres dialect
-3. Export SQLite data to CSV/JSON via `sqlite3` CLI
-4. Import to Postgres
-5. Verify row counts and integrity hashes
-6. Blue/green deploy: new instance points to Postgres, old SQLite instance stays live during cutover
-7. DNS/proxy switch when verified
-8. Decommission SQLite instance
-
-Estimated migration effort: 1–2 days. No application logic changes required if the DB adapter layer is properly abstracted.
-
-### DB adapter layer
-
-The server uses a thin adapter pattern so the database driver is never called directly from business logic:
-
-```
-src/server/
-  db/
-    adapter.js       ← interface: query(), run(), transaction()
-    sqlite.js        ← better-sqlite3 implementation
-    postgres.js      ← pg implementation (stubbed until needed)
-  model/
-    claim.js         ← uses db/adapter, never db/sqlite directly
-    duel.js
-    ...
-```
-
-Swapping backends = swap `adapter.js` import. All queries remain unchanged.
-
----
+Truthbook is natively horizontally scalable. Keyholder nodes can be added or removed with no single point of failure. All data is replicated and verified across nodes using deterministic, cryptographically signed logs. No migration from legacy databases is required; all scaling is handled by adding nodes and partitioning via Spaces.
 
 ## Known Risks and Mitigations
 
 | Risk | Severity | Mitigation |
 |------|----------|-----------|
-| SQLite write serialisation bottleneck under viral load | Medium | WAL mode; single writer is sufficient for projected v1 scale; migration path to Postgres is documented and straightforward |
-| Fly.io machine restart loses in-memory state | Low | All state is in SQLite on persistent volume; Litestream restores on cold start; no in-memory-only state |
-| Litestream replication lag on backup | Low | Litestream replicates every WAL frame; maximum data loss is seconds; test restore procedure quarterly |
-| X (Twitter) OAuth policy change or cost increase | High | X is one of multiple providers; no core feature requires X specifically; new providers addable without schema changes |
-| Threads (Meta) app review delay | Low | Basic profile OAuth scope requires minimal review; submit early; app functions without Threads |
-| JWT secret compromise | High | Secrets stored in Fly.io secrets (not env file, not repo); rotate via `fly secrets set`; short-lived tokens (24h) limit exposure window |
-| Concurrent Default Disposition writes (two clients detect deadline simultaneously) | Medium | DB UNIQUE constraint on `(duel_id, type)` in dispositions table makes the second write fail gracefully; first writer wins; client handles constraint error without UI error |
-| Schema migration failure on deploy | Medium | Migrations run before server accepts traffic; failed migration = failed deploy = previous version stays live; migrations are tested in CI against a copy of the production schema |
-| Persistent volume data corruption | Low | Litestream provides point-in-time restore; SQLite WAL provides crash safety; Fly.io volumes are on NVMe with redundancy |
-| Single region latency for non-US users | Low | SQLite single-write constraint means single-region for writes; reads could be served from edge cache in v2; acceptable for v1 |
-| Node.js/Hono security vulnerabilities | Medium | `npm audit` in CI; Dependabot alerts; Hono has minimal attack surface; no ORM reduces injection surface |
-| Over-aggressive caching serving stale Claim strength | Low | Strength is computed at query time; cache TTL set to 60s on KV; explicit cache bust on any write to claim_accords or dispositions |
+| Keyholder collusion | Medium | Constitutional controls, transparent proofs, broad operator base |
+| Space policy drift | Medium | Strong constitutional inheritance + explicit duel-approved overrides |
+| Citation explosion (large accord sets) | High | Snapshot hashing + indexed citation tables |
+| Ledger growth | High long-term | Space snapshots, archival tiering, aggressive index strategy |
+| Namespace abuse | Medium | Global handle governance, moderation and identity controls by constitution |
 
 ## Constitution Check
 
@@ -506,18 +115,16 @@ Swapping backends = swap `adapter.js` import. All queries remain unchanged.
 
 | Principle | Status | Notes |
 |-----------|--------|-------|
-| I. Code Quality | ✅ PASS | MVC enforces SRP by design. Each module has one responsibility. DB adapter pattern isolates persistence from business logic. |
+| I. Code Quality | ✅ PASS | MVC enforces SRP by design. Each module has one responsibility. Distributed log pattern isolates persistence from business logic. |
 | II. Testing Standards | ⚠️ TENSION | Browser frontend forbids external libraries. Custom micro test-runner (~50 lines, pure JS) satisfies coverage gates without violating no-library constraint. Server-side code uses Node.js test runner (built-in, no library). |
 | III. UX Consistency | ✅ PASS | Dark theme, design tokens in CSS custom properties, WCAG 2.1 AA target. Tooltips on all interactive controls. Minimum 44×44px tap targets. |
 | IV. Performance | ✅ PASS | HTTP cache headers from API, viewport pre-fetch, LCP/CLS targets encoded in spec SC-004/SC-005. Analytics scripts loaded defer/async. |
-| V. Security | ✅ PASS | Parameterised queries (no ORM, no SQL injection); JWT HS256 with server-side secret stored in Fly.io secrets; OAuth state param (CSRF protection); append-only DB triggers; IP hashing in maintenance composer (no raw PII); CSP headers; rate limiting on write endpoints; CORS locked to app origin; `npm audit` blocks CI. |
-| VI. Openness | ✅ PASS | Full judgment participation is free and requires no payment. Ads appear only for unauthenticated users. Tipping has zero effect on Record visibility, strength, or Duel eligibility. Constitutional constraint encoded in Tip model (`platform_fee_percent DEFAULT 0`, no access gates). |
+| V. Security | ✅ PASS | Parameterised queries (no ORM, no SQL injection); JWT HS256 with server-side secret stored in Fly.io secrets; OAuth state param (CSRF protection); append-only distributed log; IP hashing in maintenance composer (no raw PII); CSP headers; rate limiting on write endpoints; CORS locked to app origin; `npm audit` blocks CI. |
+| VI. Openness | ✅ PASS | Full judgment participation is free and requires no payment. Ads appear only for unauthenticated users. Tipping has zero effect on Record visibility, strength, or Duel eligibility. Constitutional constraint encoded in Tip model (no access gates). |
 | VII. Disclosure | ✅ PASS | Every Record carries `is_ai`, `ai_model`, `ai_assisted` fields. UI renders disclosure badge on every affected card. @herald imports carry `[Imported · @handle · Platform]` label. Sponsored content is prohibited. |
 | VIII. Analytics Privacy | ✅ PASS | Plausible (primary) collects no PII, no cookies, no consent banner required. GA4 (secondary) uses IP anonymisation. Neither analytics provider receives personally identifiable data. |
 
 **Gate decision**: PASS with one documented tension (Testing Standards). The micro test-runner approach resolves the conflict.
-
----
 
 ## Analytics Integration
 
@@ -577,7 +184,7 @@ specs/001-better-dispute-app/
 
 ```text
 src/
-├── client/                         # Browser frontend (vanilla JS, no build step)
+├── client/                         # Browser frontend
 │   ├── app.js                      # Entry point — bootstraps controller, renders shell
 │   ├── api/
 │   │   ├── client.js               # Fetch wrapper for truthbook.io REST API
@@ -608,8 +215,7 @@ src/
 │   ├── server.js                   # Entry point — mounts routes, middleware
 │   ├── db/
 │   │   ├── adapter.js              # DB interface: query(), run(), transaction()
-│   │   ├── sqlite.js               # better-sqlite3 implementation
-│   │   ├── postgres.js             # pg implementation (stubbed until migration needed)
+│   │   ├── log-adapter.js          # distributed log implementation (Kafka/NATS/Custom Raft)
 │   │   └── migrate.js              # Runs pending migrations on startup
 │   ├── routes/
 │   │   ├── auth.js                 # SM OAuth callback + JWT issuance
@@ -651,24 +257,12 @@ tests/
 │   └── controller/                 # Permission gate unit tests (canChallenge etc.)
 ├── integration/
 │   ├── api-client.test.js          # API client contract tests (mock fetch)
-│   └── db.test.js                  # DB adapter integration tests (in-memory SQLite)
+│   └── db.test.js                  # DB adapter integration tests (mock distributed log)
 └── e2e/
     └── flows/                      # Critical user journey scripts
 
 Dockerfile
 fly.toml
 start.sh
-litestream.yml
+
 ```
-
----
-
-## Complexity Tracking
-
-| Tension | Why Accepted | Simpler Alternative Rejected Because |
-|---------|-------------|--------------------------------------|
-| Custom micro test-runner (browser) | Constitution II requires 80/85% coverage; browser frontend forbids external libs | No external test framework can run without a build step or node_modules in the browser |
-| SQLite single-writer constraint | Simplest possible DB; zero managed infra; fully owned | Postgres adds operational complexity not justified at v1 scale; migration path is documented |
-| Server-side deadline detection | No client can be trusted to reliably fire a deadline event; a server-side cron job (node-cron, 1-minute tick) is simpler and more reliable than relying on the first browser client to load past the deadline | Client-side detection is a race condition at scale |
-| DB adapter pattern | Required for SQLite → Postgres migration path with zero business logic changes | Direct driver calls would make migration a rewrite |
-| Maintenance mode as env var toggle | Zero-downtime mode switch without redeployment; no admin UI needed in v1 | A DB-stored flag would require the DB to be available — defeating the purpose during DB maintenance |

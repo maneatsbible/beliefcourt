@@ -180,7 +180,7 @@ The platform's source code is open. Anyone can fork it, rename it, and run a com
 
 | Tier | Node type | What they run | Reward basis |
 |---|---|---|---|
-| Seedling | Read replica | Mirrors DB via Litestream, serves read traffic | Per-query-served credit toward platform fees |
+| Seedling | Read replica | Mirrors distributed log, serves read traffic | Per-query-served credit toward platform fees |
 | Steward | Write relay | Handles regional write buffering + read | Per-write-relayed credit + monthly reward share |
 | Keeper | Full peer | Independent record storage + sync | Per-record-confirmed reward + governance weight |
 
@@ -270,7 +270,8 @@ All revenue is subscription and micro-transaction. No passive advertising. No ba
 
 ## The Cost Structure
 
-Infrastructure: SQLite + Litestream on Fly.io. No database bill. No CDN bill. No per-seat infrastructure cost. The architecture scales to 500,000 MAU on approximately $300–$500/month of server costs.
+
+Infrastructure: Distributed, append-only log (Kafka, NATS JetStream, or custom Raft) replicated across independent Keyholder nodes. No single database bill. No CDN bill. No per-seat infrastructure cost. The architecture scales horizontally by adding Keyholder nodes, with estimated costs of $300–$500/month for 500,000 MAU.
 
 **Net margin at scale: 88–90%.**
 

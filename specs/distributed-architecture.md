@@ -1,4 +1,4 @@
-# Distributed Architecture & Blockchain Hardening Strategy
+# Truthbook Distributed Architecture (Constitutional Edition)
 
 | Field | Value |
 |---|---|
@@ -9,7 +9,7 @@
 | **Spec** | [spec.md](spec.md) |
 | **Plan** | [plan.md](plan.md) |
 | **Constitution** | [constitution.md](constitution.md) |
-| **Phase** | Visionary; implementation deferred to Phase 2 (post-MVP) |
+| **Phase** | Distributed, peer-to-peer, append-only, constitutionally governed |
 
 ---
 
@@ -41,28 +41,114 @@ This revision codifies four constitutional constraints:
 
 ## Architecture Model
 
-### Phase 1: Foundation (Current)
 
-Single-instance Fly.io + SQLite remains the implementation base for MVP delivery.
+## 1. Core Principles
 
-```
-Fly.io Machine
-  - Hono API
-  - SQLite (WAL)
-  - Litestream replication
-  - Static frontend serving
-```
+- **Append-only, cryptographically signed Belief Ledger**: Every Record (Claim, Challenge, Judgment, etc.) is immutable, signed (Ed25519), and attributed to a Person or Bot (with full disclosure).
+- **No blockchain, but blockchain-like guarantees**: Tamper evidence, distributed operation, and constitutional governance—without blockchain.
+- **Distributed Keyholder nodes**: Multiple independent nodes replicate, verify, and serve the ledger, with constitutional governance for coordination and rewards.
+- **No forking**: All divergence is handled via in-database Spaces, not network forks.
+- **Global Person namespace**: One identity per human, globally unique across all Spaces.
+- **Merkle-root proofs and signature verification**: For tamper evidence and auditability.
+- **Governance and policy**: All changes, including node coordination, are governed by constitutional process and Duel outcomes.
 
-### Phase 2: Distributed Keyholder Operation
+---
 
-Distributed operation introduces independent reward-earning Keyholder nodes while preserving append-only semantics and constitutional governance.
+## 2. Data Layer
 
-No blockchain is required. The target properties are delivered by:
-- Cryptographic signatures on Records
-- Merkle-root publication for tamper evidence
-- Deterministic replication and sync
-- Constitution-bound governance
-- Space-level organization in a single shared namespace
+- **Distributed, append-only log**: Replace SQLite with a distributed, append-only log (e.g., Apache Kafka, NATS JetStream, or custom Raft-based log).
+  - Each Record is a signed, immutable event.
+  - All nodes ingest, verify, and append Records to their local log.
+  - Merkle roots are computed over the log for tamper evidence.
+- **Space partitioning**: Each Space is a logical partition, but all share the global Person namespace.
+
+---
+
+## 3. Keyholder Nodes
+
+- **Each node runs the full protocol stack**:
+  - Verifies signatures and Merkle proofs on ingest.
+  - Publishes and syncs Merkle roots and signed Records with peers.
+  - Serves queries and proofs to clients.
+  - Participates in constitutional governance (Duel, Judgment, etc.).
+- **Coordinator election**: Pluggable, constitutionally-governed election protocol (Raft, or custom, with constitutional override).
+- **Node rewards**: Uptime, correctness, and service are tracked and rewarded per constitutional policy.
+
+---
+
+## 4. Replication and Sync
+
+- **Deterministic, peer-to-peer replication**:
+  - Nodes gossip new Records and Merkle roots.
+  - Hash divergence triggers quarantine and reconciliation.
+  - All nodes must be able to independently verify the full chain of custody for every Record.
+- **Backup and recovery**:
+  - Regular, signed snapshots (JSON or binary) to S3 or similar.
+  - Multi-node restore and corruption detection.
+
+---
+
+## 5. API and Client Layer
+
+- **Stateless, horizontally scalable API servers**:
+  - Serve the frontend and mobile clients.
+  - Proxy all writes to the distributed log.
+  - Serve queries with Merkle inclusion proofs.
+- **Frontend remains a static SPA** (as in current plan), but now queries distributed nodes for data and proofs.
+
+---
+
+## 6. Governance and Policy Enforcement
+
+- **All protocol rules, thresholds, and amendments are encoded in the Constitution**:
+  - Changes require a constitutional Duel and majority Judgment.
+  - Node software must be upgradable via constitutional process, not unilateral admin action.
+
+---
+
+## 7. Security and Audit
+
+- **All actions are signed and auditable**.
+- **No opaque or inferred beliefs**: Only explicit, on-record acts are stored.
+- **Bots and AI must be fully disclosed and challengeable**.
+
+---
+
+## 8. Implementation Roadmap
+
+- **Phase 1**: MockMode and in-memory simulation for all flows.
+- **Phase 2**: Integration with distributed log and signature verification.
+- **Phase 3**: Launch 3–5 Keyholder nodes, test full replication, Merkle proofs, and governance flows.
+- **Phase 4**: Open node participation, enable rewards, and enforce constitutional upgrades.
+
+---
+
+## 9. Risks & Mitigations
+
+| Risk | Probability | Mitigation |
+|---|---|---|
+| Keyholder collusion | Medium | Constitutional controls, transparent proofs, broad operator base |
+| Space policy drift | Medium | Strong constitutional inheritance + explicit duel-approved overrides |
+| Citation explosion (large accord sets) | High | Snapshot hashing + indexed citation tables |
+| Ledger growth | High long-term | Space snapshots, archival tiering, aggressive index strategy |
+| Namespace abuse | Medium | Global handle governance, moderation and identity controls by constitution |
+
+---
+
+## 10. Summary Table
+
+| Layer         | Technology/Pattern         | Constitutional Alignment         |
+|---------------|---------------------------|----------------------------------|
+| Data/Log      | Kafka/NATS/Custom Raft    | Append-only, signed, auditable   |
+| Replication   | Gossip, Merkle proofs     | Tamper-evident, peer-verified    |
+| API           | Stateless Node.js/Hono    | No central authority, scalable   |
+| Frontend      | SPA (JS, no framework)    | Open, accessible, mobile-first   |
+| Governance    | Duel, Judgment, Amend     | All changes by constitutional process |
+| Backup        | S3, signed snapshots      | Recoverable, auditable           |
+
+---
+
+This architecture is fully aligned with the Truthbook Constitution and is designed for robust, scalable, and tamper-evident operation without blockchain or legacy database constraints.
 
 ---
 

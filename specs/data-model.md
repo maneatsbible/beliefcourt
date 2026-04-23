@@ -798,9 +798,10 @@ Control meaning is context-sensitive but layout is invariant.
 
 ## Storage Architecture Notes
 
-SQLite (WAL mode) on a Fly.io persistent volume is the canonical append-only ledger. All writes go through the Hono API server. Litestream continuously replicates every WAL frame to Tigris (S3-compatible object storage, free on Fly.io) for point-in-time restore.
 
-**Append-only enforcement**: SQLite triggers prevent UPDATE/DELETE on content tables (`records`, `cases`, `duels`, `dispositions`, `accords`, `claim_accords`, `moments`, `analyses`, `judgments`, `similarity_links`, `evidence`, `exhibits`, `rescissions`). Only operational/cache tables (`deadline_conditions.active`, `maintenance_messages`, `person_stats`, `analytics_snapshots`, `similarity_clusters`, `cron_runs`, `moderation_flags`, `notifications.read_at`) allow updates or upserts.
+The canonical append-only ledger is a distributed, cryptographically signed log (e.g., Apache Kafka, NATS JetStream, or custom Raft-based log) replicated across independent Keyholder nodes. All writes go through the Hono API server, which proxies to the distributed log. Each node independently verifies, appends, and serves records. Regular, signed snapshots (JSON or binary) are stored in S3-compatible object storage for point-in-time restore and disaster recovery.
+
+**Append-only enforcement**: The distributed log enforces immutability at the protocol level. No UPDATE/DELETE operations are permitted on content records (`records`, `cases`, `duels`, `dispositions`, `accords`, `claim_accords`, `moments`, `analyses`, `judgments`, `similarity_links`, `evidence`, `exhibits`, `rescissions`). Only operational/cache tables or ephemeral state (e.g., `deadline_conditions.active`, `maintenance_messages`, `person_stats`, `analytics_snapshots`, `similarity_clusters`, `cron_runs`, `moderation_flags`, `notifications.read_at`) allow updates or upserts, and these are managed outside the canonical log.
 
 **Reserved system persons**: Two `persons` rows are seeded before migration 001 completes and before any OAuth user is created:
 - `id=1, name='@herald'` — placeholder identity for imported external content (B-010 resolved).
@@ -808,10 +809,11 @@ SQLite (WAL mode) on a Fly.io persistent volume is the canonical append-only led
 
 **Handle disambiguation**: If a new OAuth user's handle derived from their SM platform conflicts with an existing `persons.name`, the server appends a 4-digit random numeric suffix (e.g. `@alice` → `@alice4821`) and returns the resolved handle in the JWT. The original platform handle is stored separately in `linked_identities.platform_handle`.
 
+
 **Known constraints at scale**:
-- Single-writer SQLite means write throughput tops out at ~10k writes/day on a shared-cpu-1x machine.
-- Graph traversal (lineage, nested Cases) is handled by recursive SQL CTEs — performant for typical chain depths of <10.
-- Migration path to Postgres is documented in plan.md, triggered by write latency p95 > 200ms, file size > 5 GB, or need for multiple write instances.
+- Distributed log throughput and latency depend on the underlying log implementation (Kafka, NATS, or Raft). Horizontal scaling is achieved by adding Keyholder nodes and partitioning via Spaces.
+- Graph traversal (lineage, nested Cases) is handled by in-memory or distributed queries, optimized for typical chain depths of <10.
+- No migration to Postgres or other RDBMS is required; scaling is handled by adding nodes and partitioning the log.
 
 **Read performance**:
 - Indexes on `records.type`, `records.author_id`, `records.case_id`, `claim_accords.claim_id`, `duels.case_id`, `judgments.duel_id` cover all primary query paths.
