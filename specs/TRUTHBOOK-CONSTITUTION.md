@@ -16,7 +16,7 @@
 4. [Article I — The People Are In Charge](#article-i--the-people-are-in-charge)
 5. [Article II — The Belief Ledger](#article-ii--the-belief-ledger)
 6. [Article III — Worldviews and Claims](#article-iii--worldviews-and-claims)
-7. [Article IV — The Duel Process and JADEIC Modes](#article-iv--the-duel-process-and-jadeic-modes)
+7. [Article IV — The Duel Process](#article-iv--the-duel-process)
 8. [Article V — The Gallery and People's Judgment](#article-v--the-gallery-and-peoples-judgment)
 9. [Article VI — Bot Disclosure and the SM Bot Problem](#article-vi--bot-disclosure-and-the-sm-bot-problem)
 10. [Article VII — Spaces and Federation](#article-vii--spaces-and-federation)
@@ -238,7 +238,7 @@ Multiple people who agree about a Claim may each challenge it independently, cre
 
 ---
 
-## ARTICLE IV — THE DUEL PROCESS AND JADEIC MODES
+## ARTICLE IV — THE DUEL PROCESS
 
 ### Section 4.1 — The Duel
 
@@ -246,43 +246,16 @@ A **Duel** is a double-deposition submitted to witnesses (the Gallery) for judgm
 
 All disputes are settled by dueling. ⚔️ This is the constitutional settlement process. All parties stand equally. Both are interrogated. Both are questioned. The judgment comes from the People, not from a remote arbiter.
 
-### Section 4.2 — Modal Process and JADEIC Modes
+### Section 4.2 — Duel Turn Structure
 
-
-### The Modal Process and JADEIC Modes
-
-The Modal Process is the constitutional structure for all on-the-record actions. Every Person is always in one and only one JADEIC mode when acting on the record. The current mode is always visible in the UI (small red bold "ON THE RECORD" at the top of the app; dimmed gray when off the record, e.g., Gallery comments or Bot chat). The mode is shown on every Record Card and in the Composer.
-
-**JADEIC Modes:**
-
-- **Evangelist**: Filing a new Claim or taking any "Start a Fire" action (marked by the fire icon in the UI). This mode applies when a Person initiates a position or invites a Duel.
-- **Advocate**: Filing a Challenge (CounterClaim) to an existing Claim or Record. The Person is advocating for a Case, acting as a prosecutor.
-- **Defender**: Filing an Answer to a Challenge, defending the original Claim or Record being challenged.
-- **Judge**: Filing a Judgment on any Case or Duel. The Person is rendering a verdict, grounded in their own Worldview.
-- **Investigator**: Filing an Analysis or structured investigation (e.g., using Widgets) on a Case or Duel.
-- **Commentator**: Filing a Comment or Annotation (off the record, e.g., Gallery one-liners, Bot chat, or Wall posts). This mode is always off the record.
-
-**Modal Process Principles:**
-- JADEIC modes apply everywhere on the platform, not just in Duels or Cases.
-- The mode is determined by the action and context, not by turn sequence or phase.
-- Only one mode is active for a Person at a time when on the record.
-- The UI/UX must always indicate the current mode, both for the author of a Record and for the Person composing a new Record.
-- "On the record" is always visually indicated (small red bold at the top of the app); "off the record" is dimmed gray.
-
-This Modal Process ensures that every on-the-record action is constitutional, auditable, and clear in both process and presentation.
-
-### Section 4.3 — Turn Structure Within a Phase
-
-### The Modal Process: Turn-Based Double-Deposition
-
-The Duel operates as a Modal Process, governed by the JADEIC modes. At any moment, one and only one mode is active for each party "on the record." The current mode is always visible in the UI and on every Record Card.
+The Duel process consists of a turn-based double-deposition:
 
 **Turn Structure:**
 
 1. **Challenge/Answer (Double-Deposition):**
-  - Each party, in their current JADEIC mode, submits a turn in sequence.
-  - The Challenger (Evangelist/Examiner) states their position or interrogates the Defender.
-  - The Defender (Testifier) responds with their own testimony or cross-examination.
+  - Each party submits a turn in sequence.
+  - The Challenger states their position or interrogates the other party.
+  - The other party responds with their own testimony or cross-examination.
   - Both turns are on the record, immutable, and attributed to their authors.
 
 2. **Offer/Response (Negotiation):**
@@ -292,9 +265,9 @@ The Duel operates as a Modal Process, governed by the JADEIC modes. At any momen
 
 3. **Objection:**
   - Either party may file an Objection (procedural challenge) at any turn.
-  - Objections are handled as nested Cases, with their own Modal Process.
+  - Objections are handled as nested Cases, with their own process.
 
-**Every turn is a Record, immutable and attributed to the author. The Modal Process ensures that the active JADEIC mode is always clear, and that all on-the-record actions are visible, auditable, and constitutional.**
+Every turn is a Record, immutable and attributed to the author. The Duel process ensures that all on-the-record actions are visible, auditable, and constitutional.
 
 ### Section 4.4 — Deadline and Default
 

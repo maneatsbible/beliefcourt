@@ -177,20 +177,19 @@ A Translation Record is a first-class entity allowing anyone (Person or Bot) to 
 
 ### RecordRelation
 
-Declares the author's explicit speaking relation for a specific Record. Rendered in UI as `Speaking as [relation] of this belief record.`
+Declares the author's explicit process function for a specific Record. Rendered in UI as `Speaking as [function] of this belief record.`
 
 | Field | Type | Notes |
 |-------|------|-------|
 | `id` | `integer` | DB auto-increment |
 | `recordId` | `integer` | The Record this relation applies to |
 | `authorId` | `integer` | Must match `records.author_id` |
-| `relation` | `enum` | `"judge"`, `"advocate"`, `"defender"`, `"evangelist"`, `"investigator"` |
+| `function` | `enum` | "challenger", "defender", "judge", "examiner", "testifier" |
 | `createdAt` | `ISO8601` | |
 
 **Constraints**:
-- Exactly one active relation per authored Record.
-- Only the Record author can set or change relation before first challenge; after challenge opens, relation is append-only history (new relation row, old row retained).
-- `investigator` relation denotes active case reporting/research (journalistic, true-crime, or formal investigative mode).
+- Exactly one active function per authored Record.
+- Only the Record author can set or change function before first challenge; after challenge opens, function is append-only history (new function row, old row retained).
 
 ---
 
