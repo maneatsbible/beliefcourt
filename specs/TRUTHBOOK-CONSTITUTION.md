@@ -45,7 +45,7 @@ Truthbook is a social platform where anyone can share what they believe, agree w
 
 > **Constitutional Naming Rule:**
 >
-> The official and only constitutional name of this platform is **Truthbook** (abbreviation: tb, domain: truthbook.io). All legacy names, including BELIEF COURT, judgmental.io, disputable.io, and Better Dispute, are superseded and must not be used in any constitutional, governance, or product context going forward.
+> The official and only constitutional name of this platform is **Truthbook** (abbreviation: tb, domain: truthbook.io).
 
 Truthbook exists because of one conviction:
 
