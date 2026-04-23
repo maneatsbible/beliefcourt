@@ -5,7 +5,6 @@
 | **Version**   | `v0.0.1-pre-alpha` — Constitutional Charter                                                           |
 | **Status**    | 🔥 Foundation                                                                             |
 | **Ratified**  | 2026-04-21                                                                                |
-| **Constitution** | [TRUTHBOOK-CONSTITUTION.md](TRUTHBOOK-CONSTITUTION.md) |
 | **Founder**   | **@maneatsbible** — implementing Truthbook (tb, truthbook.io) as constitutional P2P protocol grounded in faith in Jesus Christ |
 
 ---
