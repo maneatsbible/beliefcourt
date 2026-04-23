@@ -58,6 +58,19 @@ Everything that follows — the constitutional structure, the duel process, the 
 
 ## CONSTITUTIONAL DESIGN PRINCIPLES
 
+### Section 0.4 — CRUD Entity Hardening and Audit Requirements
+
+All mutable (CRUD) entities, including Person and any future CRUD tables, must be protected by the following hardening measures:
+
+- **Strict access controls:** Users may only update their own data. Administrative updates are allowed only for legitimate, auditable reasons.
+- **Audit logging:** Every create, update, and delete action must be logged, including who performed the action, what changed, when, and the old/new values.
+- **Soft deletes:** Deletion must be implemented as a soft delete (marking as deleted/disabled), not physical removal, to preserve history and accountability.
+- **Input validation and sanitization:** All input must be validated and sanitized to prevent injection and other attacks.
+- **Strong authentication and authorization:** All user-related actions must require strong authentication and proper authorization.
+- **Regular backups:** User tables and audit logs must be regularly backed up to prevent data loss.
+
+These requirements apply to all CRUD entities, present and future. Immutable (append-only) entities, such as Records in the Belief Ledger, are governed by their own constitutional rules of immutability and auditability.
+
 ### Section 0.1 — Constitutional Design Principles
 - The People do not decide what is true; the People Judge what is true.
 - Judgment is rendered according to each Person’s Worldview, which is based on their Affirmed Truth Statements.
