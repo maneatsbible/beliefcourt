@@ -1,5 +1,4 @@
 # Truthbook — Constitutional Charter
-
 | Field         | Value                                                                                       |
 |-------------- |--------------------------------------------------------------------------------------------|
 | **Version**   | `v0.0.1-pre-alpha` — Constitutional Charter                                                           |

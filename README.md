@@ -1,0 +1,1 @@
+specs/peoples-briefing.md
