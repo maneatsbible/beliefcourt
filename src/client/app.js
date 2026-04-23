@@ -73,10 +73,15 @@ async function bootstrap() {
       const view   = params.v ?? 'home';
       main.innerHTML = '';
 
-      // Home: Timeline replay + worldview map + all viz views
+      // Home: (minimal, no full viz suite)
       if (view === 'home' || !view) {
+        main.innerHTML = `<div class="viz-home-message">Welcome to Truthbook. Use the navigation to explore cases, people, or the full Visual Intelligence Suite.</div>`;
+      }
+
+      // Viz: full visualization suite
+      else if (view === 'Viz') {
         const vizWrap = document.createElement('div');
-        vizWrap.className = 'viz-suite viz-suite--home';
+        vizWrap.className = 'viz-suite viz-suite--viz';
         main.appendChild(vizWrap);
 
         // Marketing wrapper with analytics
