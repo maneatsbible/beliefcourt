@@ -23,7 +23,7 @@ Truthbook is a browser-only JavaScript SPA, targeting **mobile browsers first, d
 **Language/Version**: JavaScript ES2022+ for frontend; Node.js 22 LTS + Hono for API server  
 
 **Primary Dependencies**: Any JavaScript libraries may be used in the browser as needed. Server: Hono (minimal, ~14 KB), jose (JWT), node-cron (deadline detection)  
-| **Storage**: Distributed, append-only, cryptographically signed Belief Ledger replicated across Keyholder nodes. Snapshots and backups to S3-compatible storage.  
+| **Storage**: Distributed, append-only, cryptographically signed Belief Ledger replicated across Keyholder nodes (Kafka). Snapshots and backups to S3-compatible storage.  
 | **Auth**: Social OAuth (X, Threads, GitHub) → server-side token exchange → signed JWT (HS256, 24h expiry) returned to client  
 | **Testing**: Custom micro test-runner (JS, no framework)
 | **Target Platform**: Modern desktop browsers — Chrome 110+, Firefox 110+, Safari 16+, Edge 110+  
@@ -40,7 +40,7 @@ Truthbook is a browser-only JavaScript SPA, targeting **mobile browsers first, d
 ```
 Keyholder Node (Docker container or bare metal)
   ├── Hono API server (Node.js 22, port 8080)
-  ├── Distributed append-only log (Kafka/NATS/Custom Raft)
+  ├── Distributed append-only log (Kafka)
   ├── Merkle root computation and signature verification
   ├── Peer-to-peer replication and gossip
   └── Static frontend assets served by Hono (or CDN edge)

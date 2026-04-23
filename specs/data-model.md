@@ -868,7 +868,7 @@ The canonical append-only ledger is a distributed, cryptographically signed log 
 
 
 **Known constraints at scale**:
-- Distributed log throughput and latency depend on the underlying log implementation (Kafka, NATS, or Raft). Horizontal scaling is achieved by adding Keyholder nodes and partitioning via Spaces.
+- Distributed log throughput and latency depend on the underlying log implementation (Kafka). Horizontal scaling is achieved by adding Keyholder nodes and partitioning via Spaces.
 - Graph traversal (lineage, nested Cases) is handled by in-memory or distributed queries, optimized for typical chain depths of <10.
 - No migration to Postgres or other RDBMS is required; scaling is handled by adding nodes and partitioning the log.
 

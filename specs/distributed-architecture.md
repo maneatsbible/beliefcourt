@@ -139,7 +139,7 @@ This revision codifies four constitutional constraints:
 
 | Layer         | Technology/Pattern         | Constitutional Alignment         |
 |---------------|---------------------------|----------------------------------|
-| Data/Log      | Kafka/NATS/Custom Raft    | Append-only, signed, auditable   |
+| Data/Log      | Kafka                     | Append-only, signed, auditable   |
 | Replication   | Gossip, Merkle proofs     | Tamper-evident, peer-verified    |
 | API           | Stateless Node.js/Hono    | No central authority, scalable   |
 | Frontend      | SPA (JS, no framework)    | Open, accessible, mobile-first   |

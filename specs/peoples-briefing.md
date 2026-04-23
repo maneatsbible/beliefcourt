@@ -271,7 +271,7 @@ All revenue is subscription and micro-transaction. No passive advertising. No ba
 ## The Cost Structure
 
 
-Infrastructure: Distributed, append-only log (Kafka, NATS JetStream, or custom Raft) replicated across independent Keyholder nodes. No single database bill. No CDN bill. No per-seat infrastructure cost. The architecture scales horizontally by adding Keyholder nodes, with estimated costs of $300–$500/month for 500,000 MAU.
+Infrastructure: Distributed, append-only log (Kafka) replicated across independent Keyholder nodes. No single database bill. No CDN bill. No per-seat infrastructure cost. The architecture scales horizontally by adding Keyholder nodes, with estimated costs of $300–$500/month for 500,000 MAU.
 
 **Net margin at scale: 88–90%.**
 
