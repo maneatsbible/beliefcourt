@@ -1,3 +1,6 @@
+### Section 0.2 — Universal Case-Insensitivity for URL Parameters
+
+All URL query parameter keys and values in Truthbook are constitutionally required to be case-insensitive. Any navigation, routing, or feature that depends on URL parameters must treat both keys and values as case-insensitive, and all code must enforce this rule. This ensures robust, user-friendly, and error-proof navigation throughout the platform.
 # Truthbook — Constitutional Charter
 
 | Field         | Value                                                                                       |

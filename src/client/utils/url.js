@@ -16,8 +16,15 @@ const STICKY_PARAMS = ['m', 'u'];
 export function getUrlParams() {
   const p = new URLSearchParams(window.location.search);
   const result = {};
+  // Always treat param keys and values as case-insensitive
+  const keys = Array.from(p.keys()).map(k => k.toLowerCase());
   for (const key of ['v', 'id', 'm', 'u']) {
-    if (p.has(key)) result[key] = p.get(key);
+    const idx = keys.indexOf(key);
+    if (idx !== -1) {
+      // Find the actual key in the URL (case-insensitive)
+      const actualKey = Array.from(p.keys())[idx];
+      result[key] = (p.get(actualKey) || '').toLowerCase();
+    }
   }
   return result;
 }
@@ -30,11 +37,14 @@ export function setUrlParams(params) {
   const current = new URLSearchParams(window.location.search);
   const next    = new URLSearchParams();
   for (const key of STICKY_PARAMS) {
-    if (current.has(key)) next.set(key, current.get(key));
+    // Case-insensitive sticky param copy
+    for (const k of Array.from(current.keys())) {
+      if (k.toLowerCase() === key) next.set(key, current.get(k));
+    }
   }
   for (const [k, v] of Object.entries(params)) {
-    if (v !== undefined && v !== null) next.set(k, String(v));
-    else next.delete(k);
+    if (v !== undefined && v !== null) next.set(k.toLowerCase(), String(v).toLowerCase());
+    else next.delete(k.toLowerCase());
   }
   const search = next.toString() ? `?${next.toString()}` : '';
   window.history.pushState(params, '', `${window.location.pathname}${search}`);
@@ -42,12 +52,18 @@ export function setUrlParams(params) {
 
 /** True when ?m param is present. */
 export function isMockMode() {
-  return new URLSearchParams(window.location.search).has('m');
+  // Case-insensitive check for 'm' param
+  const p = new URLSearchParams(window.location.search);
+  return Array.from(p.keys()).some(k => k.toLowerCase() === 'm');
 }
 
 /** Returns ?u param value or null. */
 export function getMockUser() {
-  return new URLSearchParams(window.location.search).get('u') ?? null;
+  const p = new URLSearchParams(window.location.search);
+  for (const k of Array.from(p.keys())) {
+    if (k.toLowerCase() === 'u') return p.get(k);
+  }
+  return null;
 }
 
 /** Build a canonical shareable URL for a case or claim. */
