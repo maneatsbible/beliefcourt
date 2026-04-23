@@ -55,7 +55,7 @@
 ### Session 2026-04-20 — Infrastructure pivot and feature batch
 
 - Q: What analytics stack? → A: Both **Plausible** (privacy-first, no cookies, no consent banner — primary) and **Google Analytics 4** (IP-anonymized — secondary, required for ads integration). Both are script-tag only; no build step.
-- Q: Should auth still use GitHub Device Flow? → A: No. Backend is now Fly.io + Hono + SQLite. Auth is **SM OAuth** (X, Threads, Bluesky, GitHub) → server-side token exchange → signed JWT (HS256, 24h). No GitHub API calls for data storage.
+- Q: Should auth still use GitHub Device Flow? → A: No. Backend is now Fly.io + Hono + SQLite. Auth is **SM OAuth** (X, Threads or GitHub) → server-side token exchange → signed JWT (HS256, 24h). No GitHub API calls for data storage.
 - Q: How are AI-authored Records disclosed? → A: `is_ai: boolean` and `ai_model: string | null` on every Record. The UI renders an `[AI]` or `[AI-assisted]` badge on every affected Record card — not just on the Person profile.
 - Q: How does the tipping/creator-funding system work? → A: Direct peer-to-peer tips via Stripe (primary) or Ko-fi link. Platform fee 0% in v1. Tips are attached to a Person (and optionally to the Record that prompted the tip). Constitutional constraint: **no judgment, Claim access, or Duel participation is ever gated behind payment**.
 - Q: What are Evidence and Exhibits? → A: An **Evidence** is a structured attachment (file, URL, quote) on any Record as supporting material. An **Exhibit** is a formally submitted Evidence item during a Duel, given an exhibit label (Exhibit A, B …). Either party may object to an Exhibit, opening a nested Case.
@@ -76,7 +76,7 @@
 - Q: Should Verdict data be sold as a product? → A: Yes. An anonymized, aggregated dataset of Claims, verdicts, and Judgment consistency scores is exposed as a subscription data API. Access tiers: Researcher (free, rate-limited), Professional ($99/month), Institutional ($499/month). Content is fully anonymized — no Persons, no handles, only claim structures and verdicts. Opt-out is available but defaults to opt-in.
 - Q: What auto-analytics are wanted? → A: Ten public analytical views: (1) contested ground map, (2) consensus clusters, (3) undefeated Claims leaderboard, (4) serial challengers badge, (5) Judgment consistency score, (6) precedent chains graph, (7) dead ends / graveyard, (8) velocity (fastest-growing ClaimAccords), (9) flip rate (intellectual consistency), (10) "you disagree with N% on this" hook on Home View cards.
 
-### Session 2026-04-19 — Scope widening to judgmental.io
+### Session 2026-04-19 — Scope widening to Truthbook
 
 - Q: What is the root entity? → A: **Claim** — a statement of truth. People agree with Claims. Cases are brought against Claims (and against any other Record).
 - Q: What is the difference between a Case and a Duel? → A: A Case is opened when any Record is challenged; it groups one or more 1v1 Duels. Multiple agreers each enter their own Duel within the same Case.
@@ -308,7 +308,7 @@ Users receive notifications when a Record they own or hold a ClaimAccord on is c
 
 ### User Story 9 — New User Onboarding (Priority: P1)
 
-A brand-new user arrives at judgmental.io for the first time. They see the public Home feed unauthenticated, choose a social platform to sign in with, complete OAuth, and land back at the Home feed authenticated. The Miranda acknowledgement card is shown above the composer. They acknowledge it once — it does not reappear.
+A brand-new user arrives at Truthbook for the first time. They see the public Home feed unauthenticated, choose a social platform to sign in with, complete OAuth, and land back at the Home feed authenticated. The Miranda acknowledgement card is shown above the composer. They acknowledge it once — it does not reappear.
 
 **Why this priority**: First-time auth state and persistent card are foundational UX that every user encounters. Getting this wrong breaks trust immediately.
 
@@ -508,7 +508,7 @@ A Person wants to publicly acknowledge a wrong, propose a remedy, and seek the o
 
 ### User Story 20 — Open API (Priority: P2)
 
-A developer or organization wants to query judgmental.io data programmatically — embedding verdicts in another app, building a research tool, or filing Claims via automation. They use an API key to access documented endpoints.
+A developer or organization wants to query Truthbook data programmatically — embedding verdicts in another app, building a research tool, or filing Claims via automation. They use an API key to access documented endpoints.
 
 **Why this priority**: Enables the Org tier, data API monetization, and third-party ecosystem without building a dedicated integration for each.
 
@@ -561,7 +561,7 @@ A group of residents in an apartment building — most of whom don't know each o
 
 ### User Story 23 — Brand Claim (Priority: P2 — Commercial)
 
-A brand wants to be discoverable on judgmental.io. They don't want a banner ad. They want to file a position — "We believe our supply chain is fully traceable and we can prove it" — and prove it publicly by defending it against anyone who challenges them. They file a Brand Claim, attach their evidence, open it to challenges, pay for placement in the Brand Challenges feed, and then defend their position Duel by Duel. Every DEFENDED verdict strengthens their public Credibility Score. Every genuine ACCORD is even better — it means they engaged honestly with someone who pushed back.
+A brand wants to be discoverable on Truthbook. They don't want a banner ad. They want to file a position — "We believe our supply chain is fully traceable and we can prove it" — and prove it publicly by defending it against anyone who challenges them. They file a Brand Claim, attach their evidence, open it to challenges, pay for placement in the Brand Challenges feed, and then defend their position Duel by Duel. Every DEFENDED verdict strengthens their public Credibility Score. Every genuine ACCORD is even better — it means they engaged honestly with someone who pushed back.
 
 **Why this priority**: Brand Claims are the non-church placement revenue stream. They are also a structural PR incentive for orgs with genuine integrity — the mechanic favors orgs that can actually back their claims. It is anti-greenwashing by design.
 
@@ -581,7 +581,7 @@ A brand wants to be discoverable on judgmental.io. They don't want a banner ad. 
 
 ### On Truth and Judgment
 
-judgmental.io is built on the conviction that **truth is knowable and defensible**. The system is designed to help people identify where they actually agree and disagree, to expose untested and tested claims, and to make righteous judgment possible — judgment grounded in a declared standard of truth rather than rhetorical technique.
+Truthbook is built on the conviction that **truth is knowable and defensible**. The system is designed to help people identify where they actually agree and disagree, to expose untested and tested claims, and to make righteous judgment possible — judgment grounded in a declared standard of truth rather than rhetorical technique.
 
 The core mechanic — Claim, Challenge, Answer — is designed around substantive positions and their defense, not logical scaffolding. A Challenge must be answerable. An Answer must engage the Challenge. A Judgment must cite a Base of Truth.
 
@@ -626,7 +626,7 @@ Sponsored content is prohibited. Any sponsored-in-intent Record would be require
 
 **Authentication & Identity**
 
-- **FR-001**: The app MUST authenticate users through **SM OAuth** (X/Twitter, Threads, Bluesky, GitHub) via a server-side token exchange on the Hono API server. The server returns a signed JWT (HS256, 24h expiry) stored client-side. No GitHub API calls are made for data storage.
+- **FR-001**: The app MUST authenticate users through **SM OAuth** (X/Twitter, Threads, GitHub) via a server-side token exchange on the Hono API server. The server returns a signed JWT (HS256, 24h expiry) stored client-side. No GitHub API calls are made for data storage.
 - **FR-002**: Each Person MUST have a unique `@name` (derived from their social media handle on the authenticating platform) and a globally unique id assigned by the application
 - **FR-003**: The @herald placeholder MUST be a system-level identity (not a real OAuth user) used to import external content. It is permanently reserved and unavailable in the Person namespace. Any authenticated user may submit a Claim attributed to @herald together with an immediate Challenge. The real author of the imported content may later authenticate and claim ownership, replacing @herald with their own Person record.
 
@@ -703,7 +703,7 @@ Sponsored content is prohibited. Any sponsored-in-intent Record would be require
 **UI / UX**
 
 - **FR-043**: The app MUST use a dark theme with select colorful accent elements.
-- **FR-044**: The header MUST contain: home/scales icon (top-left), `judgmental.io`, and the current version (far right).
+- **FR-044**: The header MUST contain: home/scales icon (top-left), `Truthbook`, and the current version (far right).
 - **FR-045**: Record type icons MUST be: Claim = `!`, Challenge = `?`, Answer = `✓`, Offer = `⇌`, Response = `·` (accepted) / `✗` (rejected).
 - **FR-046**: Home View MUST list Claim cards ranked by derived strength (query-time: agreers × survived Duels); cards MUST show a "Your turn" badge when applicable.
 - **FR-047**: Claims with no Cases MUST be visually indicated as untested; claims with all Duels settled MUST be indicated as standing or settled.
@@ -728,8 +728,8 @@ Sponsored content is prohibited. Any sponsored-in-intent Record would be require
 **Evidence and Exhibits**
 
 - **FR-062**: Any Record MAY have one or more **Evidence** items attached to it — structured attachments of type: `url`, `quote`, `image`, `file`, or `cross_record`.
-- **FR-062a** (**Miranda Principle**): A `cross_record` Evidence item cites any existing Record on the platform by its `id`. Any Record authored by a Duel party MAY be submitted as `cross_record` Evidence against them in any Duel in which they are a party. Everything posted on judgmental.io is on the record and permanently admissible. This is constitutionally non-negotiable. **This applies without exception to Records filed by AdvisorBot under Power of Attorney.** A PoA Record is attributed to the Person, not the Bot. The `[via AdvisorBot]` badge is a disclosure of method, not a reduction of accountability. Such Records are admissible against the Person as Evidence, are challengeable, contribute to their Worldview, and survive Rescission as permanent artefacts. A Person who operates under PoA accepts the same Miranda jeopardy as a Person who files every Record themselves.
-- **FR-062b**: At first composition, every new user MUST see a persistent acknowledgement card above the composer: *"Everything you post on judgmental.io is permanent and on the record. Any of your Records can be submitted as Evidence in a Duel by anyone."* The card collapses only once the user explicitly acknowledges it. It MUST NOT be a skippable modal.
+- **FR-062a** (**Miranda Principle**): A `cross_record` Evidence item cites any existing Record on the platform by its `id`. Any Record authored by a Duel party MAY be submitted as `cross_record` Evidence against them in any Duel in which they are a party. Everything posted on Truthbook is on the record and permanently admissible. This is constitutionally non-negotiable. **This applies without exception to Records filed by AdvisorBot under Power of Attorney.** A PoA Record is attributed to the Person, not the Bot. The `[via AdvisorBot]` badge is a disclosure of method, not a reduction of accountability. Such Records are admissible against the Person as Evidence, are challengeable, contribute to their Worldview, and survive Rescission as permanent artefacts. A Person who operates under PoA accepts the same Miranda jeopardy as a Person who files every Record themselves.
+- **FR-062b**: At first composition, every new user MUST see a persistent acknowledgement card above the composer: *"Everything you post on Truthbook is permanent and on the record. Any of your Records can be submitted as Evidence in a Duel by anyone."* The card collapses only once the user explicitly acknowledges it. It MUST NOT be a skippable modal.
 - **FR-063**: During a Duel, either party MAY formally submit an Evidence attachment as an **Exhibit**, assigning it an auto-incremented label (Exhibit A, Exhibit B, …) within the Duel.
 - **FR-064**: Either party MAY object to an Exhibit by challenging it; this opens a nested Case against the Exhibit Record.
 - **FR-065**: Exhibits MUST be listed in the Case View with their label and the submitting party clearly shown.
@@ -803,7 +803,7 @@ Sponsored content is prohibited. Any sponsored-in-intent Record would be require
 
 **Marriage Features**
 
-Marriage on judgmental.io is a structured, consensual, on-the-record commitment between two Persons. It builds on the Compatibility Duel context with additional ceremony, covenant, and dispute-resolution mechanics. It is belief-agnostic; the platform does not attach any legal, religious, or cultural meaning to the record — it is a voluntary structured commitment between two adults.
+Marriage on Truthbook is a structured, consensual, on-the-record commitment between two Persons. It builds on the Compatibility Duel context with additional ceremony, covenant, and dispute-resolution mechanics. It is belief-agnostic; the platform does not attach any legal, religious, or cultural meaning to the record — it is a voluntary structured commitment between two adults.
 
 - **FR-133** (**Marriage Proposal**): A Person MAY file a `context=proposal` Duel naming one other Person. The proposal consists of: (a) a `proposal_text` (the statement of intent), and (b) an optional `vow_draft` (preliminary covenant text the proposer wishes to commit to). Both Persons MUST consent before the Duel begins.
 - **FR-134** (**Proposal mechanics**): The named Person may: (a) **Accept** — producing an `engaged` Disposition and creating a linked `MarriageRecord` in state `engaged`; (b) **Decline** — Duel closes with `declined` Disposition, no further record; or (c) **Counter-propose** — opens a turn sequence where vow terms are negotiated as Offers and Responses until Accord is reached.
@@ -839,7 +839,7 @@ Dating Mode is a first-class product mode in v1. The dating/compatibility experi
 - **FR-155** (**Dating topic templates**): A library of pre-written **topic templates** MUST be available when filing a `context=compatibility` Dating Duel. Categories: Lifestyle, Values, Finances, Family, Conflict Style, Future Plans, Dealbreakers. Selecting a template pre-fills the Claim text and suggested turn structure. Templates are community-contributed (filed as Records and upvoted) — the most-used templates surface first.
 - **FR-156** (**Dating Duel score card**): After a Dating Duel reaches a Disposition, the system generates a private **Score Card** for the two parties — a visual summary showing: topic, the position each party held, where they converged, where they diverged, and the verdict. Both parties may choose to share the Score Card as a static image (generated server-side as an SVG/PNG). Shared Score Cards are watermarked with the judgmental.io URL and Duel ID.
 - **FR-157** (**"Find your match" Claim alignment**): Any Person MAY publish a set of their public ClaimAccords as a **Match Profile** — a curated list of positions they hold (e.g. political, lifestyle, values Claims). The system MAY surface other Persons with high Claim-alignment scores as potential Dating Duel matches. Alignment is computed as Jaccard similarity over public ClaimAccords. This feature requires explicit opt-in for both the publisher and the surfaced match.
-- **FR-158** (**Shareable Dating Duel teaser**): A Person MAY generate a public **"Duel me on this"** card from any of their public Claims — a shareable image linking to an open Dating Duel challenge on that Claim. Format: the Claim text, their handle, and a CTA ("Think you can beat this? Accept the challenge"). This is the primary viral loop: post the card on X/Threads/Instagram, drive clicks to judgmental.io, new users sign up to accept.
+- **FR-158** (**Shareable Dating Duel teaser**): A Person MAY generate a public **"Duel me on this"** card from any of their public Claims — a shareable image linking to an open Dating Duel challenge on that Claim. Format: the Claim text, their handle, and a CTA ("Think you can beat this? Accept the challenge"). This is the primary viral loop: post the card on X/Threads/Instagram, drive clicks to Truthbook, new users sign up to accept.
 - **FR-159** (**Dating leaderboard**): An opt-in public leaderboard of **Most Compatible Pairs** (couples who have completed the most Dating Duels with `reconciliation` or `accord` dispositions and chosen to be public). Displayed on the Commitments feed. Drives social proof and aspiration.
 
 **Christian Mode — Faith Community Features** *(First Release)*
@@ -1425,7 +1425,7 @@ The following views are computed from the live database at query time, not store
 
 ## Assumptions
 
-- Users have a social media account (X, Threads, Bluesky, or GitHub) and are willing to authorise the app via SM OAuth.
+- Users have a social media account (X, Threads or GitHub) and are willing to authorise the app via SM OAuth.
 - The Hono API server runs on Fly.io (single instance, shared-cpu-1x, 256 MB) with SQLite (WAL mode) on a persistent volume.
 - Litestream continuously replicates the SQLite WAL to Tigris (S3-compatible, free on Fly.io).
 - Mobile browser support is a stretch goal; v1 targets modern desktop browsers (Chrome 110+, Firefox 110+, Safari 16+, Edge 110+).
@@ -1440,48 +1440,12 @@ The following views are computed from the live database at query time, not store
 
 ---
 
-## Implementation Blockers
-
-The following items are known pre-conditions or risks that could block implementation if not resolved before the relevant phase. Each has been assigned a Phase reference.
-
-### B-001 — `better-sqlite3` native addon (blocks Phase 2)
-`better-sqlite3` is a compiled native Node.js addon. The `node:22-alpine` Docker base image does not include build tools (`python3`, `make`, `g++`). **Resolution**: Add `RUN apk add --no-cache python3 make g++` to the Dockerfile before `npm ci`, or switch to `node:22` (Debian-based) as the build stage and use a slim runtime stage. A pre-built binary via `@db0/better-sqlite3-legacy` is an alternative if build toolchain is unwanted.
-
-### B-002 — OAuth redirect URIs must be pre-registered (blocks Phase 4)
-All four OAuth providers (X, Threads, Bluesky, GitHub) require a redirect URI to be registered in their developer consoles before the callback routes will work. X (Twitter) and Threads require app review for production scopes. **Resolution**: Register `https://judgmental.io/auth/<provider>/callback` on each platform before beginning Phase 4. Budget time for X and Threads review processes (can take days). Bluesky ATProto OAuth is currently unstable — may need to use Bluesky App Passwords as a fallback for v1.
-
-### B-003 — Tigris bucket must pre-exist before first deploy (blocks Phase 1)
-Litestream will fail to start if the S3 bucket does not exist. **Resolution**: Create the Tigris bucket via the Fly.io dashboard or `fly storage create` before running `fly deploy`. Document this as step zero in the quickstart runbook.
-
-### B-004 — Fly.io persistent volume must be pre-created (blocks Phase 1)
-`fly.toml` references a volume `jdg_data` but volumes must be created separately via `fly volumes create jdg_data --size 1`. **Resolution**: Add this to the quickstart as a mandatory pre-deploy step. Size should be 3 GB minimum to allow headroom.
-
-### B-005 — Stripe webhook endpoint must be publicly reachable (blocks Phase 16)
-Stripe webhooks cannot be tested against `localhost`. **Resolution**: Use `stripe listen --forward-to localhost:3000/api/tips/webhook` for local dev. In production the `fly deploy` domain must be registered in Stripe's webhook dashboard.
-
-### B-006 — JWT refresh not specced (blocks Phase 4)
-JWTs are issued with 24h expiry. There is no refresh token mechanism. When a JWT expires the user is silently logged out on the next API call. **Resolution**: The auth middleware returns `401` with `{"error":"token_expired"}`. The client intercepts this specific error code and shows a non-blocking "Session expired — tap to sign in again" banner (not a full redirect), preserving compositor state. This must be specced as FR-001a and implemented in Phase 4.
-
-### B-007 — JWT secret rotation procedure not documented (operational risk)
-Rotating `JWT_SECRET` immediately invalidates all active sessions. **Resolution**: Add a `JWT_SECRET_PREV` env var that the auth middleware also accepts during a rotation window. Procedure: set new `JWT_SECRET`, set old value in `JWT_SECRET_PREV`, deploy, wait 25h, clear `JWT_SECRET_PREV`. Document in plan.md runbook.
-
-### B-008 — `node-cron` has no watchdog (operational risk, blocks Phase 27)
-If the Hono server process crashes and is restarted by Fly.io, `node-cron` jobs resume — but any deadline that expired during the downtime will be caught on the next 1-minute tick. For longer downtime (> 30 min) the gap is still acceptable. **Resolution**: The stale-duel reaper partially mitigates this. Add a `cron_runs` integrity check: on server startup, query for any `deadline_conditions` with `deadline_at < now` and no Disposition — process them immediately before the first cron tick.
-
-### B-009 — Bluesky ATProto OAuth complexity (high effort, blocks Phase 4 for Bluesky)
-The Bluesky ATProto OAuth flow requires Dynamic Client Registration per PDS instance, which is significantly more complex than standard OAuth 2.0. **Resolution**: Defer Bluesky OAuth to v1.1. Implement X, GitHub, and Threads for v1. Add a note in the UI that Bluesky sign-in is "coming soon". Tasks T027 should be marked deferred.
-
-### B-010 — `@system` pseudo-person for auto-flags not defined in DB (blocks Phase 27)
-`moderation_flags` has `flagged_by_person_id NOT NULL`. Cron auto-flags (from `db-integrity.js`) need a system actor. **Resolution**: Seed the database with a reserved `persons` row: `id=0, name='@system', is_herald=false, is_ai=false`. FK constraints must allow id=0 as a valid value. This must be inserted in migration 001 or as a seed step before migration 002.
-
----
-
 ## Marketing Taglines
 
 - *"Take ideas and their defenders to trial, and reach verdicts."*
 - *"You've been posting takes for years. Time to defend them."*
 - *"Likes don't make you right. Surviving challenges does."*
-- *"The internet has been fighting for 30 years. judgmental.io is where we settle it."*
+- *"The internet has been fighting for 30 years. Truthbook is where we settle it."*
 
 ---
 

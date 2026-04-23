@@ -36,7 +36,7 @@ The GitHub Issues PoC (truthbook.io, formerly disputable.io) proved the domain m
 
 ## Summary
 
-judgmental.io is a browser-only, plain vanilla JavaScript SPA backed by a lightweight Hono API server running on Fly.io, with SQLite (WAL mode) as the primary database streamed to S3-compatible storage via Litestream. Identity is established through social media OAuth (X, Threads, Bluesky, GitHub) — no GitHub API calls are made for data storage. All content records are stored in the application's own database. The architecture is strict MVC: all permission logic in the Controller, dumb rendering in the View, DB entities mapped directly in the Model.
+Truthbook is a browser-only, plain vanilla JavaScript SPA backed by a lightweight Hono API server running on Fly.io, with SQLite (WAL mode) as the primary database streamed to S3-compatible storage via Litestream. Identity is established through social media OAuth (X, Threads, Bluesky, GitHub) — no GitHub API calls are made for data storage. All content records are stored in the application's own database. The architecture is strict MVC: all permission logic in the Controller, dumb rendering in the View, DB entities mapped directly in the Model.
 
 The GitHub Issues PoC (disputable.io) proved the domain model. This plan implements the production architecture.
 
