@@ -1,63 +1,30 @@
-# Feature Specification: Truthbook
+# Truthbook — Feature Specification (Constitutional Edition)
 
 | Field | Value |
 |---|---|
 | **Version** | `v0.0.1-pre-alpha` |
 | **Status** | 🔴 Pre-Alpha — not production-ready |
-| **Feature branch** | `001-better-dispute-app` |
-| **Created** | 2026-04-18 |
-| **Last revised** | 2026-04-22 |
-| **AI assistant** | GitHub Copilot · Claude Sonnet 4.6 |
 | **Constitution** | [TRUTHBOOK-CONSTITUTION.md](/specs/TRUTHBOOK-CONSTITUTION.md) |
+| **Last revised** | 2026-04-23 |
 
 ---
 
-## Clarifications
+## Introduction
 
-### Session 2026-04-22 — Record card controls and speaking roles
+Truthbook is a constitutional, peer-to-peer platform for defended belief, structured dispute, and worldview exploration. Every act is on the record, every claim is challengeable, and every judgment is rendered by the People, not by algorithm or central authority. The platform is governed by its [Constitutional Charter](/specs/TRUTHBOOK-CONSTITUTION.md), which defines all core entities, flows, and principles. This specification encodes only those features, requirements, and flows that are constitutional—removing all legacy, non-compliant, or superseded elements.
 
-- Q: What is the primary interaction control on Record cards? → A: Every Record card uses three primary controls: **up**, **neutral**, **down**. Their semantic meaning is context-sensitive (e.g., like/dislike, accept/reject, yes/no), but the control shape remains stable across the product.
-- Q: How is a challengeable Claim indicated on these controls? → A: The **up** and **down** controls (never neutral) may carry a claim-indicator by superimposing the control emoji over the fire emoji. A claim created through **Start a Fire** (composer hint: `I believe that...`) defaults to fire on **up**. A previously neutral statement can become claim-bearing if someone disputes it; the disputed direction takes fire and the filer of that claim is the defender for that claim.
-- Q: What are the speaking roles when authoring Records? → A: The speaking role is explicit and shown as `Speaking as [role] of this belief record.` Supported roles are **Evangelist, Defender, Advocate, Judge, Investigator, Commentator** (mnemonic: JADEIC). These are not Duel phases or a sequence—they are UX indicators of how the Person is speaking on the record. The UI (especially Composers and Record cards) should always display the Person’s current speaking role as a badge or label.
-+ Q: How is a party's function shown when authoring Records? → A: The UI displays the party's current function in the process (e.g., challenger, defender, judge, examiner, testifier) as a badge or label. These are not phases or a sequence, but indicate the party's current action or responsibility in the record. The UI (especially Composers and Record cards) should always display this function clearly.
+**Core Principles:**
+- The Truth is real, knowable, and defensible.
+- The People Judge what is true, each according to their own Worldview and Affirmed Truth Statements.
+- All acts are on the record, immutable, and attributed to their author (human or bot, with full disclosure).
+- No argumentation as primary persuasion: only defended belief, testimony, and challenge.
+- The Belief Ledger is append-only and cryptographically signed; no Record is ever deleted or edited, only rescinded.
+- All bots, AI, and imported content must be fully disclosed and challengeable.
+- All features, flows, and requirements are subordinate to the Constitution and must be amended by Constitutional Duel if changed.
 
-### Session 2026-04-22 — Profile Wall and Comment records
+This document supersedes all prior specifications and is continuously updated to reflect the current constitutional order.
 
-- Q: What personal publishing surface exists on a Person profile? → A: Every Person has a **Wall** on their profile for blog-style posting. Wall posts are first-class on-record entries.
-- Q: What record type is used for Wall posts? → A: Wall posts use `type=comment` and are neutral by default (no claim intent).
-- Q: How does a neutral Wall Comment become fire? → A: If a Comment is challenged, a Case opens. If the comment author (or another eligible defender per platform rules) defends the challenged position in Duel flow, that challenged stance becomes claim-bearing (fire).
-- Q: What interactions are allowed directly on Wall comments? → A: Wall commentary is conflict-free by design: only **up** (like) and **neutral** are allowed on the Wall surface. Direct down/dislike is not allowed on-Wall. Any disagreement route initiates Court flow by filing a Challenge Claim.
-
-### Session 2026-04-18
-
-- Q: How should GitHub authentication be handled on a static site with no server? → A: GitHub Device Flow for v1 (zero-server); serverless token-exchange function planned for v2.
-- Q: Where do GitHub Issues live — single shared repo, per-topic, or per-user? → A: Single shared repo owned by the app (e.g., `judgmentalio/judgmental-data`); all users' content is stored as issues there.
-- Q: When multiple people have agreed with a Claim and it is challenged, how many Duels are created? → A: One Duel per challenger–defender pair within the same Case; each agre-er who chooses to respond opens their own Duel.
-- Q: How is the deadline countdown enforced with no server? → A: Agreed deadline timestamp stored in the GitHub Issue body; clients compute remaining time on load; the first client to load past the deadline writes the Default (Disposition) record as a new GitHub Issue.
-- Q: What is the caching and pre-fetching strategy for API rate limits? → A: localStorage cache with ETag-based conditional GETs (If-None-Match); viewport pre-fetch for visible Home feed cards.
-
-### Session 2026-04-20 — Infrastructure pivot and feature batch
-
-- Q: What analytics stack? → A: Both **Plausible** (privacy-first, no cookies, no consent banner — primary) and **Google Analytics 4** (IP-anonymized — secondary, required for ads integration). Both are script-tag only; no build step.
-- Q: Should auth still use GitHub Device Flow? → A: No. Backend is now Fly.io + Hono + SQLite. Auth is **SM OAuth** (X, Threads or GitHub) → server-side token exchange → signed JWT (HS256, 24h). No GitHub API is used for content storage.
-- Q: How are AI-authored Records disclosed? → A: `is_ai: boolean` and `ai_model: string | null` on every Record. The UI renders an `[AI]` or `[AI-assisted]` badge on every affected Record card — not just on the Person profile.
-- Q: How does the tipping/creator-funding system work? → A: Direct peer-to-peer tips via Stripe (primary) or Ko-fi link. Platform fee 0% in v1. Tips are attached to a Person (and optionally to the Record that prompted the tip). Constitutional constraint: **no judgment, Claim access, or Duel participation is ever gated behind payment**.
-- Q: What are Evidence and Exhibits? → A: An **Evidence** is a structured attachment (file, URL, quote) on any Record as supporting material. An **Exhibit** is a formally submitted Evidence item during a Duel, given an exhibit label (Exhibit A, B …). Either party may object to an Exhibit, opening a nested Case.
-- Q: How should the logo communicate Duel state? → A: Scales beam angle + flame colors encode state. Left pan lower + larger left flame = challenger ahead. Right pan lower + larger right flame = defender holding. Both cold/grey = Disposed. Both white/gold = Accord/STANDING. Color lane: challenger = cool blue-white; defender = warm amber.
-- Q: What is the judicial role framing in the UI? → A: Each party carries a visible role badge (EXAMINING / TESTIFYING) that flips on counter-challenge. Judicial names are metadata; button labels remain user-friendly. Mapping: Challenge(Interrogatory) = Examination, Challenge(Objection) = Objection, Answer = Testimony, Counter-challenge = Cross-examination, Offer = Stipulation, Response(accepted) = So stipulated.
-- Q: What is the ad policy? → A: Ads are shown only to unauthenticated users as a fixed bottom strip. Signing in removes ads permanently for that session. Constitutional principle: **full participation in the judgment process is free forever**.
-- Q: What advanced judicial concepts should be modeled? → A: Voir dire (pre-Duel judge qualification), Subpoena (requesting a Person enter as witness), Amicus curiae (non-party Analysis submitter — already modeled), Deposition (pre-Case structured Q&A chain), Standing (right to bring a Case — modeled via ClaimAccord), Burden of proof (Duel-level flag indicating which party must prove their position).
-- Q: What is the canonical definition of a Duel? → A: A Duel is a **double-deposition submitted to witnesses for judgment**. Each party is simultaneously the examiner (interrogating the other's position) and the deponent (testifying to their own). The EXAMINING / TESTIFYING role badges encode this. Judges are the witnesses. Turns are testimony. This is the constitutional framing — not "debate", not "argument."
-
-### Session 2026-04-20 — Expanded product scope
-
-- Q: Should a Dating/Compatibility mode be in v1? → A: Yes. A Duel can be filed with `context=compatibility` between two consenting Persons. Mechanics are identical to standard Duels; the framing, copy, and UI chrome change. Both Persons must accept the Duel invitation before it begins. The verdict is private to the two parties by default but may be made public.
-- Q: How are Compatibility Duels shared and discovered to drive traffic? → A: Three viral loops: (1) shareable invite link with anonymous teaser card sent outside the app; (2) public Open Challenges feed where anyone may accept; (3) shareable "Duel me on this" Score Card image watermarked with truthbook.io URL. Topic templates and a Match Profile alignment feature drive organic discovery. Dating leaderboard (Most Compatible Pairs) provides social proof.
-- Q: Are there features specifically for Bible-following Christians? → A: Yes — **Christian Mode** is a first-release feature set, not deferred, and not a general interfaith layer. It is built specifically for people who hold scripture as their highest authority. Features include: Scripture Evidence type, Doctrinal Claims with scripture citation helper, Bible Study Duels, Church/Small Group org tier with `elder` role, Accountability Partnerships, Community Discernment, a three-stage Church Discipline process (Reconciliation / Witnessed Reconciliation / Community Review), Theological topic templates, **Exploring Our Faith** (an ongoing structured project — see FR-169), Tradition tag, **Christian Dating** context (faith-first matching and courtship Duels), and **Parenting Duels** (faith formation, discipline approach, co-parenting under shared faith). The **Bible Widget** (FR-210) and **Bible Reader** (FR-211) are the platform's native scripture study tool — KJV default, 7 free translations at launch, with a low-priority roadmap for licensed translations requiring formal publisher partnerships. Pre-marital Counseling Track is included but is secondary priority — it ships after the core dispute and reconciliation features. No denomination is privileged. The platform actively discourages proof-texting in all contexts — scripture references are testimony, not logical premises (Constitutional Principle I). This is not Patheos. There is no generic spirituality mode.
-- Q: Should an Open API for third-party integrations be in v1? → A: Yes, as a documented public REST API with API-key auth. All read endpoints (Claims, Cases, Duels, Dispositions, Analytics views) are accessible. Write endpoints (file a Claim, open a Case) require org-tier or API-key auth. Rate-limited. Documented at `GET /api/docs` (JSON/OpenAPI 3.1).
-- Q: Should Historical Re-trials be in v1? → A: Yes. A Duel may be created with `context=historical` and a `historical_subject` string (e.g. "Galileo v The Church, 1633"). These Duels are special: parties are role-players defending assigned historical positions, not personal claims. The original Record is a system-authored Claim citing the historical subject. These Duels are always public, never generate ClaimAccords against living Persons, and are tagged for the Historic Re-trials analytics view.
-- Q: Should an Apology Court (Resolution/Reconciliation mode) be in v1? → A: Yes, as a named Duel context (`context=apology`). The filing party declares a wrong, submits evidence of it, and proposes remediation. The respondent may Accept (producing a `reconciliation` Disposition), reject, or contest. The UI frames this in restorative language — wrongdoing acknowledged, remedy proposed, verdict reached. Christian forgiveness theology (the idea that confession, acknowledgement, and genuine repentance are the preconditions of restoration) is the philosophical north star, but the system is belief-agnostic. No religious language is coded into the UI. The system simply asks: was the wrong acknowledged? Was a remedy offered? Did the other party accept? The moral weight of the resulting record is left to the parties and their community.
-- Q: Should Verdict data be sold as a product? → A: Yes. An anonymized, aggregated dataset of Claims, verdicts, and Judgment consistency scores is exposed as a subscription data API. Access tiers: Researcher (free, rate-limited), Professional ($99/month), Institutional ($499/month). Content is fully anonymized — no Persons, no handles, only claim structures and verdicts. Opt-out is available but defaults to opt-in.
+---
 - Q: What auto-analytics are wanted? → A: Ten public analytical views: (1) contested ground map, (2) consensus clusters, (3) undefeated Claims leaderboard, (4) serial challengers badge, (5) Judgment consistency score, (6) precedent chains graph, (7) dead ends / graveyard, (8) velocity (fastest-growing ClaimAccords), (9) flip rate (intellectual consistency), (10) "you disagree with N% on this" hook on Home View cards.
 
 ### Session 2026-04-19 — Scope widening to Truthbook
@@ -666,53 +633,6 @@ Sponsored content is prohibited. Any sponsored-in-intent Record would be require
 - **FR-032a**: Judgment weight MUST be computed at query time as `strength(anchor_claim) × judgment_track_record(judge)` where `judgment_track_record` is the fraction of the judge's prior Judgments that aligned with eventual Accord outcomes (defaults to 1.0 for first-time judges). This weight MUST be displayed alongside each Judgment in the Case View and used when aggregating Judgments into a consensus indicator. It MUST NOT be stored; it is always derived live.
 - **FR-033**: Claim strength MUST be computed at query time from the dataset: `strength = count(ClaimAccords) × count(Duels where Disposition=STANDING)`. No stored score field.
 
-**SimilarityLinks**
-
-- **FR-034**: Any Person MAY submit a SimilarityLink asserting two Records are equivalent.
-- **FR-035**: A SimilarityLink MUST be challengeable and can reach STANDING state.
-- **FR-036**: A SimilarityLink in STANDING state MUST enable the system to surface the prior Duel resolution as Precedent for any new equivalent Challenge.
-
-**MVC Architecture**
-
-- **FR-037**: All permission logic (canChallenge, canAnswer, canOffer, canRespond, canAgree, canJudge, etc.) MUST reside in the Controller; the View MUST NOT make permission decisions.
-- **FR-038**: The View MUST only read Controller state and render accordingly; it MUST disable (not hide) controls that are unavailable.
-- **FR-039**: The Model MUST map directly to database entities (rows in the SQLite schema defined in plan.md).
-
-**URL & Navigation**
-
-- **FR-040**: Every Record, Case, and Duel MUST have a canonical URL expressed as browser URL params.
-- **FR-041**: The app MUST interpret URL params on load and render the correct view (Home, Case Chooser, Duel Chooser, or Case View).
-- **FR-042**: A copy-to-clipboard button MUST appear on every Record card.
-
-**UI / UX**
-
-- **FR-043**: The app MUST use a dark theme with select colorful accent elements.
-- **FR-044**: The header MUST contain: home/scales icon (top-left), `Truthbook`, and the current version (far right).
-- **FR-045**: Record type icons MUST be: Claim = `!`, Challenge = `?`, Answer = `✓`, Offer = `⇌`, Response = `·` (accepted) / `✗` (rejected).
-- **FR-046**: Home View MUST list Claim cards ranked by derived strength (query-time: agreers × survived Duels); cards MUST show a "Your turn" badge when applicable.
-- **FR-047**: Claims with no Cases MUST be visually indicated as untested; claims with all Duels settled MUST be indicated as standing or settled.
-- **FR-048**: The inline Composer (challenge/answer/offer input) MUST slide up in-place, preserve draft text on cancel, and dismiss on deliberate close.
-- **FR-049**: After any submission the current view MUST refresh to reflect the updated state.
-- **FR-050**: Notifications ("You were challenged", "Your answer was challenged") MUST appear for pending actions.
-- **FR-051**: Cards in the Home feed MUST be click-anywhere-to-open.
-- **FR-052**: Stacked card depth MUST be conveyed visually (slight z-offset shadow stacking).
-- **FR-053**: The Case View MUST show the full Record lineage at top as parent chain with arrow separators.
-- **FR-054**: The two-lane Case View (after first counter-challenge) MUST interleave challenges and counter-challenges chronologically. Left lane: challenger's Challenges. Right lane: defender's counter-Challenges.
-- **FR-055**: The "Your turn" indicator MUST be shown within the active Case View.
-- **FR-056**: The latest actionable Record MUST be highlighted.
-- **FR-058**: The Home feed MUST pre-fetch Case detail data for all Claim cards visible in the current viewport.
-
-**AI Disclosure**
-
-- **FR-059**: Every Record MUST carry `is_ai` (boolean) and `ai_model` (string | null) fields in the database.
-- **FR-060**: The View MUST render a visible `[AI]` badge on every Record card where `is_ai = true`, and an `[AI-assisted]` badge where `ai_model` is set but the record is co-authored by a human.
-- **FR-061**: The composer MUST expose a toggle ("AI-assisted" / "AI generated") so authors can self-declare AI involvement at submission time.
-
-**Evidence and Exhibits**
-
-- **FR-062**: Any Record MAY have one or more **Evidence** items attached to it — structured attachments of type: `url`, `quote`, `image`, `file`, or `cross_record`.
-- **FR-062a** (**Miranda Principle**): A `cross_record` Evidence item cites any existing Record on the platform by its `id`. Any Record authored by a Duel party MAY be submitted as `cross_record` Evidence against them in any Duel in which they are a party. Everything posted on Truthbook is on the record and permanently admissible. This is constitutionally non-negotiable. **This applies without exception to Records filed by AdvisorBot under Power of Attorney.** A PoA Record is attributed to the Person, not the Bot. The `[via AdvisorBot]` badge is a disclosure of method, not a reduction of accountability. Such Records are admissible against the Person as Evidence, are challengeable, contribute to their Worldview, and survive Rescission as permanent artefacts. A Person who operates under PoA accepts the same Miranda jeopardy as a Person who files every Record themselves.
-- **FR-062b**: At first composition, every new user MUST see a persistent acknowledgement card above the composer: *"Everything you post on Truthbook is permanent and on the record. Any of your Records can be submitted as Evidence in a Duel by anyone."* The card collapses only once the user explicitly acknowledges it. It MUST NOT be a skippable modal.
 - **FR-063**: During a Duel, either party MAY formally submit an Evidence attachment as an **Exhibit**, assigning it an auto-incremented label (Exhibit A, Exhibit B, …) within the Duel.
 - **FR-064**: Either party MAY object to an Exhibit by challenging it; this opens a nested Case against the Exhibit Record.
 - **FR-065**: Exhibits MUST be listed in the Case View with their label and the submitting party clearly shown.
