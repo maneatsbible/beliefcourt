@@ -621,7 +621,7 @@ Sponsored content is prohibited. Any sponsored-in-intent Record would be require
 
 ## Requirements *(mandatory)*
 
-### Functional Requirements
+### Functional
 
 **Authentication & Identity**
 

@@ -744,19 +744,25 @@ Widget outputs are advisory analysis, not sovereign judgment.
 #### Emergent Epistemic Organization (EEO)
 EEO is the emergent structure of epistemic relationships, clusters, and dynamics as revealed by the Belief Ledger. It describes how worldviews, agreements, disputes, settlements, and rescissions self-organize into patterns—clusters, bridges, outliers, and flows—across the network of Persons and Records. EEO is not imposed; it emerges from the actual epistemic acts recorded in the Ledger. The Worldview Explorer visualizes EEO, making the invisible structure of belief and reconciliation visible, explorable, and actionable.
 
+
 The Worldview Explorer is the constitutional main view of Truthbook.
 
-It MUST provide interactive, animated visualizations of Worldviews, Claims, Challenges, Settlements, Rescissions, and their evolution over time.
+It MUST provide interactive, animated visualizations of Worldviews, Claims, Challenges, Settlements, Rescissions, and their evolution over time. All timeline visualizations MUST support replaying the Ledger, allowing users to move interactively through epistemic history and see worldviews change over time.
+
+All analytics and visualizations (including timeline replays) MUST be available statically in mockMode, using mock data, for prototyping, preview, and marketing purposes. This ensures that the full experience can be demonstrated and iterated without a live backend.
+
 The Explorer SHALL include:
-  - **Ledger Replay:** Timeline playback of epistemic events, showing how beliefs, agreements, and disputes change.
+  - **Ledger Replay:** Timeline playback of epistemic events, showing how beliefs, agreements, and disputes change, with interactive controls for scrubbing and animation.
   - **Worldview Adjacency & Distance:** Visual maps (e.g., cluster graphs, MDS projections) showing epistemic proximity, divergence, and convergence between Persons and groups.
   - **Settlement & Rescission Analytics:** Flow diagrams and metrics for Settlements, Rescissions, and their impact on network structure, including forgiveness and regeneration events.
   - **Christian Context Overlays:** Visual cues for confession, forgiveness, and regeneration, reflecting the constitutional foundation of repentance and reconciliation.
   - **EEO Visualizations:** Cluster maps, adjacency graphs, and timeline animations that reveal the emergent epistemic organization of the community.
+
 All analytics and visualizations MUST be:
   - Transparent (showing how metrics are computed)
   - Auditable (source data and computation exposed)
   - Challengeable (interpretations may be disputed via Duel)
+
 The Worldview Explorer is a constitutional product feature, not an optional add-on. It is a required part of the platform’s protocol and user experience.
 
 ---

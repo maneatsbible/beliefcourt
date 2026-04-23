@@ -261,8 +261,11 @@ Infrastructure: SQLite + Litestream on Fly.io. No database bill. No CDN bill. No
 ## Worldview Explorer & Analytics
 ### Emergent Epistemic Organization (EEO)
 EEO is the emergent structure of epistemic relationships, clusters, and dynamics as revealed by the Belief Ledger. It describes how worldviews, agreements, disputes, settlements, and rescissions self-organize into patterns—clusters, bridges, outliers, and flows—across the network of Persons and Records. EEO is not imposed; it emerges from the actual epistemic acts recorded in the Ledger. The Worldview Explorer visualizes EEO, making the invisible structure of belief and reconciliation visible, explorable, and actionable.
+Truthbook’s Worldview Explorer is the new main view of the platform, offering:
 
 Truthbook’s Worldview Explorer is the new main view of the platform, offering:
+
+- **All analytics and timeline visualizations are available statically in mockMode, using mock data, for prototyping, preview, and marketing.** This enables rapid iteration and demonstration of features without a live backend.
 
 - **Animated Timeline Replay:** Users can “replay” the evolution of Claims, Challenges, Settlements, and Rescissions, visualizing how worldviews interact and change over time.
 - **Worldview Maps:** Interactive visualizations show how close or distant users and groups are in their beliefs, with clusters, bridges, and shifts over time.
