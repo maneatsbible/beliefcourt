@@ -279,4 +279,4 @@ All analytics are grounded in the Belief Ledger and governed by the Worldview En
 
 This platform was built from a conviction rooted in biblical faith in Jesus Christ — that truth is real and knowable, and that people are capable of defending what they actually believe.
 
-**Truthbook — On the record.**
+**Truthbook — On the Record.**
