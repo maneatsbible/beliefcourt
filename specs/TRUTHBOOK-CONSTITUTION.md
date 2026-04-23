@@ -8,14 +8,6 @@
 
 ---
 
-**How Truthbook Works (Plain Language), Inclusivity, and Founding Conviction have been moved to peoples-briefing.md.**
-
-**CRUD and technical requirements have been moved to spec.md and plan.md.**
-
-**For entity definitions and data model, see data-model.md.**
-
----
-
 ## Table of Contents
 1. [Preamble](#preamble)
 2. [Constitutional Design Principles](#constitutional-design-principles)
