@@ -66,9 +66,17 @@ Everything that follows — the constitutional structure, the duel process, the 
 - No AI or platform communication shall state or imply that “We” (the platform or AI) are proud, honored, or possess feelings.
 - The term "Objection" refers only to process within Duels. For other conflicts, use terms such as "disagreement" or "conflict."
 
+
 ### Section 0.2 — Universal Case-Insensitivity for URL Parameters
 
 All URL query parameter keys and values in Truthbook are constitutionally required to be case-insensitive. Any navigation, routing, or feature that depends on URL parameters must treat both keys and values as case-insensitive, and all code must enforce this rule. This ensures robust, user-friendly, and error-proof navigation throughout the platform.
+
+### Section 0.3 — Frameworks and Tooling
+
+- The use of third-party frameworks, libraries, and tools (including for testing, UI, or backend) is allowed and encouraged where appropriate. There is no constitutional prohibition on using external frameworks for implementation or testing purposes.
+
+---
+
 ## ARTICLE 0 — PRINCIPLES OF JUDGMENT AND LANGUAGE
 
 ### Section 0.1 — Constitutional Design Principles
