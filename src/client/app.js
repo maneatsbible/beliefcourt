@@ -10,12 +10,21 @@ import { showErrorPanel }   from './view/components/error-panel.js';
 import { mountMockToolbar } from './view/components/mock-toolbar.js';
 import { MOCK_USERS }       from './mock/users.js';
 const VERSION = 'v0.0.1-pre-alpha';
-import { HomeView }         from './view/home-view.js';
-import { HomeController }   from './controller/home-controller.js';
-import { CaseView }      from './view/case-view.js';
-import { DisputeController } from './controller/dispute-controller.js';
-import { PersonView }       from './view/person-view.js';
-import { PersonController } from './controller/person-controller.js';
+// Visualization suite (mockMode-first)
+import {
+  TimelineReplayView,
+  EEOView,
+  AdjacencyView,
+  SettlementView,
+  WorldviewMapView,
+} from './view/viz/index.js';
+import {
+  MOCK_TIMELINE,
+  MOCK_EEO,
+  MOCK_ADJACENCY,
+  MOCK_SETTLEMENTS,
+  MOCK_WORLDVIEW_MAP,
+} from './mock/viz-mock-data.js';
 import { logger }           from './utils/logger.js';
 
 
@@ -58,19 +67,67 @@ async function bootstrap() {
     const main = document.getElementById('app-main');
     if (!main) throw new Error('Missing #app-main element');
 
-    // Router
+    // Router (mockMode-first visualizations)
     async function route() {
       const params = getUrlParams();
       const view   = params.v ?? 'home';
       main.innerHTML = '';
 
+      // Home: Timeline replay + worldview map
       if (view === 'home' || !view) {
-        await mountHomeView(main, currentUser);
-      } else if (view === 'case' && params.id) {
-        await mountDisputeView(main, params.id, currentUser);
-      } else if (view === 'person' && params.id) {
-        await mountPersonView(main, params.id, currentUser);
-      } else {
+        const vizWrap = document.createElement('div');
+        vizWrap.className = 'viz-suite viz-suite--home';
+        main.appendChild(vizWrap);
+
+        // Timeline replay
+        const timelineDiv = document.createElement('div');
+        timelineDiv.className = 'viz-block viz-block--timeline';
+        vizWrap.appendChild(timelineDiv);
+        new TimelineReplayView(timelineDiv, MOCK_TIMELINE).render();
+
+        // Worldview map
+        const mapDiv = document.createElement('div');
+        mapDiv.className = 'viz-block viz-block--worldview-map';
+        vizWrap.appendChild(mapDiv);
+        new WorldviewMapView(mapDiv, MOCK_WORLDVIEW_MAP).render();
+      }
+      // Case: Timeline replay + settlements
+      else if (view === 'case' && params.id) {
+        const vizWrap = document.createElement('div');
+        vizWrap.className = 'viz-suite viz-suite--case';
+        main.appendChild(vizWrap);
+
+        // Timeline replay
+        const timelineDiv = document.createElement('div');
+        timelineDiv.className = 'viz-block viz-block--timeline';
+        vizWrap.appendChild(timelineDiv);
+        new TimelineReplayView(timelineDiv, MOCK_TIMELINE).render();
+
+        // Settlements
+        const settleDiv = document.createElement('div');
+        settleDiv.className = 'viz-block viz-block--settlement';
+        vizWrap.appendChild(settleDiv);
+        new SettlementView(settleDiv, MOCK_SETTLEMENTS).render();
+      }
+      // Person: EEO + adjacency
+      else if (view === 'person' && params.id) {
+        const vizWrap = document.createElement('div');
+        vizWrap.className = 'viz-suite viz-suite--person';
+        main.appendChild(vizWrap);
+
+        // EEO
+        const eeoDiv = document.createElement('div');
+        eeoDiv.className = 'viz-block viz-block--eeo';
+        vizWrap.appendChild(eeoDiv);
+        new EEOView(eeoDiv, MOCK_EEO).render();
+
+        // Adjacency
+        const adjDiv = document.createElement('div');
+        adjDiv.className = 'viz-block viz-block--adjacency';
+        vizWrap.appendChild(adjDiv);
+        new AdjacencyView(adjDiv, MOCK_ADJACENCY).render();
+      }
+      else {
         main.innerHTML = `<p class="empty-state">Unknown view.</p>`;
       }
     }
@@ -78,8 +135,6 @@ async function bootstrap() {
     await route();
 
     window.addEventListener('popstate', () => route());
-
-    // Custom navigation events from views
     window.addEventListener('dsp:navigate', () => route());
 
     logger.info('app', 'bootstrap complete');
@@ -89,22 +144,6 @@ async function bootstrap() {
   }
 }
 
-async function mountHomeView(main, currentUser) {
-  const ctrl = new HomeController(currentUser);
-  const view = new HomeView(main, ctrl, currentUser);
-  await view.render();
-}
-
-async function mountDisputeView(main, caseId, currentUser) {
-  const ctrl = new DisputeController(currentUser);
-  const view = new CaseView(main, ctrl, currentUser);
-  await view.render(caseId);
-}
-
-async function mountPersonView(main, personId, currentUser) {
-  const ctrl = new PersonController(currentUser);
-  const view = new PersonView(main, ctrl, currentUser);
-  await view.render(personId);
-}
+// (Legacy view/component mounting removed — replaced by visualization suite)
 
 document.addEventListener('DOMContentLoaded', bootstrap);

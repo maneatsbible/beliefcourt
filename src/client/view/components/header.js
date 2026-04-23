@@ -1,3 +1,4 @@
+// *** LEGACY FILE: MARKED FOR DELETION — Replaced by /viz/ visualization suite. ***
 /**
  * View component: bottom navigation bar.
  * Three tabs — Home (left), Search (centre), Person (right).

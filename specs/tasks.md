@@ -823,5 +823,33 @@
 - [ ] T321 Add no-crypto assertion to CI: add a step to `ci/security-scan` job (T241) that runs `grep -r "blockchain\|ethereum\|solana\|wallet\|token\b" src/` and fails if any match is found; this enforces FR-285 at the build level; legitimate uses of "token" (JWT token, auth token) must use variable names that don't trigger the raw-word match — use `grep -rP "\bblockchain\b|\bethereum\b|\bsolana\b|\bcrypto\b|\bwallet\b" src/` with word-boundary regex to avoid false positives on `authToken`
 - [ ] T322 Add bootstrapping Claim to `src/mock/seed-data.js` — mock assertion with `{ number: 9999, title: "Truthbook is viable, worth funding…", labels: ["bootstrapping","constitutional","pinned"], giving_widget: { total_raised_cents: 412500, contributor_count: 247 } }` so the pinned Claim renders correctly in mock mode with a realistic giving total
 
+---
+
+## Visualization in mockMode
+
+- [ ] T100 Create a /viz/ static route or page for visualizations
+- [ ] T101 Implement D3-based Timeline Replay visualization (Ledger playback, scrubbable/animated)
+- [ ] T102 Implement Worldview Cluster Map (force-directed/MDS projection)
+- [ ] T103 Implement Settlement & Forgiveness Flow (Sankey/flow diagrams)
+- [ ] T104 Implement Adjacency/Distance Heatmap or Chord Diagram
+- [ ] T105 Implement Animated Ledger Evolution (replay worldview shifts)
+- [ ] T106 Implement Personal/Community Analytics Dashboards
+- [ ] T107 Implement Christian Context Overlays (forgiveness, regeneration events)
+- [ ] T108 Make all visualizations available statically in mockMode using mock data
+- [ ] T109 Add UI controls for switching between visualizations and timeline scrubbing
+- [ ] T110 Document all visualizations and mockMode usage in README
+- [ ] T111 Add sample export/download for reports and images
+
+---
+
+## Visualization Implementation Plan
+
+1. Create a /viz/ static route or page in the client app for visualizations.
+2. Use D3.js for all visualizations, loading mock data from src/client/mock/seed-data.js.
+3. Implement each visualization as a separate module/component.
+4. Add UI controls for switching visualizations and timeline scrubbing.
+5. Ensure all visualizations work in mockMode (no backend required).
+6. Document usage and provide sample exports for marketing/demo.
+
 
 

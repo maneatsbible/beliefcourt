@@ -1,3 +1,4 @@
+// *** LEGACY FILE: MARKED FOR DELETION — Replaced by /viz/ visualization suite. ***
 /**
  * View component: Record card.
  * Renders a single Record (claim, challenge, answer, etc.) as a card element.

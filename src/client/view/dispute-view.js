@@ -1,3 +1,4 @@
+// *** LEGACY FILE: MARKED FOR DELETION — Replaced by /viz/ visualization suite. ***
 /**
  * View: Case Court
  * Renders a case with its claim, duels, and duel records.

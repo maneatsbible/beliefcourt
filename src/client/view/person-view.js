@@ -1,3 +1,4 @@
+// *** LEGACY FILE: MARKED FOR DELETION — Replaced by /viz/ visualization suite. ***
 /**
  * View: Person (Worldview Profile)
  * Renders a person's profile with their records.

@@ -1,3 +1,4 @@
+// *** LEGACY FILE: MARKED FOR DELETION — Replaced by /viz/ visualization suite. ***
 /**
  * View: Home Feed
  * Displays paginated claims feed with composing + challenging.
