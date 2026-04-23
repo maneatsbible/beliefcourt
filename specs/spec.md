@@ -346,9 +346,9 @@ Any visitor can browse the 10 public auto-analytics views — Contested Ground, 
 **Acceptance Scenarios**:
 
 1. **Given** any visitor, **When** they visit `/analytics`, **Then** they see a navigation list of all 10 views.
-2. **Given** the Undefeated Claims leaderboard, **When** rendered, **Then** Claims are ordered by `ClaimAgreements × survived Duels` with the formula shown as a tooltip.
-3. **Given** the "You disagree with N%" hook, **When** an authenticated user views the Home feed, **Then** each Claim card shows the percentage of Persons who hold that ClaimAgreement against whom the current user has no ClaimAgreement (approximated from the agreeers set).
-4. **Given** the Velocity view, **When** a STANDING Claim is rescinded, **Then** the event appears in the Velocity feed with a `[Rescinded STANDING]` marker.
+2. **Given** the Undefeated Claims leaderboard, **When** rendered, **Then** Claims are ordered by `ClaimAccords × survived Duels` with the formula shown as a tooltip.
+3. **Given** the "You disagree with N%" hook, **When** an authenticated user views the Home feed, **Then** each Claim card shows the percentage of Persons who hold that ClaimAccord against whom the current user has no ClaimAccord (approximated from the agreeers set).
+4. **Given** the Velocity view, **When** a STANDING Claim is rescinded, **Then** the event appears in the Velocity feed with a `[RESCINDED STANDING]` marker.
 
 ---
 
@@ -618,7 +618,7 @@ Sponsored content is prohibited. Any sponsored-in-intent Record would be require
 - **FR-023**: Either party in a Duel MAY submit an Offer proposing resolution at any time; Offers MUST NOT pause or block the Challenge/Answer turn sequence.
 - **FR-024**: The other party MUST be able to accept (producing an Accord and a Disposition of type=accord) or reject the Offer.
 - **FR-025**: Either party MAY propose DeadlineConditions (countdown per turn); conditions MUST be mutually agreed before activation. The absolute deadline timestamp MUST be stored in the Duel's GitHub Issue body.
-- **FR-026**: Upon expiry of agreed DeadlineConditions, the **server** (node-cron, 1-minute tick) MUST detect the expiry and write a Default Disposition record. The client displays the Default event prominently with a visual indicator and an audio cue (Web Audio API chirp) when it next loads or polls the Duel. Server-side detection removes the race condition of multiple clients simultaneously writing a Default.
+- **FR-026**: Upon expiry of agreed DeadlineConditions, the **server** (node-cron, 1-minute tick) MUST detect the expiry and write a Default Disposition record. The client displays the Default event prominently with the chirping audio cue (Web Audio API chirp) when it next loads or polls the Duel. Server-side detection removes the race condition of multiple clients simultaneously writing a Default.
 - **FR-027**: A Default Disposition MAY be challenged by the defaulting party, opening a nested Case against the Disposition Record.
 
 **ClaimAccords and Base of Truth**
@@ -640,7 +640,7 @@ Sponsored content is prohibited. Any sponsored-in-intent Record would be require
 
 - **FR-090** (**Rescission**): Any Person MAY rescind any Record they authored by creating a Rescission Record pointing at it. The original Record MUST NOT be deleted or hidden. The Rescission notice MUST appear prominently on the original Record card. The author is no longer obligated to answer as defender for that Record going forward, but existing Duels MUST continue to their Disposition unchanged. A Rescission MAY NOT cascade-close Cases, Duels, or ClaimAccords held by others.
 - **FR-091**: A Rescission Record MUST itself be challengeable, opening a nested Case to contest its sincerity or good faith.
-- **FR-092**: When a Person rescinds a Claim that was in STANDING state, the platform MUST surface this event prominently — on the Person's profile, in the Flux/Velocity analytics view, and with a `[Rescinded STANDING]` badge — as a mark of intellectual courage. This is a virtue mechanic, not a penalty.
+- **FR-092**: When a Person rescinds a Claim that was in STANDING state, the platform MUST surface this event prominently — on the Person's profile, in the Flux/Velocity analytics view, and with a `[RESCINDED STANDING]` badge — as a mark of intellectual courage. This is a virtue mechanic, not a penalty.
 - **FR-093** (**On the Record search**): Any authenticated user MAY look up the full public record of another Person — every Record they have ever authored (including Records filed under AdvisorBot PoA, displayed as `[via AdvisorBot]`), every ClaimAccord they hold, every Judgment they have rendered, every Rescission they have made — filterable by Record type and topic. PoA Records appear in full; they are not collapsed, hidden, or marked as provisional. This is the Miranda feature in UI form: research your opponent before entering a Duel.
 
 **Judicial Role Framing**
@@ -1361,5 +1361,41 @@ judgmental.io ships five named Duel contexts in v1. The engine is identical acro
 | `discernment` | **Christian Mode** — church/org community decision | Org-private | No |
 | `discipline` | **Christian Mode** — three-stage church reconciliation | Private | No |
 | `org` | Private organizational workspace | Org-private | Configurable |
+
+---
+
+### Potential Process Gaming and Mitigation
+
+While Truthbook’s design emphasizes transparency, attribution, and peer judgment, certain attack vectors remain possible. The following outlines key risks and recommended mitigations:
+
+**1. Sybil Attacks & Collusion**
+- Risk: Malicious actors create multiple fake Person identities to influence Gallery Judgments or flood Cases with supporting Records.
+- Mitigation: Enforce strong identity verification, rate limits, and transparent record linking. Consider reputation weighting or limiting Gallery participation to established Persons.
+
+**2. Default Manipulation**
+- Risk: Parties intentionally default in Duels to trigger system Default Judgments, especially if the default outcome is favorable.
+- Mitigation: Make default outcomes clearly visible and auditable. Penalize repeated strategic defaults and allow for community review of suspicious patterns.
+
+**3. Evidence & Record Flooding**
+- Risk: Overwhelming the process with excessive or irrelevant Records to confuse the Gallery or dilute legitimate arguments.
+- Mitigation: UI/UX should surface concise summaries and allow filtering. Consider rate limits or moderation for excessive submissions.
+
+**4. Rescission Abuse**
+- Risk: Filing and quickly rescinding Claims or Challenges to provoke responses or create confusion.
+- Mitigation: All rescinded Records remain visible in the Ledger. Track and flag patterns of rapid rescission for review.
+
+**5. Stalemate Engineering**
+- Risk: Pushing for Stalemate agreements to avoid clear verdicts, resulting in Claims being permanently marked as DISPUTED.
+- Mitigation: Make the implications of Stalemate clear and allow for reopening Cases if new evidence or interest arises.
+
+**6. Widget/Gallery Manipulation**
+- Risk: Exploiting annotation or Widget features to influence Judgments off-record.
+- Mitigation: Ensure all persuasive content is attributed and, where possible, on-record. Limit off-record commentary in Gallery contexts.
+
+**7. Challenge Chaining**
+- Risk: Creating deep, nested Cases to obscure the core issue.
+- Mitigation: UI should provide lineage breadcrumbs and collapse/expand tools for nested challenges. Consider limits on recursion depth.
+
+---
 
 
