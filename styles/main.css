@@ -217,6 +217,7 @@ body.has-mock-toolbar #app-main { padding-top: 44px; }
   line-height: 1;
   display: block;
   transition: transform var(--transition-fast);
+  vertical-align: middle;
 }
 
 .nav-tab__label {
@@ -234,10 +235,11 @@ body.has-mock-toolbar #app-main { padding-top: 44px; }
 
 .nav-tab__version {
   display: block;
-  font-size: 9px;
+  font-size: 11px;
   font-family: monospace;
   color: var(--color-text-muted);
   line-height: 1;
+  margin-left: 8px;
 }
 
 /* ── Header bar (legacy — keep stubs to avoid 404 regressions) ──── */
@@ -803,24 +805,24 @@ details > summary::marker { display: none; }
   bottom: 72px; /* 56px nav bar + 16px gap */
   right: 24px;
   z-index: 90;
-  width: 56px;
-  height: 56px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
-  background: var(--color-accent);
+  background: linear-gradient(135deg, #e85d04 60%, #fbc02d 100%);
   color: #fff;
-  font-size: 24px;
+  font-size: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.45);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.55);
   border: none;
   cursor: pointer;
   transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 .fab-compose:hover:not(:disabled) {
-  background: #ff6a1a;
-  transform: scale(1.07);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.55);
+  background: linear-gradient(135deg, #ff6a1a 60%, #ffd700 100%);
+  transform: scale(1.09);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.65);
 }
 .fab-compose:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
 .fab-compose--hidden  { display: none !important; }

@@ -73,6 +73,29 @@ async function bootstrap() {
       const view   = params.v ?? 'home';
       main.innerHTML = '';
 
+      // Floating Start a Fire button (FAB)
+      function addStartFireFAB() {
+        let fab = document.getElementById('fab-start-fire');
+        if (!fab) {
+          fab = document.createElement('button');
+          fab.id = 'fab-start-fire';
+          fab.className = 'fab-compose';
+          fab.title = 'Start a Fire (File a Claim)';
+          fab.innerHTML = '<span style="font-size:1.5em;">🔥</span>';
+          fab.onclick = () => {
+            // Route to claim composer or fire action (mock: alert)
+            alert('Start a Fire: File a new Claim (Evangelize) — [TODO: open composer]');
+          };
+          document.body.appendChild(fab);
+        } else {
+          fab.style.display = '';
+        }
+      }
+      function hideStartFireFAB() {
+        const fab = document.getElementById('fab-start-fire');
+        if (fab) fab.style.display = 'none';
+      }
+
       // Home: (minimal, no full viz suite)
       if (view === 'home' || !view) {
         main.innerHTML = `
@@ -86,10 +109,12 @@ async function bootstrap() {
             <br><span class="viz-demo-caption">(Explore the full interactive analytics and visualization demo suite.)</span>
           </div>
         `;
+        addStartFireFAB();
       }
 
       // Viz: full visualization suite demo
       else if (view === 'viz') {
+        addStartFireFAB();
         const vizWrap = document.createElement('div');
         vizWrap.className = 'viz-suite viz-suite--viz';
         main.appendChild(vizWrap);
@@ -166,6 +191,7 @@ async function bootstrap() {
       }
       // Case: Timeline replay + settlements
       else if (view === 'case' && params.id) {
+        addStartFireFAB();
         const vizWrap = document.createElement('div');
         vizWrap.className = 'viz-suite viz-suite--case';
         main.appendChild(vizWrap);
@@ -184,6 +210,7 @@ async function bootstrap() {
       }
       // Person: EEO + adjacency
       else if (view === 'person' && params.id) {
+        addStartFireFAB();
         const vizWrap = document.createElement('div');
         vizWrap.className = 'viz-suite viz-suite--person';
         main.appendChild(vizWrap);
@@ -202,6 +229,7 @@ async function bootstrap() {
       }
       else {
         main.innerHTML = `<p class="empty-state">Unknown view.</p>`;
+        hideStartFireFAB();
       }
     }
 
