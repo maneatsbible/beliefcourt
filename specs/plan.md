@@ -1,3 +1,5 @@
+## Emergent Epistemic Organization (EEO)
+EEO is the emergent structure of epistemic relationships, clusters, and dynamics as revealed by the Belief Ledger. It describes how worldviews, agreements, disputes, settlements, and rescissions self-organize into patterns—clusters, bridges, outliers, and flows—across the network of Persons and Records. EEO is not imposed; it emerges from the actual epistemic acts recorded in the Ledger. The Worldview Explorer visualizes EEO, making the invisible structure of belief and reconciliation visible, explorable, and actionable.
 # Implementation Plan: Truthbook
 Truthbook is a browser-only, plain vanilla JavaScript SPA backed by a lightweight Hono API server running on Fly.io, with SQLite (WAL mode) as the primary database streamed to S3-compatible storage via Litestream. Identity is established through social media OAuth (X, Threads, Bluesky, GitHub) — no GitHub API calls are made for data storage. All content records are stored in the application's own database. The architecture is strict MVC: all permission logic in the Controller, dumb rendering in the View, DB entities mapped directly in the Model.
 

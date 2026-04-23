@@ -91,6 +91,8 @@
 ---
 
 ## The Worldview Explorer
+### Emergent Epistemic Organization (EEO)
+EEO is the emergent structure of epistemic relationships, clusters, and dynamics as revealed by the Belief Ledger. It describes how worldviews, agreements, disputes, settlements, and rescissions self-organize into patterns—clusters, bridges, outliers, and flows—across the network of Persons and Records. EEO is not imposed; it emerges from the actual epistemic acts recorded in the Ledger. The Worldview Explorer visualizes EEO, making the invisible structure of belief and reconciliation visible, explorable, and actionable.
 
 *Where worldviews collide, people open cases to confront the differences, seeking harmony.*
 
