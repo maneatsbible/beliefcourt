@@ -28,16 +28,26 @@ export class TimelineReplayView {
     d3root.className = 'viz-timeline-replay';
     this._el.appendChild(d3root);
 
-    // Controls
+    // Controls (styled)
     const controls = document.createElement('div');
     controls.className = 'viz-controls';
-    controls.style.marginBottom = '8px';
+    controls.style.display = 'flex';
+    controls.style.alignItems = 'center';
+    controls.style.gap = '12px';
+    controls.style.margin = '12px 0 8px 0';
     d3root.appendChild(controls);
     const playBtn = document.createElement('button');
-    playBtn.textContent = 'Play';
-    playBtn.style.marginRight = '8px';
+    playBtn.innerHTML = '<span style="font-size:18px;">▶️</span> <span>Play</span>';
+    playBtn.className = 'btn btn--primary';
+    playBtn.style.display = 'flex';
+    playBtn.style.alignItems = 'center';
+    playBtn.style.gap = '6px';
     const pauseBtn = document.createElement('button');
-    pauseBtn.textContent = 'Pause';
+    pauseBtn.innerHTML = '<span style="font-size:18px;">⏸️</span> <span>Pause</span>';
+    pauseBtn.className = 'btn btn--secondary';
+    pauseBtn.style.display = 'flex';
+    pauseBtn.style.alignItems = 'center';
+    pauseBtn.style.gap = '6px';
     controls.appendChild(playBtn);
     controls.appendChild(pauseBtn);
 
@@ -139,7 +149,7 @@ export class TimelineReplayView {
       .enter()
       .append('g')
       .attr('class', 'event')
-      .style('opacity', 0);
+      .style('opacity', 0.2);
 
     eventGroups.append('circle')
       .attr('cx', d => x(d.date))
@@ -172,7 +182,7 @@ export class TimelineReplayView {
       });
 
     function showEvents(upTo) {
-      eventGroups.transition().duration(0).style('opacity', (d, i) => i <= upTo ? 1 : 0.2);
+      eventGroups.transition().duration(300).style('opacity', (d, i) => i <= upTo ? 1 : 0.2);
       // Highlight current
       eventGroups.select('circle').attr('stroke', (d, i) => i === upTo ? '#000' : '#222').attr('stroke-width', (d, i) => i === upTo ? 3 : 1.5);
     }
