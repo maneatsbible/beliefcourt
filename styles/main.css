@@ -249,16 +249,23 @@ body.has-mock-toolbar #app-main { padding-top: 44px; }
 }
 
 .nav-tab__caption {
-  font-size: 0.92em;
+  font-size: 0.88em;
   color: #b3b3b3;
-  margin-top: 2px;
+  margin-top: 1px;
   text-align: center;
-  line-height: 1.2;
+  line-height: 1.1;
   font-weight: 400;
   padding: 0 2px;
-  min-height: 28px;
-  max-width: 200px;
+  min-height: 16px;
+  max-width: 160px;
   word-break: break-word;
+}
+
+@media (max-width: 900px) {
+  .nav-tab__caption {
+    display: none;
+  }
+}
 }
 
 .nav-tab__version {
@@ -847,6 +854,45 @@ details > summary::marker { display: none; }
   border: none;
   cursor: pointer;
   transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+/* Animation states for Start a Fire FAB */
+.fab-compose--active {
+  animation: fab-grow-lighten 0.22s cubic-bezier(0.4,0.2,0.2,1) forwards;
+}
+.fab-compose--restore {
+  animation: fab-shrink-darken 0.18s cubic-bezier(0.4,0.2,0.2,1) forwards;
+}
+
+@keyframes fab-grow-lighten {
+  0% {
+    transform: scale(1);
+    background: linear-gradient(135deg, #e85d04 60%, #fbc02d 100%);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.55);
+  }
+  80% {
+    transform: scale(1.18);
+    background: linear-gradient(135deg, #ffb347 60%, #fffbe0 100%);
+    box-shadow: 0 10px 32px rgba(0,0,0,0.70);
+  }
+  100% {
+    transform: scale(1.09);
+    background: linear-gradient(135deg, #ff6a1a 60%, #ffd700 100%);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.65);
+  }
+}
+@keyframes fab-shrink-darken {
+  0% {
+    transform: scale(1.09);
+    background: linear-gradient(135deg, #ff6a1a 60%, #ffd700 100%);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.65);
+  }
+  100% {
+    transform: scale(1);
+    background: linear-gradient(135deg, #e85d04 60%, #fbc02d 100%);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.55);
+  }
+}
 }
 .fab-compose:hover:not(:disabled) {
   background: linear-gradient(135deg, #ff6a1a 60%, #ffd700 100%);

@@ -82,10 +82,20 @@ async function bootstrap() {
           fab.className = 'fab-compose';
           fab.title = 'Start a Fire (File a Claim)';
           fab.innerHTML = '<span style="font-size:1.5em;">🔥</span>';
-          fab.onclick = () => {
+          fab.addEventListener('click', () => {
+            // Animate: grow/lighten, then restore
+            fab.classList.remove('fab-compose--restore');
+            fab.classList.add('fab-compose--active');
+            setTimeout(() => {
+              fab.classList.remove('fab-compose--active');
+              fab.classList.add('fab-compose--restore');
+              setTimeout(() => {
+                fab.classList.remove('fab-compose--restore');
+              }, 180);
+            }, 220);
             // Route to claim composer or fire action (mock: alert)
             alert('Start a Fire: File a new Claim (Evangelize) — [TODO: open composer]');
-          };
+          });
           document.body.appendChild(fab);
         } else {
           fab.style.display = '';
