@@ -580,6 +580,10 @@ All production code MUST meet:
 - No user data MUST be sold without explicit opt-in
 - GDPR and CCPA compliance MUST be maintained
 
+**GDPR/CCPA Compliance and Right to Erasure**
+
+Truthbook is designed to comply with GDPR and CCPA data erasure requirements. All personal data (PII) is stored exclusively in the Person record. If a user requests deletion, their Person record is permanently deleted, and all associated Belief Ledger entries are rescinded and de-attributed—meaning they remain in the ledger but are no longer linked to any identifiable individual. No personal data remains in the system after deletion. This ensures compliance with the "right to be forgotten" while preserving the integrity of the public ledger.
+
 ---
 
 ## ARTICLE XII — FINANCIAL TRANSPARENCY
