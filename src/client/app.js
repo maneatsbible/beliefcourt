@@ -75,11 +75,21 @@ async function bootstrap() {
 
       // Home: (minimal, no full viz suite)
       if (view === 'home' || !view) {
-        main.innerHTML = `<div class="viz-home-message">Welcome to Truthbook. Use the navigation to explore cases, people, or the full Visual Intelligence Suite.</div>`;
+        main.innerHTML = `
+          <div class="viz-home-message">
+            Welcome to Truthbook.<br>
+            Use the navigation to explore cases, people, or:
+            <br><br>
+            <a href="?v=viz" class="viz-demo-link">
+              <span style="font-size:1.2em;">📊</span> <b>Analytics Visualization Suite Demo</b>
+            </a>
+            <br><span class="viz-demo-caption">(Explore the full interactive analytics and visualization demo suite.)</span>
+          </div>
+        `;
       }
 
-      // Viz: full visualization suite
-      else if (view === 'Viz') {
+      // Viz: full visualization suite demo
+      else if (view === 'viz') {
         const vizWrap = document.createElement('div');
         vizWrap.className = 'viz-suite viz-suite--viz';
         main.appendChild(vizWrap);
@@ -96,8 +106,8 @@ async function bootstrap() {
         const adjPairs = MOCK_ADJACENCY.length;
         marketing.innerHTML = `
           <div class="viz-hero">
-            <h1 class="viz-title">Truthbook Visual Intelligence Suite</h1>
-            <p class="viz-tagline">See the story of truth, challenge, and forgiveness unfold in real time. Explore the living network of beliefs, disputes, and reconciliation.</p>
+            <h1 class="viz-title">Analytics Visualization Suite Demo</h1>
+            <p class="viz-tagline">Explore the full interactive analytics and visualization demo suite for Truthbook. See the story of truth, challenge, and forgiveness unfold in real time. Explore the living network of beliefs, disputes, and reconciliation.</p>
             <div class="viz-analytics">
               <div><b>${timelineCount}</b> timeline events</div>
               <div><b>${uniquePeople}</b> unique participants</div>
