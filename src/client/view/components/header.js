@@ -37,32 +37,34 @@ export function renderNavBar(version = 'v0.0.1-pre-alpha', { handle = null } = {
   const activeView = getUrlParams().v ?? 'home';
   const personLabel = handle ? `@${_esc(handle)}` : 'Sign in';
 
-  // Layout: Home | Search | Person | Version (far right)
+  // Layout: Home (left), Search (center), Person (right of version), Version (hard right)
   root.innerHTML = `
-    <div class="nav-bar-flex" style="display:flex;align-items:center;width:100%;height:100%;">
-      <div style="flex:0 0 auto;">
+    <div class="nav-bar-flex" style="display:flex;align-items:stretch;width:100%;height:100%;">
+      <div style="flex:0 0 28%;display:flex;align-items:center;justify-content:flex-start;">
         <button class="nav-tab${activeView === 'home' ? ' nav-tab--active' : ''}"
-                data-view="home" aria-label="Home" ${activeView === 'home' ? 'aria-current="page"' : ''}>
+                data-view="home" aria-label="Home" ${activeView === 'home' ? 'aria-current="page"' : ''} style="width:100%;height:100%;min-width:90px;">
           <span class="nav-tab__icon" aria-hidden="true">${ICON_HEART_ON_FIRE}</span>
           <span class="nav-tab__label">Home</span>
+          <span class="nav-tab__caption">Go to the main feed and see the latest claims and duels.</span>
         </button>
       </div>
-      <div style="flex:0 0 auto;">
+      <div style="flex:1 1 44%;display:flex;align-items:center;justify-content:center;">
         <button class="nav-tab${activeView === 'search' ? ' nav-tab--active' : ''}"
-                data-view="search" aria-label="Search" ${activeView === 'search' ? 'aria-current="page"' : ''}>
+                data-view="search" aria-label="Search" ${activeView === 'search' ? 'aria-current="page"' : ''} style="width:100%;height:100%;min-width:90px;">
           <span class="nav-tab__icon" aria-hidden="true">🔍</span>
           <span class="nav-tab__label">Search</span>
+          <span class="nav-tab__caption">Find claims, people, and cases across the platform.</span>
         </button>
       </div>
-      <div style="flex:1 1 auto;"></div>
-      <div style="flex:0 0 auto;">
+      <div style="flex:0 0 18%;display:flex;align-items:center;justify-content:flex-end;">
         <button class="nav-tab${activeView === 'person' ? ' nav-tab--active' : ''}"
-                data-view="person" aria-label="${handle ?? 'Profile'}" ${activeView === 'person' ? 'aria-current="page"' : ''}>
+                data-view="person" aria-label="${handle ?? 'Profile'}" ${activeView === 'person' ? 'aria-current="page"' : ''} style="width:100%;height:100%;min-width:90px;">
           <span class="nav-tab__icon" aria-hidden="true">👤</span>
           <span class="nav-tab__label">${personLabel}</span>
+          <span class="nav-tab__caption">View your profile, records, and settings.</span>
         </button>
       </div>
-      <div style="flex:0 0 auto;margin-left:12px;padding-right:12px;">
+      <div style="flex:0 0 10%;display:flex;align-items:center;justify-content:flex-end;padding-right:12px;">
         <span class="nav-tab__version" style="font-size:11px;color:#8b949e;font-family:monospace;">${_esc(version)}</span>
       </div>
     </div>
