@@ -9,10 +9,7 @@
 
 ---
 
-> **This document is a living public record.**
-All financial projections, funding targets, and revenue models are constitutional — governed by the Worldview Engine, challengeable by any authenticated Person, and permanently on the Belief Ledger once the platform is live. This is not a private pitch deck. It is evidence in the bootstrapping Claim.
-
-**The structured judgment engine for every domain where people need to reach a real decision — and the game everyone wants to play when the stakes involve love.**
+**Truthbook is the structured judgment engine for every domain where people need to reach a real decision — and the game everyone wants to play when the stakes involve love.**
 
 *Where worldviews collide, the people open cases to confront their differences, seeking harmony and mutual understanding.*
 
@@ -39,6 +36,21 @@ Truthbook is a structured judgment engine — Claims, Evidence, Duels, Verdicts.
 1. **Dating** — "Duel me before you date me." Compatibility through honest disagreement, shareable Score Cards, viral invite links, a Faith Alignment Score for Christians. The mechanic generates content every time two people use it.
 
 2. **Christian faith** — Built specifically for Bible-following Christians who take the truth seriously, knowing that the truth is Jesus Christ. Truthbook is not a general faith forum. Not Patheos. The platform runs deep into the full range of Christian life: personal belief formation through Doctrinal Duels and Exploring Our Faith; accountability and repentance mechanics modeled on Matthew 18; Church Discipline; and Christian courtship built on the same honest-disagreement mechanic. These are not features layered onto a debate app. They are the reason the platform was built.
+
+---
+
+## Why Truthbook Works
+
+Truthbook is designed to make online disagreement constructive, not destructive. By giving everyone a clear, fair process for resolving disputes—and letting people simply affirm or explore if they prefer—Truthbook builds trust and understanding across worldviews. Every major feature is open to public challenge and improvement.
+
+### User Story: Real Dispute, Real Resolution
+
+*A user posts a claim about a local issue. Another user disagrees and files a challenge. Instead of a flame war, both are guided through a step-by-step process to state their views, present evidence, and reach a settlement. The community can see the full record, and others learn from the exchange. Both users report feeling heard and respected, and the outcome is visible for all to learn from or challenge further.*
+
+**Open, Decentralized, and Community-Governed:** Truthbook is open-source and crowd-funded. Anyone can propose improvements, and governance is handled transparently through the Offer/Settlement process. The platform’s rules and future are in the hands of its users.
+
+> **This document is a living public record.**
+All financial projections, funding targets, and revenue models are constitutional — governed by the Worldview Engine, challengeable by any authenticated Person, and permanently on the Belief Ledger once the platform is live. This is not a private pitch deck. It is evidence in the bootstrapping Claim.
 
 ---
 

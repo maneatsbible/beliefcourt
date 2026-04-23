@@ -9,6 +9,14 @@
 
 ---
 
+## How Truthbook Works (Plain Language)
+
+Truthbook is a social platform where anyone can share what they believe, agree with others, or simply explore different worldviews. The main controls are a heart (❤️) to affirm and a fire (🔥) to challenge. If you want, you can just affirm and follow what resonates with you. No one is forced into conflict. But if a disagreement arises, Truthbook offers a structured, fair, and transparent way to resolve it, with every step recorded and open to the community. You can always see how and why a decision was made. On Truthbook, disagreement gets handled.
+
+**Inclusivity:** Truthbook welcomes all worldviews. You can explore, affirm, and challenge beliefs in a safe, structured environment. The platform is open-source, decentralized, and governed by the people who use it.
+
+---
+
 ## Table of Contents
 1. [Preamble](#preamble)
 2. [Constitutional Design Principles](#constitutional-design-principles)
