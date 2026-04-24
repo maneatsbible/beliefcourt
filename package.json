@@ -13,15 +13,20 @@
     "test:coverage": "npx c8 --reporter=text --reporter=lcov node --experimental-vm-modules tests/run-all.js",
     "test:check": "npx c8 check-coverage --lines 85 --functions 85 --branches 80 node --experimental-vm-modules tests/run-all.js",
     "db:migrate": "node db/migrate.js",
-    "seed": "node src/mock/seed-data.js"
+    "seed": "node src/mock/seed-data.js",
+    "vite": "vite",
+    "vite:preview": "vite preview"
   },
   "dependencies": {
     "@hono/node-server": "^1.13.7",
-    
+    "@vitejs/plugin-react": "^6.0.1",
     "hono": "^4.7.7",
     "jose": "^5.10.0",
     "node-cron": "^3.0.3",
-    "uuid": "^11.1.0"
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "uuid": "^11.1.0",
+    "vite": "^8.0.10"
   },
   "devDependencies": {
     "c8": "^10.1.2"
