@@ -1,8 +1,11 @@
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
-function App() {
-  return <h1>Truthbook React Migration Bootstrapped!</h1>;
-}
+import { UserProvider } from './context/UserContext.jsx';
 
-ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+ReactDOM.createRoot(document.getElementById('root')).render(
+	<UserProvider>
+		<App />
+	</UserProvider>
+);
